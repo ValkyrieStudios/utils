@@ -6,3 +6,8 @@ export function noop () {
 export function noopreturn (value) {
     return value;
 }
+
+//  Nothing to execute here ... simply resolve
+export function noopresolve (value) {
+    return new Promise((resolve) => resolve(value));
+}

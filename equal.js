@@ -1,8 +1,5 @@
 'use strict';
 
-//  TODO : nan === nan should be true
-//  TODO : regexp === regexp should be true if string contents are equal
-
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
@@ -11,6 +8,12 @@ exports.equal = equal;
 var _object = require('./object');
 
 var _array = require('./array');
+
+var _number = require('./number');
+
+var _regexp = require('./regexp');
+
+var _date = require('./date');
 
 var isArrayEqual = function isArrayEqual(a, b) {
     if (a.length !== b.length) return !1;
@@ -38,13 +41,30 @@ var isObjectEqual = function isObjectEqual(a, b) {
 
 function equal(val_a, val_b) {
     //  Array as root equal
-    if ((0, _array.isArray)(val_a) && (0, _array.isArray)(val_b)) return isArrayEqual(val_a, val_b);
+    if ((0, _array.isArray)(val_a) && (0, _array.isArray)(val_b)) {
+        return isArrayEqual(val_a, val_b);
+    }
 
     //  Object as root equal
-    if ((0, _object.isObject)(val_a) && (0, _object.isObject)(val_b)) return isObjectEqual(val_a, val_b);
+    if ((0, _object.isObject)(val_a) && (0, _object.isObject)(val_b)) {
+        return isObjectEqual(val_a, val_b);
+    }
 
-    //  Primitive Equal
-    if (val_a === val_b) return !0;
+    //  NAN Check
+    if ((0, _number.isNumericalNaN)(val_a)) {
+        return (0, _number.isNumericalNaN)(val_b);
+    }
 
-    return !1;
+    //  RegExp Check
+    if ((0, _regexp.isRegExp)(val_a) || (0, _regexp.isRegExp)(val_b)) {
+        return String(val_a) === String(val_b);
+    }
+
+    //  Date Check
+    if ((0, _date.isDate)(val_a) || (0, _date.isDate)(val_b)) {
+        return ((0, _date.isDate)(val_a) ? val_a : new Date(val_a)).getTime() === ((0, _date.isDate)(val_b) ? val_b : new Date(val_b)).getTime();
+    }
+
+    //  No special cases anymore, simply do strict equal
+    return val_a === val_b;
 }

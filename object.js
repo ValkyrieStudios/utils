@@ -27,7 +27,7 @@ function pick() {
     var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 
     return keys.reduce(function (acc, key) {
-        acc[key] = obj[key] || null;
+        acc[key] = obj[key] || undefined;
         return acc;
     }, {});
 }

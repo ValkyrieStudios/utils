@@ -10,17 +10,17 @@ A collection of single-function utilities for common tasks
 - **isArray(val:any)**<br>
 Check if a variable is of type Array
 ```
-console.log(isArray({a:1})); // FALSE
-console.log(isArray([])); // TRUE
+isArray({a:1}); // FALSE
+isArray([]); // TRUE
 ```
 
 ### boolean
 - **isBoolean(val:any)**<br>
 Check if a variable is of type Boolean
 ```
-console.log(isBoolean(null)); // FALSE
-console.log(isBoolean(false)); // TRUE
-console.log(isBoolean(true)); // TRUE
+isBoolean(null); // FALSE
+isBoolean(false); // TRUE
+isBoolean(true); // TRUE
 ```
 
 ### caching
@@ -36,8 +36,8 @@ const memoized_function = memoize((a, b) => {
 - **isDate(val:any)**<br>
 Check if a variable is of type Date
 ```
-console.log(isDate(new Date('December 17, 1995 03:24:00')); // TRUE
-console.log(isDate('December 17, 1995 03:24:00'); // FALSE
+isDate(new Date('December 17, 1995 03:24:00'); // TRUE
+isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
 ### deep
@@ -53,9 +53,9 @@ const myObj = deepFreeze({
 		}
 	}
 });
-console.log(Object.isFrozen(myObj)); // TRUE
-console.log(Object.isFrozen(myObj.b)); // TRUE
-console.log(Object.isFrozen(myObj.b.d)); // TRUE
+Object.isFrozen(myObj); // TRUE
+Object.isFrozen(myObj.b); // TRUE
+Object.isFrozen(myObj.b.d); // TRUE
 ```
 
 - **deepSeal(val:Object)**<br>
@@ -70,10 +70,10 @@ const myObj = deepSeal({
 		}
 	}
 });
-console.log(Object.isSealed(myObj)); // TRUE
-console.log(Object.isSealed(myObj.b)); // TRUE
-console.log(Object.isSealed(myObj.b.d)); // TRUE
-console.log(Object.isFrozen(myObj.b.d)); // FALSE
+Object.isSealed(myObj); // TRUE
+Object.isSealed(myObj.b); // TRUE
+Object.isSealed(myObj.b.d); // TRUE
+Object.isFrozen(myObj.b.d); // FALSE
 ```
 
 - **deepSet(obj:Object, path:string, value:any=null, define:boolean=false)**<br>
@@ -83,7 +83,7 @@ const myObj = {
 	a: 2,
 });
 deepSet(myObj, 'b.c.d.e', 4);
-console.log(myObj.b.c.d.e); // 4
+myObj.b.c.d.e; // 4
 ```
 ```
 const myObj = {
@@ -95,15 +95,15 @@ const myObj = {
 });
 deepSet(myObj, 'b[0].price', 100);
 deepSet(myObj, 'b[1].price', 500);
-console.log(myObj.b[0].price); // 100
-console.log(myObj.b[1].price); // 500
+myObj.b[0].price; // 100
+myObj.b[1].price; // 500
 ```
 ```
 const myObj = {
 	a: 2,
 });
 deepSet(myObj, 'b.c', { value: function () => {...} }, true);
-console.log(myObj.b.c); // Function
+myObj.b.c; // Function
 ```
 
 - **deepGet(obj:Object, path:string, get_parent:boolean=false)**<br>
@@ -116,7 +116,7 @@ const myObj = {
 		{ price : 4 },
 	],
 });
-console.log(deepGet(myObj, 'b[0].price', true)); // [{price: 2}, {price: 4}]
+deepGet(myObj, 'b[0].price', true); // [{price: 2}, {price: 4}]
 ```
 ```
 const myObj = {
@@ -126,18 +126,29 @@ const myObj = {
 		{ price : 4 },
 	],
 });
-console.log(deepGet(myObj, 'b[0].price')); // 2
+deepGet(myObj, 'b[0].price'); // 2
 ```
 
 ### equal
 - **equal(a:any, b:any)**<br>
 Check if a variable is equal to another one
 ```
-console.log(equal(5, 6)); // FALSE
-console.log(equal(1, 1)); // TRUE
-console.log(equal([0, 1, 2], [1, 2])); // FALSE
-console.log(equal({a: 1, b: 2}, {a: 1, b: 3})); // FALSE
-console.log(equal({a: 1, b: 2}, {a: 1, b: 2})); // TRUE
+equal(5, 6); // FALSE
+equal(1, 1); // TRUE
+equal([0, 1, 2], [1, 2]); // FALSE
+equal({a: 1, b: 2}, {a: 1, b: 3}); // FALSE
+equal({a: 1, b: 2}, {a: 1, b: 2}); // TRUE
+equal(new Date('2012-20-09'), '2012-20-09'); // TRUE ( check is being done on unix timestamp )
+equal(new RegExp(/ab+c/, 'i'), /ab+c/i); // TRUE
+```
+
+### formdata
+- **isFormData(val:any)**<br>
+Check if a variable is an instance of FormData
+```
+isFormData(FormData(...)); // TRUE
+isFormData('Hello'); // FALSE
+isFormData({a: 1, b:2}); // FALSE
 ```
 
 ### function
@@ -146,61 +157,71 @@ An empty function that can be used in (for example) piping
 
 - **noopreturn(val:any)**<br>
 An empty function that will pass back the variable that it was passed
+
+- **noopresolve(val:any)**<br>
+An empty function that returns a promise that will immediately resolve itself and pass back any variable that was passed to it
 <br>
 
 ### hash
 - **guid()**<br>
 Generate a unique identifier (guid) according to RFC4122
 ```
-console.log(guid()); // 245caf1a-86af-11e7-bb31-be2e44b06b34
+guid(); // 245caf1a-86af-11e7-bb31-be2e44b06b34
 ```
 
 - **md5(val:string)**<br>
 Generate an md5 hash from a string according to RFC1321
 ```
-console.log(md5('hello world')); // 5EB63BBBE01EEED093CB22BB8F5ACDC3
+md5('hello world'); // 5EB63BBBE01EEED093CB22BB8F5ACDC3
 ```
 
 ### number
 - **isNumber(val:any)**<br>
 Check if a variable is a number
 ```
-console.log(isNumber('foo'); // FALSE
-console.log(isNumber(4); // TRUE
-console.log(isNumber(0.5); // TRUE
+isNumber('foo'); // FALSE
+isNumber(4); // TRUE
+isNumber(0.5); // TRUE
+```
+
+- **isNumericalNaN(val:any)**<br>
+Check if a variable is a numerical nan ( a number that is a NaN, this distinguishment is made since both a string or a number can be NaN)
+```
+isNumericalNaN('foo'); // FALSE
+isNumericalNaN(NaN); // TRUE
 ```
 
 ### object
 - **isObject(val:any)**<br>
 Check if a variable is of type Object
 ```
-console.log(isObject({a: 1})); // TRUE
-console.log(isObject(1)); // FALSE
+isObject({a: 1}); // TRUE
+isObject(1); // FALSE
 ```
 
 - **pick(obj:Object={}, keys:Array[string]=[])**<br>
 Copies the keys passed in the 'keys' array from the passed object to a new object and returns that object.<br>
 <small>If a key wasn't found it will be set as undefined</small>
 ```
-console.log(pick({a: 1, b: 2, c: 3}, ['a','b'])); // {a: 1, b: 2}
+pick({a: 1, b: 2, c: 3}, ['a','b']); // {a: 1, b: 2}
 ```
 
 - **merge(target:Object={},obj:Object={})**<br>
 Merges two objects together, with the preference over the second object.
 ```
-console.log(merge({a: 1, b: false}, {a: 900, c: 50})); // {a: 900, b: false, c: 50}
+merge({a: 1, b: false}, {a: 900, c: 50}); // {a: 900, b: false, c: 50}
 ```
 
 - **zip(keys:Array[string]=[], values:Array[string]=[])**<br>
 Creates an object from a keys and a values array. Mapping them together.
 ```
-console.log(zip(['a', 'b'], [100, 200])); // {a: 100, b: 200}
+zip(['a', 'b'], [100, 200]); // {a: 100, b: 200}
 ```
 
 - **define(props:Object, obj:Object={})**<br>
 Creates an object with the passed accessors set on it
 ```
-console.log(define(
+define(
 	{ 
 		a: {
 			enumerable: false,
@@ -212,7 +233,7 @@ console.log(define(
 // { a : () => ..., b: 2 }
 ```
 ```
-console.log(define({
+define({
 	a : {
 		enumerable: false,
 		value : function () { ... }
@@ -229,8 +250,8 @@ const myObject = defineFrozen({
 		value : function () { ... }
 	}
 );
-console.log(myObject); // { a : () => ... }
-console.log(Object.isFrozen(myObject)); // TRUE
+myObject; // { a : () => ... }
+Object.isFrozen(myObject); // TRUE
 ```
 
 - **defineSealed(props:Object, obj:Object={})**<br>
@@ -242,16 +263,26 @@ const myObject = defineSealed({
 		value : function () { ... }
 	}
 );
-console.log(myObject); // { a : () => ... }
-console.log(Object.isSealed(myObject)); // TRUE
+myObject; // { a : () => ... }
+Object.isSealed(myObject); // TRUE
+```
+
+### regexp
+- **isRegExp(val:any)**<br>
+Check if a variable is an instance of RegExp
+```
+isRegExp('foo'); // FALSE
+isRegExp(new RegExp('ab+c', 'i')); // TRUE
+isRegExp(new RegExp(/ab+c/, 'i')); // TRUE
+isRegExp(/ab+c/i); // FALSE
 ```
 
 ### string
 - **isString(val:any)**<br>
 Check if a variable is a string
 ```
-console.log(isString('foo'); // TRUE
-console.log(isString(4); // FALSE
+isString('foo'); // TRUE
+isString(4); // FALSE
 ```
 
 ## Contributors

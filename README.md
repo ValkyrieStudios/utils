@@ -14,6 +14,16 @@ isArray({a:1}); // FALSE
 isArray([]); // TRUE
 ```
 
+- **dedupe(val:Array)**<br>
+Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.
+```
+dedupe(['a','a','b','c','c']); // ['a', 'b', 'c']
+dedupe(['1',1,'2',2]); // ['1','2']
+dedupe([new RegExp(/ab+c/, 'i'), new RegExp(/ab+c/, 'i')]); // [new RegExp(/ab+c/, 'i')]
+dedupe([new Date('2012-02-02'), new Date('2012-02-02')]); // [new Date('2012-02-02')]
+dedupe(['hello', 'hello', 'world']); // ['hello', 'world']
+```
+
 ### boolean
 - **isBoolean(val:any)**<br>
 Check if a variable is of type Boolean

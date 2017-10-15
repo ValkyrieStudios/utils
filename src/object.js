@@ -1,6 +1,7 @@
 'use strict';
 
 import {isArray} from './array';
+import {noopreturn} from './function.js';
 
 export function isObject (val) {
     const type = typeof val;
@@ -26,6 +27,12 @@ export function merge (target = {}, obj = {}) {
         }
         return acc;
     }, {});
+}
+
+export function forValues (obj = {}, cb = noopreturn) {
+    return Object.keys(obj).forEach((key, index) => {
+        cb(key, obj[key], index);
+    });
 }
 
 export function zip (keys = [], values = []) {

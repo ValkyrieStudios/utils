@@ -9,12 +9,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 exports.isObject = isObject;
 exports.pick = pick;
 exports.merge = merge;
+exports.forValues = forValues;
 exports.zip = zip;
 exports.define = define;
 exports.defineFrozen = defineFrozen;
 exports.defineSealed = defineSealed;
 
 var _array = require('./array');
+
+var _function = require('./function.js');
 
 function isObject(val) {
     var type = typeof val === 'undefined' ? 'undefined' : _typeof(val);
@@ -44,6 +47,15 @@ function merge() {
         }
         return acc;
     }, {});
+}
+
+function forValues() {
+    var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _function.noopreturn;
+
+    return Object.keys(obj).forEach(function (key, index) {
+        cb(key, obj[key], index);
+    });
 }
 
 function zip() {

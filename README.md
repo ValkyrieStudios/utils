@@ -192,6 +192,13 @@ isNumericalNaN(NaN); // TRUE
 ```
 
 ### object
+- **forValues(obj:Object={}, cb:Function=noopreturn)**<br>
+Iterate over the keys of the object and apply the callback function to their values
+```
+const obj = {a: 1, b: 2, c: 3};
+forValues(obj, (key, value, index) => obj[key] = value + 1); // {a: 2, b:3, c:4}
+```
+
 - **isObject(val:any)**<br>
 Check if a variable is of type Object
 ```

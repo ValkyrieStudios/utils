@@ -175,6 +175,16 @@ Generate an md5 hash from a string according to RFC1321
 md5('hello world'); // 5EB63BBBE01EEED093CB22BB8F5ACDC3
 ```
 
+- **fnv1A(val:any)**<br>
+Generate a fnv1A hash from an object, using a 32-bit prime/offset
+```
+fnv1A('hello world'); // -2023343616
+fnv1A({a:1,b:2}); // 361168128
+fnv1A(4); // 1630425728
+fnv1A(new RegExp(/ab+c/, 'i')); // 2131692544
+fnv1A(new Date('2012-02-02')); // 1655579136
+```
+
 ### number
 - **isNumber(val:any)**<br>
 Check if a variable is a number

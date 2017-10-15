@@ -35,7 +35,7 @@ isBoolean(true); // TRUE
 
 ### caching
 - **memoize(fn:Function)**<br>
-memoize the output of a specific function to allow for the creation of an internal cache
+memoize the output of a specific function to allow for the creation of an internal cache using the fnv 1A hash algorithm
 ```
 const memoized_function = memoize((a, b) => {
 	return a + b;

@@ -1,6 +1,6 @@
 {
   "name": "@valkyriestudios/utils",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "A collection of single-function utilities for common tasks",
   "main": "index.js",
   "scripts": {

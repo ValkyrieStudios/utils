@@ -162,6 +162,9 @@ isFormData({a: 1, b:2}); // FALSE
 ```
 
 ### function
+- **isFunction(val:any)**<br>
+Check if a variable is a Function
+
 - **noop()**<br>
 An empty function that can be used in (for example) piping
 

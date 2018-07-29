@@ -5,7 +5,7 @@ gulp.task('default', () => {
     return gulp
         .src(['src/**.js'])
         .pipe(babel({
-            presets: ['es2015', 'stage-2'],
+            presets: ['env'],
             plugins : [
                 'check-es2015-constants',
                 'transform-remove-console',
@@ -14,5 +14,5 @@ gulp.task('default', () => {
                 'transform-member-expression-literals',
             ]
         }))
-        .pipe(gulp.dest(''));
+        .pipe(gulp.dest('./'));
 });

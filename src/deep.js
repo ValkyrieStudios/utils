@@ -1,5 +1,3 @@
-'use strict';
-
 import {isObject} from './object';
 import {isArray} from './array';
 

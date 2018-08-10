@@ -1,5 +1,3 @@
-'use strict';
-
 import {isArray} from './array';
 import {noopreturn} from './function.js';
 

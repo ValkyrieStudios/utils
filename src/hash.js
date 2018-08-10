@@ -1,5 +1,3 @@
-'use strict';
-
 import {isString} from './string';
 import {isDate} from './date';
 import {isObject} from './object';

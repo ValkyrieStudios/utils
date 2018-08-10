@@ -1,5 +1,3 @@
-'use strict';
-
 import {fnv1A} from './hash';
 
 export function isArray (val) {

@@ -4,7 +4,8 @@
   "description": "A collection of single-function utilities for common tasks",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "karma start karma.conf.js",
+    "build": "gulp"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   "homepage": "https://github.com/ValkyrieStudios/utils#readme",
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
     "babel-plugin-check-es2015-constants": "^6.22.0",
     "babel-plugin-transform-member-expression-literals": "^6.9.4",
     "babel-plugin-transform-minify-booleans": "^6.9.4",
@@ -25,5 +27,13 @@
     "babel-preset-env": "^1.7.0",
     "gulp": "^4.0.0",
     "gulp-babel": "^7.0.1",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.5",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.2",
+    "karma-spec-reporter": "0.0.32",
+    "karma-webpack": "^3.0.0",
+    "puppeteer": "^1.6.1",
+    "webpack": "^4.16.3"
   }
 }

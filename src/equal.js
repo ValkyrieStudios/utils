@@ -29,6 +29,16 @@ const isObjectEqual = (a, b) => {
 };
 
 export function equal (val_a, val_b) {
+    //  Date Check
+    if (isDate(val_a) && isDate(val_b)) {
+        return val_a.valueOf() === val_b.valueOf();
+    }
+
+    //  RegExp Check
+    if (isRegExp(val_a) || isRegExp(val_b)) {
+        return (String(val_a) === String(val_b));
+    }
+
     //  Array as root equal
     if (isArray(val_a) && isArray(val_b)) {
         return isArrayEqual(val_a, val_b);
@@ -42,16 +52,6 @@ export function equal (val_a, val_b) {
     //  NAN Check
     if (isNumericalNaN(val_a)) {
         return isNumericalNaN(val_b);
-    }
-
-    //  RegExp Check
-    if (isRegExp(val_a) || isRegExp(val_b)) {
-        return (String(val_a) === String(val_b));
-    }
-
-    //  Date Check
-    if (isDate(val_a) || isDate(val_b)) {
-        return (isDate(val_a) ? val_a : new Date(val_a)).getTime() === (isDate(val_b) ? val_b : new Date(val_b)).getTime();
     }
 
     //  No special cases anymore, simply do strict equal

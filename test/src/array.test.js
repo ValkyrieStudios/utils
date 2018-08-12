@@ -55,6 +55,20 @@ describe("Array - isArray", () => {
         expect(isArray(new Array(1, 2, 3))).toEqual(true);
         expect(isArray(new Array(5))).toEqual(true);
     });
+
+    it ('not see a function as an array', () => {
+        function testFunction () {}
+
+        const testArrowFunction = () => {};
+
+        expect(isArray(testFunction)).toEqual(false);
+        expect(isArray(testArrowFunction)).toEqual(false);
+    });
+
+    it ('not see formdata as an array', () => {
+        let fdata = new FormData();
+        expect(isArray(fdata)).toEqual(false);
+    });
 });
 
 describe("Array - dedupe", () => {

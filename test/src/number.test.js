@@ -55,6 +55,20 @@ describe("Number - isNumber", () => {
         expect(isNumber(new Array(1, 2, 3))).toEqual(false);
         expect(isNumber(new Array(5))).toEqual(false);
     });
+
+    it ('not see a function as a number', () => {
+        function testFunction () {}
+
+        const testArrowFunction = () => {};
+
+        expect(isNumber(testFunction)).toEqual(false);
+        expect(isNumber(testArrowFunction)).toEqual(false);
+    });
+
+    it ('not see formdata as a number', () => {
+        let fdata = new FormData();
+        expect(isNumber(fdata)).toEqual(false);
+    });
 });
 
 describe("Number - isNumericalNaN", () => {

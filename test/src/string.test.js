@@ -55,4 +55,18 @@ describe("String - isString", () => {
         expect(isString(new Array(1, 2, 3))).toEqual(false);
         expect(isString(new Array(5))).toEqual(false);
     });
+
+    it ('not see a function as a string', () => {
+        function testFunction () {}
+
+        const testArrowFunction = () => {};
+
+        expect(isString(testFunction)).toEqual(false);
+        expect(isString(testArrowFunction)).toEqual(false);
+    });
+
+    it ('not see formdata as a string', () => {
+        let fdata = new FormData();
+        expect(isString(fdata)).toEqual(false);
+    });
 });

@@ -55,4 +55,18 @@ describe("Boolean - isBoolean", () => {
         expect(isBoolean(new Array(1, 2, 3))).toEqual(false);
         expect(isBoolean(new Array(5))).toEqual(false);
     });
+
+    it ('not see a function as a boolean', () => {
+        function testFunction () {}
+
+        const testArrowFunction = () => {};
+
+        expect(isBoolean(testFunction)).toEqual(false);
+        expect(isBoolean(testArrowFunction)).toEqual(false);
+    });
+
+    it ('not see formdata as a boolean', () => {
+        let fdata = new FormData();
+        expect(isBoolean(fdata)).toEqual(false);
+    });
 });

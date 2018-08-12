@@ -55,4 +55,18 @@ describe("Date - isDate", () => {
         expect(isDate(new Array(1, 2, 3))).toEqual(false);
         expect(isDate(new Array(5))).toEqual(false);
     });
+
+    it ('not see a function as a date', () => {
+        function testFunction () {}
+
+        const testArrowFunction = () => {};
+
+        expect(isDate(testFunction)).toEqual(false);
+        expect(isDate(testArrowFunction)).toEqual(false);
+    });
+
+    it ('not see formdata as a date', () => {
+        let fdata = new FormData();
+        expect(isDate(fdata)).toEqual(false);
+    });
 });

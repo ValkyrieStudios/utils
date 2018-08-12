@@ -55,4 +55,18 @@ describe("RegExp - isRegExp", () => {
         expect(isRegExp(new Array(1, 2, 3))).toEqual(false);
         expect(isRegExp(new Array(5))).toEqual(false);
     });
+
+    it ('not see a function as a regex', () => {
+        function testFunction () {}
+
+        const testArrowFunction = () => {};
+
+        expect(isRegExp(testFunction)).toEqual(false);
+        expect(isRegExp(testArrowFunction)).toEqual(false);
+    });
+
+    it ('not see formdata as a regex', () => {
+        let fdata = new FormData();
+        expect(isRegExp(fdata)).toEqual(false);
+    });
 });

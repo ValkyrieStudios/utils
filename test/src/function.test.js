@@ -64,6 +64,11 @@ describe("Function - isFunction", () => {
         expect(isFunction(testFunction)).toEqual(true);
         expect(isFunction(testArrowFunction)).toEqual(true);
     });
+
+    it ('not see formdata as a function', () => {
+        let fdata = new FormData();
+        expect(isFunction(fdata)).toEqual(false);
+    });
 });
 
 describe("Function - noop", () => {

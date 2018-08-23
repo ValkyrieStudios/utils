@@ -182,12 +182,6 @@ Generate a unique identifier (guid) according to RFC4122
 guid(); // 245caf1a-86af-11e7-bb31-be2e44b06b34
 ```
 
-- **md5(val:string)**<br>
-Generate an md5 hash from a string according to RFC1321
-```
-md5('hello world'); // 5EB63BBBE01EEED093CB22BB8F5ACDC3
-```
-
 - **fnv1A(val:any)**<br>
 Generate a fnv1A hash from an object, using a 32-bit prime/offset
 ```
@@ -219,7 +213,7 @@ isNumericalNaN(NaN); // TRUE
 Iterate over the keys of the object and apply the callback function to their values
 ```
 const obj = {a: 1, b: 2, c: 3};
-forValues(obj, (key, value, index) => obj[key] = value + 1); // {a: 2, b:3, c:4}
+forValues(obj, (key, value, index) => value + 1); // {a: 2, b:3, c:4}
 ```
 
 - **isObject(val:any)**<br>
@@ -242,10 +236,16 @@ Merges two objects together, with the preference over the second object.
 merge({a: 1, b: false}, {a: 900, c: 50}); // {a: 900, b: false, c: 50}
 ```
 
-- **zip(keys:Array[string]=[], values:Array[string]=[])**<br>
+- **zip(keys:Array[string]=[], values:Array[string]=[], default_to:any=null)**<br>
 Creates an object from a keys and a values array. Mapping them together.
 ```
 zip(['a', 'b'], [100, 200]); // {a: 100, b: 200}
+```
+```
+zip(['a','b']); // {a: null, b: null}
+```
+```
+zip(['a','b', false, 9999]); // {a: 9999, b: 9999}
 ```
 
 - **define(props:Object, obj:Object={})**<br>

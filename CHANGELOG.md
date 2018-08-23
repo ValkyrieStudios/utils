@@ -41,7 +41,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Testcases for Numeric utils
 - Object : zip, added default_to variable to adjust the behavior of defaulting
 - Number : round, round a function to a specific precision
-- Number : randomBetween, generate a random number between a providd min and max
+- Number : randomBetween, generate a random number between a provided min and max
 
 ### Improved
 - Update outdated dependencies

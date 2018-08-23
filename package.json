@@ -3,6 +3,19 @@
   "version": "3.0.0",
   "description": "A collection of single-function utilities for common tasks",
   "main": "index.js",
+  "author": {
+    "name": "Peter Vermeulen",
+    "email": "contact@valkyriestudios.com",
+    "url": "www.valkyriestudios.be"
+  },
+  "keywords": {
+    "utility",
+    "library",
+    "javascript",
+    "js",
+    "node"
+  },
+  "license": "MIT",
   "scripts": {
     "test": "karma start karma.conf.js",
     "build": "gulp"
@@ -11,7 +24,6 @@
     "type": "git",
     "url": "git+https://github.com/ValkyrieStudios/utils.git"
   },
-  "author": "Valkyrie Studios <contact@valkyriestudios.be>",
   "bugs": {
     "url": "https://github.com/ValkyrieStudios/utils/issues"
   },

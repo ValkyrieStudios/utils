@@ -1,4 +1,4 @@
-import { isNumber, isNumericalNaN } from '../../src/number';
+import { isNumber, isNumericalNaN, round, randomBetween } from '../../src/number';
 
 describe("Number - isNumber", () => {
     it ('not see a string as a number', () => {
@@ -91,5 +91,63 @@ describe("Number - isNumericalNaN", () => {
 
     it ('see a NaN as a NaN', () => {
         expect(isNumericalNaN(NaN)).toEqual(true);
+    });
+});
+
+describe("Number - round", () => {
+    it ('should correctly round a value', () => {
+        expect(round(5.123456789)).toEqual(5);
+    });
+
+    it ('should correctly round a value with precision', () => {
+        expect(round(5.123456789, 0)).toEqual(5);
+        expect(round(5.123456789, 1)).toEqual(5.1);
+        expect(round(5.123456789, 2)).toEqual(5.12);
+        expect(round(5.123456789, 3)).toEqual(5.123);
+        expect(round(5.123456789, 4)).toEqual(5.1235);
+        expect(round(5.123456789, 5)).toEqual(5.12346);
+    });
+
+    it ('should throw an error if the value is not numeric', () => {
+        expect(function () {
+            round('hello', 2);
+        }).toThrowError(TypeError);
+    });
+});
+
+describe("Number - randomBetween", () => {
+    it ('should return a random number', () => {
+        expect(randomBetween()).toEqual(jasmine.any(Number));
+    });
+
+    it ('should return a random number between min and max', () => {
+        let between = true;
+        for (let i = 0; i < 1000; i++) {
+            const random = randomBetween(0, 100);
+            if (random < 0 && random > 1000) between = false;
+        }
+
+        expect(between).toEqual(true);
+    });
+
+    it ('should return a unique random number over subsequent calls', () => {
+        let cache = {};
+        for (let i = 0; i < 100000; i++) {
+            const random = randomBetween(0, 100);
+            cache[`${random}`] = random;
+        }
+        expect(Object.keys(cache).length).toEqual(100000);
+    });
+
+    it ('should throw an error if the min/max is not numeric', () => {
+        expect(function () {
+            randomBetween('min', 2);
+        }).toThrowError(TypeError);
+        expect(function () {
+            randomBetween(2, 'max');
+        }).toThrowError(TypeError);
+        expect(function () {
+            randomBetween(2, 5);
+        }).not.toThrowError(TypeError);
     });
 });

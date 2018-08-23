@@ -208,6 +208,21 @@ isNumericalNaN('foo'); // FALSE
 isNumericalNaN(NaN); // TRUE
 ```
 
+- **round(val:Number,precision:Number=0)**<br>
+Round a numeric value to a specific amount of decimals
+```
+round(5.123456789, 0); // 5
+round(5.123456789, 2); // 5.12
+round(5.123456789, 5); // 5.12346
+```
+
+- **randomBetween(min:Number=0,max:Number=10)**<br>
+Generate a random numeric value between a min and max range
+```
+randomBetween(); // Will generate a random between 0 and 10
+randomBetween(25, 100); // Will generate a random between 25 and 100
+```
+
 ### object
 - **forValues(obj:Object={}, cb:Function=noopreturn)**<br>
 Iterate over the keys of the object and apply the callback function to their values

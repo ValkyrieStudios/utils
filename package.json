@@ -8,13 +8,13 @@
     "email": "contact@valkyriestudios.com",
     "url": "www.valkyriestudios.be"
   },
-  "keywords": {
+  "keywords": [
     "utility",
     "library",
     "javascript",
     "js",
     "node"
-  },
+  ],
   "license": "MIT",
   "scripts": {
     "test": "karma start karma.conf.js",

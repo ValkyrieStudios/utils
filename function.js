@@ -1,6 +1,4 @@
-'use strict';
-
-//  Check if a variable is a function or not
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -9,6 +7,7 @@ exports.isFunction = isFunction;
 exports.noop = noop;
 exports.noopreturn = noopreturn;
 exports.noopresolve = noopresolve;
+//  Check if a variable is a function or not
 function isFunction(val) {
     return !!(val && val.constructor && val.call && val.apply);
 }

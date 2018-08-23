@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.isNumber = isNumber;
 exports.isNumericalNaN = isNumericalNaN;
 function isNumber(val) {
-    return typeof val === 'number' || isNumericalNaN(val);
+    return typeof val === 'number' || isNumericalNaN(val) || val instanceof Number;
 }
 
 function isNumericalNaN(val) {

@@ -83,7 +83,7 @@ describe("Equal", () => {
         const f = new Boolean(false);
         expect(equal(a, b)).toEqual(true);
         expect(equal(c, d)).toEqual(true);
-        expect(equal(e, f)).toEqual(true);
+        expect(equal(e, f)).toEqual(false);
     });
 
     it ('primitive - boolean : correctly flag inconsistency', () => {

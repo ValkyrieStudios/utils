@@ -3,7 +3,7 @@ import {isArray} from './array';
 
 function deep (obj, cb = Object.seal) {
     (Object.keys(obj) || []).forEach((key) => {
-        if (isObject(obj[key] || null)) {
+        if (isObject(obj[key] || false) || isArray(obj[key] || false)) {
             deep(obj[key], cb);
         }
     });

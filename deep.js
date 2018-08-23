@@ -17,7 +17,7 @@ function deep(obj) {
     var cb = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Object.seal;
 
     (Object.keys(obj) || []).forEach(function (key) {
-        if ((0, _object.isObject)(obj[key] || null)) {
+        if ((0, _object.isObject)(obj[key] || !1) || (0, _array.isArray)(obj[key] || !1)) {
             deep(obj[key], cb);
         }
     });
@@ -93,17 +93,20 @@ function deepGet(obj, path) {
     var get_parent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : !1;
 
     if (!(0, _object.isObject)(obj)) throw new TypeError('Deepget is only supported for objects');
+
     var parts = interpolatePath(path);
 
-    for (var i = 0; i < parts.length - 1; i++) {
-        if ((0, _array.isArray)(obj[parts[i]])) {
-            obj = obj[parts[i]][parts[i + 1]];
-            i++;
-            continue;
-        }
+    //  Return obj if no parts were passed or if only 1 part and get_parent is true
+    if (parts.length === 0 || parts.length === 1 && get_parent) return obj;
 
-        obj = obj[parts[i]];
+    //  Cut last part if get_parent
+    if (get_parent) parts.pop();
+
+    var cursor = obj;
+
+    while (parts.length > 0) {
+        cursor = (0, _array.isArray)(cursor) ? cursor[parseInt(parts.shift())] : cursor[parts.shift()];
     }
 
-    return get_parent ? { scope: obj, key: parts[parts.length - 1] } : obj[parts[parts.length - 1]];
+    return cursor;
 }

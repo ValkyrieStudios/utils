@@ -40,6 +40,16 @@ var isObjectEqual = function isObjectEqual(a, b) {
 };
 
 function equal(val_a, val_b) {
+    //  Date Check
+    if ((0, _date.isDate)(val_a) && (0, _date.isDate)(val_b)) {
+        return val_a.valueOf() === val_b.valueOf();
+    }
+
+    //  RegExp Check
+    if ((0, _regexp.isRegExp)(val_a) || (0, _regexp.isRegExp)(val_b)) {
+        return String(val_a) === String(val_b);
+    }
+
     //  Array as root equal
     if ((0, _array.isArray)(val_a) && (0, _array.isArray)(val_b)) {
         return isArrayEqual(val_a, val_b);
@@ -53,16 +63,6 @@ function equal(val_a, val_b) {
     //  NAN Check
     if ((0, _number.isNumericalNaN)(val_a)) {
         return (0, _number.isNumericalNaN)(val_b);
-    }
-
-    //  RegExp Check
-    if ((0, _regexp.isRegExp)(val_a) || (0, _regexp.isRegExp)(val_b)) {
-        return String(val_a) === String(val_b);
-    }
-
-    //  Date Check
-    if ((0, _date.isDate)(val_a) || (0, _date.isDate)(val_b)) {
-        return ((0, _date.isDate)(val_a) ? val_a : new Date(val_a)).getTime() === ((0, _date.isDate)(val_b) ? val_b : new Date(val_b)).getTime();
     }
 
     //  No special cases anymore, simply do strict equal

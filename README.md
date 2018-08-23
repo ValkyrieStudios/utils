@@ -3,7 +3,6 @@
 [![Build Status](https://travis-ci.org/ValkyrieStudios/utils.svg?branch=master)](https://travis-ci.org/ValkyrieStudios/utils)
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
-[![npm](https://img.shields.io/npm/l/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 
 A collection of single-function utilities for common tasks
 

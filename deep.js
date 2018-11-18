@@ -108,5 +108,5 @@ function deepGet(obj, path) {
         cursor = (0, _array.isArray)(cursor) ? cursor[parseInt(parts.shift())] : cursor[parts.shift()];
     }
 
-    return cursor;
+    return cursor || cursor === !1 || cursor === 0 ? cursor : undefined;
 }

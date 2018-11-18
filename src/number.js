@@ -8,6 +8,23 @@ export function isNumericalNaN (val) {
     return Number.isNaN(val);
 }
 
+//  Convert a float value to a percentage
+export function toPercentage (val, precision = 0, min = 0, max = 1) {
+    if (!isNumber(val) || isNumericalNaN(val)) {
+        throw new TypeError('Value should be numeric');
+    }
+
+    if (!isNumber(min) || isNumericalNaN(min)) {
+        throw new TypeError('Value should be numeric');
+    }
+
+    if (!isNumber(max) || isNumericalNaN(max)) {
+        throw new TypeError('Value should be numeric');
+    }
+
+    return round(((val - min)/ (max - min)) * 100, precision);
+}
+
 //  Round a decimal value
 export function round (val, precision = 0) {
     if (!isNumber(val) || isNumericalNaN(val)) {

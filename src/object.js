@@ -16,7 +16,8 @@ export function pick (obj = {}, keys = []) {
     }
 
     return keys.reduce((acc, key) => {
-        deepSet(acc, key, deepGet(obj, key) || undefined);
+        const val = deepGet(obj, key);
+        if (val !== undefined) deepSet(acc, key, val);
         return acc;
     }, {});
 }

@@ -212,6 +212,14 @@ isNumericalNaN('foo'); // FALSE
 isNumericalNaN(NaN); // TRUE
 ```
 
+- **toPercentage(val:Number,precision:Number=0,min:Number=0,max:Number=1)**<br>
+Calculate the percentage of a specific value in a range
+```
+toPercentage(0.50106579, 5); // 50.11658
+toPercentage(-356, 0, -1000, 1000); // 32
+toPercentage(0.5); // 50
+```
+
 - **round(val:Number,precision:Number=0)**<br>
 Round a numeric value to a specific amount of decimals
 ```

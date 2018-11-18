@@ -35,7 +35,8 @@ function pick() {
     }
 
     return keys.reduce(function (acc, key) {
-        (0, _deep.deepSet)(acc, key, (0, _deep.deepGet)(obj, key) || undefined);
+        var val = (0, _deep.deepGet)(obj, key);
+        if (val !== undefined) (0, _deep.deepSet)(acc, key, val);
         return acc;
     }, {});
 }

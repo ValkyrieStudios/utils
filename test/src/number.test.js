@@ -1,4 +1,4 @@
-import { isNumber, isNumericalNaN, round, randomBetween } from '../../src/number';
+import { isNumber, isNumericalNaN, toPercentage, round, randomBetween } from '../../src/number';
 
 describe("Number - isNumber", () => {
     it ('not see a string as a number', () => {
@@ -68,6 +68,49 @@ describe("Number - isNumber", () => {
     it ('not see formdata as a number', () => {
         let fdata = new FormData();
         expect(isNumber(fdata)).toEqual(false);
+    });
+});
+
+describe("Number - toPercentage", () => {
+    it ('should correctly calculate the percentage', () => {
+        expect(toPercentage(0.5)).toEqual(50);
+    });
+
+    it ('should correctly calculate the percentage with precision', () => {
+        expect(toPercentage(0.50106579, 0)).toEqual(50);
+        expect(toPercentage(0.50106579, 1)).toEqual(50.1);
+        expect(toPercentage(0.50116579, 2)).toEqual(50.12);
+        expect(toPercentage(0.50116579, 3)).toEqual(50.117);
+        expect(toPercentage(0.50116579, 4)).toEqual(50.1166);
+        expect(toPercentage(0.50116579, 5)).toEqual(50.11658);
+    });
+
+    it ('should correctly apply range logic when provided', () => {
+        expect(toPercentage(5, 0, -10, 10)).toEqual(75);
+        expect(toPercentage(-356, 0, -1000, 1000)).toEqual(32);
+        expect(toPercentage(-356.52, 3, -1000, 1000)).toEqual(32.174);
+        expect(toPercentage(0.005, 0, 0, 0.1)).toEqual(5);
+    });
+
+    it ('should throw an error if the value is not numeric', () => {
+        expect(function () {
+            toPercentage('hello', 2, 0, 1);
+            toPercentage(false, 2, 0, 1);
+        }).toThrowError(TypeError);
+    });
+
+    it ('should throw an error if the min is not numeric', () => {
+        expect(function () {
+            toPercentage(0.5, 2, false, 1);
+            toPercentage(0.5, 2, 'Hello', 1);
+        }).toThrowError(TypeError);
+    });
+
+    it ('should throw an error if the max is not numeric', () => {
+        expect(function () {
+            toPercentage(0.5, 2, 0, 'Hello');
+            toPercentage(0.5, 2, 0, false);
+        }).toThrowError(TypeError);
     });
 });
 

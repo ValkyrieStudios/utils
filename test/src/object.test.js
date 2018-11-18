@@ -85,9 +85,10 @@ describe("Object - pick", () => {
 
     it ('correctly retrieve the selected keys', () => {
         expect(pick(subject, ['a'])).toEqual({ a: 100 });
-        expect(pick(subject, ['a', 'b'])).toEqual({ a: 100, b: 200});
+        expect(pick(subject, ['a', 'b'])).toEqual({ a: 100, b: 200 });
         expect(pick(subject, ['a', 'c.e'])).toEqual({ a: 100, c: { e: true }});
         expect(pick(subject, ['a', 'c.d', 'c.f'])).toEqual({ a: 100, c: { d: 5, f: [0, 1, 2] }});
+        expect(pick(subject, ['a', 'b', 'd'])).toEqual({ a: 100, b: 200 });
     });
 
     it ('returns an empty object when nothing is passed', () => {

@@ -89,5 +89,5 @@ export function deepGet (obj, path, get_parent = false) {
         cursor = isArray(cursor) ? cursor[parseInt(parts.shift())] : cursor[parts.shift()];
     }
 
-    return cursor;
+    return (cursor || cursor === false || cursor === 0) ? cursor : undefined;
 }

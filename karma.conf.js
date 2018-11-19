@@ -8,6 +8,7 @@ module.exports = function(config) {
         exclude: [],
         preprocessors: {
             'test/test_index.js': ['webpack'],
+            'src/**/*.js': ['coverage'],
         },
         webpack: {
             mode: 'development',
@@ -23,13 +24,16 @@ module.exports = function(config) {
                 random: false,
             },
         },
-        reporters: ['spec'],
+        reporters: ['spec', 'coverage'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
         browsers: ['ChromeHeadless'],
         singleRun: true,
+        coverageReporter: {
+            reporters: [{type: 'lcov'}],
+        },
         customLaunchers: {
             ChromeHeadless: {
                 base: 'Chrome',

@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = function(config) {
     config.set({
         basePath: './',
@@ -12,6 +14,19 @@ module.exports = function(config) {
         },
         webpack: {
             mode: 'development',
+            module: {
+                rules: [
+                    // instrument only testing sources with Istanbul
+                    {
+                        test: /\.js$/,
+                        use: {
+                            loader: 'istanbul-instrumenter-loader',
+                            options: { esModules: true },
+                        },
+                        include: path.resolve('src/')
+                    }
+                ]
+            }
         },
         webpackMiddleware: {
             noInfo: true,

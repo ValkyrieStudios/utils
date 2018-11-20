@@ -1,7 +1,7 @@
 # @valkyriestudios/utils
 
 [![Build Status](https://travis-ci.org/ValkyrieStudios/utils.svg?branch=master)](https://travis-ci.org/ValkyrieStudios/utils)
-[![codecov.io](http://codecov.io/github/kt3k/codecov-karma-example/coverage.svg?branch=master)](http://codecov.io/github/kt3k/codecov-karma-example?branch=master)
+[![codecov](https://codecov.io/gh/ValkyrieStudios/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 

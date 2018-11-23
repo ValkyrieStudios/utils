@@ -108,5 +108,7 @@ function deepGet(obj, path) {
         cursor = (0, _array.isArray)(cursor) ? cursor[parseInt(parts.shift())] : cursor[parts.shift()];
     }
 
-    return cursor || cursor === !1 || cursor === 0 ? cursor : undefined;
+    //  false | 0 | '' will all negate the ternary, hence we do extra checks here
+    //  to make sure none of them comes back as undefined
+    return cursor || cursor === !1 || cursor === 0 || cursor === '' ? cursor : undefined;
 }

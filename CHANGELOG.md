@@ -5,9 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [3.1.1] - 2018-11-23
 ### Added
 - Codecoverage integration
+- Testcase for Date and fnv1A hash
+- Testcase for RegExp and fnv1A hash
+- Testcase for unsupported properties and fnv1A hash
+- Testcase for unsupported properties in deepSeal
+- Testcase for unsupported properties in deepFreeze
+
+### Fixed
+- Fixed an issue where '' would come back as undefined in deepGet
 
 ## [3.1.0] - 2018-11-18
 ### Breaking
@@ -18,14 +26,14 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Testcase for toPercentage for Numeric utils
 
 ## [3.0.2] - 2018-08-23
-### Improved
+### Changed
 - Removed license badge as not working
 
 ## [3.0.1] - 2018-08-23
 ### Added
 - Badges on readme regarding build status, monthly downloads, version, license
 
-### Improved
+### Changed
 - Updated package.json file with better metadata
 
 ## [3.0.0] - 2018-08-23
@@ -47,7 +55,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Number : round, round a function to a specific precision
 - Number : randomBetween, generate a random number between a provided min and max
 
-### Improved
+### Changed
 - Update outdated dependencies
 - Various bugfixes based on test results
 - Object : forValues, you no longer need to apply the change to the object but simply return the changed value (see readme for example)
@@ -65,7 +73,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Hash : fnv1A, hashing function based on fowler-noll-vo (fnv) that generates a hash based on a provided payload
 - Array : dedupe, function that removes duplicates from an array
 
-### Improved
+### Changed
 - Caching : Memoize, adjust memoization to use fnv1A hashing function for internal cache storage and lookup
 
 ## [2.2.0] - 2017-10-14
@@ -75,7 +83,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Function : noopresolve, resolve a promise without taking any action
 - FormData : isFormData, validate whether or not a variable is a FormData object
 
-### Improved
+### Changed
 - Equal : Add NaN, RegExp and Date diffing
 - Update outdated dependencies and add babel-core
 

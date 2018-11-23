@@ -53,9 +53,25 @@ describe("Hash - FNV1A", () => {
                 e : 10234,
             },
         });
+        const d_1 = fnv1A(new Date(2018, 12, 5));
+        const d_2 = fnv1A(new Date(2018, 12, 5));
+        const d_3 = fnv1A(new Date(2018, 12, 4));
+        const e_1 = fnv1A(new RegExp('abcdefg', 'i'));
+        const e_2 = fnv1A(new RegExp('abcdefg', 'i'));
+        const e_3 = fnv1A(new RegExp('abcdefg', 'ig'));
+        const e_4 = fnv1A(new RegExp('abcdefghij', 'i'));
         expect(a_1).toEqual(a_2);
         expect(b_1).toEqual(b_2);
         expect(c_1).toEqual(c_2);
+        expect(d_1).toEqual(d_2);
+        expect(d_1 === d_3).toEqual(false);
+        expect(e_1).toEqual(e_2);
+        expect(e_1 === e_3).toEqual(false);
+        expect(e_1 === e_4).toEqual(false);
+    });
+
+    it ('should throw a type error when passed an unhashable value', () => {
+        expect(function () { fnv1A(new Function()) }).toThrowError(TypeError);
     });
 
     //  Based on some tests available at : http://isthe.com/chongo/src/fnv/test_fnv.c

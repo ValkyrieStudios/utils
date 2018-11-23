@@ -17,76 +17,6 @@ const original = {
     ],
 };
 
-const __flag = (obj, flag) => {
-    expect(Object[flag](obj)).toEqual(true);
-    expect(Object[flag](obj.test)).toEqual(true);
-    expect(Object[flag](obj.c)).toEqual(true);
-    expect(Object[flag](obj.c.e)).toEqual(true);
-};
-
-const __throw = (fn, value) => {
-    expect(function () {
-        fn(value || 42);
-    }).toThrowError(TypeError);
-};
-
-const __adjustment = (obj, should_allow) => {
-    function fn (key, new_value) {
-        try {
-            //  If its an array and the value is not an array, push
-            if (Array.isArray(deepGet(obj, key)) && !Array.isArray(new_value)) {
-                deepGet(obj, key).push(new_value);
-            } else {
-                //  Set key to the new value
-                deepSet(obj, key, new_value);
-            }
-        } catch (err) {
-            //  true, because an error was thrown ( meaning we cant extend this prop )
-            return true;
-        }
-
-        return equal(obj, original);
-    }
-
-    expect(fn('a', 'Hello world')).toEqual(should_allow);
-    expect(fn('c.d', null)).toEqual(should_allow);
-    expect(fn('c.e.f', 'foo')).toEqual(should_allow);
-    expect(fn('test', [3, 6, 9])).toEqual(should_allow);
-    expect(fn('test', 42)).toEqual(should_allow);
-}
-
-const __assignment = (obj) => {
-    function fn (key) {
-        try {
-            _.set(test_subject, key);
-        } catch (err) {
-            return true;
-        }
-
-        return !!(_.isEqual(test_subject, original));
-    }
-
-    expect(fn('foo')).toEqual(true);
-    expect(fn('c.e.g')).toEqual(true);
-}
-
-const __define = (obj) => {
-    expect(function () {
-        try {
-            obj.defineProperty('test', {
-                get : function () {
-                    return 'foo';
-                },
-            });
-        } catch (err) {
-            return true;
-        }
-
-        return !!(_.isEqual(test_subject, original));
-    }()).toEqual(true);
-}
-
-
 describe("Deep - deepSeal", () => {
     let subject;
 
@@ -95,23 +25,57 @@ describe("Deep - deepSeal", () => {
     });
 
     it ('isSealed flag on every nested object', function () {
-        __flag(subject, 'isSealed');
+        expect(Object.isSealed(subject)).toEqual(true);
+        expect(Object.isSealed(subject.test)).toEqual(true);
+        expect(Object.isSealed(subject.c)).toEqual(true);
+        expect(Object.isSealed(subject.c.e)).toEqual(true);
     });
 
     it ('allow adjusting properties', function () {
-        __adjustment(subject, false);
+        function fn (key, new_value) {
+            //  If its an array and the value is not an array, push
+            if (Array.isArray(deepGet(subject, key)) && !Array.isArray(new_value)) {
+                deepGet(subject, key).push(new_value);
+            } else {
+                //  Set key to the new value
+                deepSet(subject, key, new_value);
+            }
+
+            return equal(subject, original);
+        }
+
+        expect(fn('a', 'Hello world')).toEqual(false);
+        expect(fn('c.d', null)).toEqual(false);
+        expect(fn('c.e.f', 'foo')).toEqual(false);
+        expect(fn('test', [3, 6, 9])).toEqual(false);
+        expect(fn('test', 42)).toEqual(false);
+        expect(function () { return fn('foo', 'bar') }).toThrowError(TypeError);
     });
 
     it ('not allow assigning new properties', function () {
-        __assignment(subject);
+        function fn (key) {
+            deepSet(subject, key);
+        }
+
+        expect(function () { fn('true') }).toThrowError(TypeError);
+        expect(function () { fn('c.e.g') }).toThrowError(TypeError);
     });
 
     it ('not allow defining properties', function () {
-        __define(subject);
+        expect(function () {
+            subject.defineProperty('test', {
+                get : function () {
+                    return 'foo';
+                },
+            });
+        }).toThrowError(TypeError);
     });
 
     it ('throw a type error if something different than an object/array is passed', function () {
-        __throw('deepSeal');
+        expect(function () { deepSeal() }).toThrowError(TypeError);
+        expect(function () { deepSeal(42) }).toThrowError(TypeError);
+        expect(function () { deepSeal('foo') }).toThrowError(TypeError);
+        expect(function () { deepSeal(false) }).toThrowError(TypeError);
     });
 });
 
@@ -123,23 +87,55 @@ describe("Deep - deepFreeze", () => {
     });
 
     it ('isFrozen flag on every nested object', function () {
-        __flag(subject, 'isFrozen');
+        expect(Object.isFrozen(subject)).toEqual(true);
+        expect(Object.isFrozen(subject.test)).toEqual(true);
+        expect(Object.isFrozen(subject.c)).toEqual(true);
+        expect(Object.isFrozen(subject.c.e)).toEqual(true);
     });
 
     it ('not allow adjusting properties', function () {
-        __adjustment(subject, true);
+        function fn (key, new_value) {
+            //  If its an array and the value is not an array, push
+            if (Array.isArray(deepGet(subject, key)) && !Array.isArray(new_value)) {
+                deepGet(subject, key).push(new_value);
+            } else {
+                //  Set key to the new value
+                deepSet(subject, key, new_value);
+            }
+
+            return equal(subject, original);
+        }
+
+        expect(function () { fn('a', 'Hello world') }).toThrowError(TypeError);
+        expect(function () { fn('c.d', null) }).toThrowError(TypeError);
+        expect(function () { fn('c.e.f', 'foo') }).toThrowError(TypeError);
+        expect(function () { fn('test', [3, 6, 9]) }).toThrowError(TypeError);
+        expect(function () { fn('test', 42) }).toThrowError(TypeError);
     });
 
     it ('not allow assigning new properties', function () {
-        __assignment(subject);
+        function fn (subject, key) {
+            deepSet(subject, key);
+        }
+        expect(function () { fn('true') }).toThrowError(TypeError);
+        expect(function () { fn('c.e.g') }).toThrowError(TypeError);
     });
 
     it ('not allow defining properties', function () {
-        __define(subject);
+        expect(function () {
+            subject.defineProperty('test', {
+                get : function () {
+                    return 'foo';
+                },
+            });
+        }).toThrowError(TypeError);
     });
 
     it ('throw a type error if something different than an object/array is passed', function () {
-        __throw('deepFreeze');
+        expect(function () { deepFreeze() }).toThrowError(TypeError);
+        expect(function () { deepFreeze(42) }).toThrowError(TypeError);
+        expect(function () { deepFreeze('foo') }).toThrowError(TypeError);
+        expect(function () { deepFreeze(false) }).toThrowError(TypeError);
     });
 });
 
@@ -217,8 +213,14 @@ describe("Deep - deepGet", () => {
             {
                 e: 'Hello',
                 f: ['a', 'b', 'c'],
+                g: '',
+                k: false,
             },
         ],
+        h : '',
+        i : false,
+        j : true,
+        l : [],
     };
     let subject;
 
@@ -236,6 +238,12 @@ describe("Deep - deepGet", () => {
         expect(deepGet(subject, 'd.5')).toEqual(undefined);
         expect(deepGet(subject, 'd[4].e')).toEqual('Hello');
         expect(deepGet(subject, 'd.4.f[2]')).toEqual('c');
+        expect(deepGet(subject, 'd.4.g')).toEqual('');
+        expect(deepGet(subject, 'h')).toEqual('');
+        expect(deepGet(subject, 'i')).toEqual(false);
+        expect(deepGet(subject, 'j')).toEqual(true);
+        expect(deepGet(subject, 'd.4.k')).toEqual(false);
+        expect(deepGet(subject, 'l')).toEqual([]);
     });
 
     it ('correctly throws an error on failure', function () {

@@ -26,7 +26,7 @@ var _is8 = _interopRequireDefault(_is7);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var isArrayEqual = function isArrayEqual(a, b) {
+function isArrayEqual(a, b) {
     if (a.length !== b.length) return !1;
 
     for (var i = a.length - 1; i >= 0; i--) {
@@ -35,9 +35,9 @@ var isArrayEqual = function isArrayEqual(a, b) {
     }
 
     return !0;
-};
+}
 
-var isObjectEqual = function isObjectEqual(a, b) {
+function isObjectEqual(a, b) {
     var keys_a = Object.keys(a);
 
     if (keys_a.length !== Object.keys(b).length) return !1;
@@ -50,7 +50,7 @@ var isObjectEqual = function isObjectEqual(a, b) {
     return !0;
 };
 
-var equal = function equal(a, b) {
+function equal(a, b) {
     //  Date Check
     if ((0, _is8.default)(a) && (0, _is8.default)(b)) {
         return a.valueOf() === b.valueOf();
@@ -78,6 +78,6 @@ var equal = function equal(a, b) {
 
     //  No special cases anymore, simply do strict equal
     return a === b;
-};
+}
 
 exports.default = equal;

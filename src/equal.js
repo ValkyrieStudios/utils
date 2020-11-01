@@ -6,7 +6,7 @@ import isNumericalNaN   from './number/isNumericalNaN';
 import isRegExp         from './regexp/is';
 import isDate           from './date/is';
 
-const isArrayEqual = (a, b) => {
+function isArrayEqual (a, b) {
     if (a.length !== b.length) return false;
 
     for (let i = a.length - 1; i >= 0; i--) {
@@ -15,9 +15,9 @@ const isArrayEqual = (a, b) => {
     }
 
     return true;
-};
+}
 
-const isObjectEqual = (a, b) => {
+function isObjectEqual (a, b) {
     const keys_a = Object.keys(a);
 
     if (keys_a.length !== Object.keys(b).length) return false;
@@ -30,7 +30,7 @@ const isObjectEqual = (a, b) => {
     return true;
 };
 
-const equal = (a, b) => {
+function equal (a, b) {
     //  Date Check
     if (isDate(a) && isDate(b)) {
         return a.valueOf() === b.valueOf();
@@ -58,6 +58,6 @@ const equal = (a, b) => {
 
     //  No special cases anymore, simply do strict equal
     return a === b;
-};
+}
 
 export default equal;

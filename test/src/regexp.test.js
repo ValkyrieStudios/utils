@@ -1,4 +1,6 @@
-import { isRegExp } from '../../src/regexp';
+'use strict';
+
+import isRegExp from '../../src/regexp/is';
 
 describe("RegExp - isRegExp", () => {
     it ('not see a string as a regex', () => {

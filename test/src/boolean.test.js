@@ -1,4 +1,6 @@
-import { isBoolean } from '../../src/boolean';
+'use strict';
+
+import isBoolean from '../../src/boolean/is';
 
 describe("Boolean - isBoolean", () => {
     it ('not see a string as a boolean', () => {

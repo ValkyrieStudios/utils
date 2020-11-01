@@ -1,8 +1,10 @@
-import {isObject} from './object';
-import {isArray} from './array';
-import {isNumericalNaN} from './number';
-import {isRegExp} from './regexp';
-import {isDate} from './date';
+'use strict';
+
+import isObject         from './object/is';
+import isArray          from './array/is';
+import isNumericalNaN   from './number/isNumericalNaN';
+import isRegExp         from './regexp/is';
+import isDate           from './date/is';
 
 const isArrayEqual = (a, b) => {
     if (a.length !== b.length) return false;
@@ -28,32 +30,34 @@ const isObjectEqual = (a, b) => {
     return true;
 };
 
-export function equal (val_a, val_b) {
+const equal = (a, b) => {
     //  Date Check
-    if (isDate(val_a) && isDate(val_b)) {
-        return val_a.valueOf() === val_b.valueOf();
+    if (isDate(a) && isDate(b)) {
+        return a.valueOf() === b.valueOf();
     }
 
     //  RegExp Check
-    if (isRegExp(val_a) || isRegExp(val_b)) {
-        return (String(val_a) === String(val_b));
+    if (isRegExp(a) || isRegExp(b)) {
+        return (String(a) === String(b));
     }
 
     //  Array as root equal
-    if (isArray(val_a) && isArray(val_b)) {
-        return isArrayEqual(val_a, val_b);
+    if (isArray(a) && isArray(b)) {
+        return isArrayEqual(a, b);
     }
 
     //  Object as root equal
-    if (isObject(val_a) && isObject(val_b)) {
-        return isObjectEqual(val_a, val_b);
+    if (isObject(a) && isObject(b)) {
+        return isObjectEqual(a, b);
     }
 
     //  NAN Check
-    if (isNumericalNaN(val_a)) {
-        return isNumericalNaN(val_b);
+    if (isNumericalNaN(a)) {
+        return isNumericalNaN(b);
     }
 
     //  No special cases anymore, simply do strict equal
-    return val_a === val_b;
-}
+    return a === b;
+};
+
+export default equal;

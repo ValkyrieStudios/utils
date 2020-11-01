@@ -1,4 +1,7 @@
-import { guid, fnv1A } from '../../src/hash';
+'use strict';
+
+import guid     from '../../src/hash/guid';
+import fnv1A    from '../../src/hash/fnv1A';
 
 describe("Hash - Guid", () => {
     it ('output a string value', () => {

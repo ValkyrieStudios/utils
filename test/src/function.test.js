@@ -1,4 +1,9 @@
-import { isFunction, noop, noopreturn, noopresolve } from '../../src/function';
+'use strict';
+
+import isFunction   from '../../src/function/is';
+import noop         from '../../src/function/noop';
+import noopreturn   from '../../src/function/noopreturn';
+import noopresolve  from '../../src/function/noopresolve';
 
 describe("Function - isFunction", () => {
     it ('not see a string as a function', () => {

@@ -1,4 +1,10 @@
-import { isNumber, isNumericalNaN, toPercentage, round, randomBetween } from '../../src/number';
+'use strict';
+
+import isNumber         from '../../src/number/is';
+import isNumericalNaN   from '../../src/number/isNumericalNaN';
+import toPercentage     from '../../src/number/toPercentage';
+import round            from '../../src/number/round';
+import randomBetween    from '../../src/number/randomBetween';
 
 describe("Number - isNumber", () => {
     it ('not see a string as a number', () => {

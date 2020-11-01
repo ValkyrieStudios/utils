@@ -1,4 +1,6 @@
-import { isDate } from '../../src/date';
+'use strict';
+
+import isDate from '../../src/date/is';
 
 describe("Date - isDate", () => {
     it ('not see a string as a date', () => {

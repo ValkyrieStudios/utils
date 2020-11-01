@@ -1,5 +1,11 @@
-import { equal } from '../../src/equal';
-import { deepFreeze, deepSeal, deepSet, deepGet, deepDefine } from '../../src/deep';
+'use strict';
+
+import equal        from '../../src/equal';
+import deepFreeze   from '../../src/deep/freeze';
+import deepSeal     from '../../src/deep/seal';
+import deepSet      from '../../src/deep/set';
+import deepGet      from '../../src/deep/get';
+import deepDefine   from '../../src/deep/define';
 
 const original = {
     a : 1,

@@ -1,5 +1,14 @@
-import { isObject, pick, merge, forValues, zip, define, defineFrozen, defineSealed } from '../../src/object';
-import { noopreturn } from '../../src/function';
+'use strict';
+
+import isObject     from '../../src/object/is';
+import pick         from '../../src/object/pick';
+import merge        from '../../src/object/merge';
+import forValues    from '../../src/object/forValues';
+import zip          from '../../src/object/zip';
+import define       from '../../src/object/define';
+import defineFrozen from '../../src/object/defineFrozen';
+import defineSealed from '../../src/object/defineSealed';
+import noopreturn   from '../../src/function/noopreturn';
 
 describe("Object - isObject", () => {
     it ('not see a string as an object', () => {

@@ -1,4 +1,6 @@
-import { isFormData } from '../../src/formdata';
+'use strict';
+
+import isFormData from '../../src/formdata/is';
 
 describe("FormData - isFormData", () => {
     it ('not see a string as formdata', () => {

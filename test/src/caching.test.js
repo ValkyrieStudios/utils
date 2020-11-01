@@ -1,5 +1,7 @@
-import { memoize } from '../../src/caching';
-import { fnv1A } from '../../src/hash';
+'use strict';
+
+import memoize  from '../../src/caching/memoize';
+import fnv1A    from '../../src/hash/fnv1A';
 
 describe("Caching - memoize", () => {
     let rslt_uncached, rslt_cached;

@@ -1,4 +1,6 @@
-import { isString } from '../../src/string';
+'use strict';
+
+import isString from '../../src/string/is';
 
 describe("String - isString", () => {
     it ('see a string as a string', () => {

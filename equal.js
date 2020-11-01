@@ -3,17 +3,28 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-exports.equal = equal;
 
-var _object = require('./object');
+var _is = require('./object/is');
 
-var _array = require('./array');
+var _is2 = _interopRequireDefault(_is);
 
-var _number = require('./number');
+var _is3 = require('./array/is');
 
-var _regexp = require('./regexp');
+var _is4 = _interopRequireDefault(_is3);
 
-var _date = require('./date');
+var _isNumericalNaN = require('./number/isNumericalNaN');
+
+var _isNumericalNaN2 = _interopRequireDefault(_isNumericalNaN);
+
+var _is5 = require('./regexp/is');
+
+var _is6 = _interopRequireDefault(_is5);
+
+var _is7 = require('./date/is');
+
+var _is8 = _interopRequireDefault(_is7);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var isArrayEqual = function isArrayEqual(a, b) {
     if (a.length !== b.length) return !1;
@@ -39,32 +50,34 @@ var isObjectEqual = function isObjectEqual(a, b) {
     return !0;
 };
 
-function equal(val_a, val_b) {
+var equal = function equal(a, b) {
     //  Date Check
-    if ((0, _date.isDate)(val_a) && (0, _date.isDate)(val_b)) {
-        return val_a.valueOf() === val_b.valueOf();
+    if ((0, _is8.default)(a) && (0, _is8.default)(b)) {
+        return a.valueOf() === b.valueOf();
     }
 
     //  RegExp Check
-    if ((0, _regexp.isRegExp)(val_a) || (0, _regexp.isRegExp)(val_b)) {
-        return String(val_a) === String(val_b);
+    if ((0, _is6.default)(a) || (0, _is6.default)(b)) {
+        return String(a) === String(b);
     }
 
     //  Array as root equal
-    if ((0, _array.isArray)(val_a) && (0, _array.isArray)(val_b)) {
-        return isArrayEqual(val_a, val_b);
+    if ((0, _is4.default)(a) && (0, _is4.default)(b)) {
+        return isArrayEqual(a, b);
     }
 
     //  Object as root equal
-    if ((0, _object.isObject)(val_a) && (0, _object.isObject)(val_b)) {
-        return isObjectEqual(val_a, val_b);
+    if ((0, _is2.default)(a) && (0, _is2.default)(b)) {
+        return isObjectEqual(a, b);
     }
 
     //  NAN Check
-    if ((0, _number.isNumericalNaN)(val_a)) {
-        return (0, _number.isNumericalNaN)(val_b);
+    if ((0, _isNumericalNaN2.default)(a)) {
+        return (0, _isNumericalNaN2.default)(b);
     }
 
     //  No special cases anymore, simply do strict equal
-    return val_a === val_b;
-}
+    return a === b;
+};
+
+exports.default = equal;

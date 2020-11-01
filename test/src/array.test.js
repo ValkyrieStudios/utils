@@ -1,4 +1,7 @@
-import { isArray, dedupe } from '../../src/array';
+'use strict';
+
+import isArray  from '../../src/array/is';
+import dedupe   from '../../src/array/dedupe';
 
 describe("Array - isArray", () => {
     it ('not see a string as an array', () => {

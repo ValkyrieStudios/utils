@@ -1,5 +1,7 @@
-import { equal } from '../../src/equal';
-import { isDate } from '../../src/date';
+'use strict';
+
+import equal    from '../../src/equal';
+import isDate   from '../../src/date/is';
 
 describe("Equal", () => {
 //

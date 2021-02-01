@@ -1,6 +1,7 @@
 'use strict';
 
 import isFunction   from '../../src/function/is';
+import sleep        from '../../src/function/sleep';
 import noop         from '../../src/function/noop';
 import noopreturn   from '../../src/function/noopreturn';
 import noopresolve  from '../../src/function/noopresolve';
@@ -194,5 +195,26 @@ describe("Function - noopresolve", () => {
 
     it ('not throw an error', () => {
         expect(thrown).toBe(false);
+    });
+});
+
+describe("Function - sleep", () => {
+    it ('execute the function when called', async () => {
+        const o = { fn: sleep };
+        spyOn(o, 'fn').and.callThrough();
+        await o.fn(0);
+        expect(o.fn).toHaveBeenCalled();
+    });
+
+    it ('returns a promise', () => {
+        const rslt = sleep();
+        expect(rslt instanceof Promise).toBe(true);
+    });
+
+    it ('resolves after the provided time', async () => {
+        const timer_start = new Date();
+        await sleep(200);
+        const timer_end = new Date() - timer_start;
+        expect(timer_end >= 200).toBe(true);
     });
 });

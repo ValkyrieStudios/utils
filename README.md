@@ -178,6 +178,9 @@ An empty function that will pass back the variable that it was passed
 
 - **noopresolve(val:any)**<br>
 An empty function that returns a promise that will immediately resolve itself and pass back any variable that was passed to it
+
+- **sleep(val:int)**<br>
+An empty function that returns a promise that will resolve after X milliseconds, default is set to 1000ms.
 <br>
 
 ### hash

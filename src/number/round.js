@@ -3,7 +3,7 @@
 import isNumber         from './is';
 import isNumericalNaN   from './isNumericalNaN';
 
-//  Generate random between min and max
+//  Round a numeric value to a certain precision
 export default function (val, precision = 0) {
     if (!isNumber(val) || isNumericalNaN(val)) {
         throw new TypeError('Value should be numeric');

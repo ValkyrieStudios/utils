@@ -160,6 +160,19 @@ describe("Is", () => {
         expect(Is.String({a:1})).toEqual(false);
     });
 
+//  Is.StringBetween
+
+    it ('[fn-stringbetween] Should have a StringBetween function', () => {
+        expect(isFunction(Is.StringBetween)).toEqual(true);
+    });
+
+    it ('[fn-stringbetween] Should link to isStringBetween', () => {
+        expect(Is.StringBetween([1, 2, 3])).toEqual(false);
+        expect(Is.StringBetween('2021-01-01', 0, 10)).toEqual(true);
+        expect(Is.StringBetween('a', 2, 6)).toEqual(false);
+        expect(Is.StringBetween({})).toEqual(false);
+    });
+
 //  Is.NotEmptyString
 
     it ('[fn-notemptystring] Should have an NotEmptyString function', () => {

@@ -93,7 +93,6 @@ describe("Number - isNumberBetween", () => {
             [-1, -100, -10],
             [3, 1, 9],
             [.1, 0, .2],
-
         ];
         for (let el of vals) expect(isNumberBetween(el[0], `${el[1]}`, el[2])).toEqual(false);
         for (let el of vals) expect(isNumberBetween(el[0], el[1], `${el[2]}`)).toEqual(false);
@@ -105,7 +104,6 @@ describe("Number - isNumberBetween", () => {
             [-101, -100, -10],
             [0, 1, 9],
             [-.1, 0, .2],
-
         ];
         for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(false);
     });
@@ -116,7 +114,6 @@ describe("Number - isNumberBetween", () => {
             [-100, -100, -10],
             [1, 1, 9],
             [0, 0, .2],
-
         ];
         for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(true);
     });
@@ -127,7 +124,6 @@ describe("Number - isNumberBetween", () => {
             [-9, -100, -10],
             [10, 1, 9],
             [.3, 0, .2],
-
         ];
         for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(false);
     });
@@ -138,7 +134,6 @@ describe("Number - isNumberBetween", () => {
             [-10, -100, -10],
             [9, 1, 9],
             [.2, 0, .2],
-
         ];
         for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(true);
     });

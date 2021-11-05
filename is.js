@@ -52,6 +52,10 @@ var _is17 = require('./string/is');
 
 var _is18 = _interopRequireDefault(_is17);
 
+var _isBetween3 = require('./string/isBetween');
+
+var _isBetween4 = _interopRequireDefault(_isBetween3);
+
 var _isNotEmpty5 = require('./string/isNotEmpty');
 
 var _isNotEmpty6 = _interopRequireDefault(_isNotEmpty5);
@@ -71,6 +75,7 @@ var Is = Object.freeze(Object.defineProperties(Object.create(null), {
     Object: { enumerable: !0, writable: !1, configurable: !1, value: _is16.default },
     NotEmptyObject: { enumerable: !0, writable: !1, configurable: !1, value: _isNotEmpty4.default },
     String: { enumerable: !0, writable: !1, configurable: !1, value: _is18.default },
+    StringBetween: { enumerable: !0, writable: !1, configurable: !1, value: _isBetween4.default },
     NotEmptyString: { enumerable: !0, writable: !1, configurable: !1, value: _isNotEmpty6.default }
 }));
 

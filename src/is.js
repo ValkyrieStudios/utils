@@ -12,6 +12,7 @@ import isRegExp             from './regexp/is';
 import isObject             from './object/is';
 import isNotEmptyObject     from './object/isNotEmpty';
 import isString             from './string/is';
+import isStringBetween      from './string/isBetween';
 import isNotEmptyString     from './string/isNotEmpty';
 
 const Is = Object.freeze(Object.defineProperties(Object.create(null), {
@@ -27,6 +28,7 @@ const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     'Object'            : {enumerable: true, writable: false, configurable: false, value: isObject},
     'NotEmptyObject'    : {enumerable: true, writable: false, configurable: false, value: isNotEmptyObject},
     'String'            : {enumerable: true, writable: false, configurable: false, value: isString},
+    'StringBetween'     : {enumerable: true, writable: false, configurable: false, value: isStringBetween},
     'NotEmptyString'    : {enumerable: true, writable: false, configurable: false, value: isNotEmptyString},
 }));
 

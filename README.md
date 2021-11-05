@@ -19,6 +19,14 @@ isArray({a:1}); // FALSE
 isArray([]); // TRUE
 ```
 
+- **isNotEmptyArray(val:any)**<br>
+Check if a variable a non-empty array
+```
+isNotEmptyArray({a:1}); // FALSE
+isNotEmptyArray([]); // FALSE
+isNotEmptyArray([0, 1, 2]); // TRUE
+```
+
 - **dedupe(val:Array)**<br>
 Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.
 ```
@@ -209,6 +217,16 @@ isNumber(4); // TRUE
 isNumber(0.5); // TRUE
 ```
 
+- **isNumberBetween(val:number, min:number, max:number)**<br>
+Check if a variable is between a range of numbers
+```
+isNumberBetween(5, 0, 10); // TRUE
+isNumberBetween(.1, 0, 1); // TRUE
+isNumberBetween(-.1, -1, 0); // TRUE
+isNumberBetween(0, 0, 1); // TRUE
+isNumberBetween(-1, 0, 1); // FALSE
+```
+
 - **isNumericalNaN(val:any)**<br>
 Check if a variable is a numerical nan ( a number that is a NaN, this distinguishment is made since both a string or a number can be NaN)
 ```
@@ -253,6 +271,15 @@ Check if a variable is of type Object
 isObject({a: 1}); // TRUE
 isObject(1); // FALSE
 ```
+
+- **isNotEmptyObject(val:any)**<br>
+Check if a variable a non-empty object
+```
+isNotEmptyObject({a:1}); // TRUE
+isNotEmptyObject({}); // FALSE
+isNotEmptyObject('Hi'); // FALSE
+```
+
 
 - **pick(obj:Object={}, keys:Array[string]=[])**<br>
 Copies the keys passed in the 'keys' array from the passed object to a new object and returns that object.<br>
@@ -345,6 +372,28 @@ Check if a variable is a string
 isString('foo'); // TRUE
 isString(4); // FALSE
 ```
+
+- **isStringBetween(val:string, min:number, max:number, trimmed:boolean=true)**<br>
+Check if a variable is between a range of numbers
+```
+isStringBetween('Peter', 4, 10); // TRUE
+isStringBetween('Jeff', 4, 10); // TRUE
+isStringBetween('Moe', 4, 10); // FALSE
+isStringBetween('Hello', 6, 1); // FALSE
+isStringBetween('    Joe', 1, 3); // TRUE
+isStringBetween('    Joe', 1, 3, false); // FALSE
+```
+
+- **isNotEmptyString(val:any, trimmed:boolean=true)**<br>
+Check if a variable a non-empty string
+```
+isNotEmptyString({a:1}); // FALSE
+isNotEmptyString(''); // FALSE
+isNotEmptyString(' '); // FALSE
+isNotEmptyString(' ', false); // TRUE
+isNotEmptyString('Hi'); // TRUE
+```
+
 
 ## Contributors
 - Peter Vermeulen : [Valkyrie Studios](www.valkyriestudios.be)

@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.2.0] - 2021-11-05
+### Added
+- number/isBetween
+- string/isNotEmpty
+- string/isBetween
+- object/isNotEmpty
+- array/isNotEmpty
+- New unified 'Is' object, containing easy access to almost all is* functions through single import
+-- Is.Array
+-- Is.NotEmptyArray
+-- Is.Boolean
+-- Is.Date
+-- Is.FormData
+-- Is.Function
+-- Is.Number
+-- Is.RegExp
+-- Is.Object
+-- Is.NotEmptyObject
+-- Is.String
+-- Is.NotEmptyString
+
+### Improved
+- isNumericalNaN now returns true for Infinity
+
+### Fixed
+- isNumber: no longer returns true for a numerical NaN, eg: isNumber(1/0) now returns false
+- fnv1A: now converts NaN as a fixed 'NaN' for hash calculation
+
 ## [4.1.0] - 2021-02-01
 ### Added
 - Functions/Sleep

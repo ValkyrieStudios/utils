@@ -3,6 +3,7 @@
 import isNumericalNaN from './isNumericalNaN';
 
 export default function (val) {
-    return (typeof val === 'number' || isNumericalNaN(val) || val instanceof Number);
+    if (isNumericalNaN(val)) return false;
+    return (typeof val === 'number' || val instanceof Number);
 }
 

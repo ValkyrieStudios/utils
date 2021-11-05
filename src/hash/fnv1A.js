@@ -1,11 +1,12 @@
 'use strict';
 
-import isString     from '../string/is';
-import isDate       from '../date/is';
-import isObject     from '../object/is';
-import isArray      from '../array/is';
-import isNumber     from '../number/is';
-import isRegExp     from '../regexp/is';
+import isString         from '../string/is';
+import isDate           from '../date/is';
+import isObject         from '../object/is';
+import isArray          from '../array/is';
+import isNumber         from '../number/is';
+import isNumericalNaN   from '../number/isNumericalNaN';
+import isRegExp         from '../regexp/is';
 
 //  https://tools.ietf.org/html/draft-eastlake-fnv-03
 
@@ -26,6 +27,8 @@ export default function (data = '', offset = FNV_OFFSET_BASIS_32) {
         sanitized_data = `${data.getTime()}`;
     } else if (isNumber(data)) {
         sanitized_data = `${data}`;
+    } else if (isNumericalNaN(data)) {
+        sanitized_data = `NaN`;
     }
 
     //  If conversion failed due to an unsupported hash type, make sure to throw an error

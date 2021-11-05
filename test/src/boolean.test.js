@@ -1,74 +1,67 @@
 'use strict';
 
 import isBoolean from '../../src/boolean/is';
+import {
+    fnNumericValues,
+    fnBooleanValues,
+    fnRegexValues,
+    fnStringValues,
+    fnObjectValues,
+    fnDateValues,
+    fnArrayValues,
+    fnFunctionValues,
+    fnFormDataValues,
+    fnNullables,
+} from '../constants';
 
 describe("Boolean - isBoolean", () => {
     it ('not see a string as a boolean', () => {
-        expect(isBoolean('foo')).toEqual(false);
-        expect(isBoolean(new String('bar'))).toEqual(false);
+        let vals = fnStringValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
     it ('not see a numeric value as a boolean', () => {
-        expect(isBoolean(1)).toEqual(false);
-        expect(isBoolean(NaN)).toEqual(false);
-        expect(isBoolean(0.000001)).toEqual(false);
-        expect(isBoolean(8e10)).toEqual(false);
-        expect(isBoolean(Math.PI)).toEqual(false);
-        expect(isBoolean(new Number(1.12345))).toEqual(false);
-        expect(isBoolean(new Number(Number.EPSILON))).toEqual(false);
+        let vals = fnNumericValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
     it ('see a boolean as a boolean', () => {
-        expect(isBoolean(true)).toEqual(true);
-        expect(isBoolean(false)).toEqual(true);
-        expect(isBoolean(Boolean(true))).toEqual(true);
-        expect(isBoolean(Boolean(false))).toEqual(true);
-        expect(isBoolean(Boolean('foo'))).toEqual(true);
-        expect(isBoolean(new Boolean(false))).toEqual(true);
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(true);
     });
 
     it ('not see a regex as a boolean', () => {
-        expect(isBoolean(/abcdefg/i)).toEqual(false);
-        expect(isBoolean(new RegExp('\\w+'))).toEqual(false);
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
     it ('not see an object as a boolean', () => {
-        expect(isBoolean({bar:'foo'})).toEqual(false);
-        expect(isBoolean(new Object())).toEqual(false);
-        expect(isBoolean(Object.create(null))).toEqual(false);
-        expect(isBoolean(Object.create([]))).toEqual(false);
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
-    it ('not see a null as a boolean', () => {
-        expect(isBoolean(null)).toEqual(false);
+    it ('not see a nullable as a boolean', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
     it ('not see a date as a boolean', () => {
-        expect(isBoolean(new Date())).toEqual(false);
-        expect(isBoolean(Date.now())).toEqual(false);
-    });
-
-    it ('not see an undefined as a boolean', () => {
-        expect(isBoolean(undefined)).toEqual(false);
+        let vals = fnDateValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
     it ('not see an array as a boolean', () => {
-        expect(isBoolean([0, 1, 2])).toEqual(false);
-        expect(isBoolean(new Array(1, 2, 3))).toEqual(false);
-        expect(isBoolean(new Array(5))).toEqual(false);
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
     it ('not see a function as a boolean', () => {
-        function testFunction () {}
-
-        const testArrowFunction = () => {};
-
-        expect(isBoolean(testFunction)).toEqual(false);
-        expect(isBoolean(testArrowFunction)).toEqual(false);
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 
     it ('not see formdata as a boolean', () => {
-        let fdata = new FormData();
-        expect(isBoolean(fdata)).toEqual(false);
+        let vals = fnFormDataValues();
+        for (let el of vals) expect(isBoolean(el)).toEqual(false);
     });
 });

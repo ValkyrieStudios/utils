@@ -9,75 +9,68 @@ import define       from '../../src/object/define';
 import defineFrozen from '../../src/object/defineFrozen';
 import defineSealed from '../../src/object/defineSealed';
 import noopreturn   from '../../src/function/noopreturn';
+import {
+    fnNumericValues,
+    fnBooleanValues,
+    fnRegexValues,
+    fnStringValues,
+    fnObjectValues,
+    fnDateValues,
+    fnArrayValues,
+    fnFunctionValues,
+    fnFormDataValues,
+    fnNullables,
+} from '../constants';
 
 describe("Object - isObject", () => {
     it ('not see a string as an object', () => {
-        expect(isObject('foo')).toEqual(false);
-        expect(isObject(new String('bar'))).toEqual(false);
+        let vals = fnStringValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('not see a numeric value as an object', () => {
-        expect(isObject(1)).toEqual(false);
-        expect(isObject(NaN)).toEqual(false);
-        expect(isObject(0.000001)).toEqual(false);
-        expect(isObject(8e10)).toEqual(false);
-        expect(isObject(Math.PI)).toEqual(false);
-        expect(isObject(new Number(1.12345))).toEqual(false);
-        expect(isObject(new Number(Number.EPSILON))).toEqual(false);
+        let vals = fnNumericValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('not see a boolean as an object', () => {
-        expect(isObject(true)).toEqual(false);
-        expect(isObject(false)).toEqual(false);
-        expect(isObject(Boolean(true))).toEqual(false);
-        expect(isObject(Boolean(false))).toEqual(false);
-        expect(isObject(Boolean('foo'))).toEqual(false);
-        expect(isObject(new Boolean(false))).toEqual(false);
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('not see a regex as an object', () => {
-        expect(isObject(/abcdefg/i)).toEqual(false);
-        expect(isObject(new RegExp('\\w+'))).toEqual(false);
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('see an object as an object', () => {
-        expect(isObject({bar:'foo'})).toEqual(true);
-        expect(isObject(new Object())).toEqual(true);
-        expect(isObject(Object.create(null))).toEqual(true);
-        expect(isObject(Object.create([]))).toEqual(true);
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isObject(el)).toEqual(true);
     });
 
-    it ('not see a null as an object', () => {
-        expect(isObject(null)).toEqual(false);
+    it ('not see a nullable as an object', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('not see a date as an object', () => {
-        expect(isObject(new Date())).toEqual(false);
-        expect(isObject(Date.now())).toEqual(false);
-    });
-
-    it ('not see an undefined as an object', () => {
-        expect(isObject(undefined)).toEqual(false);
+        let vals = fnDateValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('not see an array as an object', () => {
-        expect(isObject([0, 1, 2])).toEqual(false);
-        expect(isObject(new Array(1, 2, 3))).toEqual(false);
-        expect(isObject(new Array(5))).toEqual(false);
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('not see a function as an object', () => {
-        function testFunction () {}
-
-        const testArrowFunction = () => {};
-
-        expect(isObject(testFunction)).toEqual(false);
-        expect(isObject(testArrowFunction)).toEqual(false);
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 
     it ('not see formdata as an object', () => {
-        let fdata = new FormData();
-        expect(isObject(fdata)).toEqual(false);
+        let vals = fnFormDataValues();
+        for (let el of vals) expect(isObject(el)).toEqual(false);
     });
 });
 

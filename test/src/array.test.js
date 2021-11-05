@@ -2,75 +2,68 @@
 
 import isArray  from '../../src/array/is';
 import dedupe   from '../../src/array/dedupe';
+import {
+    fnNumericValues,
+    fnBooleanValues,
+    fnRegexValues,
+    fnStringValues,
+    fnObjectValues,
+    fnDateValues,
+    fnArrayValues,
+    fnFunctionValues,
+    fnFormDataValues,
+    fnNullables,
+} from '../constants';
 
 describe("Array - isArray", () => {
     it ('not see a string as an array', () => {
-        expect(isArray('foo')).toEqual(false);
-        expect(isArray(new String('bar'))).toEqual(false);
+        let vals = fnStringValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
     it ('not see a numeric value as an array', () => {
-        expect(isArray(1)).toEqual(false);
-        expect(isArray(NaN)).toEqual(false);
-        expect(isArray(0.000001)).toEqual(false);
-        expect(isArray(8e10)).toEqual(false);
-        expect(isArray(Math.PI)).toEqual(false);
-        expect(isArray(new Number(1.12345))).toEqual(false);
-        expect(isArray(new Number(Number.EPSILON))).toEqual(false);
+        let vals = fnNumericValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
     it ('not see a boolean as an array', () => {
-        expect(isArray(true)).toEqual(false);
-        expect(isArray(false)).toEqual(false);
-        expect(isArray(Boolean(true))).toEqual(false);
-        expect(isArray(Boolean(false))).toEqual(false);
-        expect(isArray(Boolean('foo'))).toEqual(false);
-        expect(isArray(new Boolean(false))).toEqual(false);
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
     it ('not see a regex as an array', () => {
-        expect(isArray(/abcdefg/i)).toEqual(false);
-        expect(isArray(new RegExp('\\w+'))).toEqual(false);
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
     it ('not see an object as an array', () => {
-        expect(isArray({bar:'foo'})).toEqual(false);
-        expect(isArray(new Object())).toEqual(false);
-        expect(isArray(Object.create(null))).toEqual(false);
-        expect(isArray(Object.create([]))).toEqual(false);
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
-    it ('not see a null as an array', () => {
-        expect(isArray(null)).toEqual(false);
+    it ('not see a nullable as an array', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
     it ('not see a date as an array', () => {
-        expect(isArray(new Date())).toEqual(false);
-        expect(isArray(Date.now())).toEqual(false);
-    });
-
-    it ('not see an undefined as an array', () => {
-        expect(isArray(undefined)).toEqual(false);
+        let vals = fnDateValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
     it ('see an array as an array', () => {
-        expect(isArray([0, 1, 2])).toEqual(true);
-        expect(isArray(new Array(1, 2, 3))).toEqual(true);
-        expect(isArray(new Array(5))).toEqual(true);
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isArray(el)).toEqual(true);
     });
 
     it ('not see a function as an array', () => {
-        function testFunction () {}
-
-        const testArrowFunction = () => {};
-
-        expect(isArray(testFunction)).toEqual(false);
-        expect(isArray(testArrowFunction)).toEqual(false);
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 
     it ('not see formdata as an array', () => {
-        let fdata = new FormData();
-        expect(isArray(fdata)).toEqual(false);
+        let vals = fnFormDataValues();
+        for (let el of vals) expect(isArray(el)).toEqual(false);
     });
 });
 

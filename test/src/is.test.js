@@ -97,6 +97,20 @@ describe("Is", () => {
         expect(Is.Number(1)).toEqual(true);
     });
 
+//  Is.NumberBetween
+
+    it ('[fn-numberbetween] Should have a NumberBetween function', () => {
+        expect(isFunction(Is.NumberBetween)).toEqual(true);
+    });
+
+    it ('[fn-numberbetween] Should link to isNumberBetween', () => {
+        expect(Is.NumberBetween(1, 0, 2)).toEqual(true);
+        expect(Is.NumberBetween(10, 10, 11)).toEqual(true);
+        expect(Is.NumberBetween(50, 10, 30)).toEqual(false);
+        expect(Is.NumberBetween('a', 2, 6)).toEqual(false);
+        expect(Is.NumberBetween({})).toEqual(false);
+    });
+
 //  Is.RegExp
 
     it ('[fn-regexp] Should have a RegExp function', () => {
@@ -136,11 +150,11 @@ describe("Is", () => {
 
 //  Is.String
 
-    it ('[fn-object] Should have a String function', () => {
+    it ('[fn-string] Should have a String function', () => {
         expect(isFunction(Is.String)).toEqual(true);
     });
 
-    it ('[fn-object] Should link to isString', () => {
+    it ('[fn-string] Should link to isString', () => {
         expect(Is.String([1, 2, 3])).toEqual(false);
         expect(Is.String('2021-01-01')).toEqual(true);
         expect(Is.String({a:1})).toEqual(false);
@@ -148,11 +162,11 @@ describe("Is", () => {
 
 //  Is.NotEmptyString
 
-    it ('[fn-notemptyobject] Should have an NotEmptyString function', () => {
+    it ('[fn-notemptystring] Should have an NotEmptyString function', () => {
         expect(isFunction(Is.NotEmptyString)).toEqual(true);
     });
 
-    it ('[fn-notemptyobject] Should link to isNotEmptyString', () => {
+    it ('[fn-notemptystring] Should link to isNotEmptyString', () => {
         expect(Is.NotEmptyString([1, 2, 3])).toEqual(false);
         expect(Is.NotEmptyString('2021-01-01')).toEqual(true);
         expect(Is.NotEmptyString('')).toEqual(false);

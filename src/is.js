@@ -7,11 +7,12 @@ import isDate               from './date/is';
 import isFormData           from './formdata/is';
 import isFunction           from './function/is';
 import isNumber             from './number/is';
+import isNumberBetween      from './number/isBetween';
 import isRegExp             from './regexp/is';
 import isObject             from './object/is';
 import isNotEmptyObject     from './object/isNotEmpty';
 import isString             from './string/is';
-import isNotEmptyString     from './string/isNotEmpty'
+import isNotEmptyString     from './string/isNotEmpty';
 
 const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     'Array'             : {enumerable: true, writable: false, configurable: false, value: isArray},
@@ -21,6 +22,7 @@ const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     'FormData'          : {enumerable: true, writable: false, configurable: false, value: isFormData},
     'Function'          : {enumerable: true, writable: false, configurable: false, value: isFunction},
     'Number'            : {enumerable: true, writable: false, configurable: false, value: isNumber},
+    'NumberBetween'     : {enumerable: true, writable: false, configurable: false, value: isNumberBetween},
     'RegExp'            : {enumerable: true, writable: false, configurable: false, value: isRegExp},
     'Object'            : {enumerable: true, writable: false, configurable: false, value: isObject},
     'NotEmptyObject'    : {enumerable: true, writable: false, configurable: false, value: isNotEmptyObject},

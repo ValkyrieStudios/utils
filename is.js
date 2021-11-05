@@ -32,6 +32,10 @@ var _is11 = require('./number/is');
 
 var _is12 = _interopRequireDefault(_is11);
 
+var _isBetween = require('./number/isBetween');
+
+var _isBetween2 = _interopRequireDefault(_isBetween);
+
 var _is13 = require('./regexp/is');
 
 var _is14 = _interopRequireDefault(_is13);
@@ -62,6 +66,7 @@ var Is = Object.freeze(Object.defineProperties(Object.create(null), {
     FormData: { enumerable: !0, writable: !1, configurable: !1, value: _is8.default },
     Function: { enumerable: !0, writable: !1, configurable: !1, value: _is10.default },
     Number: { enumerable: !0, writable: !1, configurable: !1, value: _is12.default },
+    NumberBetween: { enumerable: !0, writable: !1, configurable: !1, value: _isBetween2.default },
     RegExp: { enumerable: !0, writable: !1, configurable: !1, value: _is14.default },
     Object: { enumerable: !0, writable: !1, configurable: !1, value: _is16.default },
     NotEmptyObject: { enumerable: !0, writable: !1, configurable: !1, value: _isNotEmpty4.default },

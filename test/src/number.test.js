@@ -1,6 +1,7 @@
 'use strict';
 
 import isNumber         from '../../src/number/is';
+import isNumberBetween  from '../../src/number/isBetween';
 import isNumericalNaN   from '../../src/number/isNumericalNaN';
 import toPercentage     from '../../src/number/toPercentage';
 import round            from '../../src/number/round';
@@ -67,6 +68,119 @@ describe("Number - isNumber", () => {
     it ('not see formdata as a number', () => {
         let vals = fnFormDataValues();
         for (let el of vals) expect(isNumber(el)).toEqual(false);
+    });
+});
+
+describe("Number - isNumberBetween", () => {
+    it ('not see a string as a number between', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('treat numeric values between ranges correctly', () => {
+        let vals = [
+            [0, -1, 1],
+            [-32, -100, -10],
+            [3, 1, 9],
+            [.1, 0, .2],
+        ];
+        for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(true);
+    });
+
+    it ('treat numeric values between ranges with invalid values incorrectly', () => {
+        let vals = [
+            [0, -1, -1],
+            [-1, -100, -10],
+            [3, 1, 9],
+            [.1, 0, .2],
+
+        ];
+        for (let el of vals) expect(isNumberBetween(el[0], `${el[1]}`, el[2])).toEqual(false);
+        for (let el of vals) expect(isNumberBetween(el[0], el[1], `${el[2]}`)).toEqual(false);
+    });
+
+    it ('treat numeric values below lower bound as false', () => {
+        let vals = [
+            [-1, 0, 1],
+            [-101, -100, -10],
+            [0, 1, 9],
+            [-.1, 0, .2],
+
+        ];
+        for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(false);
+    });
+
+    it ('treat numeric values at lower bound as true', () => {
+        let vals = [
+            [0, 0, 1],
+            [-100, -100, -10],
+            [1, 1, 9],
+            [0, 0, .2],
+
+        ];
+        for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(true);
+    });
+
+    it ('treat numeric values above upper bound as false', () => {
+        let vals = [
+            [2, 0, 1],
+            [-9, -100, -10],
+            [10, 1, 9],
+            [.3, 0, .2],
+
+        ];
+        for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(false);
+    });
+
+    it ('treat numeric values at upper bound as true', () => {
+        let vals = [
+            [1, 0, 1],
+            [-10, -100, -10],
+            [9, 1, 9],
+            [.2, 0, .2],
+
+        ];
+        for (let el of vals) expect(isNumberBetween(el[0], el[1], el[2])).toEqual(true);
+    });
+
+    it ('not see a boolean as a number between', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('not see a regex as a number between', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('not see an object as a number between', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('not see a nullable as a number between', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('not see a date as a number between', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('not see an array as a number between', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('not see a function as a number between', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
+    });
+
+    it ('not see formdata as a number between', () => {
+        let vals = fnFormDataValues();
+        for (let el of vals) expect(isNumberBetween(el, 0, 1000)).toEqual(false);
     });
 });
 

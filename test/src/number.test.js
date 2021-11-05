@@ -30,6 +30,10 @@ describe("Number - isNumber", () => {
         for (let el of vals) expect(isNumber(el)).toEqual(true);
     });
 
+    it ('not see a numerical nan as a number', () => {
+        expect(isNumber(1/0)).toEqual(false);
+    });
+
     it ('not see a boolean as a number', () => {
         let vals = fnBooleanValues();
         for (let el of vals) expect(isNumber(el)).toEqual(false);
@@ -242,6 +246,10 @@ describe("Number - isNumericalNaN", () => {
 
     it ('see a NaN as a NaN', () => {
         expect(isNumericalNaN(NaN)).toEqual(true);
+    });
+
+    it ('sees infinity as a NaN', () => {
+        expect(isNumericalNaN(Infinity)).toEqual(true);
     });
 });
 

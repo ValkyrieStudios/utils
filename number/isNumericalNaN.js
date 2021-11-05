@@ -5,5 +5,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (val) {
-    return Number.isNaN(val);
+    return Number.isNaN(val) || val === Infinity;
 };

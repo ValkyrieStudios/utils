@@ -5,7 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 exports.default = function (val) {
-    return typeof val === 'number' || (0, _isNumericalNaN2.default)(val) || val instanceof Number;
+    if ((0, _isNumericalNaN2.default)(val)) return !1;
+    return typeof val === 'number' || val instanceof Number;
 };
 
 var _isNumericalNaN = require('./isNumericalNaN');

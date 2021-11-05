@@ -22,6 +22,8 @@ exports.default = function () {
         sanitized_data = '' + data.getTime();
     } else if ((0, _is10.default)(data)) {
         sanitized_data = '' + data;
+    } else if ((0, _isNumericalNaN2.default)(data)) {
+        sanitized_data = 'NaN';
     }
 
     //  If conversion failed due to an unsupported hash type, make sure to throw an error
@@ -60,6 +62,10 @@ var _is8 = _interopRequireDefault(_is7);
 var _is9 = require('../number/is');
 
 var _is10 = _interopRequireDefault(_is9);
+
+var _isNumericalNaN = require('../number/isNumericalNaN');
+
+var _isNumericalNaN2 = _interopRequireDefault(_isNumericalNaN);
 
 var _is11 = require('../regexp/is');
 

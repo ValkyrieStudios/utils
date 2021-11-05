@@ -1,14 +1,15 @@
 'use strict';
 
-import isObject     from '../../src/object/is';
-import pick         from '../../src/object/pick';
-import merge        from '../../src/object/merge';
-import forValues    from '../../src/object/forValues';
-import zip          from '../../src/object/zip';
-import define       from '../../src/object/define';
-import defineFrozen from '../../src/object/defineFrozen';
-import defineSealed from '../../src/object/defineSealed';
-import noopreturn   from '../../src/function/noopreturn';
+import isObject         from '../../src/object/is';
+import isNotEmptyObject from '../../src/object/isNotEmpty';
+import pick             from '../../src/object/pick';
+import merge            from '../../src/object/merge';
+import forValues        from '../../src/object/forValues';
+import zip              from '../../src/object/zip';
+import define           from '../../src/object/define';
+import defineFrozen     from '../../src/object/defineFrozen';
+import defineSealed     from '../../src/object/defineSealed';
+import noopreturn       from '../../src/function/noopreturn';
 import {
     fnNumericValues,
     fnBooleanValues,
@@ -457,5 +458,75 @@ describe("Object - defineSealed", () => {
         expect(function() {
             defineSealed({}, false);
         }).toThrowError(TypeError);
+    });
+});
+
+describe("Object - isNotEmptyObject", () => {
+    it ('not see a string as a not empty object', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('not see a numeric value as a not empty object', () => {
+        let vals = fnNumericValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('not see a boolean as a not empty object', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('not see a regex as a not empty object', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('see an object as an object', () => {
+        expect(isNotEmptyObject({bar:'foo'})).toEqual(true);
+
+        expect(isNotEmptyObject(Object.defineProperties(Object.create(null), {
+            'hi': {
+                enumerable: true,
+                get: () => 'there',
+            }
+        }))).toEqual(true);
+    });
+
+    it ('see an empty object as an empty object', () => {
+        expect(isNotEmptyObject(Object.create(null))).toEqual(false);
+        expect(isNotEmptyObject(new Object())).toEqual(false);
+        expect(isNotEmptyObject(Object.create([]))).toEqual(false);
+        expect(isNotEmptyObject(Object.defineProperties(Object.create(null), {
+            'hi': {
+                enumerable: false,
+                get: () => 'there',
+            }
+        }))).toEqual(false);
+    });
+
+    it ('not see a nullable as a not empty object', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('not see a date as a not empty object', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('not see an array as a not empty object', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('not see a function as a not empty object', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
+    });
+
+    it ('not see formdata as a not empty object', () => {
+        let vals = fnFormDataValues();
+        for (let el of vals) expect(isNotEmptyObject(el)).toEqual(false);
     });
 });

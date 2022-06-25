@@ -8,6 +8,8 @@ import isFormData           from './formdata/is';
 import isFunction           from './function/is';
 import isNumber             from './number/is';
 import isNumberBetween      from './number/isBetween';
+import isNumberBelow        from './number/isBelow';
+import isNumberAbove        from './number/isAbove';
 import isRegExp             from './regexp/is';
 import isObject             from './object/is';
 import isNotEmptyObject     from './object/isNotEmpty';
@@ -24,6 +26,8 @@ const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     'Function'          : {enumerable: true, writable: false, configurable: false, value: isFunction},
     'Number'            : {enumerable: true, writable: false, configurable: false, value: isNumber},
     'NumberBetween'     : {enumerable: true, writable: false, configurable: false, value: isNumberBetween},
+    'NumberBelow'       : {enumerable: true, writable: false, configurable: false, value: isNumberBelow},
+    'NumberAbove'       : {enumerable: true, writable: false, configurable: false, value: isNumberAbove},
     'RegExp'            : {enumerable: true, writable: false, configurable: false, value: isRegExp},
     'Object'            : {enumerable: true, writable: false, configurable: false, value: isObject},
     'NotEmptyObject'    : {enumerable: true, writable: false, configurable: false, value: isNotEmptyObject},

@@ -265,6 +265,8 @@ describe("Number - round", () => {
         expect(round(5.123456789, 3)).toEqual(5.123);
         expect(round(5.123456789, 4)).toEqual(5.1235);
         expect(round(5.123456789, 5)).toEqual(5.12346);
+        expect(round(42.139691918126184, 3)).toEqual(42.14);
+        expect(round(42.134691918126184, 3)).toEqual(42.135);
     });
 
     it ('should throw an error if the value is not numeric', () => {

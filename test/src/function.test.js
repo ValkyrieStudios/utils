@@ -166,13 +166,10 @@ describe("Function - noopresolve", () => {
         next();
     });
 
-    it ('returns a resolved promise', (next) => {
-        rslt.then(
-            next,
-            () => next(new Error('Promise should have resolved, instead it rejected'))
-        ).catch(
-            () => next(new Error('Promise should have resolved, instead it threw an error'))
-        );
+    it ('returns a resolved promise', async () => {
+        let is_resolved = false;
+        await rslt.then(() => is_resolved = true, () => {}).catch(() => {});
+        expect(is_resolved).toBe(true);
     });
 
     it ('resolving the promise returns passed variable', (next) => {

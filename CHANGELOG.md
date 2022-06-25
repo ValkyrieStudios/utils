@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- Dep: Upgrade babel-loader to 8.2.5
+- Dep: Upgrade gulp-babel to 8.0.0
+- Dep: Upgrade jasmine-core to 4.2.0
+- Dep: Upgrade karma to 6.4.0
+- Dep: Upgrade karma-chrome-launcher to 3.1.1
+- Dep: Upgrade karma-coverage to 2.2.0
+- Dep: Upgrade karma-jasmine to 5.1.0
+- Dep: Upgrade karma-spec-reporter to 0.0.34
+- Dep: Upgrade karma-webpack to 5.0.0
+- Dep: Upgrade puppeteer to 15.1.0
+- Dep: Upgrade webpack to 5.73.0
+
 ## [4.2.0] - 2021-11-05
 ### Added
 - number/isBetween

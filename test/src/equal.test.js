@@ -3,6 +3,15 @@
 import equal    from '../../src/equal';
 import isDate   from '../../src/date/is';
 
+const chai = require('chai');
+const spies = require('chai-spies');
+chai.use(spies);
+
+const expect = chai.expect;
+const assert = chai.assert;
+const should = chai.should();
+const spy = chai.spy;
+
 describe("Equal", () => {
 //
 //  Primitive : Undefined
@@ -11,7 +20,7 @@ describe("Equal", () => {
     it ('primitive - undefined : correctly flag equal', () => {
         const a = undefined;
         const b = undefined;
-        expect(equal(a, b)).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
     });
 
     it ('primitive - undefined : correctly flag inconsistency', () => {
@@ -20,10 +29,10 @@ describe("Equal", () => {
         const c = 'foo';
         const d = false;
         const e = 0;
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(a, c)).toEqual(false);
-        expect(equal(a, d)).toEqual(false);
-        expect(equal(a, e)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(a, c)).to.eql(false);
+        expect(equal(a, d)).to.eql(false);
+        expect(equal(a, e)).to.eql(false);
     });
 
 //
@@ -33,7 +42,7 @@ describe("Equal", () => {
     it ('primitive - null : correctly flag equal', () => {
         const a = null;
         const b = null;
-        expect(equal(a, b)).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
     });
 
     it ('primitive - null : correctly flag inconsistency', () => {
@@ -42,10 +51,10 @@ describe("Equal", () => {
         const c = 'foo';
         const d = false;
         const e = 0;
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(a, c)).toEqual(false);
-        expect(equal(a, d)).toEqual(false);
-        expect(equal(a, e)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(a, c)).to.eql(false);
+        expect(equal(a, d)).to.eql(false);
+        expect(equal(a, e)).to.eql(false);
     });
 
 //
@@ -55,7 +64,7 @@ describe("Equal", () => {
     it ('primitive - string : correctly flag equal', () => {
         const a = 'hello';
         const b = 'hello';
-        expect(equal(a, b)).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
     });
 
     it ('primitive - string : correctly flag inconsistency', () => {
@@ -65,11 +74,11 @@ describe("Equal", () => {
         const d = undefined;
         const e = false;
         const f = new String('foo');
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(a, c)).toEqual(false);
-        expect(equal(a, d)).toEqual(false);
-        expect(equal(a, e)).toEqual(false);
-        expect(equal(a, f)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(a, c)).to.eql(false);
+        expect(equal(a, d)).to.eql(false);
+        expect(equal(a, e)).to.eql(false);
+        expect(equal(a, f)).to.eql(false);
     });
 
 //
@@ -83,9 +92,9 @@ describe("Equal", () => {
         const d = true;
         const e = new Boolean(false);
         const f = new Boolean(false);
-        expect(equal(a, b)).toEqual(true);
-        expect(equal(c, d)).toEqual(true);
-        expect(equal(e, f)).toEqual(false);
+        expect(equal(a, b)).to.eql(true);
+        expect(equal(c, d)).to.eql(true);
+        expect(equal(e, f)).to.eql(false);
     });
 
     it ('primitive - boolean : correctly flag inconsistency', () => {
@@ -95,11 +104,11 @@ describe("Equal", () => {
         const d = 0;
         const e = new Boolean(false);
         const f = new Boolean(true);
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(a, c)).toEqual(false);
-        expect(equal(b, d)).toEqual(false);
-        expect(equal(a, e)).toEqual(false);
-        expect(equal(b, f)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(a, c)).to.eql(false);
+        expect(equal(b, d)).to.eql(false);
+        expect(equal(a, e)).to.eql(false);
+        expect(equal(b, f)).to.eql(false);
     });
 
 //
@@ -112,9 +121,9 @@ describe("Equal", () => {
         const c = 512.00000000000;
         const d = NaN;
         const e = NaN;
-        expect(equal(a, b)).toEqual(true);
-        expect(equal(a, c)).toEqual(true);
-        expect(equal(d, e)).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
+        expect(equal(a, c)).to.eql(true);
+        expect(equal(d, e)).to.eql(true);
     });
 
     it ('primitive - number : correctly flag inconsistency', () => {
@@ -125,12 +134,12 @@ describe("Equal", () => {
         const e = undefined;
         const f = null;
         const g = new Number(512);
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(a, c)).toEqual(false);
-        expect(equal(a, d)).toEqual(false);
-        expect(equal(c, e)).toEqual(false);
-        expect(equal(c, f)).toEqual(false);
-        expect(equal(a, g)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(a, c)).to.eql(false);
+        expect(equal(a, d)).to.eql(false);
+        expect(equal(c, e)).to.eql(false);
+        expect(equal(c, f)).to.eql(false);
+        expect(equal(a, g)).to.eql(false);
     });
 
 //
@@ -141,8 +150,8 @@ describe("Equal", () => {
         const a = new Date(2018, 8, 10);
         const b = new Date(2018, 8, 10);
         const c = new Date('2018-09-10 00:00');
-        expect(equal(a, b)).toEqual(true);
-        expect(equal(a, c)).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
+        expect(equal(a, c)).to.eql(true);
     });
 
     it ('complex - Date : correctly flag inconsistency', () => {
@@ -151,10 +160,10 @@ describe("Equal", () => {
         const c = new Date('2018-11-10');
         const d = false;
         const e = 1536530400000;
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(a, c)).toEqual(false);
-        expect(equal(a, d)).toEqual(false);
-        expect(equal(a, e)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(a, c)).to.eql(false);
+        expect(equal(a, d)).to.eql(false);
+        expect(equal(a, e)).to.eql(false);
     });
 
 //
@@ -167,9 +176,9 @@ describe("Equal", () => {
         const c = new RegExp('abcdefg', 'i');
         const d = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         const e = new RegExp('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$');
-        expect(equal(a, b)).toEqual(true);
-        expect(equal(a, c)).toEqual(true);
-        expect(equal(d, e)).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
+        expect(equal(a, c)).to.eql(true);
+        expect(equal(d, e)).to.eql(true);
     });
 
     it ('complex - RegExp : correctly flag inconsistency', () => {
@@ -179,10 +188,10 @@ describe("Equal", () => {
         const d = new RegExp('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$');
         const e = 'abcdefg';
         const f = true;
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(c, d)).toEqual(false);
-        expect(equal(a, e)).toEqual(false);
-        expect(equal(a, f)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(c, d)).to.eql(false);
+        expect(equal(a, e)).to.eql(false);
+        expect(equal(a, f)).to.eql(false);
     });
 
 //
@@ -246,10 +255,10 @@ describe("Equal", () => {
         ];
         const e = ['hello', 'world', 'foo', 1, 2];
         const f = ['hello', 'world', 'foo', 1, 2];
-        expect(equal(a, b)).toEqual(true);
-        expect(equal(c, d)).toEqual(true);
-        expect(equal(e, f)).toEqual(true);
-        expect(equal([], [])).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
+        expect(equal(c, d)).to.eql(true);
+        expect(equal(e, f)).to.eql(true);
+        expect(equal([], [])).to.eql(true);
     });
 
     it ('complex - Array : correctly flag inconsistency', () => {
@@ -309,9 +318,9 @@ describe("Equal", () => {
         ];
         const e = ['hello', 'warld', 'foo', 1, 2];
         const f = ['hello', 'world', 'foo', 1, 2];
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(c, d)).toEqual(false);
-        expect(equal(e, f)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(c, d)).to.eql(false);
+        expect(equal(e, f)).to.eql(false);
     });
 
 //
@@ -345,8 +354,8 @@ describe("Equal", () => {
         };
         const c = { a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
         const d = { a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
-        expect(equal(a, b)).toEqual(true);
-        expect(equal(c, d)).toEqual(true);
+        expect(equal(a, b)).to.eql(true);
+        expect(equal(c, d)).to.eql(true);
     });
 
     it ('complex - Object : correctly flag inconsistency', () => {
@@ -376,8 +385,8 @@ describe("Equal", () => {
         };
         const c = { a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
         const d = { a: new Date(2018, 10, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
-        expect(equal(a, b)).toEqual(false);
-        expect(equal(c, d)).toEqual(false);
+        expect(equal(a, b)).to.eql(false);
+        expect(equal(c, d)).to.eql(false);
     });
 
 });

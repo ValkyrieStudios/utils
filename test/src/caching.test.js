@@ -3,6 +3,15 @@
 import memoize  from '../../src/caching/memoize';
 import fnv1A    from '../../src/hash/fnv1A';
 
+const chai = require('chai');
+const spies = require('chai-spies');
+chai.use(spies);
+
+const expect = chai.expect;
+const assert = chai.assert;
+const should = chai.should();
+const spy = chai.spy;
+
 describe("Caching - memoize", () => {
     let rslt_uncached, rslt_cached;
 
@@ -46,6 +55,6 @@ describe("Caching - memoize", () => {
     });
 
     it ('should cache', () => {
-        expect(rslt_cached < rslt_uncached).toBe(true);
+        expect(rslt_cached < rslt_uncached).to.eql(true);
     });
 });

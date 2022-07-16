@@ -70,12 +70,6 @@ export function fnFunctionValues () {
     ];
 }
 
-export function fnFormDataValues () {
-    return [
-        new FormData(),
-    ];
-}
-
 export function fnNullables () {
     return [
         NaN,

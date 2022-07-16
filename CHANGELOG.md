@@ -6,18 +6,40 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Dep: mocha@10.0.0
+- Dep: nyc@15.1.0
+- Dep: chai@4.3.6
+- Dep: chai-as-promised@7.1.1
+- Dep: chai-spies@1.0.0
+- Dep: eslint@8.19.0
+- Dep: @babel/core@7.18.6
+- Dep: @babel/preset-env@7.18.6
+- Dep: @babel/register@7.18.6
+- .eslintrc.json
+- .nycrc
+- .babelrc
+- npm command: lint
+
 ### Improved
 - Dep: Upgrade babel-loader to 8.2.5
 - Dep: Upgrade gulp-babel to 8.0.0
-- Dep: Upgrade jasmine-core to 4.2.0
-- Dep: Upgrade karma to 6.4.0
-- Dep: Upgrade karma-chrome-launcher to 3.1.1
-- Dep: Upgrade karma-coverage to 2.2.0
-- Dep: Upgrade karma-jasmine to 5.1.0
-- Dep: Upgrade karma-spec-reporter to 0.0.34
-- Dep: Upgrade karma-webpack to 5.0.0
-- Dep: Upgrade puppeteer to 15.1.0
-- Dep: Upgrade webpack to 5.73.0
+- Switched to using mocha/nyc instead of karma for unit testing and coverage
+- Npm build will now also lint code according to eslint spec
+
+### Removed
+- Dep: webpack
+- Dep: puppeteer
+- Dep: karma-webpack
+- Dep: karma-spec-reporter
+- Dep: karma-jasmine
+- Dep: karma-coverage
+- Dep: karma-chrome-launcher
+- Dep: karma
+- Dep: jasmine-core
+- Dep: babel-core
+- Dep: babel-loader
+- Dep: babel-preset-env
 
 ## [4.2.0] - 2021-11-05
 ### Added

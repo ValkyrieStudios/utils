@@ -1,6 +1,6 @@
 # @valkyriestudios/utils
 
-[![Build Status](https://travis-ci.org/ValkyrieStudios/utils.svg?branch=master)](https://travis-ci.org/ValkyrieStudios/utils)
+[![Build Status](https://travis-ci.com/ValkyrieStudios/utils.svg?branch=master)](https://travis-ci.com/ValkyrieStudios/utils)
 [![codecov](https://codecov.io/gh/ValkyrieStudios/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)

@@ -7,6 +7,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
+- Feat: number/isBelow
+- Feat: number/isAbove
+- Feat: Is.NumberBelow
+- Feat: Is.NumberAbove
 - Dep: mocha@10.0.0
 - Dep: nyc@15.1.0
 - Dep: chai@4.3.6
@@ -26,10 +30,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dep: Upgrade gulp-babel to 8.0.0
 - Switched to using mocha/nyc instead of karma for unit testing and coverage
 - Npm build will now also lint code according to eslint spec
+- Feat: Improve on validation for path handling on deepGet and deepSet 
 
 ### Removed
-- formdata/is
-- Is.FormData
+- Feat: formdata/is
+- Feat: Is.FormData
 - Dep: webpack
 - Dep: puppeteer
 - Dep: karma-webpack

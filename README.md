@@ -217,6 +217,24 @@ isNumber(4); // TRUE
 isNumber(0.5); // TRUE
 ```
 
+- **isNumberAbove(val:number, comp:number)**<br>
+Check if a variable is above a certain bound
+```
+isNumberAbove(5, 0); // TRUE
+isNumberAbove(.1, 0); // TRUE
+isNumberAbove(-1, -1); // FALSE
+isNumberAbove(-10, -9); // FALSE
+```
+
+- **isNumberBelow(val:number, comp:number)**<br>
+Check if a variable is below a certain bound
+```
+isNumberBelow(0, 5); // TRUE
+isNumberBelow(0, .1); // TRUE
+isNumberBelow(-1, -1); // FALSE
+isNumberBelow(-9, -10); // FALSE
+```
+
 - **isNumberBetween(val:number, min:number, max:number)**<br>
 Check if a variable is between a range of numbers
 ```
@@ -279,7 +297,6 @@ isNotEmptyObject({a:1}); // TRUE
 isNotEmptyObject({}); // FALSE
 isNotEmptyObject('Hi'); // FALSE
 ```
-
 
 - **pick(obj:Object={}, keys:Array[string]=[])**<br>
 Copies the keys passed in the 'keys' array from the passed object to a new object and returns that object.<br>
@@ -394,6 +411,5 @@ isNotEmptyString(' ', false); // TRUE
 isNotEmptyString('Hi'); // TRUE
 ```
 
-
 ## Contributors
-- Peter Vermeulen : [Valkyrie Studios](www.valkyriestudios.be)
+- Peter Vermeulen : [Valkyrie Studios](www.valkyriestudios.be) 

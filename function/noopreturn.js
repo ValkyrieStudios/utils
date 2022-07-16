@@ -1,11 +1,10 @@
 'use strict';
 
-//  Nothing to execute here ... simply return value
-
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (value) {
-    return value;
-};
+function _default(value) {
+  return value;
+}

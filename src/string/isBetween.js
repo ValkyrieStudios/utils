@@ -11,6 +11,6 @@ export default function (val, min, max, trimmed = true) {
 
     if (min >= max) return false;
 
-    const length = (!!trimmed ? val.trim() : val).length;
+    const length = (trimmed === true ? val.trim() : val).length;
     return length >= min && length <= max;
 }

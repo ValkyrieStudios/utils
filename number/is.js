@@ -1,16 +1,15 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (val) {
-    if ((0, _isNumericalNaN2.default)(val)) return !1;
-    return typeof val === 'number' || val instanceof Number;
-};
+var _isNumericalNaN = _interopRequireDefault(require("./isNumericalNaN"));
 
-var _isNumericalNaN = require('./isNumericalNaN');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _isNumericalNaN2 = _interopRequireDefault(_isNumericalNaN);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _default(val) {
+  if ((0, _isNumericalNaN["default"])(val)) return !1;
+  return typeof val === 'number' || val instanceof Number;
+}

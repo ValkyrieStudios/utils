@@ -1,39 +1,34 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (val) {
-    var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
-    var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
-    var max = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
+var _is = _interopRequireDefault(require("./is"));
 
-    if (!(0, _is2.default)(val) || (0, _isNumericalNaN2.default)(val)) {
-        throw new TypeError('Value should be numeric');
-    }
+var _isNumericalNaN = _interopRequireDefault(require("./isNumericalNaN"));
 
-    if (!(0, _is2.default)(min) || (0, _isNumericalNaN2.default)(min)) {
-        throw new TypeError('Value should be numeric');
-    }
+var _round = _interopRequireDefault(require("./round"));
 
-    if (!(0, _is2.default)(max) || (0, _isNumericalNaN2.default)(max)) {
-        throw new TypeError('Value should be numeric');
-    }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-    return (0, _round2.default)((val - min) / (max - min) * 100, precision);
-};
+function _default(val) {
+  var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+  var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
+  var max = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
 
-var _is = require('./is');
+  if (!(0, _is["default"])(val) || (0, _isNumericalNaN["default"])(val)) {
+    throw new TypeError('Value should be numeric');
+  }
 
-var _is2 = _interopRequireDefault(_is);
+  if (!(0, _is["default"])(min) || (0, _isNumericalNaN["default"])(min)) {
+    throw new TypeError('Value should be numeric');
+  }
 
-var _isNumericalNaN = require('./isNumericalNaN');
+  if (!(0, _is["default"])(max) || (0, _isNumericalNaN["default"])(max)) {
+    throw new TypeError('Value should be numeric');
+  }
 
-var _isNumericalNaN2 = _interopRequireDefault(_isNumericalNaN);
-
-var _round = require('./round');
-
-var _round2 = _interopRequireDefault(_round);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  return (0, _round["default"])((val - min) / (max - min) * 100, precision);
+}

@@ -6,8 +6,7 @@
 //
 //  (default sleep = 1000ms)
 export default function (milliseconds = 1000) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
         setTimeout(() => resolve(), milliseconds);
     });
 }
-

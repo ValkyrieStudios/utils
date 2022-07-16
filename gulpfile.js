@@ -5,7 +5,10 @@ gulp.task('default', () => {
     return gulp
         .src(['src/**/*.js'])
         .pipe(babel({
-            presets: ['env'],
+            comments: false,
+            presets: [
+                '@babel/preset-env',
+            ],
             plugins : [
                 'check-es2015-constants',
                 'transform-remove-console',

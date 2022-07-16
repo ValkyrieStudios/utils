@@ -28,6 +28,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Npm build will now also lint code according to eslint spec
 
 ### Removed
+- formdata/is
+- Is.FormData
 - Dep: webpack
 - Dep: puppeteer
 - Dep: karma-webpack

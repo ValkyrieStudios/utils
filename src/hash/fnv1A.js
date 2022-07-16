@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable no-bitwise */
+
 import isString         from '../string/is';
 import isDate           from '../date/is';
 import isObject         from '../object/is';
@@ -28,7 +30,7 @@ export default function (data = '', offset = FNV_OFFSET_BASIS_32) {
     } else if (isNumber(data)) {
         sanitized_data = `${data}`;
     } else if (isNumericalNaN(data)) {
-        sanitized_data = `NaN`;
+        sanitized_data = 'NaN';
     }
 
     //  If conversion failed due to an unsupported hash type, make sure to throw an error

@@ -1,30 +1,29 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function () {
-    var keys = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    var default_to = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+var _is = _interopRequireDefault(require("../array/is"));
 
-    if (!(0, _is2.default)(keys)) {
-        throw new TypeError('Please pass an array as value for keys');
-    }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-    if (!(0, _is2.default)(values) && values !== !1) {
-        throw new TypeError('Please pass an array or false as value for values');
-    }
+function _default() {
+  var keys = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var values = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var default_to = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-    return keys.reduce(function (acc, key, index) {
-        acc[key] = values ? values[index] || default_to : default_to;
-        return acc;
-    }, {});
-};
+  if (!(0, _is["default"])(keys)) {
+    throw new TypeError('Please pass an array as value for keys');
+  }
 
-var _is = require('../array/is');
+  if (!(0, _is["default"])(values) && values !== !1) {
+    throw new TypeError('Please pass an array or false as value for values');
+  }
 
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  return keys.reduce(function (acc, key, index) {
+    acc[key] = values ? values[index] || default_to : default_to;
+    return acc;
+  }, {});
+}

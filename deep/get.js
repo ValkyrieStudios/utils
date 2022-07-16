@@ -1,50 +1,47 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (obj, path) {
-    var get_parent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : !1;
+var _is = _interopRequireDefault(require("../object/is"));
 
-    if (!(0, _is2.default)(obj) && !(0, _is4.default)(obj)) throw new TypeError('Deepget is only supported for objects');
+var _is2 = _interopRequireDefault(require("../array/is"));
 
-    var parts = interpolatePath(path);
+var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty"));
 
-    //  Return obj if no parts were passed or if only 1 part and get_parent is true
-    if (parts.length === 0 || parts.length === 1 && get_parent) return obj;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-    //  Cut last part if get_parent
-    if (get_parent) parts.pop();
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-    var cursor = obj;
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-    while (parts.length > 0) {
-        cursor = (0, _is4.default)(cursor) ? cursor[parseInt(parts.shift())] : cursor[parts.shift()];
-    }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-    //  false | 0 | '' will all negate the ternary, hence we do extra checks here
-    //  to make sure none of them comes back as undefined
-    return cursor || cursor === !1 || cursor === 0 || cursor === '' ? cursor : undefined;
-};
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
-var _is = require('../object/is');
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-var _is2 = _interopRequireDefault(_is);
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var _is3 = require('../array/is');
-
-var _is4 = _interopRequireDefault(_is3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-//  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
 function interpolatePath(path) {
-    if (!path) throw new TypeError('No Path was given');
-    if ((0, _is4.default)(path)) return [].concat(_toConsumableArray(path));
-    return path.replace('[', '.').replace(']', '').split('.');
+  if (!(0, _isNotEmpty["default"])(path) && !(0, _is2["default"])(path)) throw new TypeError('No Path was given');
+  if ((0, _is2["default"])(path)) return _toConsumableArray(path);
+  return path.replace('[', '.').replace(']', '').split('.');
 }
 
-//  Get a value from a path in a json-like structure
+function _default(obj, path) {
+  var get_parent = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : !1;
+  if (!(0, _is["default"])(obj) && !(0, _is2["default"])(obj)) throw new TypeError('Deepget is only supported for objects');
+  var parts = interpolatePath(path);
+  if (parts.length === 0 || parts.length === 1 && get_parent) return obj;
+  if (get_parent) parts.pop();
+  var cursor = obj;
+
+  while (parts.length > 0) {
+    cursor = (0, _is2["default"])(cursor) ? cursor[parseInt(parts.shift())] : cursor[parts.shift()];
+  }
+
+  return cursor || cursor === !1 || cursor === 0 || cursor === '' ? cursor : undefined;
+}

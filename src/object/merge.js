@@ -12,7 +12,7 @@ const merge = (target = {}, obj = {}) => {
         if (isObject(target[key]) && !isArray(target[key])) {
             acc[key] = merge(target[key], obj[key] || {});
         } else {
-            acc[key] = (obj.hasOwnProperty(key))
+            acc[key] = obj.hasOwnProperty(key)
                 ? obj[key]
                 : target[key];
         }

@@ -1,22 +1,21 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function () {
-    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+var _is = _interopRequireDefault(require("./is"));
 
-    if (!(0, _is2.default)(props) || !(0, _is2.default)(obj)) {
-        throw new TypeError('Please pass an object as the value for props and obj');
-    }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-    return Object.defineProperties(obj, props);
-};
+function _default() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
-var _is = require('./is');
+  if (!(0, _is["default"])(props) || !(0, _is["default"])(obj)) {
+    throw new TypeError('Please pass an object as the value for props and obj');
+  }
 
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  return Object.defineProperties(obj, props);
+}

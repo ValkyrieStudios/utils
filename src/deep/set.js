@@ -1,11 +1,12 @@
 'use strict';
 
-import isObject     from '../object/is';
-import isArray      from '../array/is';
+import isObject         from '../object/is';
+import isArray          from '../array/is';
+import isNotEmptyString from '../string/isNotEmpty';
 
 //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
 function interpolatePath (path) {
-    if (!path) throw new TypeError('No Path was given');
+    if (!isNotEmptyString(path) && !isArray(path)) throw new TypeError('No Path was given');
     if (isArray(path)) return [...path];
     return path.replace('[', '.').replace(']', '').split('.');
 }
@@ -37,9 +38,11 @@ export default function (obj, path, value = null, define = false) {
     }
 
     //  Set the actual value on the cursor
-    define
-        ? Object.defineProperty(obj, parts[parts.length - 1], value)
-        : obj[parts[parts.length - 1]] = value;
+    if (define) {
+        Object.defineProperty(obj, parts[parts.length - 1], value);
+    } else {
+        obj[parts[parts.length - 1]] = value;
+    }
 
     return true;
 }

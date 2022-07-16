@@ -1,16 +1,15 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (val) {
-    if (!(0, _is2.default)(val)) return !1;
-    return Object.keys(val).length !== 0;
-};
+var _is = _interopRequireDefault(require("./is"));
 
-var _is = require('./is');
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _is2 = _interopRequireDefault(_is);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _default(val) {
+  if (!(0, _is["default"])(val)) return !1;
+  return Object.keys(val).length !== 0;
+}

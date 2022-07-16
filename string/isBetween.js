@@ -1,28 +1,21 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (val, min, max) {
-    var trimmed = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : !0;
+var _is = _interopRequireDefault(require("./is"));
 
-    if (!(0, _is2.default)(val)) return !1;
+var _is2 = _interopRequireDefault(require("../number/is"));
 
-    if (!(0, _is4.default)(min) || !(0, _is4.default)(max)) return !1;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-    if (min >= max) return !1;
-
-    var length = (!!trimmed ? val.trim() : val).length;
-    return length >= min && length <= max;
-};
-
-var _is = require('./is');
-
-var _is2 = _interopRequireDefault(_is);
-
-var _is3 = require('../number/is');
-
-var _is4 = _interopRequireDefault(_is3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _default(val, min, max) {
+  var trimmed = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : !0;
+  if (!(0, _is["default"])(val)) return !1;
+  if (!(0, _is2["default"])(min) || !(0, _is2["default"])(max)) return !1;
+  if (min >= max) return !1;
+  var length = (trimmed === !0 ? val.trim() : val).length;
+  return length >= min && length <= max;
+}

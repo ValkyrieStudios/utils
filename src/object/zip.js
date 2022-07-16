@@ -4,7 +4,7 @@ import isArray from '../array/is';
 
 export default function (keys = [], values = [], default_to = null) {
     if (!isArray(keys)) {
-         throw new TypeError('Please pass an array as value for keys');
+        throw new TypeError('Please pass an array as value for keys');
     }
 
     if (!isArray(values) && values !== false) {
@@ -12,7 +12,9 @@ export default function (keys = [], values = [], default_to = null) {
     }
 
     return keys.reduce((acc, key, index) => {
-        acc[key] = values ? (values[index] || default_to) : default_to;
+        acc[key] = values
+            ? values[index] || default_to
+            : default_to;
         return acc;
     }, {});
 }

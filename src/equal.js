@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable no-use-before-define */
+
 import isObject         from './object/is';
 import isArray          from './array/is';
 import isNumericalNaN   from './number/isNumericalNaN';
@@ -28,7 +30,7 @@ function isObjectEqual (a, b) {
     }
 
     return true;
-};
+}
 
 function equal (a, b) {
     //  Date Check
@@ -38,7 +40,7 @@ function equal (a, b) {
 
     //  RegExp Check
     if (isRegExp(a) || isRegExp(b)) {
-        return (String(a) === String(b));
+        return String(a) === String(b);
     }
 
     //  Array as root equal

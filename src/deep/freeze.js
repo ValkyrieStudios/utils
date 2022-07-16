@@ -3,13 +3,13 @@
 import isObject     from '../object/is';
 import isArray      from '../array/is';
 
-function deep (obj, cb = Object.seal) {
-    (Object.keys(obj) || []).forEach((key) => {
+function deep (obj, next = Object.seal) {
+    (Object.keys(obj) || []).forEach(key => {
         if (isObject(obj[key] || false) || isArray(obj[key] || false)) {
-            deep(obj[key], cb);
+            deep(obj[key], next);
         }
     });
-    return cb(obj);
+    return next(obj);
 }
 
 //  Freeze nested structures

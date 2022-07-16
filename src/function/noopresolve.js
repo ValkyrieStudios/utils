@@ -2,5 +2,5 @@
 
 //  Nothing to execute here ... simply resolve
 export default function (value) {
-    return new Promise((resolve) => resolve(value));
+    return new Promise(resolve => resolve(value));
 }

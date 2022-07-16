@@ -1,25 +1,20 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (fn) {
-    var cache = {};
+function _default(fn) {
+  var cache = {};
+  return function memoized() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    return function memoized() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        var key = JSON.stringify(args);
-
-        if (key in cache) {
-            return cache[key];
-        }
-
-        return cache[key] = fn.apply(undefined, args);
-    };
-};
-
-;
+    var key = JSON.stringify(args);
+    if (key in cache) return cache[key];
+    cache[key] = fn.apply(void 0, args);
+    return cache[key];
+  };
+}

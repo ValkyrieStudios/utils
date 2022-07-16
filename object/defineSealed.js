@@ -1,18 +1,16 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function () {
-    var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-    var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+var _define = _interopRequireDefault(require("./define"));
 
-    return Object.seal((0, _define2.default)(props, obj));
-};
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var _define = require('./define');
-
-var _define2 = _interopRequireDefault(_define);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _default() {
+  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return Object.seal((0, _define["default"])(props, obj));
+}

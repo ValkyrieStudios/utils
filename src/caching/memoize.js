@@ -6,10 +6,13 @@ export default function (fn) {
     return function memoized (...args) {
         const key = JSON.stringify(args);
 
-        if (key in cache) {
-            return cache[key];
-        }
+        //  If already memoized -> return
+        if (key in cache) return cache[key];
 
-        return (cache[key] = (fn(...args)));
+        //  Set cache key to output of function
+        cache[key] = fn(...args);
+
+        //  Return cached value
+        return cache[key];
     };
-};
+}

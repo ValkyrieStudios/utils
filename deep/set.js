@@ -1,60 +1,59 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (obj, path) {
-    var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-    var define = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : !1;
+var _is = _interopRequireDefault(require("../object/is"));
 
-    if (!(0, _is2.default)(obj) && !(0, _is4.default)(obj)) throw new TypeError('Deepset is only supported for objects');
+var _is2 = _interopRequireDefault(require("../array/is"));
 
-    var parts = interpolatePath(path);
+var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty"));
 
-    //  Build any unknown paths and set cursor
-    for (var i = 0; i < parts.length - 1; i++) {
-        //  If this part is an empty string, just continue
-        if (parts[i] === '') continue;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-        if (!obj[parts[i]]) obj[parts[i]] = {};
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-        //  Set cursor
-        obj = obj[parts[i]];
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-        //  If not an array continue
-        if (!(0, _is4.default)(obj)) continue;
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-        //  If an array and i is not the last index ... set the object to be the index on the array
-        if (i < parts.length - 2) {
-            obj = obj[parts[i + 1]];
-            i++;
-        }
-    }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
-    //  Set the actual value on the cursor
-    define ? Object.defineProperty(obj, parts[parts.length - 1], value) : obj[parts[parts.length - 1]] = value;
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
-    return !0;
-};
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var _is = require('../object/is');
-
-var _is2 = _interopRequireDefault(_is);
-
-var _is3 = require('../array/is');
-
-var _is4 = _interopRequireDefault(_is3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-//  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
 function interpolatePath(path) {
-    if (!path) throw new TypeError('No Path was given');
-    if ((0, _is4.default)(path)) return [].concat(_toConsumableArray(path));
-    return path.replace('[', '.').replace(']', '').split('.');
+  if (!(0, _isNotEmpty["default"])(path) && !(0, _is2["default"])(path)) throw new TypeError('No Path was given');
+  if ((0, _is2["default"])(path)) return _toConsumableArray(path);
+  return path.replace('[', '.').replace(']', '').split('.');
 }
 
-//  Set a value for a path in a json-like structure
+function _default(obj, path) {
+  var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  var define = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : !1;
+  if (!(0, _is["default"])(obj) && !(0, _is2["default"])(obj)) throw new TypeError('Deepset is only supported for objects');
+  var parts = interpolatePath(path);
+
+  for (var i = 0; i < parts.length - 1; i++) {
+    if (parts[i] === '') continue;
+    if (!obj[parts[i]]) obj[parts[i]] = {};
+    obj = obj[parts[i]];
+    if (!(0, _is2["default"])(obj)) continue;
+
+    if (i < parts.length - 2) {
+      obj = obj[parts[i + 1]];
+      i++;
+    }
+  }
+
+  if (define) {
+    Object.defineProperty(obj, parts[parts.length - 1], value);
+  } else {
+    obj[parts[parts.length - 1]] = value;
+  }
+
+  return !0;
+}

@@ -1,30 +1,27 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (val) {
-    var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+var _is = _interopRequireDefault(require("./is"));
 
-    if (!(0, _is2.default)(val) || (0, _isNumericalNaN2.default)(val)) {
-        throw new TypeError('Value should be numeric');
-    }
+var _isNumericalNaN = _interopRequireDefault(require("./isNumericalNaN"));
 
-    if (precision === !1 || precision < 1) {
-        return Math.round(val);
-    }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-    var exp = Math.pow(10, Math.round(precision));
-    return Math.round(val * exp) / exp;
-};
+function _default(val) {
+  var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-var _is = require('./is');
+  if (!(0, _is["default"])(val) || (0, _isNumericalNaN["default"])(val)) {
+    throw new TypeError('Value should be numeric');
+  }
 
-var _is2 = _interopRequireDefault(_is);
+  if (precision === !1 || precision < 1) {
+    return Math.round(val);
+  }
 
-var _isNumericalNaN = require('./isNumericalNaN');
-
-var _isNumericalNaN2 = _interopRequireDefault(_isNumericalNaN);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  var exp = Math.pow(10, Math.round(precision));
+  return Math.round(val * exp) / exp;
+}

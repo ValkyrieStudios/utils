@@ -1,11 +1,12 @@
 'use strict';
 
-import isObject     from '../object/is';
-import isArray      from '../array/is';
+import isObject         from '../object/is';
+import isArray          from '../array/is';
+import isNotEmptyString from '../string/isNotEmpty';
 
 //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
 function interpolatePath (path) {
-    if (!path) throw new TypeError('No Path was given');
+    if (!isNotEmptyString(path) && !isArray(path)) throw new TypeError('No Path was given');
     if (isArray(path)) return [...path];
     return path.replace('[', '.').replace(']', '').split('.');
 }
@@ -30,5 +31,5 @@ export default function (obj, path, get_parent = false) {
 
     //  false | 0 | '' will all negate the ternary, hence we do extra checks here
     //  to make sure none of them comes back as undefined
-    return (cursor || cursor === false || cursor === 0 || cursor === '') ? cursor : undefined;
+    return cursor || cursor === false || cursor === 0 || cursor === '' ? cursor : undefined;
 }

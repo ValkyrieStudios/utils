@@ -1,11 +1,10 @@
 'use strict';
 
-//  Check if a variable is a function or not
-
 Object.defineProperty(exports, "__esModule", {
-    value: !0
+  value: !0
 });
+exports["default"] = _default;
 
-exports.default = function (val) {
-    return !!(val && val.constructor && val.call && val.apply);
-};
+function _default(val) {
+  return !!(val && val.constructor && val.call && val.apply);
+}

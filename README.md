@@ -27,6 +27,104 @@ isNotEmptyArray([]); // FALSE
 isNotEmptyArray([0, 1, 2]); // TRUE
 ```
 
+- **mapKey(val:array[Object], key:string, opts:object={})**<br>
+Map a non-primitive object array into an object map by key
+```
+mapKey([
+    {uid: 12, name: 'Peter'},
+    {uid: 15, name: 'Jonas'},
+    {uid: 87, name: 'Josh'},
+], 'uid');
+
+output: 
+
+{
+    12: {uid: 12, name: 'Peter'},
+    15: {uid: 15, name: 'Jonas'},
+    87: {uid: 87, name: 'Josh'},
+}
+```
+
+Autofilters anything not meeting the spec:
+```
+[
+    0,
+    {uid: 12, name: 'Peter'},
+    false,
+    'foobar',
+    {uid: 15, name: 'Jonas'},
+    [{hi: 'there'}],
+    null,
+    undefined,
+    new Date(),
+    {uid: 87, name: 'Josh'},
+], 'uid');
+
+output:
+
+{
+    12: {uid: 12, name: 'Peter'},
+    15: {uid: 15, name: 'Jonas'},
+    87: {uid: 87, name: 'Josh'},
+}
+```
+
+allows merging objects onto existing keys: 
+```
+[
+    0,
+    {uid: 12, name: 'Peter'},
+    false,
+    'foobar',
+    {uid: 15, name: 'Jonas', dob: '2022-02-07'},
+    [{hi: 'there'}],
+    {uid: 15, name: 'Bob'},
+    null,
+    undefined,
+    {name: 'Alana'},
+    new Date(),
+    {uid: 87, name: 'Josh'},
+    {uid: 12, name: 'Farah'},
+], 'uid', {merge: true})
+
+output:
+
+{
+    12: {uid: 12, name: 'Farah'},
+    15: {uid: 15, name: 'Bob', dob: '2022-02-07'},
+    87: {uid: 87, name: 'Josh'},
+}
+```
+
+- **mapFn(val:array[Object], key:Function, opts:object={})**<br>
+Same behavior as mapKey but instead of a key, a function is passed to generate your own key. Eg:
+
+```
+mapFn([
+    {uid: 12, name: 'Peter'},
+    {uid: 15, name: 'Jonas'},
+    {uid: 87, name: 'Josh'},
+], el => el.uid))
+
+output:
+
+{
+    12: {uid: 12, name: 'Peter'},
+    15: {uid: 15, name: 'Jonas'},
+    87: {uid: 87, name: 'Josh'},
+}
+```
+
+options are the same as the mapKey function
+
+- **mapPrimitive(val:any, opts:object={keytrim:true,valtrim:false,keyround:false,valround:false})**<br>
+Map an array of primitives (number/string)
+```
+mapPrimitive([1,2,3]); // {1: 1, 2: 2, 3: 3}
+mapPrimitive(['hello', 'hello', 'foo', 'bar']); // {hello: 'hello', foo: 'foo', bar: 'bar'}
+mapPrimitive(['hello', ' hello', 'foo', '  foo'], {keytrim: true, valtrim: true}); // {hello: 'hello', foo: 'foo'}
+```
+
 - **dedupe(val:Array)**<br>
 Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.
 ```
@@ -409,6 +507,15 @@ isNotEmptyString(''); // FALSE
 isNotEmptyString(' '); // FALSE
 isNotEmptyString(' ', false); // TRUE
 isNotEmptyString('Hi'); // TRUE
+```
+
+- **shorten(val:any, length:integer, postfix:string=...)**<br>
+Shorten a string and add a postfix if string went over length
+```
+shorten('To the moon and beyond', 11, '..'); // 'To the moon..'
+shorten('Hi', 250); // 'Hi'
+shorten('To the moon and beyond'); // 'To the moon...'
+shorten('To the moon and beyond', 11, ' '); // 'To the moon '
 ```
 
 ## Contributors

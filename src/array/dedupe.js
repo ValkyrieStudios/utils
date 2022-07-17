@@ -1,8 +1,11 @@
 'use strict';
 
-import fnv1A from '../hash/fnv1A';
+import fnv1A            from '../hash/fnv1A';
+import isNotEmptyArray  from './isNotEmpty';
 
 export default function (val = []) {
+    if (!isNotEmptyArray(val)) return [];
+
     const seen = {};
     return val.filter(item => {
         //  Calculate hash for item

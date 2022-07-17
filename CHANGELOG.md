@@ -14,7 +14,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Improved
 - array/dedupe: will now check whether or not passed variable is a non-empty array
-- number/isNumericalNaN: will now also work with isNan and raw NaN checks
+- number/isNumericalNaN: will now also work with raw NaN checks
 - number/randomBetween, number/round, number/toPercentage no longer double check against isNumericalNaN as this behavior is already built-in to isNumber
 
 ## [5.0.0] - 2022-07-16

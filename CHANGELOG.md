@@ -8,6 +8,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - array/dedupe: will now check whether or not passed variable is a non-empty array
+- number/isNumericalNaN: will now also work with isNan and raw NaN checks
 
 ## [5.0.0] - 2022-07-16
 ### Added

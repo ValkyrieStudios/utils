@@ -8,6 +8,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - string/shorten
+- array/mapKey
+- array/mapFn
+- array/mapPrimitive
 
 ### Improved
 - array/dedupe: will now check whether or not passed variable is a non-empty array

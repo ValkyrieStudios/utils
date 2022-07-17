@@ -208,7 +208,7 @@ describe("Function - sleep", () => {
 
     it ('resolves after the provided time', async () => {
         const timer_start = new Date();
-        await sleep(200);
+        await sleep(205);
         const timer_end = new Date() - timer_start;
         expect(timer_end >= 200).to.eql(true);
     });

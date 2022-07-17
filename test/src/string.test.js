@@ -3,6 +3,7 @@
 import isString         from '../../src/string/is';
 import isStringBetween  from '../../src/string/isBetween';
 import isNotEmptyString from '../../src/string/isNotEmpty';
+import shorten          from '../../src/string/shorten';
 import {
     fnNumericValues,
     fnBooleanValues,
@@ -247,4 +248,163 @@ describe("String - isNotEmptyString", () => {
         let vals = fnFunctionValues();
         for (let el of vals) expect(isNotEmptyString(el)).to.eql(false);
     });
+});
+
+describe("String - shorten", () => {
+
+    it ('returns original text when text is not beyond boundaries of length', () => {
+        expect(shorten('Mama Mia', 50)).to.eql('Mama Mia');
+    });
+
+    it ('autotrims text and returns autotrimmed text when text is not beyond boundaries of length', () => {
+        expect(shorten('   Mama Mia    ', 10)).to.eql('Mama Mia');
+    });
+
+    it ('autotrims text and returns autotrimmed shortened text when text is beyond boundaries of length', () => {
+        expect(shorten('  Mama Mia  ', 4)).to.eql('Mama...');
+    });
+
+    it ('uses ... as the default postfix', () => {
+        expect(shorten('To the moon and beyond', 11)).to.eql('To the moon...');
+    });
+
+    it ('allows setting a custom postfix', () => {
+        expect(shorten('To the moon and beyond', 11, '..')).to.eql('To the moon..');
+    });
+
+    it ('allows setting an empty string as postfix', () => {
+        expect(shorten('To the moon and beyond', 11, '')).to.eql('To the moon');
+    });
+
+    it ('does not autotrim the postfix', () => {
+        expect(shorten('To the moon and beyond', 11, ' ')).to.eql('To the moon ');
+    });
+
+    //  Value sanity checks
+
+    it ('returns false when passed a numeric value', () => {
+        let vals = fnNumericValues();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    it ('returns false when passed a boolean value', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    it ('returns false when passed a regex value', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    it ('returns false when passed an object value', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    it ('returns false when passed a nullable value', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    it ('returns false when passed a date value', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    it ('returns false when passed an array value', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    it ('returns false when passed a function value', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(shorten(el)).to.eql(false);
+    });
+
+    //  Length sanity checks
+
+    it ('returns false when passed a string as length value', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    it ('returns false when passed a boolean as length value', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    it ('returns false when passed a regex as length value', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    it ('returns false when passed an object as length value', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    it ('returns false when passed a nullable as length value', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    it ('returns false when passed a date as length value', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    it ('returns false when passed an array as length value', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    it ('returns false when passed a function as length value', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(shorten('Hello world', el)).to.eql(false);
+    });
+
+    //  Postfix sanity checks
+
+    it ('returns false when passed a number as postfix value', () => {
+        let vals = fnNumericValues();
+        for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
+    it ('returns false when passed a boolean as postfix value', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
+    it ('returns false when passed a regex as postfix value', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
+    it ('returns false when passed an object as postfix value', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
+    it ('returns false when passed a nullable as postfix value with the exception of undefined', () => {
+        expect(shorten('Hello world', 10, null)).to.eql(false);
+        expect(shorten('Hello world', 10, undefined)).to.eql('Hello worl...');
+        expect(shorten('Hello world', 10, NaN)).to.eql(false);
+    });
+
+    it ('returns false when passed a date as postfix value', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
+    it ('returns false when passed an array as postfix value', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
+    it ('returns false when passed a function as postfix value', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
 });

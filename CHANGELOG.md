@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- string/shorten
+
 ### Improved
 - array/dedupe: will now check whether or not passed variable is a non-empty array
 - number/isNumericalNaN: will now also work with isNan and raw NaN checks

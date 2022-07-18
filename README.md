@@ -149,7 +149,7 @@ isBoolean(true); // TRUE
 memoize the output of a specific function to allow for the creation of an internal cache using the fnv 1A hash algorithm
 ```
 const memoized_function = memoize((a, b) => {
-	return a + b;
+    return a + b;
 });
 ```
 
@@ -261,15 +261,6 @@ equal({a: 1, b: 2}, {a: 1, b: 3}); // FALSE
 equal({a: 1, b: 2}, {a: 1, b: 2}); // TRUE
 equal(new Date('2012-20-09'), '2012-20-09'); // TRUE ( check is being done on unix timestamp )
 equal(new RegExp(/ab+c/, 'i'), /ab+c/i); // TRUE
-```
-
-### formdata
-- **isFormData(val:any)**<br>
-Check if a variable is an instance of FormData
-```
-isFormData(FormData(...)); // TRUE
-isFormData('Hello'); // FALSE
-isFormData({a: 1, b:2}); // FALSE
 ```
 
 ### function

@@ -1,5 +1,10 @@
 .editorconfig
 .eslintrc
+.nycrc
+.babelrc
+.eslintrc.json
+.travis.yml
 src/
+test/
 gulpfile.js
 yarn.lock

@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- Dep: Upgrade @babel/core to 7.19.3
+- Dep: Upgrade @babel/preset-env to 7.19.3
+- Dep: Upgrade @babel/register to 7.18.9
+- Dep: Upgrade eslint to 8.24.0
+- Add .nycrc, .babelrc, .eslintrc.json, .travis.yml, test/ to npm ignore
+
+### Removed
+- .eslintrc (legacy file)
+
 ## [5.1.0] - 2022-07-17
 ### Added
 - string/shorten

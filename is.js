@@ -23,6 +23,14 @@ var _isBelow = _interopRequireDefault(require("./number/isBelow"));
 
 var _isAbove = _interopRequireDefault(require("./number/isAbove"));
 
+var _isInteger = _interopRequireDefault(require("./number/isInteger"));
+
+var _isIntegerBetween = _interopRequireDefault(require("./number/isIntegerBetween"));
+
+var _isIntegerBelow = _interopRequireDefault(require("./number/isIntegerBelow"));
+
+var _isIntegerAbove = _interopRequireDefault(require("./number/isIntegerAbove"));
+
 var _is6 = _interopRequireDefault(require("./regexp/is"));
 
 var _is7 = _interopRequireDefault(require("./object/is"));
@@ -91,6 +99,30 @@ var Is = Object.freeze(Object.defineProperties(Object.create(null), {
     writable: !1,
     configurable: !1,
     value: _isAbove["default"]
+  },
+  Integer: {
+    enumerable: !0,
+    writable: !1,
+    configurable: !1,
+    value: _isInteger["default"]
+  },
+  IntegerBetween: {
+    enumerable: !0,
+    writable: !1,
+    configurable: !1,
+    value: _isIntegerBetween["default"]
+  },
+  IntegerBelow: {
+    enumerable: !0,
+    writable: !1,
+    configurable: !1,
+    value: _isIntegerBelow["default"]
+  },
+  IntegerAbove: {
+    enumerable: !0,
+    writable: !1,
+    configurable: !1,
+    value: _isIntegerAbove["default"]
   },
   RegExp: {
     enumerable: !0,

@@ -16,16 +16,16 @@ export default function (arr, options = {}) {
     const OPTS = Object.assign({
         delim       : ' ',      //  Delimiter to join with
         trim        : true,     //  Trim after joining
-        val_trim    : true,     //  Automatically trim string values
-        val_round   : false,    //  Automatically round numbers
+        valtrim     : true,     //  Automatically trim string values
+        valround    : false,    //  Automatically round numbers
     }, isNotEmptyObject(options) ? options : {});
 
     const filtered = [];
     for (const el of arr) {
         if (isNotEmptyString(el)) {
-            filtered.push(OPTS.val_trim === true ? el.trim() : el);
+            filtered.push(OPTS.valtrim === true ? el.trim() : el);
         } else if (isNumber(el)) {
-            filtered.push(isNumber(OPTS.val_round) ? round(el, OPTS.val_round) : el);
+            filtered.push(isNumber(OPTS.valround) ? round(el, OPTS.valround) : el);
         }
     }
 

@@ -899,7 +899,7 @@ describe("Array - join", () => {
             '   valkyrie ',
             '   studios  '
         ];
-        expect(join(vals, {val_trim: false})).to.eql('valkyrie     studios');
+        expect(join(vals, {valtrim: false})).to.eql('valkyrie     studios');
     });
 
     it ('does not autotrims strings when joining and after joining if option is turned off', () => {
@@ -907,7 +907,7 @@ describe("Array - join", () => {
             '   valkyrie ',
             '   studios  '
         ];
-        expect(join(vals, {val_trim: false, trim: false})).to.eql('   valkyrie     studios  ');
+        expect(join(vals, {valtrim: false, trim: false})).to.eql('   valkyrie     studios  ');
     });
 
     it ('allows you to override the delimiter with an empty string when joining with trimming turned off', () => {
@@ -915,7 +915,7 @@ describe("Array - join", () => {
             '   valkyrie ',
             '   studios  '
         ];
-        expect(join(vals, {delim: '', val_trim: false, trim: false})).to.eql('   valkyrie    studios  ');
+        expect(join(vals, {delim: '', valtrim: false, trim: false})).to.eql('   valkyrie    studios  ');
     });
 
     it ('allows you to override the delimiter with an empty string when joining with trimming turned on', () => {
@@ -949,10 +949,10 @@ describe("Array - join", () => {
             569.45,
             '   studios  ',
         ];
-        expect(join(vals, {delim: '@', val_round: 0})).to.eql('valkyrie@569@studios');
-        expect(join(vals, {delim: '@', val_round: 1})).to.eql('valkyrie@569.5@studios');
-        expect(join(vals, {delim: '@', val_round: 2})).to.eql('valkyrie@569.45@studios');
-        expect(join(vals, {delim: '@', val_round: 3})).to.eql('valkyrie@569.45@studios');
+        expect(join(vals, {delim: '@', valround: 0})).to.eql('valkyrie@569@studios');
+        expect(join(vals, {delim: '@', valround: 1})).to.eql('valkyrie@569.5@studios');
+        expect(join(vals, {delim: '@', valround: 2})).to.eql('valkyrie@569.45@studios');
+        expect(join(vals, {delim: '@', valround: 3})).to.eql('valkyrie@569.45@studios');
     });
 
 });

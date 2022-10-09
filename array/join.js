@@ -29,8 +29,8 @@ function _default(arr) {
   var OPTS = Object.assign({
     delim: ' ',
     trim: !0,
-    val_trim: !0,
-    val_round: !1
+    valtrim: !0,
+    valround: !1
   }, (0, _isNotEmpty3["default"])(options) ? options : {});
   var filtered = [];
 
@@ -42,9 +42,9 @@ function _default(arr) {
       var el = _step.value;
 
       if ((0, _isNotEmpty2["default"])(el)) {
-        filtered.push(OPTS.val_trim === !0 ? el.trim() : el);
+        filtered.push(OPTS.valtrim === !0 ? el.trim() : el);
       } else if ((0, _is["default"])(el)) {
-        filtered.push((0, _is["default"])(OPTS.val_round) ? (0, _round["default"])(el, OPTS.val_round) : el);
+        filtered.push((0, _is["default"])(OPTS.valround) ? (0, _round["default"])(el, OPTS.valround) : el);
       }
     }
   } catch (err) {

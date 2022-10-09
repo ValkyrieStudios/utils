@@ -6,6 +6,7 @@ import dedupe           from '../../src/array/dedupe';
 import mapKey           from '../../src/array/mapKey';
 import mapFn            from '../../src/array/mapFn';
 import mapPrimitive     from '../../src/array/mapPrimitive';
+import join             from '../../src/array/join';
 import {
     fnNumericValues,
     fnBooleanValues,
@@ -820,4 +821,138 @@ describe("Array - MapPrimitive", () => {
         let vals = fnFunctionValues();
         for (let el of vals) expect(mapPrimitive(el)).to.deep.equal({});
     });
+});
+
+describe("Array - join", () => {
+
+    it ('returns empty string when passing a string', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing a numeric value', () => {
+        let vals = fnNumericValues();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing a boolean', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing a regex', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing an object', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing a nullable', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing a date', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing an empty aray', () => {
+        expect(join([])).to.eql('');
+    });
+
+    it ('returns empty string when passing nothing', () => {
+        expect(join()).to.eql('');
+    });
+
+    it ('returns empty string when passing a function', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(join(el)).to.eql('');
+    });
+
+    it ('returns empty string when passing an array containing no strings or numbers', () => {
+        let vals = [
+            ...fnNullables(),
+            ...fnFunctionValues(),
+            ...fnRegexValues(),
+            ...fnArrayValues(),
+            ...fnObjectValues(),
+            ...fnBooleanValues(),
+            ...fnDateValues(),
+        ];
+        expect(join(vals)).to.eql('');
+    });
+
+    it ('autotrims strings when joining by default', () => {
+        let vals = [
+            '   valkyrie ',
+            '   studios  '
+        ];
+        expect(join(vals)).to.eql('valkyrie studios');
+    });
+
+    it ('does not autotrims strings when joining if option is turned off', () => {
+        let vals = [
+            '   valkyrie ',
+            '   studios  '
+        ];
+        expect(join(vals, {val_trim: false})).to.eql('valkyrie     studios');
+    });
+
+    it ('does not autotrims strings when joining and after joining if option is turned off', () => {
+        let vals = [
+            '   valkyrie ',
+            '   studios  '
+        ];
+        expect(join(vals, {val_trim: false, trim: false})).to.eql('   valkyrie     studios  ');
+    });
+
+    it ('allows you to override the delimiter with an empty string when joining with trimming turned off', () => {
+        let vals = [
+            '   valkyrie ',
+            '   studios  '
+        ];
+        expect(join(vals, {delim: '', val_trim: false, trim: false})).to.eql('   valkyrie    studios  ');
+    });
+
+    it ('allows you to override the delimiter with an empty string when joining with trimming turned on', () => {
+        let vals = [
+            '   valkyrie ',
+            '   studios  '
+        ];
+        expect(join(vals, {delim: ''})).to.eql('valkyriestudios');
+    });
+
+    it ('allows you to override the delimiter with a different string when joining with trimming turned on', () => {
+        let vals = [
+            '   valkyrie ',
+            '   studios  '
+        ];
+        expect(join(vals, {delim: '@'})).to.eql('valkyrie@studios');
+    });
+
+    it ('allows you to join a mix of numbers and strings', () => {
+        let vals = [
+            '   valkyrie ',
+            569.45,
+            '   studios  ',
+        ];
+        expect(join(vals, {delim: '@'})).to.eql('valkyrie@569.45@studios');
+    });
+
+    it ('allows you to join a mix of numbers and strings and autoround to a certain precision', () => {
+        let vals = [
+            '   valkyrie ',
+            569.45,
+            '   studios  ',
+        ];
+        expect(join(vals, {delim: '@', val_round: 0})).to.eql('valkyrie@569@studios');
+        expect(join(vals, {delim: '@', val_round: 1})).to.eql('valkyrie@569.5@studios');
+        expect(join(vals, {delim: '@', val_round: 2})).to.eql('valkyrie@569.45@studios');
+        expect(join(vals, {delim: '@', val_round: 3})).to.eql('valkyrie@569.45@studios');
+    });
+
 });

@@ -8,8 +8,13 @@ import isNumericalNaN   from '../../src/number/isNumericalNaN';
 import toPercentage     from '../../src/number/toPercentage';
 import round            from '../../src/number/round';
 import randomBetween    from '../../src/number/randomBetween';
+import isInteger        from '../../src/number/isInteger';
+import isIntegerAbove   from '../../src/number/isIntegerAbove';
+import isIntegerBelow   from '../../src/number/isIntegerBelow';
+import isIntegerBetween from '../../src/number/isIntegerBetween';
 import {
     fnNumericValues,
+    fnIntegerValues,
     fnBooleanValues,
     fnRegexValues,
     fnStringValues,
@@ -111,72 +116,72 @@ describe("Number - isNumberBelow", () => {
         for (let el of vals) expect(isNumberBelow(el, el)).to.eql(false);
     });
 
-    it ('not see a boolean as a number between', () => {
+    it ('not see a boolean as a number below', () => {
         let vals = fnBooleanValues();
         for (let el of vals) expect(isNumberBelow(el, 0)).to.eql(false);
     });
 
-    it ('not see a regex as a number between', () => {
+    it ('not see a regex as a number below', () => {
         let vals = fnRegexValues();
         for (let el of vals) expect(isNumberBelow(el, 0)).to.eql(false);
     });
 
-    it ('not see an object as a number between', () => {
+    it ('not see an object as a number below', () => {
         let vals = fnObjectValues();
         for (let el of vals) expect(isNumberBelow(el, 0)).to.eql(false);
     });
 
-    it ('not see a nullable as a number between', () => {
+    it ('not see a nullable as a number below', () => {
         let vals = fnNullables();
         for (let el of vals) expect(isNumberBelow(el, 0)).to.eql(false);
     });
 
-    it ('not see a date as a number between', () => {
+    it ('not see a date as a number below', () => {
         let vals = fnDateValues();
         for (let el of vals) expect(isNumberBelow(el, 0)).to.eql(false);
     });
 
-    it ('not see an array as a number between', () => {
+    it ('not see an array as a number below', () => {
         let vals = fnArrayValues();
         for (let el of vals) expect(isNumberBelow(el, 0)).to.eql(false);
     });
 
-    it ('not see a function as a number between', () => {
+    it ('not see a function as a number below', () => {
         let vals = fnFunctionValues();
         for (let el of vals) expect(isNumberBelow(el, 0)).to.eql(false);
     });
 
-    it ('not see a boolean as a number between', () => {
+    it ('not see a boolean as a number below', () => {
         let vals = fnBooleanValues();
         for (let el of vals) expect(isNumberBelow(0, el)).to.eql(false);
     });
 
-    it ('not see a regex as a number between', () => {
+    it ('not see a regex as a number below', () => {
         let vals = fnRegexValues();
         for (let el of vals) expect(isNumberBelow(0, el)).to.eql(false);
     });
 
-    it ('not see an object as a number between', () => {
+    it ('not see an object as a number below', () => {
         let vals = fnObjectValues();
         for (let el of vals) expect(isNumberBelow(0, el)).to.eql(false);
     });
 
-    it ('not see a nullable as a number between', () => {
+    it ('not see a nullable as a number below', () => {
         let vals = fnNullables();
         for (let el of vals) expect(isNumberBelow(0, el)).to.eql(false);
     });
 
-    it ('not see a date as a number between', () => {
+    it ('not see a date as a number below', () => {
         let vals = fnDateValues();
         for (let el of vals) expect(isNumberBelow(0, el)).to.eql(false);
     });
 
-    it ('not see an array as a number between', () => {
+    it ('not see an array as a number below', () => {
         let vals = fnArrayValues();
         for (let el of vals) expect(isNumberBelow(0, el)).to.eql(false);
     });
 
-    it ('not see a function as a number between', () => {
+    it ('not see a function as a number below', () => {
         let vals = fnFunctionValues();
         for (let el of vals) expect(isNumberBelow(0, el)).to.eql(false);
     });
@@ -213,72 +218,72 @@ describe("Number - isNumberAbove", () => {
         for (let el of vals) expect(isNumberAbove(el, el)).to.eql(false);
     });
 
-    it ('not see a boolean as a number between', () => {
+    it ('not see a boolean as a number above', () => {
         let vals = fnBooleanValues();
         for (let el of vals) expect(isNumberAbove(el, 0)).to.eql(false);
     });
 
-    it ('not see a regex as a number between', () => {
+    it ('not see a regex as a number above', () => {
         let vals = fnRegexValues();
         for (let el of vals) expect(isNumberAbove(el, 0)).to.eql(false);
     });
 
-    it ('not see an object as a number between', () => {
+    it ('not see an object as a number above', () => {
         let vals = fnObjectValues();
         for (let el of vals) expect(isNumberAbove(el, 0)).to.eql(false);
     });
 
-    it ('not see a nullable as a number between', () => {
+    it ('not see a nullable as a number above', () => {
         let vals = fnNullables();
         for (let el of vals) expect(isNumberAbove(el, 0)).to.eql(false);
     });
 
-    it ('not see a date as a number between', () => {
+    it ('not see a date as a number above', () => {
         let vals = fnDateValues();
         for (let el of vals) expect(isNumberAbove(el, 0)).to.eql(false);
     });
 
-    it ('not see an array as a number between', () => {
+    it ('not see an array as a number above', () => {
         let vals = fnArrayValues();
         for (let el of vals) expect(isNumberAbove(el, 0)).to.eql(false);
     });
 
-    it ('not see a function as a number between', () => {
+    it ('not see a function as a number above', () => {
         let vals = fnFunctionValues();
         for (let el of vals) expect(isNumberAbove(el, 0)).to.eql(false);
     });
 
-    it ('not see a boolean as a number between', () => {
+    it ('not see a boolean as a number above', () => {
         let vals = fnBooleanValues();
         for (let el of vals) expect(isNumberAbove(0, el)).to.eql(false);
     });
 
-    it ('not see a regex as a number between', () => {
+    it ('not see a regex as a number above', () => {
         let vals = fnRegexValues();
         for (let el of vals) expect(isNumberAbove(0, el)).to.eql(false);
     });
 
-    it ('not see an object as a number between', () => {
+    it ('not see an object as a number above', () => {
         let vals = fnObjectValues();
         for (let el of vals) expect(isNumberAbove(0, el)).to.eql(false);
     });
 
-    it ('not see a nullable as a number between', () => {
+    it ('not see a nullable as a number above', () => {
         let vals = fnNullables();
         for (let el of vals) expect(isNumberAbove(0, el)).to.eql(false);
     });
 
-    it ('not see a date as a number between', () => {
+    it ('not see a date as a number above', () => {
         let vals = fnDateValues();
         for (let el of vals) expect(isNumberAbove(0, el)).to.eql(false);
     });
 
-    it ('not see an array as a number between', () => {
+    it ('not see an array as a number above', () => {
         let vals = fnArrayValues();
         for (let el of vals) expect(isNumberAbove(0, el)).to.eql(false);
     });
 
-    it ('not see a function as a number between', () => {
+    it ('not see a function as a number above', () => {
         let vals = fnFunctionValues();
         for (let el of vals) expect(isNumberAbove(0, el)).to.eql(false);
     });
@@ -592,5 +597,446 @@ describe("Number - randomBetween", () => {
         expect(function () {
             randomBetween(2, 5);
         }).not.to.throw(TypeError);
+    });
+});
+
+describe("Number - isInteger", () => {
+    it ('not see a string as an integer', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+
+    it ('not see a non-integer numeric value as an integer', () => {
+        let vals = fnNumericValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(Number.isInteger(el));
+    });
+
+    it ('see an integer value as an integer', () => {
+        let vals = fnIntegerValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(true);
+    });
+
+    it ('not see a numerical nan as an integer', () => {
+        expect(isInteger(1/0)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+
+    it ('not see an object as an integer', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+
+    it ('not see a date as an integer', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+
+    it ('not see an array as an integer', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+
+    it ('not see a function as an integer', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isInteger(el)).to.eql(false);
+    });
+});
+
+describe("Number - isIntegerBelow", () => {
+    it ('not see a string as an integer below', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('treat numeric values below max correctly', () => {
+        let vals = [
+            [0, 1, true],
+            [-32, -10, true],
+            [3, 9, true],
+            [.1, .2, false],
+        ];
+        for (let el of vals) expect(isIntegerBelow(el[0], el[1])).to.eql(el[2]);
+    });
+
+    it ('treat numeric values above max as false', () => {
+        let vals = [
+            [1, 0, false],
+            [-99, -100, false],
+            [9, 1, false],
+            [-.05, -.1, false],
+        ];
+        for (let el of vals) expect(isIntegerBelow(el[0], el[1])).to.eql(el[2]);
+    });
+
+    it ('treat numeric values at max as false', () => {
+        let vals = [0, -100, 1, 0, .56, .89];
+        for (let el of vals) expect(isIntegerBelow(el, el)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer below', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer below', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('not see an object as an integer below', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer below', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('not see a date as an integer below', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('not see an array as an integer below', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('not see a function as an integer below', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isIntegerBelow(el, 0)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer below', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isIntegerBelow(0, el)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer below', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isIntegerBelow(0, el)).to.eql(false);
+    });
+
+    it ('not see an object as an integer below', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isIntegerBelow(0, el)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer below', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isIntegerBelow(0, el)).to.eql(false);
+    });
+
+    it ('not see a date as an integer below', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isIntegerBelow(0, el)).to.eql(false);
+    });
+
+    it ('not see an array as an integer below', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isIntegerBelow(0, el)).to.eql(false);
+    });
+
+    it ('not see a function as an integer below', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isIntegerBelow(0, el)).to.eql(false);
+    });
+});
+
+describe("Number - isIntegerAbove", () => {
+    it ('not see a string as an integer above', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('treat numeric values above min correctly', () => {
+        let vals = [
+            [1, 0, true],
+            [-10, -32, true],
+            [9, 3, true],
+            [.2, .1, false],
+        ];
+        for (let el of vals) expect(isIntegerAbove(el[0], el[1])).to.eql(el[2]);
+    });
+
+    it ('treat numeric values below min as false', () => {
+        let vals = [
+            [0, 1, false],
+            [-100, -99, false],
+            [1, 9, false],
+            [-.1, -.05, false],
+        ];
+        for (let el of vals) expect(isIntegerAbove(el[0], el[1])).to.eql(el[2]);
+    });
+
+    it ('treat numeric values at min as false', () => {
+        let vals = [0, -100, 1, 0, .56, .89];
+        for (let el of vals) expect(isIntegerAbove(el, el)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer above', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer above', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('not see an object as an integer above', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer above', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('not see a date as an integer above', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('not see an array as an integer above', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('not see a function as an integer above', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isIntegerAbove(el, 0)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer above', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isIntegerAbove(0, el)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer above', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isIntegerAbove(0, el)).to.eql(false);
+    });
+
+    it ('not see an object as an integer above', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isIntegerAbove(0, el)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer above', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isIntegerAbove(0, el)).to.eql(false);
+    });
+
+    it ('not see a date as an integer above', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isIntegerAbove(0, el)).to.eql(false);
+    });
+
+    it ('not see an array as an integer above', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isIntegerAbove(0, el)).to.eql(false);
+    });
+
+    it ('not see a function as an integer above', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isIntegerAbove(0, el)).to.eql(false);
+    });
+});
+
+describe("Number - isIntegerBetween", () => {
+    it ('not see a string as an integer between', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('treat numeric values between ranges correctly', () => {
+        let vals = [
+            [0, -1, 1, true],
+            [-32, -100, -10, true],
+            [3, 1, 9, true],
+            [.1, 0, .2, false],
+        ];
+        for (let el of vals) expect(isIntegerBetween(el[0], el[1], el[2])).to.eql(el[3]);
+    });
+
+    it ('treat numeric values between ranges with invalid values incorrectly', () => {
+        let vals = [
+            [0, -1, -1, false],
+            [-1, -100, -10, false],
+            [3, 1, 9, false],
+            [.1, 0, .2, false],
+        ];
+        for (let el of vals) expect(isIntegerBetween(el[0], `${el[1]}`, el[2])).to.eql(el[3]);
+        for (let el of vals) expect(isIntegerBetween(el[0], el[1], `${el[2]}`)).to.eql(el[3]);
+    });
+
+    it ('treat numeric values below lower bound as false', () => {
+        let vals = [
+            [-1, 0, 1],
+            [-101, -100, -10],
+            [0, 1, 9],
+            [-.1, 0, .2],
+        ];
+        for (let el of vals) expect(isIntegerBetween(el[0], el[1], el[2])).to.eql(false);
+    });
+
+    it ('treat numeric values at lower bound as true', () => {
+        let vals = [
+            [0, 0, 1],
+            [-100, -100, -10],
+            [1, 1, 9],
+            [0, 0, .2],
+        ];
+        for (let el of vals) expect(isIntegerBetween(el[0], el[1], el[2])).to.eql(true);
+    });
+
+    it ('treat numeric values above upper bound as false', () => {
+        let vals = [
+            [2, 0, 1],
+            [-9, -100, -10],
+            [10, 1, 9],
+            [.3, 0, .2],
+        ];
+        for (let el of vals) expect(isIntegerBetween(el[0], el[1], el[2])).to.eql(false);
+    });
+
+    it ('treat numeric values at upper bound as true', () => {
+        let vals = [
+            [1, 0, 1, true],
+            [-10, -100, -10, true],
+            [9, 1, 9, true],
+            [.2, 0, .2, false],
+        ];
+        for (let el of vals) expect(isIntegerBetween(el[0], el[1], el[2])).to.eql(el[3]);
+    });
+
+    it ('returns false when passed a min that is higher than max', () => {
+        expect(isIntegerBetween(9, 15, 10)).to.eql(false);
+    });
+
+    it ('returns false when passed a min that is equal to max', () => {
+        expect(isIntegerBetween(9, 9, 9)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer between', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer between', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('not see an object as an integer between', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer between', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('not see a date as an integer between', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('not see an array as an integer between', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('not see a function as an integer between', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isIntegerBetween(el, 0, 1000)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer between', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isIntegerBetween(0, el, 1000)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer between', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isIntegerBetween(0, el, 1000)).to.eql(false);
+    });
+
+    it ('not see an object as an integer between', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isIntegerBetween(0, el, 1000)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer between', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isIntegerBetween(0, el, 1000)).to.eql(false);
+    });
+
+    it ('not see a date as an integer between', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isIntegerBetween(0, el, 1000)).to.eql(false);
+    });
+
+    it ('not see an array as an integer between', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isIntegerBetween(0, el, 1000)).to.eql(false);
+    });
+
+    it ('not see a function as an integer between', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isIntegerBetween(0, el, 1000)).to.eql(false);
+    });
+
+    it ('not see a boolean as an integer between', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(isIntegerBetween(0, 0, el)).to.eql(false);
+    });
+
+    it ('not see a regex as an integer between', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(isIntegerBetween(0, 0, el)).to.eql(false);
+    });
+
+    it ('not see an object as an integer between', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(isIntegerBetween(0, 0, el)).to.eql(false);
+    });
+
+    it ('not see a nullable as an integer between', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(isIntegerBetween(0, 0, el)).to.eql(false);
+    });
+
+    it ('not see a date as an integer between', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(isIntegerBetween(0, 0, el)).to.eql(false);
+    });
+
+    it ('not see an array as an integer between', () => {
+        let vals = fnArrayValues();
+        for (let el of vals) expect(isIntegerBetween(0, 0, el)).to.eql(false);
+    });
+
+    it ('not see a function as an integer between', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(isIntegerBetween(0, 0, el)).to.eql(false);
     });
 });

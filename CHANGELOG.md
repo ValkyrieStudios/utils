@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- number/isInteger
+- number/isIntegerBelow
+- number/isIntegerAbove
+- number/isIntegerBetween
+- Is@Integer
+- Is@IntegerBelow
+- Is@IntegerAbove
+- Is@IntegerBetween
+
 ### Improved
 - Dep: Upgrade @babel/core to 7.19.3
 - Dep: Upgrade @babel/preset-env to 7.19.3

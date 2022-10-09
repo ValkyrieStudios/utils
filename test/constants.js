@@ -11,6 +11,16 @@ export function fnNumericValues () {
     ];
 }
 
+export function fnIntegerValues () {
+    return [
+        -1,
+        100,
+        -50,
+        99999,
+        20,
+    ];
+}
+
 export function fnBooleanValues () {
     return [
         true,

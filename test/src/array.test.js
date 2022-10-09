@@ -75,6 +75,54 @@ describe("Array - isArray", () => {
 });
 
 describe("Array - dedupe", () => {
+    it ('returns empty array when passing a string', () => {
+        let vals = fnStringValues();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing a numeric value', () => {
+        let vals = fnNumericValues();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing a boolean', () => {
+        let vals = fnBooleanValues();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing a regex', () => {
+        let vals = fnRegexValues();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing an object', () => {
+        let vals = fnObjectValues();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing a nullable', () => {
+        let vals = fnNullables();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing a date', () => {
+        let vals = fnDateValues();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing an empty aray', () => {
+        expect(dedupe([])).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing nothing', () => {
+        expect(dedupe()).to.deep.equal([]);
+    });
+
+    it ('returns empty array when passing a function', () => {
+        let vals = fnFunctionValues();
+        for (let el of vals) expect(dedupe(el)).to.deep.equal([]);
+    });
+
     it ('correctly remove duplicate bool flags from an array', () => {
         expect(dedupe([true, false, false, false, true])).to.eql([true, false]);
     });
@@ -189,6 +237,18 @@ describe("Array - MapKey", () => {
             {uid: 15, name: 'Jonas'},
             {uid: 87, name: 'Josh'},
         ], 'uid')).to.deep.equal({
+            12: {uid: 12, name: 'Peter'},
+            15: {uid: 15, name: 'Jonas'},
+            87: {uid: 87, name: 'Josh'},
+        });
+    });
+
+    it ('should correctly map an array of objects by key when passing a non-object config', () => {
+        expect(mapKey([
+            {uid: 12, name: 'Peter'},
+            {uid: 15, name: 'Jonas'},
+            {uid: 87, name: 'Josh'},
+        ], 'uid', 'foo')).to.deep.equal({
             12: {uid: 12, name: 'Peter'},
             15: {uid: 15, name: 'Jonas'},
             87: {uid: 87, name: 'Josh'},
@@ -370,7 +430,7 @@ describe("Array - MapKey", () => {
 
 describe("Array - MapFn", () => {
 
-    it ('should correctly map an array of objects by key', () => {
+    it ('should correctly map an array of objects', () => {
         expect(mapFn([
             {uid: 12, name: 'Peter'},
             {uid: 15, name: 'Jonas'},
@@ -382,7 +442,19 @@ describe("Array - MapFn", () => {
         });
     });
 
-    it ('should correctly remove non-objects from the array when mapping an array of objects by key', () => {
+    it ('should correctly map an array of objects when passing a non-object options', () => {
+        expect(mapFn([
+            {uid: 12, name: 'Peter'},
+            {uid: 15, name: 'Jonas'},
+            {uid: 87, name: 'Josh'},
+        ], el => el.uid, 'foo')).to.deep.equal({
+            12: {uid: 12, name: 'Peter'},
+            15: {uid: 15, name: 'Jonas'},
+            87: {uid: 87, name: 'Josh'},
+        });
+    });
+
+    it ('should correctly remove non-objects from the array when mapping an array of objects', () => {
         expect(mapFn([
             0,
             {uid: 12, name: 'Peter'},
@@ -401,7 +473,7 @@ describe("Array - MapFn", () => {
         });
     });
 
-    it ('should correctly remove objects without the provided key from the array when mapping an array of objects by key', () => {
+    it ('should correctly remove objects without the provided key from the array when mapping an array of objects', () => {
         expect(mapFn([
             0,
             {uid: 12, name: 'Peter'},
@@ -578,6 +650,16 @@ describe("Array - MapPrimitive", () => {
 
     it ('should correctly map a numeric primitive array', () => {
         expect(mapPrimitive([1, 4, 5, 8, 4023])).to.deep.equal({
+            1: 1,
+            4: 4,
+            5: 5,
+            8: 8,
+            4023: 4023
+        });
+    });
+
+    it ('should correctly map a numeric primitive array, when passing a non-object options', () => {
+        expect(mapPrimitive([1, 4, 5, 8, 4023], 'foo')).to.deep.equal({
             1: 1,
             4: 4,
             5: 5,

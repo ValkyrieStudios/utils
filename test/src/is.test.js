@@ -94,6 +94,21 @@ describe("Is", () => {
         expect(Is.Number(1)).to.eql(true);
     });
 
+//  Is.NumberBelow
+
+    it ('[fn-numberbelow] Should have a NumberBelow function', () => {
+        expect(isFunction(Is.NumberBelow)).to.eql(true);
+    });
+
+    it ('[fn-numberbelow] Should link to isNumberBelow', () => {
+        expect(Is.NumberBelow(1, 0)).to.eql(false);
+        expect(Is.NumberBelow(10, 10)).to.eql(false);
+        expect(Is.NumberBelow(9, 10)).to.eql(true);
+        expect(Is.NumberBelow(9.9, 10)).to.eql(true);
+        expect(Is.NumberBelow('a', 2)).to.eql(false);
+        expect(Is.NumberBelow({})).to.eql(false);
+    });
+
 //  Is.NumberBetween
 
     it ('[fn-numberbetween] Should have a NumberBetween function', () => {
@@ -106,6 +121,82 @@ describe("Is", () => {
         expect(Is.NumberBetween(50, 10, 30)).to.eql(false);
         expect(Is.NumberBetween('a', 2, 6)).to.eql(false);
         expect(Is.NumberBetween({})).to.eql(false);
+    });
+
+//  Is.NumberAbove
+
+    it ('[fn-numberabove] Should have a NumberAbove function', () => {
+        expect(isFunction(Is.NumberAbove)).to.eql(true);
+    });
+
+    it ('[fn-numberabove] Should link to isNumberAbove', () => {
+        expect(Is.NumberAbove(1, 0)).to.eql(true);
+        expect(Is.NumberAbove(10, 10)).to.eql(false);
+        expect(Is.NumberAbove(9, 10)).to.eql(false);
+        expect(Is.NumberAbove(9.9, 10)).to.eql(false);
+        expect(Is.NumberAbove(10.1, 10)).to.eql(true);
+        expect(Is.NumberAbove('a', 2)).to.eql(false);
+        expect(Is.NumberAbove({})).to.eql(false);
+    });
+
+//  Is.Integer
+
+    it ('[fn-integer] Should have a Integer function', () => {
+        expect(isFunction(Is.Integer)).to.eql(true);
+    });
+
+    it ('[fn-integer] Should link to isInteger', () => {
+        expect(Is.Integer([1, 2, 3])).to.eql(false);
+        expect(Is.Integer('2021-01-01')).to.eql(false);
+        expect(Is.Integer(1)).to.eql(true);
+        expect(Is.Integer(.5)).to.eql(false);
+    });
+
+//  Is.IntegerBelow
+
+    it ('[fn-integerbelow] Should have a IntegerBelow function', () => {
+        expect(isFunction(Is.IntegerBelow)).to.eql(true);
+    });
+
+    it ('[fn-integerbelow] Should link to isIntegerBelow', () => {
+        expect(Is.IntegerBelow(1, 0)).to.eql(false);
+        expect(Is.IntegerBelow(10, 10)).to.eql(false);
+        expect(Is.IntegerBelow(9, 10)).to.eql(true);
+        expect(Is.IntegerBelow(9.9, 10)).to.eql(false);
+        expect(Is.IntegerBelow('a', 2)).to.eql(false);
+        expect(Is.IntegerBelow({})).to.eql(false);
+    });
+
+//  Is.IntegerBetween
+
+    it ('[fn-integerbetween] Should have a IntegerBetween function', () => {
+        expect(isFunction(Is.IntegerBetween)).to.eql(true);
+    });
+
+    it ('[fn-integerbetween] Should link to isIntegerBetween', () => {
+        expect(Is.IntegerBetween(1, 0, 2)).to.eql(true);
+        expect(Is.IntegerBetween(10, 10, 11)).to.eql(true);
+        expect(Is.IntegerBetween(10.5, 10, 11)).to.eql(false);
+        expect(Is.IntegerBetween(50, 10, 30)).to.eql(false);
+        expect(Is.IntegerBetween('a', 2, 6)).to.eql(false);
+        expect(Is.IntegerBetween({})).to.eql(false);
+    });
+
+//  Is.IntegerAbove
+
+    it ('[fn-integerabove] Should have a IntegerAbove function', () => {
+        expect(isFunction(Is.IntegerAbove)).to.eql(true);
+    });
+
+    it ('[fn-integerabove] Should link to isIntegerAbove', () => {
+        expect(Is.IntegerAbove(1, 0)).to.eql(true);
+        expect(Is.IntegerAbove(10, 10)).to.eql(false);
+        expect(Is.IntegerAbove(9, 10)).to.eql(false);
+        expect(Is.IntegerAbove(11, 10)).to.eql(true);
+        expect(Is.IntegerAbove(9.9, 10)).to.eql(false);
+        expect(Is.IntegerAbove(10.1, 10)).to.eql(false);
+        expect(Is.IntegerAbove('a', 2)).to.eql(false);
+        expect(Is.IntegerAbove({})).to.eql(false);
     });
 
 //  Is.RegExp

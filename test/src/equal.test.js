@@ -198,6 +198,10 @@ describe("Equal", () => {
 //  Array
 //
 
+    it ('Array: Correctly flag inequality', () => {
+        expect(equal([0, 1], [0])).to.eql(false);
+    });
+
     it ('complex - Array : correctly flag equal', () => {
         const a = [0, 1, 2];
         const b = [0, 1, 2];
@@ -326,6 +330,10 @@ describe("Equal", () => {
 //
 //  Object
 //
+
+    it ('Object: correctly flag inconsistency', () => {
+        expect(equal({a: 1}, {b: 2, c:3})).to.eql(false);
+    });
 
     it ('complex - Object : correctly flag equal', () => {
         const a = {

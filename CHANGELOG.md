@@ -10,6 +10,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Array/shuffle: Fisher-Yates implementation O(n) shuffling algorithm, can be used to shuffle arrays of both primitives and non-primitives
 
 ### Improved
+- Dep: Upgrade @babel/core to 7.20.2
+- Dep: Upgrade @babel/preset-env to 7.20.2
+- Dep: Upgrade chai to 4.3.7
+- Dep: Upgrade eslint to 8.28.0
+- Dep: Upgrade mocha to 10.1.0
 - Caching/memoize: Now allows a resolver function to be passed to allow custom cache key generation
 
 ## [5.2.0] - 2022-10-09

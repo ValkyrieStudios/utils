@@ -146,6 +146,15 @@ join([user.first_name, user.last_name]); // 'John' (where user is {first_name: '
 join(['  a', 1], {delim: '', valtrim: false, trim: false}); // '  a1'
 ```
 
+- **shuffle(val:Array)**
+Shuffle an array (Fisher-Yates) in O(n), take note this changes the passed value
+
+```js
+const arr = [1, 2, 3, 4, 5, 6];
+shuffle(arr);
+// [4, 6, 3, 2, 5, 1]
+```
+
 ### boolean
 - **isBoolean(val:any)**
 Check if a variable is of type Boolean
@@ -156,11 +165,12 @@ isBoolean(true); // TRUE
 ```
 
 ### caching
-- **memoize(fn:Function)**
-memoize the output of a specific function to allow for the creation of an internal cache using the fnv 1A hash algorithm
+- **memoize(fn:Function, resolver:Function=false)**
+memoize the output of a specific function. An optional resolver function can be passed which allows custom cache key generation.
+
 ```js
-const memoized_function = memoize((a, b) => {
-    return a + b;
+const memoized_function = memoize((a) => {
+    return fnv1A(a);
 });
 ```
 

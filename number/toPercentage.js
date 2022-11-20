@@ -4,13 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = _default;
-
 var _is = _interopRequireDefault(require("./is"));
-
 var _round = _interopRequireDefault(require("./round"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _default(val) {
   var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;

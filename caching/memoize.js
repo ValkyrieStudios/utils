@@ -4,17 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = _default;
-
+var _is = _interopRequireDefault(require("../function/is"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _default(fn) {
-  var cache = {};
-  return function memoized() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+  var resolver = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : !1;
+  var has_resolver = (0, _is["default"])(resolver);
+  var memoized = function memoized() {
+    var key = has_resolver ? resolver.apply(this, arguments) : arguments[0];
 
-    var key = JSON.stringify(args);
-    if (key in cache) return cache[key];
-    cache[key] = fn.apply(void 0, args);
-    return cache[key];
+    if (memoized.cache.has(key)) return memoized.cache.get(key);
+
+    var result = fn.apply(this, arguments);
+
+    memoized.cache.set(key, result);
+    return result;
   };
+  memoized.cache = new Map();
+  return memoized;
 }

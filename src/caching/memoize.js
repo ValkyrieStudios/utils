@@ -1,18 +1,24 @@
 'use strict';
 
-export default function (fn) {
-    const cache = {};
+import isFunction from '../function/is';
 
-    return function memoized (...args) {
-        const key = JSON.stringify(args);
+export default function (fn, resolver = false) {
+    const has_resolver = isFunction(resolver);
+    const memoized = function () {
+        //  Get key
+        const key = has_resolver ? resolver.apply(this, arguments) : arguments[0]; // eslint-disable-line
 
-        //  If already memoized -> return
-        if (key in cache) return cache[key];
+        //  Check in cache
+        if (memoized.cache.has(key)) return memoized.cache.get(key);
 
-        //  Set cache key to output of function
-        cache[key] = fn(...args);
+        //  Call function
+        const result = fn.apply(this, arguments); // eslint-disable-line
 
-        //  Return cached value
-        return cache[key];
+        //  Set in cache
+        memoized.cache.set(key, result);
+
+        return result;
     };
+    memoized.cache = new Map();
+    return memoized;
 }

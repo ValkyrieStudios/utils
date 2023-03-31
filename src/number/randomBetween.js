@@ -8,5 +8,5 @@ export default function (min = 0, max = 10) {
 
     if (!isNumber(max)) throw new TypeError('Max should be numeric');
 
-    return (Math.random() * max) + min;
+    return (Math.random() * (max - min)) + min;
 }

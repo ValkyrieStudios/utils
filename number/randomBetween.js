@@ -11,5 +11,5 @@ function _default() {
   var max = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
   if (!(0, _is["default"])(min)) throw new TypeError('Min should be numeric');
   if (!(0, _is["default"])(max)) throw new TypeError('Max should be numeric');
-  return Math.random() * max + min;
+  return Math.random() * (max - min) + min;
 }

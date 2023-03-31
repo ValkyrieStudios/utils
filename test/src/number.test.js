@@ -568,14 +568,46 @@ describe("Number - randomBetween", () => {
         assert.typeOf(randomBetween(), 'Number');
     });
 
-    it ('should return a random number between min and max', () => {
+    it ('should return a random number between min and max 0 - 100', () => {
         let between = true;
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 10000; i++) {
             const random = randomBetween(0, 100);
-            if (random < 0 && random > 1000) between = false;
+            if (random < 0 && random > 100) between = false;
         }
 
         expect(between).to.eql(true);
+    });
+
+    it ('should return a random number between min and max 1000 - 100000', () => {
+        let between = true;
+        for (let i = 0; i < 10000; i++) {
+            const random = randomBetween(0, 100);
+            if (random < 1000 && random > 100000) between = false;
+        }
+
+        expect(between).to.eql(true);
+    });
+
+    it ('should return a random number between min and max (random min) - (random max)', () => {
+        for (let i = 0; i < 50; i++) {
+            let r1 = parseInt(Math.random() * 1000);
+            let r2 = parseInt(Math.random() * 1000);
+
+            let between = true;
+            if (r1 < r2) {
+                for (let y = 0; y < 10000; y++) {
+                    const random = randomBetween(r1, r2);
+                    if (random < r1 && random > r2) between = false;
+                }
+            } else {
+                for (let y = 0; y < 10000; y++) {
+                    const random = randomBetween(r2, r1);
+                    if (random < r2 && random > r1) between = false;
+                }
+            }
+
+            expect(between).to.eql(true);
+        }
     });
 
     it ('should return a unique random number over subsequent calls', () => {

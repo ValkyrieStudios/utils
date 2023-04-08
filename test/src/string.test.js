@@ -4,6 +4,7 @@ import isString         from '../../src/string/is';
 import isStringBetween  from '../../src/string/isBetween';
 import isNotEmptyString from '../../src/string/isNotEmpty';
 import shorten          from '../../src/string/shorten';
+import humanizeBytes    from '../../src/string/humanizeBytes';
 import {
     fnNumericValues,
     fnBooleanValues,
@@ -405,6 +406,88 @@ describe("String - shorten", () => {
     it ('returns false when passed a function as postfix value', () => {
         let vals = fnFunctionValues();
         for (let el of vals) expect(shorten('Hello world', 10, el)).to.eql(false);
+    });
+
+});
+
+describe("String - humanizeBytes", () => {
+
+    const val_tests = [
+        [1024, '1.0 KB'],
+        [1500, '1.5 KB'],
+        [3584, '3.5 KB'],
+        [9799, '9.6 KB'],
+        [58432, '57.1 KB'],
+        [97432, '95.1 KB'],
+        [432443, '422.3 KB'],
+        [857534, '837.4 KB'],
+        [1000000, '976.6 KB'],
+        [1048575, '1024.0 KB'],
+        [5242880, '5.0 MB'],
+        [1504230, '1.4 MB'],
+        [3584432, '3.4 MB'],
+        [9799432, '9.3 MB'],
+        [584324, '570.6 KB'],
+        [9743432, '9.3 MB'],
+        [43244332, '41.2 MB'],
+        [85753443, '81.8 MB'],
+        [100000032, '95.4 MB'],
+        [1073741823, '1024.0 MB'],
+        [374237489237, '348.5 GB'],
+        [4893290423489, '4.5 TB'],
+        [4327963279469432, '3.8 PB'],
+        [84903298490, '79.1 GB'],
+        [4903278490, '4.6 GB'],
+        [438274237890, '408.2 GB'],
+        [4328904892322, '3.9 TB'],
+        [974238788, '929.1 MB'],
+        [47328748923747923479, '41.1 EB'],
+    ];
+
+    it ('[humanizeBytes] Should return 0 bytes when called with non-alpha-numerical value or 0', () => {
+        for (const el of [{a:1}, [0,1,2], true, new Date(), /1/g, false, 'hello', 'abc', 0, '0', '-0']) {
+            expect(humanizeBytes(el)).to.eql('0 bytes');
+        }
+    });
+
+    it ('[humanizeBytes] Should return a positive number between 1 and 1024 (not including 1024) as bytes', () => {
+        for (let i = 1; i < 1024; i++) {
+            expect(humanizeBytes(i)).to.eql(`${i} bytes`);
+        }
+    });
+
+    it ('[humanizeBytes] Should return a negative number between 1 and 1024 (not including 1024) as bytes', () => {
+        for (let i = -1; i > -1024; i--) {
+            expect(humanizeBytes(i)).to.eql(`${i} bytes`);
+        }
+    });
+
+    it ('[humanizeBytes] Should return a positive number between 1 and 1024 formatted as string (not including 1024) as bytes', () => {
+        for (let i = 1; i < 1024; i++) {
+            expect(humanizeBytes(`${i}`)).to.eql(`${i} bytes`);
+        }
+    });
+
+    it ('[humanizeBytes] Should return a negative number between 1 and 1024 formatted as string (not including 1024) as bytes', () => {
+        for (let i = -1; i > -1024; i--) {
+            expect(humanizeBytes(`${i}`)).to.eql(`${i} bytes`);
+        }
+    });
+
+    it ('[humanizeBytes] Should correctly convert a positive number', () => {
+        for (const el of val_tests) expect(humanizeBytes(el[0])).to.eql(el[1]);
+    });
+
+    it ('[humanizeBytes] Should correctly convert a negative number', () => {
+        for (const el of val_tests) expect(humanizeBytes(-el[0])).to.eql(`-${el[1]}`);
+    });
+
+    it ('[humanizeBytes] Should correctly convert a positive number formatted as string', () => {
+        for (const el of val_tests) expect(humanizeBytes(`${el[0]}`)).to.eql(el[1]);
+    });
+
+    it ('[humanizeBytes] Should correctly convert a negative number formatted as string', () => {
+        for (const el of val_tests) expect(humanizeBytes(`-${el[0]}`)).to.eql(`-${el[1]}`);
     });
 
 });

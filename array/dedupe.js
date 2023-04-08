@@ -13,11 +13,8 @@ function _default() {
   var seen = {};
   return val.filter(function (item) {
     var hash = (0, _fnv1A["default"])(item);
-
     if (Object.prototype.hasOwnProperty.call(seen, hash)) return !1;
-
     seen[hash] = !0;
-
     return !0;
   });
 }

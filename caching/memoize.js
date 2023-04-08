@@ -11,11 +11,8 @@ function _default(fn) {
   var has_resolver = (0, _is["default"])(resolver);
   var memoized = function memoized() {
     var key = has_resolver ? resolver.apply(this, arguments) : arguments[0];
-
     if (memoized.cache.has(key)) return memoized.cache.get(key);
-
     var result = fn.apply(this, arguments);
-
     memoized.cache.set(key, result);
     return result;
   };

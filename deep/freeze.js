@@ -16,7 +16,6 @@ function deep(obj) {
   });
   return next(obj);
 }
-
 function _default(obj) {
   if (!(0, _is["default"])(obj) && !(0, _is2["default"])(obj)) {
     throw new TypeError('Only objects can be frozen');

@@ -1,10 +1,8 @@
 'use strict';
-
 Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = _default;
-
 var performance = !1;
 if (typeof window !== 'undefined' && (window.performance || {}).now) {
   performance = function performance() {
@@ -21,7 +19,6 @@ if (typeof window !== 'undefined' && (window.performance || {}).now) {
 }
 function _default() {
   var d = new Date().getTime();
-
   d += performance();
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (d + Math.random() * 16) % 16 | 0;

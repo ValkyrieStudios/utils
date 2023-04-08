@@ -573,6 +573,15 @@ shorten('To the moon and beyond'); // 'To the moon...'
 shorten('To the moon and beyond', 11, ' '); // 'To the moon '
 ```
 
+- **humanizeBytes(val:number|string)**
+Humanize an amount of bytes
+```js
+humanizeBytes(1504230); // '1.4 MB'
+humanizeBytes(23); // '23 bytes'
+humanizeBytes(-374237489237); // '-348.5 GB'
+humanizeBytes('-1504230'); // '-1.4 MB'
+```
+
 ## Contributors
 - Peter Vermeulen : [Valkyrie Studios](www.valkyriestudios.be) 
 

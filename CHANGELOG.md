@@ -9,6 +9,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - String/humanizeBytes
 
+### Improved
+- Dep: Upgrade eslint to 8.38.0
+
 ## [5.3.1] - 2023-03-31
 ### Improved
 - Dep: Upgrade @babel/core to 7.21.4

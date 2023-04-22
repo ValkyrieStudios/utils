@@ -46,6 +46,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - object/pick: Now internally validates keys as strings and autotrims keys when picking
 - number/round: Performance improvement due to usage of scientific notation not requiring math.pow
 - number/round: Will only accept integers for precision variable from now on
+- string/humanizeBytes: Now humanizes the real number part and allows passing a custom delimiter for natural numbers (eg: 1024 -> 1,024, 1024 {delim:'.'} -> 1.024)
+- string/humanizeBytes: Now allows passing a custom separator (eg: 10.024 {separator: ','} -> 10,024)
+- string/humanizeBytes: Now allows passing a precision variable (default:2) 
+- string/humanizeBytes: Now allows passing a custom units array (eg: humanizeBytes(1024, {units: [' Jedi', ' Darth']}) -> 1 Darth, humanizeBytes(20, {units: [' Jedi', 'Darth']}) -> 20 Jedi)
 
 ## [5.4.0] - 2023-04-08
 ### Added

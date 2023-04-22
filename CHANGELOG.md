@@ -8,6 +8,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - Dep: Upgrade eslint to 8.39.0
+- object/pick: Now internally validates keys as strings and autotrims keys when picking
 
 ## [5.4.0] - 2023-04-08
 ### Added

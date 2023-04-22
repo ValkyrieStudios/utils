@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- number/isAboveOrEqual
+- number/isBelowOrEqual
+- number/isIntegerAboveOrEqual
+- number/isIntegerBelowOrEqual
+
 ### Improved
 - Dep: Upgrade eslint to 8.39.0
 - object/pick: Now internally validates keys as strings and autotrims keys when picking

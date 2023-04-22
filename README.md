@@ -155,6 +155,102 @@ shuffle(arr);
 // [4, 6, 3, 2, 5, 1]
 ```
 
+- **sort(val:Array[object], by:String|Function, dir:Enum(asc,desc), options:Object)**
+Sort an array of objects, uses an implementation of [Tony Hoare's quicksort](https://cs.stanford.edu/people/eroberts/courses/soco/projects/2008-09/tony-hoare/quicksort.html) 
+
+```js
+const out = sort([
+    {test: 'Peter'},
+    {test: 'Jack'},
+    {test: 'Pony'},
+    {test: 'John'},
+    {test: 'Joe'},
+    {test: 'Bob'},
+    {test: 'Alice'},
+], 'test', 'desc'); 
+// [{test: 'Pony'}, {test: 'Peter'}, {test: 'John'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
+```
+
+```js
+const out = sort([
+    {test: 'Peter'},
+    {test: 'Jack'},
+    {test: 'Pony'},
+    {test: 'John'},
+    {test: 'Joe'},
+    {test: 'Bob'},
+    {test: 'Alice'},
+], 'test', 'asc'); 
+// [{test: 'Alice'}, {test: 'Bob'}, {test: 'Jack'}, {test: 'Joe'}, {test: 'John'}, {test: 'Peter'}, {test: 'Pony'}]
+```
+
+allows passing a function to determine the key to sort by
+
+```js
+const out = sort([
+    {test: 'Peter'},
+    {test: 'Jack'},
+    {test: 'Pony'},
+    {test: 'JOHn'},
+    {test: 'Joe'},
+    {test: 'Bob'},
+    {test: 'Alice'},
+], el => el.test.toLowerCase(), 'desc'); 
+// [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
+```
+
+auto-cleans input to only contains non-empty objects
+
+```js
+const out = sort([
+    {test: 'Peter'},
+    {},
+    {test: 'Jack'},
+    {test: 'Pony'},
+    {test: 'JOHn'},
+    false,
+    {test: 'Joe'},
+    {test: 'Bob'},
+    undefined,
+    {test: 'Alice'},
+], el => el.test.toLowerCase(), 'desc'); 
+// [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
+```
+
+allows passing custom filter function to clean input
+
+```js
+const out = sort([
+    {test: 'Peter'},
+    {},
+    {test: 'Jack'},
+    {test: 'Pony'},
+    {test: false},
+    {test: 'JOHn'},
+    false,
+    {test: 'Joe'},
+    {test: undefined},
+    {test: 'Bob'},
+    undefined,
+    {test: 'Alice'},
+], el => el.test.toLowerCase(), 'desc', {filter_fn: el => isObject(el) && isNotEmptyString(el.test)}); 
+// [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
+```
+
+allows passing custom options to position elements without a proper key (nokey_atend, defaults to true), or hide them (nokey_hide, defaults to false)
+
+```js
+const arr = [{test: 'Peter'}, {test: undefined}, {test: 'Jack'}, {test: 'Pony'}, {uid: 100}, {test: 'JOHn'}];
+const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: false}); 
+// [{test: undefined}, {uid: 100}, {test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
+
+const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: true}); 
+// [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}, {test: undefined}, {uid: 100}]
+
+const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_hide: true}); 
+// [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
+```
+
 ### boolean
 - **isBoolean(val:any)**
 Check if a variable is of type Boolean
@@ -331,7 +427,7 @@ isNumber(0.5); // TRUE
 ```
 
 - **isNumberAbove(val:number, comp:number)**
-Check if a variable is above a certain bound
+Check if a variable is a number above a certain bound
 ```js
 isNumberAbove(5, 0); // TRUE
 isNumberAbove(.1, 0); // TRUE
@@ -339,8 +435,17 @@ isNumberAbove(-1, -1); // FALSE
 isNumberAbove(-10, -9); // FALSE
 ```
 
+- **isNumberAboveOrEqual(val:number, comp:number)**
+Check if a variable is a number above or equal to a certain bound
+```js
+isNumberAboveOrEqual(5, 0); // TRUE
+isNumberAboveOrEqual(.1, 0); // TRUE
+isNumberAboveOrEqual(-1, -1); // TRUE
+isNumberAboveOrEqual(-10, -9); // FALSE
+```
+
 - **isNumberBelow(val:number, comp:number)**
-Check if a variable is below a certain bound
+Check if a variable is a number below a certain bound
 ```js
 isNumberBelow(0, 5); // TRUE
 isNumberBelow(0, .1); // TRUE
@@ -348,8 +453,17 @@ isNumberBelow(-1, -1); // FALSE
 isNumberBelow(-9, -10); // FALSE
 ```
 
+- **isNumberBelowOrEqual(val:number, comp:number)**
+Check if a variable is a number below or equal a certain bound
+```js
+isNumberBelowOrEqual(0, 5); // TRUE
+isNumberBelowOrEqual(0, .1); // TRUE
+isNumberBelowOrEqual(-1, -1); // TRUE
+isNumberBelowOrEqual(-9, -10); // FALSE
+```
+
 - **isNumberBetween(val:number, min:number, max:number)**
-Check if a variable is between a range of numbers
+Check if a variable is a number between a range of numbers
 ```js
 isNumberBetween(5, 0, 10); // TRUE
 isNumberBetween(.1, 0, 1); // TRUE
@@ -375,14 +489,33 @@ isIntegerAbove(-1, -1); // FALSE
 isIntegerAbove(-10, -9); // FALSE
 ```
 
+- **isIntegerAboveOrEqual(val:number, comp:number)**
+Check if a variable is an integer above or equal to a certain bound
+```js
+isIntegerAboveOrEqual(5, 0); // TRUE
+isIntegerAboveOrEqual(.1, 0); // FALSE
+isIntegerAboveOrEqual(-1, -1); // TRUE
+isIntegerAboveOrEqual(-10, -9); // FALSE
+```
+
 - **isIntegerBelow(val:number, comp:number)**
 Check if a variable is an integer below a certain bound
 ```js
 isIntegerBelow(0, 5); // TRUE
 isIntegerBelow(0, .1); // TRUE
-isIntegerBelow(.4, 5); // FALsE
+isIntegerBelow(.4, 5); // FALSE
 isIntegerBelow(-1, -1); // FALSE
 isIntegerBelow(-9, -10); // FALSE
+```
+
+- **isIntegerBelowOrEqual(val:number, comp:number)**
+Check if a variable is an integer below or equal to a certain bound
+```js
+isIntegerBelowOrEqual(0, 5); // TRUE
+isIntegerBelowOrEqual(0, .1); // TRUE
+isIntegerBelowOrEqual(.4, 5); // FALSE
+isIntegerBelowOrEqual(-1, -1); // TRUE
+isIntegerBelowOrEqual(-9, -10); // FALSE
 ```
 
 - **isIntegerBetween(val:number, min:number, max:number)**
@@ -423,6 +556,13 @@ Generate a random numeric value between a min and max range
 ```js
 randomBetween(); // Will generate a random between 0 and 10
 randomBetween(25, 100); // Will generate a random between 25 and 100
+```
+
+- **randomIntBetween(min:Number=0,max:Number=10)**
+Generate a random numeric value between a min and max range (max not inclusive)
+```js
+randomIntBetween(); // Will generate a random between 0 and 10 (10 not inclusive)
+randomIntBetween(25, 100); // Will generate a random between 25 and 100 (100 not inclusive)
 ```
 
 ### object
@@ -575,6 +715,10 @@ shorten('To the moon and beyond', 11, ' '); // 'To the moon '
 
 - **humanizeBytes(val:number|string)**
 Humanize an amount of bytes
+-- option:delim (default:','): Override the delimiter used, eg: `20000 -> 20,000`
+-- option:separator (default:'.'): Override the separator used for floats, eg: '20.034' -> '20,034'
+-- option:precision (default:2):  Override decimal precision for floats: eg: '20.0344233' with precision 2 -> '20.03'
+-- option:units (default:[' byes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB']): Override units used, eg: `4893290423489 with units [' Jedi', ' Darth', ' Vader', ' Force'] and precision of 0` -> `'4,893 Force'`
 ```js
 humanizeBytes(1504230); // '1.4 MB'
 humanizeBytes(23); // '23 bytes'
@@ -582,6 +726,24 @@ humanizeBytes(-374237489237); // '-348.5 GB'
 humanizeBytes('-1504230'); // '-1.4 MB'
 ```
 
+- **humanizeNumber(val:number|string, options:Object)**
+Humanize a number
+-- option:delim (default:','): Override the delimiter used, eg: `20000 -> 20,000`
+-- option:separator (default:'.'): Override the separator used for floats, eg: '20.034' -> '20,034'
+-- option:precision (default:2):  Override decimal precision for floats: eg: '20.0344233' with precision 2 -> '20.03'
+-- option:units (default:['', 'k', 'm', 'b', 't', 'q']): Override units used, eg: `1073741823 with units ['', 'K']` -> `1.073.741,82K`
+-- option:real (default:false): Set to true to automatically round input numbers
+-- option:divider (default:1000): Override default divider used for units (used internally for humanizeBytes with 1024 as divider)
+
+```js
+humanizeNumber(4327963279469432); // '4.33q'
+humanizeNumber(1504230); // '1.5m'
+humanizeNumber(-432443); // '-432.44k'
+humanizeNumber('-1500'); // '-1.5k'
+humanizeNumber(47328748923747923479); // '47,328.75q'
+```
+
+allows passing options to control the output, following options are possible:
+
 ## Contributors
 - Peter Vermeulen : [Valkyrie Studios](www.valkyriestudios.be) 
-

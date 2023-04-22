@@ -11,6 +11,35 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - number/isBelowOrEqual
 - number/isIntegerAboveOrEqual
 - number/isIntegerBelowOrEqual
+- Is@NumberBelowOrEqual
+- Is@NumberAboveOrEqual
+- Is@IntegerBelowOrEqual
+- Is@IntegerAboveOrEqual
+- Is@Equal
+- Is@Eq (as alias of Is@Equal)
+- Is@NeArray (alias of Is@NotEmptyArray)
+- Is@NeObject (alias of Is@NotEmptyObject)
+- Is@NeString (alias of Is@NotEmptyString)
+- Is@Num (alias of Is@Number)
+- Is@NumBelow (alias of Is@NumberBelow)
+- Is@NumBelowOrEqual (alias of Is@NumberBelowOrEqual)
+- Is@NumAbove (alias of Is@NumberAbove)
+- Is@NumAboveOrEqual (alias of Is@NumberAboveOrEqual)
+- Is@NumBetween (alias of Is@NumberBetween)
+- Is@NumLt (alias of Is@NumberBelow)
+- Is@NumLte (alias of Is@NumberBelowOrEqual)
+- Is@NumGt (alias of Is@NumberAbove)
+- Is@NumGte (alias of Is@NumberAboveOrEqual)
+- Is@Int (alias of Is@Integer)
+- Is@IntBelow (alias of Is@IntegerBelow)
+- Is@IntBelowOrEqual (alias of Is@IntegerBelowOrEqual)
+- Is@IntAbove (alias of Is@IntegerAbove)
+- Is@IntAboveOrEqual (alias of Is@IntegerAboveOrEqual)
+- Is@IntBetween (alias of Is@IntegerBetween)
+- Is@IntLt (alias of Is@IntegerBelow)
+- Is@IntLte (alias of Is@IntegerBelowOrEqual)
+- Is@IntGt (alias of Is@IntegerAbove)
+- Is@IntGte (alias of Is@IntegerAboveOrEqual)
 
 ### Improved
 - Dep: Upgrade eslint to 8.39.0

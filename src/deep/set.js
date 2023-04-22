@@ -12,7 +12,7 @@ function interpolatePath (path) {
 }
 
 //  Set a value for a path in a json-like structure
-export default function (obj, path, value = null, define = false) {
+export default function deepSet (obj, path, value = null, define = false) {
     if (!isObject(obj) && !isArray(obj)) throw new TypeError('Deepset is only supported for objects');
 
     const parts = interpolatePath(path);

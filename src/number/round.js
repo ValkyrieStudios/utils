@@ -4,7 +4,7 @@ import isNumber         from './is';
 import isNumberAbove 	from './isAbove';
 
 //  Round a numeric value to a certain precision
-export default function (val, precision = 0) {
+export default function round (val, precision = 0) {
     if (!isNumber(val)) throw new TypeError('Value should be numeric');
 
     //	If precision is not above 0 -> do nothing

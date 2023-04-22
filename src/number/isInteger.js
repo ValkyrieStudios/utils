@@ -2,7 +2,7 @@
 
 import isNumber from './is';
 
-export default function (val) {
+export default function isInteger (val) {
     if (!isNumber(val)) return false;
     return Number.isInteger(val);
 }

@@ -5,7 +5,7 @@ import isNotEmptyString from '../string/isNotEmpty';
 import isNotEmptyArray  from './isNotEmpty';
 import isNotEmptyObject from '../object/isNotEmpty';
 
-export default function (arr, opts = {}) {
+export default function mapPrimitive (arr, opts = {}) {
     if (!isNotEmptyArray(arr)) return {};
 
     const OPTS = Object.assign({

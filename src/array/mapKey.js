@@ -4,7 +4,7 @@ import isObject         from '../object/is';
 import isNotEmptyArray  from './isNotEmpty';
 import isNotEmptyString from '../string/isNotEmpty';
 
-export default function (arr, key, opts = {}) {
+export default function mapKey (arr, key, opts = {}) {
     if (!isNotEmptyArray(arr) || !isNotEmptyString(key)) return {};
 
     const OPTS = Object.assign({

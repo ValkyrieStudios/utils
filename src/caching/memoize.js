@@ -2,7 +2,7 @@
 
 import isFunction from '../function/is';
 
-export default function (fn, resolver = false) {
+export default function memoize (fn, resolver = false) {
     const has_resolver = isFunction(resolver);
     const memoized = function () {
         //  Get key

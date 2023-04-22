@@ -10,7 +10,7 @@ import round            from '../number/round';
 //
 //  @param array    arr     Array of values to join
 //  @param object   options (default={}) Override options
-export default function (arr, options = {}) {
+export default function join (arr, options = {}) {
     if (!isNotEmptyArray(arr)) return '';
 
     const OPTS = Object.assign({

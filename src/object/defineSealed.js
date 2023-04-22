@@ -2,6 +2,6 @@
 
 import define from './define';
 
-export default function (props = {}, obj = {}) {
+export default function defineSealed (props = {}, obj = {}) {
     return Object.seal(define(props, obj));
 }

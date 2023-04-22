@@ -14,7 +14,7 @@ import isRegExp         from '../regexp/is';
 
 const FNV_OFFSET_BASIS_32 = 2166136261;
 
-export default function (data = '', offset = FNV_OFFSET_BASIS_32) {
+export default function fnv1A (data = '', offset = FNV_OFFSET_BASIS_32) {
     let hash = offset;
     let sanitized_data = JSON.stringify(data);
 

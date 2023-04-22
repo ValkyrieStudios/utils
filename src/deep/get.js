@@ -12,7 +12,7 @@ function interpolatePath (path) {
 }
 
 //  Get a value from a path in a json-like structure
-export default function (obj, path, get_parent = false) {
+export default function deepGet (obj, path, get_parent = false) {
     if (!isObject(obj) && !isArray(obj)) throw new TypeError('Deepget is only supported for objects');
 
     const parts = interpolatePath(path);

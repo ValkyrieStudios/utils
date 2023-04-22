@@ -1,5 +1,5 @@
 'use strict';
 
-export default function () {
+export default function noop () {
     //  Nothing to execute here ... this is a noop ( no-operation )
 }

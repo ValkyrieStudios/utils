@@ -6,7 +6,7 @@ import isFunction       from '../function/is';
 import isNotEmptyString from '../string/isNotEmpty';
 import isNumber         from '../number/is';
 
-export default function (arr, fn, opts = {}) {
+export default function mapFn (arr, fn, opts = {}) {
     if (!isNotEmptyArray(arr) || !isFunction(fn)) return {};
 
     const OPTS = Object.assign({

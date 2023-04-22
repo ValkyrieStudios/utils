@@ -14,7 +14,7 @@ if (typeof window !== 'undefined' && (window.performance || {}).now) {          
     performance = () => 0;
 }
 
-export default function () {
+export default function guid () {
     //  According to : rfc4122
     let d = new Date().getTime();
 

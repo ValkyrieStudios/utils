@@ -2,6 +2,6 @@
 
 import deepSet from './set';
 
-export default function (obj, path, value = null) {
+export default function deepDefine (obj, path, value = null) {
     return deepSet(obj, path, value, true);
 }

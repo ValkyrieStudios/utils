@@ -2,6 +2,6 @@
 
 /* eslint-disable use-isnan */
 
-export default function (val) {
+export default function isNumericalNaN (val) {
     return Number.isNaN(val) || val === Infinity || val === NaN;
 }

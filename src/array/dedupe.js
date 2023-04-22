@@ -3,7 +3,7 @@
 import fnv1A            from '../hash/fnv1A';
 import isNotEmptyArray  from './isNotEmpty';
 
-export default function (val = []) {
+export default function dedupe (val = []) {
     if (!isNotEmptyArray(val)) return [];
 
     const seen = {};

@@ -2,7 +2,6 @@
 
 import isNotEmptyArray          from '../array/isNotEmpty';
 import isBoolean                from '../boolean/is';
-import isInteger                from '../number/isInteger';
 import isIntegerAboveOrEqual    from '../number/isIntegerAboveOrEqual';
 import isNumber                 from '../number/is';
 import isObject                 from '../object/is';
@@ -25,7 +24,7 @@ export default function humanizeNumber (val, options = {}) {
             ? options.precision
             : 2,
         units: isObject(options) && (isNotEmptyArray(options.units) || options.units === false)
-            ? (options.units ? options.units.filter(isString) : false)
+            ? options.units ? options.units.filter(isString) : false
             : ['', 'k', 'm', 'b', 't', 'q'],
         //  Have to have at least bigger than 1 to not end in infinite loop
         divider: isObject(options) && isIntegerAboveOrEqual(options.divider, 2)
@@ -62,7 +61,7 @@ export default function humanizeNumber (val, options = {}) {
     //  At each step, divide by divider, based on that we get the unit size
     let postfix = '';
     if (OPTS.units) {
-        let unit_ix = 0
+        let unit_ix = 0;
         while (normalized >= OPTS.divider) {
             unit_ix++;
             normalized = normalized/OPTS.divider;
@@ -74,7 +73,7 @@ export default function humanizeNumber (val, options = {}) {
     //  Round with precision
     normalized = round(normalized, OPTS.precision);
 
-    //  Humanize from eg: 10023 to 10,0234
+    //  Humanize from eg: 10023 to 10,023
     normalized    = normalized.toLocaleString('en-US', {maximumFractionDigits: OPTS.precision}).split('.');
     normalized[0] = `${normalized[0]}`.replace(/,/g, OPTS.delim);
     normalized    = normalized.join(OPTS.separator);

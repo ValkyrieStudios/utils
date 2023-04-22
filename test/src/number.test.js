@@ -10,6 +10,7 @@ import isNumericalNaN           from '../../src/number/isNumericalNaN';
 import toPercentage             from '../../src/number/toPercentage';
 import round                    from '../../src/number/round';
 import randomBetween            from '../../src/number/randomBetween';
+import randomIntBetween         from '../../src/number/randomIntBetween';
 import isInteger                from '../../src/number/isInteger';
 import isIntegerAbove           from '../../src/number/isIntegerAbove';
 import isIntegerAboveOrEqual    from '../../src/number/isIntegerAboveOrEqual';
@@ -837,6 +838,81 @@ describe("Number", () => {
             }).to.throw(TypeError);
             expect(function () {
                 randomBetween(2, 5);
+            }).not.to.throw(TypeError);
+        });
+    });
+
+    describe("randomIntBetween", () => {
+        it ('should return a random integer', () => {
+            assert.typeOf(randomIntBetween(), 'Number');
+            expect(isInteger(randomIntBetween())).to.eql(true);
+        });
+
+        it ('should return a random integer between min and max 0 - 100', () => {
+            let between = true;
+            for (let i = 0; i < 10000; i++) {
+                const random = randomIntBetween(0, 100);
+                if (random < 0 && random >= 100) between = false;
+                expect(isInteger(random)).to.eql(true);
+            }
+
+            expect(between).to.eql(true);
+        });
+
+        it ('should return a random integer between min and max 1000 - 100000', () => {
+            let between = true;
+            for (let i = 0; i < 10000; i++) {
+                const random = randomIntBetween(0, 100);
+                if (random < 1000 && random >= 100000) between = false;
+                expect(isInteger(random)).to.eql(true);
+            }
+
+            expect(between).to.eql(true);
+        });
+
+        it ('should return a random integer between min and max (random min) - (random max)', () => {
+            for (let i = 0; i < 50; i++) {
+                let r1 = parseInt(Math.random() * 1000);
+                let r2 = parseInt(Math.random() * 1000);
+
+                let between = true;
+                if (r1 < r2) {
+                    for (let y = 0; y < 10000; y++) {
+                        const random = randomIntBetween(r1, r2);
+                        if (random < r1 && random >= r2) between = false;
+                        expect(isInteger(random)).to.eql(true);
+                    }
+                } else {
+                    for (let y = 0; y < 10000; y++) {
+                        const random = randomIntBetween(r2, r1);
+                        if (random < r2 && random >= r1) between = false;
+                        expect(isInteger(random)).to.eql(true);
+                    }
+                }
+
+                expect(between).to.eql(true);
+            }
+        });
+
+        it ('should return a unique random integer over subsequent calls', () => {
+            let cache = {};
+            for (let i = 0; i < 10000; i++) {
+                const random = randomIntBetween(0, 10000000000);
+                cache[`${random}`] = random;
+                expect(isInteger(random)).to.eql(true);
+            }
+            expect(Object.keys(cache).length).to.eql(10000);
+        });
+
+        it ('should throw an error if the min/max is not numeric', () => {
+            expect(function () {
+                randomIntBetween('min', 2);
+            }).to.throw(TypeError);
+            expect(function () {
+                randomIntBetween(2, 'max');
+            }).to.throw(TypeError);
+            expect(function () {
+                randomIntBetween(2, 5);
             }).not.to.throw(TypeError);
         });
     });

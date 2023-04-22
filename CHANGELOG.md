@@ -8,6 +8,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - string/humanizeNumber (with delim, separator, precision, units, divider) options
+- number/randomIntBetween
 - number/isAboveOrEqual
 - number/isBelowOrEqual
 - number/isIntegerAboveOrEqual

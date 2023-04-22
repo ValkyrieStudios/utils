@@ -10,5 +10,5 @@ export default function round (val, precision = 0) {
     //	If precision is not above 0 -> do nothing
     if (!isIntegerAbove(precision, 0)) return Math.round(val);
 
-    return Number(Math.round(val+'e'+precision)+'e-'+precision);
+    return Number(Math.round(val+'e'+precision)+'e-'+precision); // eslint-disable-line prefer-template
 }

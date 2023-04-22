@@ -1,33 +1,38 @@
 'use strict';
 
-/* eslint-disable no-bitwise */
+/* eslint-disable no-bitwise, prefer-template */
 
 //  RFC4122 Compliant
 
-let performance = false;
-
-if (typeof window !== 'undefined' && (window.performance || {}).now) {                  // eslint-disable-line no-undef
-    performance = () => window.performance.now();                                       // eslint-disable-line no-undef
-} else if (typeof process !== 'undefined') {                                            // eslint-disable-line no-undef
-    performance = () => process.hrtime()[1];                                            // eslint-disable-line no-undef
-} else {
-    performance = () => 0;
+//  Generates a prebuilt hexmap from 0 to 255
+const HEXMAP = [];
+for (let i = 0; i < 256; i++) {
+    HEXMAP[i] = (i < 16 ? '0' : '') + i.toString(16);
 }
 
 export default function guid () {
-    //  According to : rfc4122
-    let d = new Date().getTime();
-
-    //  use high-precision timer if available
-    d += performance();
-
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-        const r = (d + (Math.random() * 16)) % 16 | 0;
-
-        d = Math.floor(d / 16);
-
-        if (c === 'x') return r.toString(16);
-
-        return ((r & 0x3) | 0x8).toString(16);
-    });
+    const d0 = (Math.random()*0xffffffff) | 0;
+    const d1 = (Math.random()*0xffffffff) | 0;
+    const d2 = (Math.random()*0xffffffff) | 0;
+    const d3 = (Math.random()*0xffffffff) | 0;
+    return HEXMAP[d0 & 0xff] +
+        HEXMAP[(d0 >> 8) & 0xff] +
+        HEXMAP[(d0 >> 16) & 0xff] +
+        HEXMAP[(d0 >> 24) & 0xff] +
+        '-' +
+        HEXMAP[d1 & 0xff] +
+        HEXMAP[(d1 >> 8) & 0xff] +
+        '-' +
+        HEXMAP[((d1>>16) & 0x0f) | 0x40] +
+        HEXMAP[(d1>>24) & 0xff] +
+        '-' +
+        HEXMAP[(d2 & 0x3f) | 0x80] +
+        HEXMAP[(d2 >> 8) & 0xff] +
+        '-' +
+        HEXMAP[(d2 >> 16) & 0xff] +
+        HEXMAP[(d2 >> 24) & 0xff] +
+        HEXMAP[d3 & 0xff] +
+        HEXMAP[(d3 >> 8) & 0xff] +
+        HEXMAP[(d3 >> 16) & 0xff] +
+        HEXMAP[(d3 >> 24) & 0xff];
 }

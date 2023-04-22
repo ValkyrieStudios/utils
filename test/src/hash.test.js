@@ -12,6 +12,11 @@ const assert = chai.assert;
 const should = chai.should();
 const spy = chai.spy;
 
+function getTime () {
+    const hr_time = process.hrtime();
+    return hr_time[0] * 1000 + hr_time[1] / 1000000;
+}
+
 describe("Hash", () => {
     describe("Guid", () => {
         it ('output a string value', () => {
@@ -39,6 +44,69 @@ describe("Hash", () => {
             }
 
             expect(Object.keys(cache).length).to.eql(cursor);
+        });
+
+        it ('be fast (50.000 benchmark) < 150ms', () => {
+            let start_time = getTime();
+            const cache = {};
+            let cursor = 0;
+
+            while (cursor < 50000) {
+                cache[guid()] = true;
+                cursor++;
+            }
+
+            expect(getTime() - start_time).to.be.lt(150);
+        });
+
+        it ('be unique (100.000 benchmark)', () => {
+            const cache = {};
+            let cursor = 0;
+
+            while (cursor < 100000) {
+                cache[guid()] = true;
+                cursor++;
+            }
+
+            expect(Object.keys(cache).length).to.eql(cursor);
+        });
+
+        it ('be fast (100.000 benchmark) < 300ms', () => {
+            let start_time = getTime();
+            const cache = {};
+            let cursor = 0;
+
+            while (cursor < 100000) {
+                cache[guid()] = true;
+                cursor++;
+            }
+
+            expect(getTime() - start_time).to.be.lt(300);
+        });
+
+        it ('be unique (200.000 benchmark)', () => {
+            const cache = {};
+            let cursor = 0;
+
+            while (cursor < 200000) {
+                cache[guid()] = true;
+                cursor++;
+            }
+
+            expect(Object.keys(cache).length).to.eql(cursor);
+        });
+
+        it ('be fast (200.000 benchmark) < 600ms', () => {
+            let start_time = getTime();
+            const cache = {};
+            let cursor = 0;
+
+            while (cursor < 200000) {
+                cache[guid()] = true;
+                cursor++;
+            }
+
+            expect(getTime() - start_time).to.be.lt(600);
         });
     });
 

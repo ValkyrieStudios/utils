@@ -49,6 +49,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - object/pick: Now internally validates keys as strings and autotrims keys when picking
 - number/round: Performance improvement due to usage of scientific notation not requiring math.pow
 - number/round: Will only accept integers for precision variable from now on
+- hash/guid: Is now 4x faster than previous implementation thanks to usage of bitwise operators and a precalculated hexmap (0-255), able to generate 50.000 guids in ~65ms and also no longer relying on high-performance timers
 - string/humanizeBytes: Now humanizes the real number part and allows passing a custom delimiter for natural numbers (eg: 1024 -> 1,024, 1024 {delim:'.'} -> 1.024)
 - string/humanizeBytes: Now allows passing a custom separator (eg: 10.024 {separator: ','} -> 10,024)
 - string/humanizeBytes: Now allows passing a precision variable (default:2) 

@@ -4,37 +4,21 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = humanizeBytes;
-var _is = _interopRequireDefault(require("../number/is"));
-var _isInteger = _interopRequireDefault(require("../number/isInteger"));
+var _isNotEmpty = _interopRequireDefault(require("../array/isNotEmpty"));
+var _isIntegerAboveOrEqual = _interopRequireDefault(require("../number/isIntegerAboveOrEqual"));
+var _is = _interopRequireDefault(require("../object/is"));
 var _is2 = _interopRequireDefault(require("../string/is"));
-var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty"));
+var _isNotEmpty2 = _interopRequireDefault(require("../string/isNotEmpty"));
+var _humanizeNumber = _interopRequireDefault(require("./humanizeNumber"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-var units = [{
-  abbreviation: 'bytes'
-}, {
-  abbreviation: 'KB'
-}, {
-  abbreviation: 'MB'
-}, {
-  abbreviation: 'GB'
-}, {
-  abbreviation: 'TB'
-}, {
-  abbreviation: 'PB'
-}, {
-  abbreviation: 'EB'
-}, {
-  abbreviation: 'ZB'
-}, {
-  abbreviation: 'YB'
-}];
 function humanizeBytes(val) {
-  if (!((0, _is["default"])(val) || (0, _isNotEmpty["default"])(val))) return '0 bytes';
-  var n = parseInt((0, _is2["default"])(val) ? val.trim() : val) || 0;
-  if (!(0, _isInteger["default"])(n) || n === 0) return '0 bytes';
-  var sign = n < 0 ? '-' : '';
-  n = Math.abs(n);
-  var l = 0;
-  while (n >= 1024 && ++l && l < units.length) n = n / 1024;
-  return "".concat(sign).concat(n.toFixed(l > 0 ? 1 : 0), " ").concat(units[l].abbreviation);
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return (0, _humanizeNumber["default"])(val, {
+    delim: (0, _is["default"])(options) && (0, _is2["default"])(options.delim) ? options.delim : ',',
+    separator: (0, _is["default"])(options) && (0, _isNotEmpty2["default"])(options.separator) ? options.separator : '.',
+    precision: (0, _is["default"])(options) && (0, _isIntegerAboveOrEqual["default"])(options.precision, 0) ? options.precision : 2,
+    units: (0, _is["default"])(options) && (0, _isNotEmpty["default"])(options.units) ? options.units.filter(_isNotEmpty2["default"]) : [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'],
+    divider: 1024,
+    real: !0
+  });
 }

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: !0
 });
-exports["default"] = _default;
-function _default(val) {
+exports["default"] = isRegExp;
+function isRegExp(val) {
   return Object.prototype.toString.call(val) === '[object RegExp]';
 }

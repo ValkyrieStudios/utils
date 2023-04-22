@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: !0
 });
-exports["default"] = _default;
+exports["default"] = fnv1A;
 var _is = _interopRequireDefault(require("../string/is"));
 var _is2 = _interopRequireDefault(require("../date/is"));
 var _is3 = _interopRequireDefault(require("../object/is"));
@@ -12,7 +12,7 @@ var _isNumericalNaN = _interopRequireDefault(require("../number/isNumericalNaN")
 var _is6 = _interopRequireDefault(require("../regexp/is"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var FNV_OFFSET_BASIS_32 = 2166136261;
-function _default() {
+function fnv1A() {
   var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
   var offset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : FNV_OFFSET_BASIS_32;
   var hash = offset;

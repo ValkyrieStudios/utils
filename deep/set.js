@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: !0
 });
-exports["default"] = _default;
+exports["default"] = deepSet;
 var _is = _interopRequireDefault(require("../object/is"));
 var _is2 = _interopRequireDefault(require("../array/is"));
 var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty"));
@@ -19,7 +19,7 @@ function interpolatePath(path) {
   if ((0, _is2["default"])(path)) return _toConsumableArray(path);
   return path.replace('[', '.').replace(']', '').split('.');
 }
-function _default(obj, path) {
+function deepSet(obj, path) {
   var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   var define = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : !1;
   if (!(0, _is["default"])(obj) && !(0, _is2["default"])(obj)) throw new TypeError('Deepset is only supported for objects');

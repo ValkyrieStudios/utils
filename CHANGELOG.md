@@ -44,6 +44,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - Dep: Upgrade eslint to 8.39.0
 - object/pick: Now internally validates keys as strings and autotrims keys when picking
+- number/round: Performance improvement due to usage of scientific notation not requiring math.pow
+- number/round: Will only accept integers for precision variable from now on
 
 ## [5.4.0] - 2023-04-08
 ### Added

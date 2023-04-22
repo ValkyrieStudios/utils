@@ -10,7 +10,7 @@ export default function pick (obj = {}, keys = []) {
     if (!isObject(obj)) throw new TypeError('Please pass an object to pick as the value for obj');
     if (!isArray(keys)) throw new TypeError('Please pass an array as the value for keys');
 
-    let map = {};
+    const map = {};
     for (const key of keys) {
         if (!isNotEmptyString(key)) continue;
         const val = deepGet(obj, key.trim());

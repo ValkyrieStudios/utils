@@ -1,9 +1,15 @@
+.DS_STORE
 .editorconfig
 .eslintrc
 .nycrc
+.nyc_output
 .babelrc
 .eslintrc.json
 .travis.yml
+codecov.sh
+codecov
+node_modules/
+coverage/
 src/
 test/
 gulpfile.js

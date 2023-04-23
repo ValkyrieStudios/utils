@@ -3,3 +3,4 @@ coverage/
 .DS_STORE
 .nyc_output
 codecov.sh
+codecov

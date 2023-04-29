@@ -278,6 +278,12 @@ isDate(new Date('December 17, 1995 03:24:00'); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
+- **nowUnix()**
+Returns the current unix timestamp in seconds
+
+- **nowUnixMs()**
+Returns the current unix timestamp in milliseconds
+
 ### deep
 - **deepFreeze(val:Object)**
 Recursively freezes all properties of an object
@@ -746,4 +752,4 @@ humanizeNumber(47328748923747923479); // '47,328.75q'
 allows passing options to control the output, following options are possible:
 
 ## Contributors
-- Peter Vermeulen : [Valkyrie Studios](www.valkyriestudios.be) 
+- Peter Vermeulen

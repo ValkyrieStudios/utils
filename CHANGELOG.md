@@ -13,6 +13,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - number/round: Improve precision on edge case numbers by using epsilon differentiator
 - number/round: Improve performance and add benchmark (1.000.000 round ops in ~250ms)
+- Dep: Upgrade @babel/core to 7.21.5
+- Dep: Upgrade @babel/preset-env to 7.21.5
 
 ## [6.1.0] - 2023-04-23
 ### Improved

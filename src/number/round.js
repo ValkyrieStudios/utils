@@ -7,8 +7,7 @@ import isIntegerAbove 	from './isIntegerAbove';
 export default function round (val, precision = 0) {
     if (!isNumber(val)) throw new TypeError('Value should be numeric');
 
-    //	If precision is not above 0 -> do nothing
-    if (!isIntegerAbove(precision, 0)) return Math.round(val);
-
-    return Number(Math.round(val+'e'+precision)+'e-'+precision); // eslint-disable-line prefer-template
+    const exp = Math.pow(10, isIntegerAbove(precision, 0) ? precision : 0);
+    const num = (val * exp) * (1 + Number.EPSILON);
+    return Math.round(num)/exp;
 }

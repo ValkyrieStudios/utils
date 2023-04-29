@@ -39,6 +39,11 @@ const assert = chai.assert;
 const should = chai.should();
 const spy = chai.spy;
 
+function getTime () {
+    const hr_time = process.hrtime();
+    return hr_time[0] * 1000 + hr_time[1] / 1000000;
+}
+
 describe("Number", () => {
     describe("isNumber", () => {
         it ('not see a string as a number', () => {
@@ -764,6 +769,22 @@ describe("Number", () => {
             expect(round(5.123456789, 5)).to.eql(5.12346);
             expect(round(42.139691918126184, 3)).to.eql(42.14);
             expect(round(42.134691918126184, 3)).to.eql(42.135);
+            expect(round(0.5)).to.eql(1);
+            expect(round(-0.5)).to.eql(-1);
+            expect(round(5.12, 1)).to.eql(5.1);
+            expect(round(-5.12, 1)).to.eql(-5.1);
+            expect(round(1.005, 2)).to.eql(1.01);
+            expect(round(39.425, 2)).to.eql(39.43);
+            expect(round(-1.005, 2)).to.eql(-1.01);
+            expect(round(-39.425, 2)).to.eql(-39.43);
+        });
+
+        it ('should be blazing fast (benchmark: 1.000.000 rounds in < 400ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                round(42.134691918126184, 3);
+            }
+            expect(getTime() - start_time).to.be.lt(400);
         });
 
         it ('should throw an error if the value is not numeric', () => {

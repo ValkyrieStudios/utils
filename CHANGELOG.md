@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- number/round: Improve precision on edge case numbers by using epsilon differentiator
+- number/round: Improve performance and add benchmark (1.000.000 round ops in ~250ms)
+
 ## [6.1.0] - 2023-04-23
 ### Improved
 - Reduce eventual bundle size for package

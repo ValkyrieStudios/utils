@@ -752,4 +752,4 @@ humanizeNumber(47328748923747923479); // '47,328.75q'
 allows passing options to control the output, following options are possible:
 
 ## Contributors
-- Peter Vermeulen
+- [Peter Vermeulen](mailto:contact@valkyriestudios.be)

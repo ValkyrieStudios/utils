@@ -1,6 +1,8 @@
 'use strict';
 
-import isDate from '../../src/date/is';
+import isDate       from '../../src/date/is';
+import nowUnix      from '../../src/date/nowUnix';
+import nowUnixMs    from '../../src/date/nowUnixMs';
 import {
     fnNumericValues,
     fnBooleanValues,
@@ -69,4 +71,17 @@ describe("Date", () => {
             for (let el of vals) expect(isDate(el)).to.eql(false);
         });
     });
+
+    describe("nowUnix", () => {
+        it ('returns second unix timestamp', () => {
+            expect(nowUnix()).to.eql(Math.floor(Date.now()/1000));
+        });
+    });
+
+    describe("nowUnixMs", () => {
+        it ('returns millisecond unix timestamp when passing false', () => {
+            expect(nowUnixMs()).to.eql(Math.floor(Date.now()));
+        });
+    });
+
 });

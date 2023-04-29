@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- date/nowUnix
+- date/nowUnixMs
+
 ### Improved
 - number/round: Improve precision on edge case numbers by using epsilon differentiator
 - number/round: Improve performance and add benchmark (1.000.000 round ops in ~250ms)

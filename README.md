@@ -278,6 +278,9 @@ isDate(new Date('December 17, 1995 03:24:00'); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
+- **toUTC(val:Date)**
+Takes the passed date object and returns a new date object set for utc
+
 - **nowUnix()**
 Returns the current unix timestamp in seconds
 

@@ -1,6 +1,7 @@
 'use strict';
 
 import isDate       from '../../src/date/is';
+import toUTC        from '../../src/date/toUTC';
 import nowUnix      from '../../src/date/nowUnix';
 import nowUnixMs    from '../../src/date/nowUnixMs';
 import {
@@ -23,6 +24,13 @@ const expect = chai.expect;
 const assert = chai.assert;
 const should = chai.should();
 const spy = chai.spy;
+
+function getTime () {
+    const hr_time = process.hrtime();
+    return hr_time[0] * 1000 + hr_time[1] / 1000000;
+}
+
+const currentTZ = (new Date()).toJSON().split('.').pop();
 
 describe("Date", () => {
     describe("isDate", () => {
@@ -69,6 +77,51 @@ describe("Date", () => {
         it ('not see a function as a date', () => {
             let vals = fnFunctionValues();
             for (let el of vals) expect(isDate(el)).to.eql(false);
+        });
+    });
+
+    describe("toUTC", () => {
+        it ('throw when passed a non-date', () => {
+            for (const el of [
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    toUTC(el);
+                }).to.throw('');
+            }
+        });
+
+        it ('return a date in UTC', () => {
+            const date = new Date("2023-05-01T12:04:27+02:00");
+            expect(toUTC(date)).to.eql(new Date("2023-05-01T10:04:27+00:00"));
+            expect(toUTC(date).toISOString()).to.eql('2023-05-01T10:04:27.000Z');
+
+            expect(date.toJSON()).to.eql('2023-05-01T10:04:27.000Z');
+        });
+
+        it ('not touch on the passed date', () => {
+            const date = new Date("14 Jun 2017 00:00:00 PDT");
+            const utc_date = toUTC(date);
+            expect(utc_date.toJSON()).to.eql("2017-06-14T07:00:00.000Z");
+
+            date.setHours(20);
+            expect(date.toJSON()).to.eql("2017-06-14T18:00:00.000Z");
+            expect(utc_date.toJSON()).to.eql("2017-06-14T07:00:00.000Z");
+        });
+
+        it ('should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                toUTC(new Date("2023-05-01T12:04:27+02:00"));
+            }
+            expect(getTime() - start_time).to.be.lt(750);
         });
     });
 

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Dep: @babel/cli
+- .babelrc
+- Switch to using babel-cli for transpiling build
+
+### Improved
+- Dep: Upgrade @babel/core to 7.21.8
+- Dep: Upgrade eslint to 8.40.0
+
+### Removed
+- Dep: gulp
+- Dep: gulp-babel
+- gulpfile
+
 ## [6.3.0] - 2023-05-01
 ### Added
 - date/toUTC (benchmark 1.000.000 opts in ~500ms)

@@ -1,1 +1,13 @@
-{"presets": ["@babel/preset-env"]}
+{
+    comments: false,
+    presets: [
+        '@babel/preset-env',
+    ],
+    plugins: [
+        'check-es2015-constants',
+        'transform-remove-console',
+        'transform-minify-booleans',
+        'transform-property-literals',
+        'transform-member-expression-literals',
+    ]
+}

@@ -2,6 +2,7 @@
 
 import isDate       from '../../src/date/is';
 import toUTC        from '../../src/date/toUTC';
+import startOfUTC   from '../../src/date/startOfUTC';
 import nowUnix      from '../../src/date/nowUnix';
 import nowUnixMs    from '../../src/date/nowUnixMs';
 import {
@@ -122,6 +123,118 @@ describe("Date", () => {
                 toUTC(new Date("2023-05-01T12:04:27+02:00"));
             }
             expect(getTime() - start_time).to.be.lt(750);
+        });
+    });
+
+    describe("startOfUTC", () => {
+        it ('throw when passed a non-date', () => {
+            for (const el of [
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    startOfUTC(el, 'day');
+                }).to.throw('');
+            }
+        });
+
+        it ('throw when passed a non-string key', () => {
+            for (const el of [
+                ...fnDateValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    startOfUTC(new Date(), el);
+                }).to.throw('');
+            }
+        });
+
+        it ('[year] should correctly set to start of year utc', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'year')).to.eql(new Date("2023-01-01T00:00:00.000Z"));
+        });
+
+        it ('[year] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'year');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[month] should correctly set to start of month utc', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month')).to.eql(new Date("2023-05-01T00:00:00.000Z"));
+        });
+
+        it ('[month] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'month');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[day] should correctly set to start of day utc', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'day')).to.eql(new Date("2023-05-04T00:00:00.000Z"));
+        });
+
+        it ('[day] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'day');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[hour] should correctly set to start of hour utc', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'hour')).to.eql(new Date("2023-05-04T10:00:00.000Z"));
+        });
+
+        it ('[hour] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'hour');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[minute] should correctly set to start of minute utc', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'minute')).to.eql(new Date("2023-05-04T10:04:00.000Z"));
+        });
+
+        it ('[minute] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'minute');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[second] should correctly set to start of second utc', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second')).to.eql(new Date("2023-05-04T10:04:27.000Z"));
+        });
+
+        it ('[second] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'second');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('should return original date when passed a non-recognized key', () => {
+            expect(startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'foobar')).to.eql(new Date("2023-05-01T12:04:27+02:00"));
         });
     });
 

@@ -10,6 +10,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dep: @babel/cli
 - .babelrc
 - Switch to using babel-cli for transpiling build
+- date/startOfUTC
 
 ### Improved
 - Dep: Upgrade @babel/core to 7.21.8

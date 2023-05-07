@@ -18,7 +18,6 @@ export default function startOfUTC (val, key) {
                 0,
                 0
             ));
-            break;
         case 'month':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
@@ -29,7 +28,6 @@ export default function startOfUTC (val, key) {
                 0,
                 0
             ));
-            break;
         case 'day':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
@@ -40,7 +38,6 @@ export default function startOfUTC (val, key) {
                 0,
                 0
             ));
-            break;
         case 'hour':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
@@ -51,7 +48,6 @@ export default function startOfUTC (val, key) {
                 0,
                 0
             ));
-            break;
         case 'minute':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
@@ -62,7 +58,6 @@ export default function startOfUTC (val, key) {
                 0,
                 0
             ));
-            break;
         case 'second':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
@@ -73,8 +68,7 @@ export default function startOfUTC (val, key) {
                 val.getUTCSeconds(),
                 0
             ));
-            break;
+        default:
+            return val;
     }
-
-    return val;
 }

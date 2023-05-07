@@ -288,7 +288,9 @@ Returns the current unix timestamp in seconds
 Returns the current unix timestamp in milliseconds
 
 - **startOfUTC(val:Date, key:String)**
-Take the incoming date and return a date set to the start of passed key. Possible key options(year,month,day,hour,minute,second)
+Take the incoming date and return a date set to the start of passed key. Possible key options(year,month,day,hour,minute,second).
+
+Note: Does not touch the date object passed
 ```js
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'year'); // new Date("2023-01-01T00:00:00.000Z")
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month'); // new Date("2023-05-01T00:00:00.000Z")

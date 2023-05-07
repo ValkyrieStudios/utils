@@ -16,7 +16,6 @@ function mapPrimitive(arr) {
   var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   if (!(0, _isNotEmpty2["default"])(arr)) return {};
   var OPTS = Object.assign({
-    keytrim: !0,
     valtrim: !1,
     keyround: !1,
     valround: !1
@@ -34,11 +33,7 @@ function mapPrimitive(arr) {
           map[el] = OPTS.valround ? Math.round(el) : el;
         }
       } else if ((0, _isNotEmpty["default"])(el)) {
-        if (OPTS.keytrim === !0) {
-          map[el.trim()] = OPTS.valtrim ? el.trim() : el;
-        } else {
-          map[el] = OPTS.valtrim ? el.trim() : el;
-        }
+        map[el.trim()] = OPTS.valtrim ? el.trim() : el;
       }
     }
   } catch (err) {

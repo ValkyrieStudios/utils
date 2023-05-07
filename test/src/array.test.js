@@ -760,24 +760,6 @@ describe("Array", () => {
             });
         });
 
-        it ('should allow turning off autotrimming strings for key storage and dedupe when mapping a string primitive array', () => {
-            expect(mapPrimitive(['  hello   ', 'hello  ', ' foo', 'bar'], {keytrim: false})).to.deep.equal({
-                '  hello   ': '  hello   ',
-                'hello  ': 'hello  ',
-                ' foo': ' foo',
-                'bar': 'bar'
-            });
-        });
-
-        it ('should allow turning off autotrimming and turning on value trimming and dedupe when mapping a string primitive array', () => {
-            expect(mapPrimitive(['  hello   ', 'hello  ', ' foo', 'bar'], {keytrim: false, valtrim: true})).to.deep.equal({
-                '  hello   ': 'hello',
-                'hello  ': 'hello',
-                ' foo': 'foo',
-                'bar': 'bar'
-            });
-        });
-
         it ('should allow turning on value trimming and dedupe when mapping a string primitive array', () => {
             expect(mapPrimitive(['  hello   ', 'hello  ', ' foo', 'bar'], {valtrim: true})).to.deep.equal({
                 'hello': 'hello',

@@ -19,6 +19,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dep: gulp
 - Dep: gulp-babel
 - gulpfile
+- array/mapPrimitive: keytrim option
 
 ## [6.3.0] - 2023-05-01
 ### Added

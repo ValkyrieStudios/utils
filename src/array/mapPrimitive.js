@@ -9,7 +9,6 @@ export default function mapPrimitive (arr, opts = {}) {
     if (!isNotEmptyArray(arr)) return {};
 
     const OPTS = Object.assign({
-        keytrim: true,
         valtrim: false,
         keyround: false,
         valround: false,
@@ -24,11 +23,7 @@ export default function mapPrimitive (arr, opts = {}) {
                 map[el] = OPTS.valround ? Math.round(el) : el;
             }
         } else if (isNotEmptyString(el)) {
-            if (OPTS.keytrim === true) {
-                map[el.trim()] = OPTS.valtrim ? el.trim() : el;
-            } else {
-                map[el] = OPTS.valtrim ? el.trim() : el;
-            }
+            map[el.trim()] = OPTS.valtrim ? el.trim() : el;
         }
     }
 

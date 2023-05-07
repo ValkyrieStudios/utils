@@ -117,12 +117,12 @@ output:
 
 options are the same as the mapKey function
 
-- **mapPrimitive(val:any, opts:object={keytrim:true,valtrim:false,keyround:false,valround:false})**
+- **mapPrimitive(val:any, opts:object={valtrim:false,keyround:false,valround:false})**
 Map an array of primitives (number/string)
 ```js
 mapPrimitive([1,2,3]); // {1: 1, 2: 2, 3: 3}
 mapPrimitive(['hello', 'hello', 'foo', 'bar']); // {hello: 'hello', foo: 'foo', bar: 'bar'}
-mapPrimitive(['hello', ' hello', 'foo', '  foo'], {keytrim: true, valtrim: true}); // {hello: 'hello', foo: 'foo'}
+mapPrimitive(['hello', ' hello', 'foo', '  foo'], {valtrim: true}); // {hello: 'hello', foo: 'foo'}
 ```
 
 - **dedupe(val:Array)**

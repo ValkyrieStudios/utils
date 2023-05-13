@@ -307,6 +307,53 @@ startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'minute'); // new Date("2023-0
 startOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023-05-04T10:04:27.000Z")
 ```
 
+- **endOfUTC(val:Date, key:String)**
+Take the incoming date and return a date set to the end of passed key. Possible key options(year,quarter,month,week,week_sun,day,hour,minute,second).
+
+Note: Does not touch the date object passed
+```js
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'year'); // new Date("2023-12-31T23:59:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'quarter'); // new Date("2023-06-30T23:59:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month'); // new Date("2023-05-31T23:59:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'week'); // new Date("2023-05-07T23:59:59.999Z")
+endOfUTC(new Date("2023-05-13T12:04:27+02:00"), 'week'); // new Date("2023-05-14T23:59:59.999Z")
+endOfUTC(new Date("2023-05-14T12:04:27+02:00"), 'week'); // new Date("2023-05-14T23:59:59.999Z")
+endOfUTC(new Date("2023-02-27T12:04:27+02:00"), 'week'); // new Date("2023-03-05T23:59:59.999Z")
+endOfUTC(new Date("2022-12-29T12:04:27+02:00"), 'week'); // new Date("2023-01-01T23:59:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'week_sun'); // new Date("2023-05-06T23:59:59.999Z")
+endOfUTC(new Date("2023-05-12T12:04:27+02:00"), 'week_sun'); // new Date("2023-05-13T23:59:59.999Z")
+endOfUTC(new Date("2023-05-06T12:04:27+02:00"), 'week_sun'); // new Date("2023-05-06T23:59:59.999Z")
+endOfUTC(new Date("2023-03-29T12:04:27+02:00"), 'week_sun'); // new Date("2023-04-01T23:59:59.999Z")
+endOfUTC(new Date("2021-12-28T12:04:27+02:00"), 'week_sun'); // new Date("2022-01-01T23:59:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'day'); // new Date("2023-05-04T23:59:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'hour'); // new Date("2023-05-04T10:59:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'minute'); // new Date("2023-05-04T10:04:59.999Z")
+endOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023-05-04T10:04:27.999Z")
+```
+
+- **addUTC(val:Date, amount:integer, key:String)**
+Take the incoming date and add a certain amount of the passed key. Possible key options(year,years,month,months,day,days,hour,hours,minute,minutes,second,seconds).
+
+Note: Does not touch the date object passed
+```js
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'year'); // new Date("2032-10-05T11:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'year'); // new Date("2012-10-05T11:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'month'); // new Date("2023-08-05T11:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), -8970, 'month'); // new Date("1275-04-05T11:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 200, 'day'); // new Date("2023-04-23T11:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), -400, 'day'); // new Date("2021-08-31T11:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 2200, 'hour'); // new Date("2023-01-05T03:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'hour'); // new Date("2022-10-05T01:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 59, 'minute'); // new Date("2022-10-05T12:11:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 336000, 'minute'); // new Date("2023-05-26T19:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), -34, 'minute'); // new Date("2022-10-05T10:38:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), -769, 'minute'); // new Date("2022-10-04T22:23:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 59, 'second'); // new Date("2022-10-05T11:13:10.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 2873 * 60, 'second'); // new Date("2022-10-07T11:05:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), 336000 * 60, 'second'); // new Date("2023-05-26T19:12:11.000Z")
+addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'second'); // new Date("2022-10-05T11:12:01.000Z")
+```
+
 ### deep
 - **deepFreeze(val:Object)**
 Recursively freezes all properties of an object

@@ -8,6 +8,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - date/addUTC (1.000.000 ops in ~750ms)
+- date/endOfUTC (1.000.000 ops in ~600ms), supports year,quarter,month,week,week_sun,day,hour,minute,second
 
 ### Improved
 - date/startOfUTC now supports 'quarter'

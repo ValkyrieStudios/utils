@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- date/addUTC (1.000.000 ops in ~750ms)
+
 ### Improved
 - date/startOfUTC now supports 'quarter'
 - date/startOfUTC now supports 'week' (monday as first day of the week)

@@ -109,6 +109,14 @@ export default function startOfUTC (val, key) {
                 0
             ));
         default:
-            return val;
+            return new Date(Date.UTC(
+                val.getUTCFullYear(),
+                val.getUTCMonth(),
+                val.getUTCDate(),
+                val.getUTCHours(),
+                val.getUTCMinutes(),
+                val.getUTCSeconds(),
+                val.getUTCMilliseconds()
+            ));
     }
 }

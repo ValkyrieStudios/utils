@@ -1,8 +1,10 @@
 'use strict';
 
+import isInteger    from '../../src/number/isInteger';
 import isDate       from '../../src/date/is';
 import toUTC        from '../../src/date/toUTC';
 import startOfUTC   from '../../src/date/startOfUTC';
+import addUTC       from '../../src/date/addUTC';
 import nowUnix      from '../../src/date/nowUnix';
 import nowUnixMs    from '../../src/date/nowUnixMs';
 import {
@@ -126,6 +128,529 @@ describe("Date", () => {
         });
     });
 
+    describe("addUTC", () => {
+        it ('throw when passed a non-date', () => {
+            for (const el of [
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    addUTC(el, 10, 'day');
+                }).to.throw('');
+            }
+        });
+
+        it ('throw when passed a non-integer amount', () => {
+            for (const el of [
+                ...fnDateValues(),
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                if (isInteger(el)) continue;
+                expect(function () {
+                    addUTC(new Date(), el, 'day');
+                }).to.throw('');
+            }
+        });
+
+        it ('throw when passed a non-string key', () => {
+            for (const el of [
+                ...fnDateValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    addUTC(new Date(), 10, el);
+                }).to.throw('');
+            }
+        });
+
+        it ('[year] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'year')).to.eql(new Date("2032-10-05T11:12:11.000Z"));
+        });
+
+        it ('[year] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'year')).to.eql(new Date("2012-10-05T11:12:11.000Z"));
+        });
+
+        it ('[year] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'year')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[year] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -100, 'year')).to.eql(new Date("1922-10-05T11:12:11.000Z"));
+        });
+
+        it ('[year] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -100, 'year')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[years] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'years')).to.eql(new Date("2032-10-05T11:12:11.000Z"));
+        });
+
+        it ('[years] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'years')).to.eql(new Date("2012-10-05T11:12:11.000Z"));
+        });
+
+        it ('[years] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'years')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[years] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -100, 'years')).to.eql(new Date("1922-10-05T11:12:11.000Z"));
+        });
+
+        it ('[years] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -100, 'years')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[month] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'month')).to.eql(new Date("2023-08-05T11:12:11.000Z"));
+        });
+
+        it ('[month] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'month')).to.eql(new Date("2021-12-05T11:12:11.000Z"));
+        });
+
+        it ('[month] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'month')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[month] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -8970, 'month')).to.eql(new Date("1275-04-05T11:12:11.000Z"));
+        });
+
+        it ('[month] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -4832, 'month')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[months] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'months')).to.eql(new Date("2023-08-05T11:12:11.000Z"));
+        });
+
+        it ('[months] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'months')).to.eql(new Date("2021-12-05T11:12:11.000Z"));
+        });
+
+        it ('[months] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'months')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[months] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -4832, 'months')).to.eql(new Date("1620-02-05T11:12:11.000Z"));
+        });
+
+        it ('[months] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -4832, 'months')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[day] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'day')).to.eql(new Date("2022-10-15T11:12:11.000Z"));
+        });
+
+        it ('[day] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 200, 'day')).to.eql(new Date("2023-04-23T11:12:11.000Z"));
+        });
+
+        it ('[day] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'day')).to.eql(new Date("2022-09-25T11:12:11.000Z"));
+        });
+
+        it ('[day] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -400, 'day')).to.eql(new Date("2021-08-31T11:12:11.000Z"));
+        });
+
+        it ('[day] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'day')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[day] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -89700, 'day')).to.eql(new Date("1777-03-03T11:12:11.000Z"));
+        });
+
+        it ('[day] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -48320, 'day')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[days] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'days')).to.eql(new Date("2022-10-15T11:12:11.000Z"));
+        });
+
+        it ('[days] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 200, 'days')).to.eql(new Date("2023-04-23T11:12:11.000Z"));
+        });
+
+        it ('[days] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'days')).to.eql(new Date("2022-09-25T11:12:11.000Z"));
+        });
+
+        it ('[days] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -400, 'days')).to.eql(new Date("2021-08-31T11:12:11.000Z"));
+        });
+
+        it ('[days] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'days')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[days] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -48320, 'days')).to.eql(new Date("1890-06-19T11:12:11.000Z"));
+        });
+
+        it ('[days] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -48320, 'days')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[hour] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'hour')).to.eql(new Date("2022-10-05T21:12:11.000Z"));
+        });
+
+        it ('[hour] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 2200, 'hour')).to.eql(new Date("2023-01-05T03:12:11.000Z"));
+        });
+
+        it ('[hour] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'hour')).to.eql(new Date("2022-10-05T01:12:11.000Z"));
+        });
+
+        it ('[hour] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -8400, 'hour')).to.eql(new Date("2021-10-20T11:12:11.000Z"));
+        });
+
+        it ('[hour] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'hour')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[hour] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -897000, 'hour')).to.eql(new Date("1920-06-07T11:12:11.000Z"));
+        });
+
+        it ('[hour] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -483200, 'hour')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[hours] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'hours')).to.eql(new Date("2022-10-05T21:12:11.000Z"));
+        });
+
+        it ('[hours] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 2200, 'hours')).to.eql(new Date("2023-01-05T03:12:11.000Z"));
+        });
+
+        it ('[hours] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'hours')).to.eql(new Date("2022-10-05T01:12:11.000Z"));
+        });
+
+        it ('[hours] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -8400, 'hours')).to.eql(new Date("2021-10-20T11:12:11.000Z"));
+        });
+
+        it ('[hours] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'hours')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[hours] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -483200, 'hours')).to.eql(new Date("1967-08-22T03:12:11.000Z"));
+        });
+
+        it ('[hours] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -483200, 'hours')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[minute] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'minute')).to.eql(new Date("2022-10-05T11:22:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a positive integer and it would go into next hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 59, 'minute')).to.eql(new Date("2022-10-05T12:11:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a positive integer and it would go into next day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 2873, 'minute')).to.eql(new Date("2022-10-07T11:05:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a positive integer and it would go into next month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 92053, 'minute')).to.eql(new Date("2022-12-08T09:25:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 336000, 'minute')).to.eql(new Date("2023-05-26T19:12:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'minute')).to.eql(new Date("2022-10-05T11:02:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a negative integer and it would go into previous hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -34, 'minute')).to.eql(new Date("2022-10-05T10:38:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a negative integer and it would go into previous day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -769, 'minute')).to.eql(new Date("2022-10-04T22:23:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a negative integer and it would go into previous month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -14923, 'minute')).to.eql(new Date("2022-09-25T02:29:11.000Z"));
+        });
+
+        it ('[minute] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -414005, 'minute')).to.eql(new Date("2021-12-21T23:07:11.000Z"));
+        });
+
+        it ('[minute] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'minute')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[minute] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000, 'minute')).to.eql(new Date("1948-08-31T23:12:11.000Z"));
+        });
+
+        it ('[minute] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000, 'minute')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[minutes] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'minutes')).to.eql(new Date("2022-10-05T11:22:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a positive integer and it would go into next hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 59, 'minutes')).to.eql(new Date("2022-10-05T12:11:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a positive integer and it would go into next day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 2873, 'minutes')).to.eql(new Date("2022-10-07T11:05:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a positive integer and it would go into next month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 92053, 'minutes')).to.eql(new Date("2022-12-08T09:25:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 336000, 'minutes')).to.eql(new Date("2023-05-26T19:12:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'minutes')).to.eql(new Date("2022-10-05T11:02:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a negative integer and it would go into previous hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -34, 'minutes')).to.eql(new Date("2022-10-05T10:38:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a negative integer and it would go into previous day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -769, 'minutes')).to.eql(new Date("2022-10-04T22:23:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a negative integer and it would go into previous month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -14923, 'minutes')).to.eql(new Date("2022-09-25T02:29:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -414005, 'minutes')).to.eql(new Date("2021-12-21T23:07:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'minutes')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[minutes] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000, 'minutes')).to.eql(new Date("1948-08-31T23:12:11.000Z"));
+        });
+
+        it ('[minutes] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000, 'minutes')
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[second] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'second')).to.eql(new Date("2022-10-05T11:12:21.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a positive integer and it would go into next minute', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 59, 'second')).to.eql(new Date("2022-10-05T11:13:10.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a positive integer and it would go into next hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 59 * 60, 'second')).to.eql(new Date("2022-10-05T12:11:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a positive integer and it would go into next day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 2873 * 60, 'second')).to.eql(new Date("2022-10-07T11:05:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a positive integer and it would go into next month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 92053 * 60, 'second')).to.eql(new Date("2022-12-08T09:25:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 336000 * 60, 'second')).to.eql(new Date("2023-05-26T19:12:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'second')).to.eql(new Date("2022-10-05T11:12:01.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a negative integer and it would go into previous minute', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -34 * 60, 'second')).to.eql(new Date("2022-10-05T10:38:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a negative integer and it would go into previous hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -34 * 60, 'second')).to.eql(new Date("2022-10-05T10:38:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a negative integer and it would go into previous day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -769 * 60, 'second')).to.eql(new Date("2022-10-04T22:23:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a negative integer and it would go into previous month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -14923 * 60, 'second')).to.eql(new Date("2022-09-25T02:29:11.000Z"));
+        });
+
+        it ('[second] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -414005 * 60, 'second')).to.eql(new Date("2021-12-21T23:07:11.000Z"));
+        });
+
+        it ('[second] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'second')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[second] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000 * 60, 'second')).to.eql(new Date("1948-08-31T23:12:11.000Z"));
+        });
+
+        it ('[second] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000 * 60, 'second');
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('[seconds] Should correctly add when passing a positive integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'seconds')).to.eql(new Date("2022-10-05T11:12:21.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a positive integer and it would go into next minute', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 59, 'seconds')).to.eql(new Date("2022-10-05T11:13:10.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a positive integer and it would go into next hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 59 * 60, 'seconds')).to.eql(new Date("2022-10-05T12:11:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a positive integer and it would go into next day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 2873 * 60, 'seconds')).to.eql(new Date("2022-10-07T11:05:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a positive integer and it would go into next month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 92053 * 60, 'seconds')).to.eql(new Date("2022-12-08T09:25:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a positive integer and it would go into next year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 336000 * 60, 'seconds')).to.eql(new Date("2023-05-26T19:12:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a negative integer', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'seconds')).to.eql(new Date("2022-10-05T11:12:01.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a negative integer and it would go into previous minute', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -34 * 60, 'seconds')).to.eql(new Date("2022-10-05T10:38:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a negative integer and it would go into previous hour', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -34 * 60, 'seconds')).to.eql(new Date("2022-10-05T10:38:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a negative integer and it would go into previous day', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -769 * 60, 'seconds')).to.eql(new Date("2022-10-04T22:23:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a negative integer and it would go into previous month', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -14923 * 60, 'seconds')).to.eql(new Date("2022-09-25T02:29:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly add when passing a negative integer and it would go into previous year', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -414005 * 60, 'seconds')).to.eql(new Date("2021-12-21T23:07:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly keep and just convert to utc when passing 0', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), 0, 'seconds')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+
+        it ('[seconds] Should correctly set when going before the unix timestamp', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000 * 60, 'seconds')).to.eql(new Date("1948-08-31T23:12:11.000Z"));
+        });
+
+        it ('[seconds] should be blazing fast (1.000.000 benchmark < 1000ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000 * 60, 'seconds');
+            }
+            expect(getTime() - start_time).to.be.lt(1000);
+        });
+
+        it ('should return original date in utc when passed a non-recognized key', () => {
+            expect(addUTC(new Date("2022-10-05T13:12:11+02:00"), -38970000 * 60, 'jedis')).to.eql(new Date("2022-10-05T11:12:11.000Z"));
+        });
+    });
+
     describe("startOfUTC", () => {
         it ('throw when passed a non-date', () => {
             for (const el of [
@@ -173,7 +698,7 @@ describe("Date", () => {
             expect(getTime() - start_time).to.be.lt(750);
         });
 
-        it ('[quarter] should correctly set to start of year utc', () => {
+        it ('[quarter] should correctly set to start of quarter utc', () => {
             const qmap = {1: 1, 2: 1, 3: 1, 4: 4, 5: 4, 6: 4, 7: 7, 8: 7, 9: 7, 10: 10, 11: 10, 12: 10};
             for (let i = 1; i <= 12; i++) {
                 let date = `2023-${i < 10 ? '0' : ''}${i}-04T12:04:27+02:00`;

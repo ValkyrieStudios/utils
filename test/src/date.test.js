@@ -173,6 +173,23 @@ describe("Date", () => {
             expect(getTime() - start_time).to.be.lt(750);
         });
 
+        it ('[quarter] should correctly set to start of year utc', () => {
+            const qmap = {1: 1, 2: 1, 3: 1, 4: 4, 5: 4, 6: 4, 7: 7, 8: 7, 9: 7, 10: 10, 11: 10, 12: 10};
+            for (let i = 1; i <= 12; i++) {
+                let date = `2023-${i < 10 ? '0' : ''}${i}-04T12:04:27+02:00`;
+                let date_q = `2023-${qmap[i] < 10 ? '0' : ''}${qmap[i]}-01T00:00:00.000Z`;
+                expect(startOfUTC(new Date(date), 'quarter')).to.eql(new Date(date_q));
+            }
+        });
+
+        it ('[quarter] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-01T12:04:27+02:00"), 'quarter');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
         it ('[month] should correctly set to start of month utc', () => {
             expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month')).to.eql(new Date("2023-05-01T00:00:00.000Z"));
         });

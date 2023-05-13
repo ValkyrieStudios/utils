@@ -202,6 +202,56 @@ describe("Date", () => {
             expect(getTime() - start_time).to.be.lt(750);
         });
 
+        it ('[week] should correctly set to start of week utc with monday as first day of the week', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'week')).to.eql(new Date("2023-05-01T00:00:00.000Z"));
+            expect(startOfUTC(new Date("2023-05-14T12:04:27+02:00"), 'week')).to.eql(new Date("2023-05-08T00:00:00.000Z"));
+        });
+
+        it ('[week] should correctly set to start of week utc with monday as first day of the week when already on that day', () => {
+            expect(startOfUTC(new Date("2023-05-08T12:04:27+02:00"), 'week')).to.eql(new Date("2023-05-08T00:00:00.000Z"));
+        });
+
+        it ('[week] should correctly set to start of week utc with monday as first day of the week when start of week is in different month', () => {
+            expect(startOfUTC(new Date("2023-02-03T12:04:27+02:00"), 'week')).to.eql(new Date("2023-01-30T00:00:00.000Z"));
+        });
+
+        it ('[week] should correctly set to start of week utc with monday as first day of the week when start of week is in different year', () => {
+            expect(startOfUTC(new Date("2023-01-01T12:04:27+02:00"), 'week')).to.eql(new Date("2022-12-26T00:00:00.000Z"));
+        });
+
+        it ('[week] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'week');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[week_sun] should correctly set to start of week utc with sunday as first day of the week', () => {
+            expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'week_sun')).to.eql(new Date("2023-04-30T00:00:00.000Z"));
+            expect(startOfUTC(new Date("2023-05-13T12:04:27+02:00"), 'week_sun')).to.eql(new Date("2023-05-07T00:00:00.000Z"));
+        });
+
+        it ('[week_sun] should correctly set to start of week utc with sunday as first day of the week when already on that day', () => {
+            expect(startOfUTC(new Date("2023-05-07T12:04:27+02:00"), 'week_sun')).to.eql(new Date("2023-05-07T00:00:00.000Z"));
+        });
+
+        it ('[week_sun] should correctly set to start of week utc with sunday as first day of the week when start of week is in different month', () => {
+            expect(startOfUTC(new Date("2023-02-03T12:04:27+02:00"), 'week_sun')).to.eql(new Date("2023-01-29T00:00:00.000Z"));
+        });
+
+        it ('[week_sun] should correctly set to start of week utc with sunday as first day of the week when start of week is in different year', () => {
+            expect(startOfUTC(new Date("2022-01-01T12:04:27+02:00"), 'week_sun')).to.eql(new Date("2021-12-26T00:00:00.000Z"));
+        });
+
+        it ('[week_sun] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'week_sun');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
         it ('[day] should correctly set to start of day utc', () => {
             expect(startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'day')).to.eql(new Date("2023-05-04T00:00:00.000Z"));
         });

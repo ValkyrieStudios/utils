@@ -40,6 +40,34 @@ export default function startOfUTC (val, key) {
                 0,
                 0
             ));
+        case 'week': {
+            const date = new Date(Date.UTC(
+                val.getUTCFullYear(),
+                val.getUTCMonth(),
+                val.getUTCDate(),
+                0,
+                0,
+                0,
+                0
+            ));
+            const subtract = date.getUTCDay() || 7;
+            if (subtract !== 1) date.setUTCDate(date.getUTCDate() - subtract + 1);
+            return date;
+        }
+        case 'week_sun': {
+            const date = new Date(Date.UTC(
+                val.getUTCFullYear(),
+                val.getUTCMonth(),
+                val.getUTCDate(),
+                0,
+                0,
+                0,
+                0
+            ));
+            const subtract = date.getUTCDay();
+            if (subtract !== 0) date.setUTCDate(date.getUTCDate() - subtract);
+            return date;
+        }
         case 'day':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),

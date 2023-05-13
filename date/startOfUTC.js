@@ -20,6 +20,20 @@ function startOfUTC(val, key) {
       }
     case 'month':
       return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), 1, 0, 0, 0, 0));
+    case 'week':
+      {
+        var date = new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate(), 0, 0, 0, 0));
+        var subtract = date.getUTCDay() || 7;
+        if (subtract !== 1) date.setUTCDate(date.getUTCDate() - subtract + 1);
+        return date;
+      }
+    case 'week_sun':
+      {
+        var _date = new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate(), 0, 0, 0, 0));
+        var _subtract = _date.getUTCDay();
+        if (_subtract !== 0) _date.setUTCDate(_date.getUTCDate() - _subtract);
+        return _date;
+      }
     case 'day':
       return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate(), 0, 0, 0, 0));
     case 'hour':

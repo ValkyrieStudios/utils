@@ -8,6 +8,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - date/startOfUTC now supports 'quarter'
+- date/startOfUTC now supports 'week' (monday as first day of the week)
+- date/startOfUTC now supports 'week_sun' (sunday as first day of the week)
 
 ## [7.0.0] - 2023-05-07
 ### Added

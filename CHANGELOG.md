@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [7.2.0] - 2023-06-11
 ### Added
 - date/toUnix: Convert a date to its corresponding unix timestamp in seconds (1.000.000 ops in ~300ms)
 - date/diff (supports week,day,hour,minute,millisecond) (1.000.000 ops in ~650ms)

@@ -278,6 +278,20 @@ isDate(new Date('December 17, 1995 03:24:00'); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
+- **diff(val_a:Date, val_b:Date, key:String)**
+Take two incoming dates and return the difference between them in a certain unit. Possible key options(week,day,hour,minute,second,millisecond).
+
+Note: Does not touch the passed date objects, if no key is passed will default to millisecond
+```js
+diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'week'); // -4.404761904761905
+diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'day'); // 30.83333333333333332
+diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'hour'); // 740
+diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'minute'); // -30.9724
+diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'second'); // -1858.344
+diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'millisecond'); // -1858344
+diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00")); // 2663187102
+```
+
 - **toUTC(val:Date)**
 Takes the passed date object and returns a new date object set for utc
 

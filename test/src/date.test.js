@@ -1,14 +1,16 @@
 'use strict';
 
-import isInteger    from '../../src/number/isInteger';
-import isDate       from '../../src/date/is';
-import toUTC        from '../../src/date/toUTC';
-import toUnix       from '../../src/date/toUnix';
-import startOfUTC   from '../../src/date/startOfUTC';
-import endOfUTC     from '../../src/date/endOfUTC';
-import addUTC       from '../../src/date/addUTC';
-import nowUnix      from '../../src/date/nowUnix';
-import nowUnixMs    from '../../src/date/nowUnixMs';
+import isInteger        from '../../src/number/isInteger';
+import isNotEmptyString from '../../src/string/isNotEmpty';
+import diff             from '../../src/date/diff';
+import isDate           from '../../src/date/is';
+import toUTC            from '../../src/date/toUTC';
+import toUnix           from '../../src/date/toUnix';
+import startOfUTC       from '../../src/date/startOfUTC';
+import endOfUTC         from '../../src/date/endOfUTC';
+import addUTC           from '../../src/date/addUTC';
+import nowUnix          from '../../src/date/nowUnix';
+import nowUnixMs        from '../../src/date/nowUnixMs';
 import {
     fnNumericValues,
     fnBooleanValues,
@@ -82,6 +84,410 @@ describe("Date", () => {
         it ('not see a function as a date', () => {
             let vals = fnFunctionValues();
             for (let el of vals) expect(isDate(el)).to.eql(false);
+        });
+    });
+
+    describe("diff", () => {
+        it ('throw when passed a non-date for var_a', () => {
+            for (const el of [
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    diff(el, new Date());
+                }).to.throw('');
+            }
+        });
+
+        it ('throw when passed a non-date for var_b', () => {
+            for (const el of [
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    diff(new Date(), el);
+                }).to.throw('');
+            }
+        });
+
+        it ('throw when passed a non-false non-string for key', () => {
+            for (const el of [
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+                ...fnDateValues(),
+            ]) {
+                if (el === false || el === undefined || isNotEmptyString(el)) continue;
+
+                expect(function () {
+                    diff(new Date(), new Date(), el);
+                }).to.throw('');
+            }
+        });
+
+        it ('[week] Should correctly calculate difference in weeks when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'week')).to.eql(-521.8571428571429);
+        });
+
+        it ('[week] Should correctly calculate difference in weeks when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'week')).to.eql(521.8571428571429);
+        });
+
+        it ('[week] Should correctly calculate difference in weeks when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'week')).to.eql(0);
+        });
+
+        it ('[week] Should correctly calculate difference in weeks when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'week')).to.eql(-4.404761904761905);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11+06:00"), 'week')).to.eql(0);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'week')).to.eql(4.404761904761905);
+        });
+
+        it ('[week] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'week');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[weeks] Should correctly calculate difference in weeks when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'weeks')).to.eql(-521.8571428571429);
+        });
+
+        it ('[weeks] Should correctly calculate difference in weeks when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'weeks')).to.eql(521.8571428571429);
+        });
+
+        it ('[weeks] Should correctly calculate difference in weeks when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'weeks')).to.eql(0);
+        });
+
+        it ('[weeks] Should correctly calculate difference in weeks when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'weeks')).to.eql(-4.404761904761905);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11+06:00"), 'weeks')).to.eql(0);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'weeks')).to.eql(4.404761904761905);
+        });
+
+        it ('[weeks] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'weeks');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[day] Should correctly calculate difference in days when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'day')).to.eql(-3653);
+        });
+
+        it ('[day] Should correctly calculate difference in days when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'day')).to.eql(3653);
+        });
+
+        it ('[day] Should correctly calculate difference in days when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'day')).to.eql(0);
+        });
+
+        it ('[day] Should correctly calculate difference in days when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'day')).to.eql(-30.83333333333333332);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11+06:00"), 'day')).to.eql(0);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'day')).to.eql(30.83333333333333332);
+        });
+
+        it ('[day] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'day');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[days] Should correctly calculate difference in days when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'days')).to.eql(-3653);
+        });
+
+        it ('[days] Should correctly calculate difference in days when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'days')).to.eql(3653);
+        });
+
+        it ('[days] Should correctly calculate difference in days when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'days')).to.eql(0);
+        });
+
+        it ('[days] Should correctly calculate difference in days when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'days')).to.eql(-30.83333333333333332);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11+06:00"), 'days')).to.eql(0);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'days')).to.eql(30.83333333333333332);
+        });
+
+        it ('[days] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'days');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[hour] Should correctly calculate difference in hours when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'hour')).to.eql(-87672);
+        });
+
+        it ('[hour] Should correctly calculate difference in hours when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'hour')).to.eql(87672);
+        });
+
+        it ('[hour] Should correctly calculate difference in hours when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'hour')).to.eql(0);
+        });
+
+        it ('[hour] Should correctly calculate difference in hours when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'hour')).to.eql(-740);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11+06:00"), 'hour')).to.eql(0);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'hour')).to.eql(740);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:25:11+06:00"), 'hour')).to.eql(-740.2166666666667);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:11+02:00"), 'hour')).to.eql(739.78333333333333);
+        });
+
+        it ('[hour] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'hour');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[hours] Should correctly calculate difference in hours when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'hours')).to.eql(-87672);
+        });
+
+        it ('[hours] Should correctly calculate difference in hours when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'hours')).to.eql(87672);
+        });
+
+        it ('[hours] Should correctly calculate difference in hours when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'hours')).to.eql(0);
+        });
+
+        it ('[hours] Should correctly calculate difference in hours when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'hours')).to.eql(-740);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11+06:00"), 'hours')).to.eql(0);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'hours')).to.eql(740);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:25:11+06:00"), 'hours')).to.eql(-740.2166666666667);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:11+02:00"), 'hours')).to.eql(739.78333333333333);
+        });
+
+        it ('[hours] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'hours');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[minute] Should correctly calculate difference in minutes when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'minute')).to.eql(-5260320);
+        });
+
+        it ('[minute] Should correctly calculate difference in minutes when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'minute')).to.eql(5260320);
+        });
+
+        it ('[minute] Should correctly calculate difference in minutes when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'minute')).to.eql(0);
+        });
+
+        it ('[minute] Should correctly calculate difference in minutes when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11.454+06:00"), 'minute')).to.eql(-44400.00756666667);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11.000+06:00"), 'minute')).to.eql(0);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'minute')).to.eql(-30.9724);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:34:43.874+02:00"), 'minute')).to.eql(44377.4521);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:53:21.672+06:00"), 'minute')).to.eql(-44441.177866666665);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00"), 'minute')).to.eql(44386.4517);
+        });
+
+        it ('[minute] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'minute');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[minutes] Should correctly calculate difference in minutes when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'minutes')).to.eql(-5260320);
+        });
+
+        it ('[minutes] Should correctly calculate difference in minutes when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'minutes')).to.eql(5260320);
+        });
+
+        it ('[minutes] Should correctly calculate difference in minutes when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'minutes')).to.eql(0);
+        });
+
+        it ('[minutes] Should correctly calculate difference in minutes when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11.454+06:00"), 'minutes')).to.eql(-44400.00756666667);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11.000+06:00"), 'minutes')).to.eql(0);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'minutes')).to.eql(-30.9724);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:34:43.874+02:00"), 'minutes')).to.eql(44377.4521);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:53:21.672+06:00"), 'minutes')).to.eql(-44441.177866666665);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00"), 'minutes')).to.eql(44386.4517);
+        });
+
+        it ('[minutes] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'minutes');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[second] Should correctly calculate difference in seconds when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'second')).to.eql(-315619200);
+        });
+
+        it ('[second] Should correctly calculate difference in seconds when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'second')).to.eql(315619200);
+        });
+
+        it ('[second] Should correctly calculate difference in seconds when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'second')).to.eql(0);
+        });
+
+        it ('[second] Should correctly calculate difference in seconds when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11.454+06:00"), 'second')).to.eql(-2664000.454);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11.000+06:00"), 'second')).to.eql(0);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'second')).to.eql(-1858.344);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:34:43.874+02:00"), 'second')).to.eql(2662647.126);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:53:21.672+06:00"), 'second')).to.eql(-2666470.672);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00"), 'second')).to.eql(2663187.102);
+        });
+
+        it ('[second] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'second');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[seconds] Should correctly calculate difference in seconds when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'seconds')).to.eql(-315619200);
+        });
+
+        it ('[seconds] Should correctly calculate difference in seconds when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'seconds')).to.eql(315619200);
+        });
+
+        it ('[seconds] Should correctly calculate difference in seconds when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'seconds')).to.eql(0);
+        });
+
+        it ('[seconds] Should correctly calculate difference in seconds when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11.454+06:00"), 'seconds')).to.eql(-2664000.454);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11.000+06:00"), 'seconds')).to.eql(0);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'seconds')).to.eql(-1858.344);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:34:43.874+02:00"), 'seconds')).to.eql(2662647.126);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:53:21.672+06:00"), 'seconds')).to.eql(-2666470.672);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00"), 'seconds')).to.eql(2663187.102);
+        });
+
+        it ('[seconds] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'seconds');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[millisecond] Should correctly calculate difference in milliseconds when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'millisecond')).to.eql(-315619200000);
+        });
+
+        it ('[millisecond] Should correctly calculate difference in milliseconds when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'millisecond')).to.eql(315619200000);
+        });
+
+        it ('[millisecond] Should correctly calculate difference in milliseconds when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'millisecond')).to.eql(0);
+        });
+
+        it ('[millisecond] Should correctly calculate difference in milliseconds when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11.454+06:00"), 'millisecond')).to.eql(-2664000454);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11.000+06:00"), 'millisecond')).to.eql(0);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'millisecond')).to.eql(-1858344);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:34:43.874+02:00"), 'millisecond')).to.eql(2662647126);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:53:21.672+06:00"), 'millisecond')).to.eql(-2666470672);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00"), 'millisecond')).to.eql(2663187102);
+        });
+
+        it ('[millisecond] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'millisecond');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[milliseconds] Should correctly calculate difference in milliseconds when passing a var_a after var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), 'milliseconds')).to.eql(-315619200000);
+        });
+
+        it ('[milliseconds] Should correctly calculate difference in milliseconds when passing a var_a before var_b', () => {
+            expect(diff(new Date("2032-10-05T11:12:11.000Z"), new Date("2022-10-05T13:12:11+02:00"), 'milliseconds')).to.eql(315619200000);
+        });
+
+        it ('[milliseconds] Should correctly calculate difference in milliseconds when passing a var_a equal to var_b', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T13:12:11+02:00"), 'milliseconds')).to.eql(0);
+        });
+
+        it ('[milliseconds] Should correctly calculate difference in milliseconds when passing a var_a equal to var_b and not care about timezones', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11.454+06:00"), 'milliseconds')).to.eql(-2664000454);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:12:11.000+06:00"), 'milliseconds')).to.eql(0);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'milliseconds')).to.eql(-1858344);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:34:43.874+02:00"), 'milliseconds')).to.eql(2662647126);
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:53:21.672+06:00"), 'milliseconds')).to.eql(-2666470672);
+            expect(diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00"), 'milliseconds')).to.eql(2663187102);
+        });
+
+        it ('[milliseconds] should be blazing fast in its conversion (1.000.000 benchmark < 750ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'milliseconds');
+            }
+            expect(getTime() - start_time).to.be.lt(750);
+        });
+
+        it ('[false] Should correctly calculate difference in milliseconds when passing a var_a after var_b and false for key', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), false)).to.eql(-315619200000);
+        });
+
+        it ('[] Should correctly calculate difference in milliseconds when passing a var_a after var_b and nothing for key', () => {
+            expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"))).to.eql(-315619200000);
+        });
+
+        it ('[random] Should correctly calculate difference in milliseconds when passing a var_a after var_b and a random key', () => {
+            for (const el of ['foo', 'bar', 'hello world']) {
+                expect(diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2032-10-05T11:12:11.000Z"), el)).to.eql(-315619200000);
+            }
         });
     });
 

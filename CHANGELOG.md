@@ -8,6 +8,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - date/toUnix: Convert a date to its corresponding unix timestamp in seconds (1.000.000 ops in ~300ms)
+- date/diff (supports week,day,hour,minute,millisecond) (1.000.000 ops in ~650ms)
 
 ### Improved
 - Dep: Upgrade @babel/cli to 7.22.5

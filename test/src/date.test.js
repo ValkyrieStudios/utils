@@ -3,6 +3,7 @@
 import isInteger    from '../../src/number/isInteger';
 import isDate       from '../../src/date/is';
 import toUTC        from '../../src/date/toUTC';
+import toUnix       from '../../src/date/toUnix';
 import startOfUTC   from '../../src/date/startOfUTC';
 import endOfUTC     from '../../src/date/endOfUTC';
 import addUTC       from '../../src/date/addUTC';
@@ -126,6 +127,50 @@ describe("Date", () => {
                 toUTC(new Date("2023-05-01T12:04:27+02:00"));
             }
             expect(getTime() - start_time).to.be.lt(750);
+        });
+    });
+
+    describe("toUnix", () => {
+        it ('throw when passed a non-date', () => {
+            for (const el of [
+                ...fnStringValues(),
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) {
+                expect(function () {
+                    toUnix(el);
+                }).to.throw('');
+            }
+        });
+
+        it ('return a date in unix as seconds', () => {
+            const date = new Date("2023-05-01T12:04:27+02:00");
+            expect(toUnix(date)).to.eql(1682935467);
+
+            const date2 = new Date("2023-05-01T10:04:27.000Z");
+            expect(toUnix(date2)).to.eql(1682935467);
+        });
+
+        it ('not touch on the passed date', () => {
+            const date = new Date("14 Jun 2017 00:00:00 PDT");
+            expect(toUnix(date)).to.eql(1497423600);
+
+            date.setHours(20);
+            expect(toUnix(date)).to.eql(1497463200);
+            expect(date.toJSON()).to.eql("2017-06-14T18:00:00.000Z");
+        });
+
+        it ('should be blazing fast in its conversion (1.000.000 benchmark < 300ms)', () => {
+            let start_time = getTime();
+            for (let i = 0; i < 1000000; i++) {
+                toUnix(new Date("2023-05-01T12:04:27+02:00"));
+            }
+            expect(getTime() - start_time).to.be.lt(300);
         });
     });
 

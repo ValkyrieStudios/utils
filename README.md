@@ -281,6 +281,9 @@ isDate('December 17, 1995 03:24:00'); // FALSE
 - **toUTC(val:Date)**
 Takes the passed date object and returns a new date object set for utc
 
+- **toUnix(val:Date)**
+Takes the passed date object and returns its unix timestamp in seconds
+
 - **nowUnix()**
 Returns the current unix timestamp in seconds
 

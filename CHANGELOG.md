@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- Dep: Upgrade @babel/cli to 7.22.9
+- Dep: Upgrade @babel/core to 7.22.9
+- Dep: Upgrade @babel/preset-env to 7.22.9
+- Dep: Upgrade eslint to 8.46.0
+
 ## [7.3.0] - 2023-06-25
 ### Added
 - data/continents.json

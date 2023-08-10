@@ -1,6 +1,7 @@
 'use strict';
 
-import isRegExp from '../../src/regexp/is';
+import isRegExp         from '../../src/regexp/is';
+import sanitizeRegExp   from '../../src/regexp/sanitize';
 import {
     fnNumericValues,
     fnBooleanValues,
@@ -13,14 +14,8 @@ import {
     fnNullables,
 } from '../constants';
 
-const chai = require('chai');
-const spies = require('chai-spies');
-chai.use(spies);
-
-const expect = chai.expect;
-const assert = chai.assert;
-const should = chai.should();
-const spy = chai.spy;
+const expect = require('chai').expect;
+const assert = require('chai').assert;
 
 describe("RegExp", () => {
     describe("isRegExp", () => {
@@ -67,6 +62,50 @@ describe("RegExp", () => {
         it ('not see a function as a regex', () => {
             let vals = fnFunctionValues();
             for (let el of vals) expect(isRegExp(el)).to.eql(false);
+        });
+    });
+
+    describe("sanitizeRegExp", () => {
+        it ('return false when passed a non-string or empty string value', () => {
+            for (let el of [
+                '',
+                ' ',
+                '   ',
+                ...fnNumericValues(),
+                ...fnBooleanValues(),
+                ...fnRegexValues(),
+                ...fnObjectValues(),
+                ...fnNullables(),
+                ...fnDateValues(),
+                ...fnArrayValues(),
+                ...fnFunctionValues(),
+            ]) expect(sanitizeRegExp(el)).to.eql(false);
+        });
+
+        it('Should return escaped string when passed a string with special characters', () => {
+            for (const el of [
+                ['Av. P)', 'Av\\. P\\)'],
+                ['Suc contry(garza sada', 'Suc contry\\(garza sada'],
+                ['contact@valkyriestudios.be', 'contact@valkyriestudios\\.be'],
+                ['*alond', '\\*alond'],
+                ['[a', '\\[a'],
+                ['[a]', '\\[a\\]'],
+            ]) expect(sanitizeRegExp(el[0])).to.eql(el[1]);
+        });
+
+        it('Should autotrim passed strings', () => {
+            expect(sanitizeRegExp('   hello world   ')).to.eql('hello world');
+        });
+
+        it('Should autotrim passed strings and escape special characters', () => {
+            for (const el of [
+                ['  Av. P)', 'Av\\. P\\)'],
+                ['Suc contry(garza sada  ', 'Suc contry\\(garza sada'],
+                [' contact@valkyriestudios.be ', 'contact@valkyriestudios\\.be'],
+                ['*alond   ', '\\*alond'],
+                ['  [a   ', '\\[a'],
+                ['[a]   ', '\\[a\\]'],
+            ]) expect(sanitizeRegExp(el[0])).to.eql(el[1]);
         });
     });
 });

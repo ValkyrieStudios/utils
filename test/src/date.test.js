@@ -23,14 +23,8 @@ import {
     fnNullables,
 } from '../constants';
 
-const chai = require('chai');
-const spies = require('chai-spies');
-chai.use(spies);
-
-const expect = chai.expect;
-const assert = chai.assert;
-const should = chai.should();
-const spy = chai.spy;
+const expect = require('chai').expect;
+const assert = require('chai').assert;
 
 function getTime () {
     const hr_time = process.hrtime();

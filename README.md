@@ -768,6 +768,12 @@ isRegExp(new RegExp(/ab+c/, 'i')); // TRUE
 isRegExp(/ab+c/i); // FALSE
 ```
 
+- **sanitize(val:string)**
+Escapes special characters in a string and returns a sanitized version safe for usage in RegExp instances
+```js
+sanitizeRegExp('contact@valkyriestudios.be'); // contact@valkyriestudios\\.be
+```
+
 ### string
 - **isString(val:any)**
 Check if a variable is a string

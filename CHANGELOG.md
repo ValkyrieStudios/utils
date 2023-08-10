@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- regexp/sanitize
+
 ### Improved
 - Dep: Upgrade @babel/cli to 7.22.9
 - Dep: Upgrade @babel/core to 7.22.9

@@ -10,9 +10,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - regexp/sanitize
 
 ### Improved
-- Dep: Upgrade @babel/cli to 7.22.9
-- Dep: Upgrade @babel/core to 7.22.9
-- Dep: Upgrade @babel/preset-env to 7.22.9
+- Dep: Upgrade @babel/cli to 7.22.10
+- Dep: Upgrade @babel/core to 7.22.10
+- Dep: Upgrade @babel/preset-env to 7.22.10
 - Dep: Upgrade eslint to 8.46.0
 
 ## [7.3.0] - 2023-06-25

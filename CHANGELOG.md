@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- Dep: Upgrade @babel/cli to 7.23.0
+- Dep: Upgrade @babel/core to 7.23.2
+- Dep: Upgrade @babel/preset-env to 7.23.2
+- Dep: Upgrade @babel/register to 7.22.15
+- Dep: Upgrade chai to 4.3.10
+- Dep: Upgrade eslint to 8.52.0
+
 ## [7.4.0] - 2023-08-10
 ### Added
 - regexp/sanitize

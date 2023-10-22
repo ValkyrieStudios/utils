@@ -319,5 +319,4 @@ var Is = Object.freeze(Object.defineProperties(Object.create(null), {
     value: _equal["default"]
   }
 }));
-var _default = Is;
-exports["default"] = _default;
+var _default = exports["default"] = Is;

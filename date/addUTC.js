@@ -50,6 +50,12 @@ function addUTC(val, amount, key) {
         copy.setUTCSeconds(copy.getUTCSeconds() + amount);
         return copy;
       }
+    case 'milliseconds':
+    case 'millisecond':
+      {
+        copy.setUTCMilliseconds(copy.getUTCMilliseconds() + amount);
+        return copy;
+      }
     default:
       return copy;
   }

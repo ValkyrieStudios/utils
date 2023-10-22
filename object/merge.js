@@ -20,5 +20,4 @@ var merge = function merge() {
     return acc;
   }, {});
 };
-var _default = merge;
-exports["default"] = _default;
+var _default = exports["default"] = merge;

@@ -44,5 +44,4 @@ function equal(a, b) {
   }
   return a === b;
 }
-var _default = equal;
-exports["default"] = _default;
+var _default = exports["default"] = equal;

@@ -349,7 +349,7 @@ endOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023
 ```
 
 - **addUTC(val:Date, amount:integer, key:String)**
-Take the incoming date and add a certain amount of the passed key. Possible key options(year,years,month,months,day,days,hour,hours,minute,minutes,second,seconds).
+Take the incoming date and add a certain amount of the passed key. Possible key options(year,years,month,months,day,days,hour,hours,minute,minutes,second,seconds,millisecond,milliseconds).
 
 Note: Does not touch the date object passed
 ```js

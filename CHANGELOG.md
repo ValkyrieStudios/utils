@@ -13,6 +13,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dep: Upgrade @babel/register to 7.22.15
 - Dep: Upgrade chai to 4.3.10
 - Dep: Upgrade eslint to 8.52.0
+- date/addUTC now supports millisecond/milliseconds as keys
 
 ## [7.4.0] - 2023-08-10
 ### Added

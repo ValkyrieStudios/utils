@@ -12,7 +12,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - hash/fnv1A: Improved performance thanks to predefined constants and reducing internal overhead regarding conversion
 - array/dedupe: Improved performance due to replacement of filter and object map by for with native map
-- Performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls and as such less Heap chatter
+- deep/freeze: Improved performance due to replacement of forEach with native for
+- deep/seal: Improved performance due to replacement of forEach with native for
+- deep/get: Improved performance due to order change during path interpolation
+- deep/set: Improved performance due to order change during path interpolation
+- Performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls andless Heap chatter
 
 ### Breaking
 - The usage of non-primitive number formats (eg: `new Number(...)`) will no longer be supported to allow for performance improvements during validity checks. This should not impact many people as the usage of numbers in that format has been discouraged for many years.

@@ -3,11 +3,11 @@
 import isObject         from '../object/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 
-//  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
+//  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
 function interpolatePath (path) {
-    if (!isNotEmptyString(path) && !Array.isArray(path)) throw new TypeError('No Path was given');
     if (Array.isArray(path)) return [...path];
-    return path.replace('[', '.').replace(']', '').split('.');
+    if (isNotEmptyString(path)) return path.replace('[', '.').replace(']', '').split('.');
+    throw new TypeError('No Path was given');
 }
 
 //  Get a value from a path in a json-like structure
@@ -23,12 +23,11 @@ export default function deepGet (obj, path, get_parent = false) {
     if (get_parent) parts.pop();
 
     let cursor = obj;
-
     while (parts.length > 0) {
         cursor = Array.isArray(cursor) ? cursor[parseInt(parts.shift())] : cursor[parts.shift()];
     }
 
-    //  false | 0 | '' will all negate the ternary, hence we do extra checks here
+    //  Certain values will negate the ternary, hence we do extra checks here
     //  to make sure none of them comes back as undefined
-    return cursor || cursor === false || cursor === 0 || cursor === '' ? cursor : undefined;
+    return cursor || cursor === false || cursor === 0 ? cursor : undefined;
 }

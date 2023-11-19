@@ -2,17 +2,15 @@
 
 import isObject from '../object/is.js';
 
-function deep (obj, next = Object.seal) {
-    (Object.keys(obj) || []).forEach(key => {
-        if (isObject(obj[key]) || Array.isArray(obj[key])) {
-            deep(obj[key], next);
-        }
-    });
-    return next(obj);
+function deep (obj) {
+    for (const key of Object.keys(obj)) {
+        if (isObject(obj[key]) || Array.isArray(obj[key])) deep(obj[key]);
+    }
+    return Object.freeze(obj);
 }
 
 //  Freeze nested structures
 export default function deepFreeze (obj) {
-    if (!isObject(obj) && !Array.isArray(obj)) throw new TypeError('Only objects can be frozen');
-    return deep(obj, Object.freeze);
+    if (!isObject(obj) && !Array.isArray(obj)) throw new TypeError('Only objects/arrays can be frozen');
+    return deep(obj);
 }

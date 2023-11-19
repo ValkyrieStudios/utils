@@ -3,11 +3,11 @@
 import isObject         from '../object/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 
-//  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
+//  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
 function interpolatePath (path) {
-    if (!isNotEmptyString(path) && !Array.isArray(path)) throw new TypeError('No Path was given');
     if (Array.isArray(path)) return [...path];
-    return path.replace('[', '.').replace(']', '').split('.');
+    if (isNotEmptyString(path)) return path.replace('[', '.').replace(']', '').split('.');
+    throw new TypeError('No Path was given');
 }
 
 //  Set a value for a path in a json-like structure

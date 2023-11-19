@@ -18,11 +18,12 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "c8 node --test ./test/",
+    "test": "node --test ./test/",
+    "test:coverage": "c8 node --test ./test/",
     "lint": "npm run lint:src && npm run lint:test",
     "lint:src": "./node_modules/.bin/eslint --ext .js,.mjs ./src",
     "lint:test": "./node_modules/.bin/eslint --ext .js,.mjs ./test",
-    "build": "npm run lint && npm run test && npx babel src --out-dir ./",
+    "build": "npm run lint && npm run test:coverage && npx babel src --out-dir ./",
     "codecov": "codecov"
   },
   "repository": {

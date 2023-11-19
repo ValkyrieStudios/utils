@@ -1,8 +1,8 @@
 'use strict';
 
-import isObject         from '../object/is';
-import isNotEmptyArray  from './isNotEmpty';
-import isNotEmptyString from '../string/isNotEmpty';
+import isObject         from '../object/is.js';
+import isNotEmptyArray  from './isNotEmpty.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
 
 export default function mapKey (arr, key, opts = {}) {
     if (!isNotEmptyArray(arr) || !isNotEmptyString(key)) return {};

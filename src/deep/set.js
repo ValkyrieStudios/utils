@@ -1,8 +1,8 @@
 'use strict';
 
-import isObject         from '../object/is';
-import isArray          from '../array/is';
-import isNotEmptyString from '../string/isNotEmpty';
+import isObject         from '../object/is.js';
+import isArray          from '../array/is.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
 
 //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
 function interpolatePath (path) {

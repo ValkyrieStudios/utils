@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = shorten;
-var _is = _interopRequireDefault(require("./is"));
-var _isNotEmpty = _interopRequireDefault(require("./isNotEmpty"));
-var _isAbove = _interopRequireDefault(require("../number/isAbove"));
+var _is = _interopRequireDefault(require("./is.js"));
+var _isNotEmpty = _interopRequireDefault(require("./isNotEmpty.js"));
+var _isAbove = _interopRequireDefault(require("../number/isAbove.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function shorten(val, length) {
   var postfix = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : '...';

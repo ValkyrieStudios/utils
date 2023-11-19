@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = deepFreeze;
-var _is = _interopRequireDefault(require("../object/is"));
-var _is2 = _interopRequireDefault(require("../array/is"));
+var _is = _interopRequireDefault(require("../object/is.js"));
+var _is2 = _interopRequireDefault(require("../array/is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function deep(obj) {
   var next = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : Object.seal;

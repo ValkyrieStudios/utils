@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- hash/fnv1A: Improved performance thanks to predefined constants and reducing internal overhead regarding conversion
+- array/dedupe: Improved performance due to replacement of filter and object map by for with native map
+- Marginal performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls and as such less Heap chatter
+
 ## [7.5.0] - 2023-10-22
 ### Improved
 - Dep: Upgrade @babel/cli to 7.23.0

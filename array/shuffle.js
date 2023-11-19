@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = shuffle;
-var _isNotEmpty = _interopRequireDefault(require("./isNotEmpty"));
+var _isNotEmpty = _interopRequireDefault(require("./isNotEmpty.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function shuffle(arr) {
   if (!(0, _isNotEmpty["default"])(arr)) return;

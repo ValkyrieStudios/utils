@@ -1,21 +1,21 @@
 'use strict';
 
-import isBoolean        from '../boolean/is';
-import isNotEmptyArray  from './isNotEmpty';
-import isObject         from '../object/is';
-import isNotEmptyObject from '../object/isNotEmpty';
-import isNotEmptyString from '../string/isNotEmpty';
-import isFunction       from '../function/is';
+import isBoolean        from '../boolean/is.js';
+import isNotEmptyArray  from './isNotEmpty.js';
+import isObject         from '../object/is.js';
+import isNotEmptyObject from '../object/isNotEmpty.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
+import isFunction       from '../function/is.js';
 
 function partition (arr, start_ix, end_ix) {
-    const pivotVal = arr[Math.floor((start_ix + end_ix) / 2)].t;
+    const pivot_val = arr[Math.floor((start_ix + end_ix) / 2)].t;
 
     while (start_ix <= end_ix) {
-        while (arr[start_ix].t < pivotVal) {
+        while (arr[start_ix].t < pivot_val) {
             start_ix++;
         }
 
-        while (arr[end_ix].t > pivotVal) {
+        while (arr[end_ix].t > pivot_val) {
             end_ix--;
         }
 

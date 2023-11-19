@@ -1,7 +1,7 @@
 'use strict';
 
-import noopreturn   from '../function/noopreturn';
-import isObject     from './is';
+import noopreturn   from '../function/noopreturn.js';
+import isObject     from './is.js';
 
 export default function forValues (obj = {}, next = noopreturn) {
     if (!isObject(obj)) throw new TypeError('Please pass an object to forValues');

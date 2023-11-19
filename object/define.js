@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = define;
-var _is = _interopRequireDefault(require("./is"));
+var _is = _interopRequireDefault(require("./is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function define() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};

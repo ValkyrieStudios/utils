@@ -4,12 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = humanizeBytes;
-var _isNotEmpty = _interopRequireDefault(require("../array/isNotEmpty"));
-var _isIntegerAboveOrEqual = _interopRequireDefault(require("../number/isIntegerAboveOrEqual"));
-var _is = _interopRequireDefault(require("../object/is"));
-var _is2 = _interopRequireDefault(require("../string/is"));
-var _isNotEmpty2 = _interopRequireDefault(require("../string/isNotEmpty"));
-var _humanizeNumber = _interopRequireDefault(require("./humanizeNumber"));
+var _isNotEmpty = _interopRequireDefault(require("../array/isNotEmpty.js"));
+var _isIntegerAboveOrEqual = _interopRequireDefault(require("../number/isIntegerAboveOrEqual.js"));
+var _is = _interopRequireDefault(require("../object/is.js"));
+var _is2 = _interopRequireDefault(require("../string/is.js"));
+var _isNotEmpty2 = _interopRequireDefault(require("../string/isNotEmpty.js"));
+var _humanizeNumber = _interopRequireDefault(require("./humanizeNumber.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function humanizeBytes(val) {
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};

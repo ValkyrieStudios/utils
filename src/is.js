@@ -1,29 +1,29 @@
 'use strict';
 
-import equal                    from './equal';
-import isArray                  from './array/is';
-import isNotEmptyArray          from './array/isNotEmpty';
-import isBoolean                from './boolean/is';
-import isDate                   from './date/is';
-import isFunction               from './function/is';
-import isNumber                 from './number/is';
-import isNumberBetween          from './number/isBetween';
-import isNumberBelow            from './number/isBelow';
-import isNumberBelowOrEqual     from './number/isBelowOrEqual';
-import isNumberAbove            from './number/isAbove';
-import isNumberAboveOrEqual     from './number/isAboveOrEqual';
-import isInteger                from './number/isInteger';
-import isIntegerBetween         from './number/isIntegerBetween';
-import isIntegerBelow           from './number/isIntegerBelow';
-import isIntegerBelowOrEqual    from './number/isIntegerBelowOrEqual';
-import isIntegerAbove           from './number/isIntegerAbove';
-import isIntegerAboveOrEqual    from './number/isIntegerAboveOrEqual';
-import isRegExp                 from './regexp/is';
-import isObject                 from './object/is';
-import isNotEmptyObject         from './object/isNotEmpty';
-import isString                 from './string/is';
-import isStringBetween          from './string/isBetween';
-import isNotEmptyString         from './string/isNotEmpty';
+import equal                    from './equal.js';
+import isArray                  from './array/is.js';
+import isNotEmptyArray          from './array/isNotEmpty.js';
+import isBoolean                from './boolean/is.js';
+import isDate                   from './date/is.js';
+import isFunction               from './function/is.js';
+import isNumber                 from './number/is.js';
+import isNumberBetween          from './number/isBetween.js';
+import isNumberBelow            from './number/isBelow.js';
+import isNumberBelowOrEqual     from './number/isBelowOrEqual.js';
+import isNumberAbove            from './number/isAbove.js';
+import isNumberAboveOrEqual     from './number/isAboveOrEqual.js';
+import isInteger                from './number/isInteger.js';
+import isIntegerBetween         from './number/isIntegerBetween.js';
+import isIntegerBelow           from './number/isIntegerBelow.js';
+import isIntegerBelowOrEqual    from './number/isIntegerBelowOrEqual.js';
+import isIntegerAbove           from './number/isIntegerAbove.js';
+import isIntegerAboveOrEqual    from './number/isIntegerAboveOrEqual.js';
+import isRegExp                 from './regexp/is.js';
+import isObject                 from './object/is.js';
+import isNotEmptyObject         from './object/isNotEmpty.js';
+import isString                 from './string/is.js';
+import isStringBetween          from './string/isBetween.js';
+import isNotEmptyString         from './string/isNotEmpty.js';
 
 const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     //  Array -----------------------------------------------------------------------------------------------

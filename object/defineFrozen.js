@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = defineFrozen;
-var _define = _interopRequireDefault(require("./define"));
+var _define = _interopRequireDefault(require("./define.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function defineFrozen() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};

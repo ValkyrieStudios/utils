@@ -1,8 +1,6 @@
 'use strict';
 
-import is from './is';
-
 export default function isNotEmptyObject (val) {
-    if (!is(val)) return false;
+    if (val === null || Object.prototype.toString.call(val) !== '[object Object]') return false;
     return Object.keys(val).length !== 0;
 }

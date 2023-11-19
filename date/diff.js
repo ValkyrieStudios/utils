@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = diff;
-var _is = _interopRequireDefault(require("./is"));
-var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty"));
+var _is = _interopRequireDefault(require("./is.js"));
+var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var SECOND_IN_MILLISECONDS = 1000;
 var MINUTE_IN_MILLISECONDS = SECOND_IN_MILLISECONDS * 60;

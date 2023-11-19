@@ -1,10 +1,9 @@
 'use strict';
 
-import isNotEmptyArray  from './isNotEmpty';
-import isNotEmptyString from '../string/isNotEmpty';
-import isNumber         from '../number/is';
-import isNotEmptyObject from '../object/isNotEmpty';
-import round            from '../number/round';
+import isNotEmptyArray  from './isNotEmpty.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
+import isNotEmptyObject from '../object/isNotEmpty.js';
+import round            from '../number/round.js';
 
 //  Join an array of values while autofiltering any non-string/non-number elements
 //
@@ -24,8 +23,8 @@ export default function join (arr, options = {}) {
     for (const el of arr) {
         if (isNotEmptyString(el)) {
             filtered.push(OPTS.valtrim === true ? el.trim() : el);
-        } else if (isNumber(el)) {
-            filtered.push(isNumber(OPTS.valround) ? round(el, OPTS.valround) : el);
+        } else if (Number.isFinite(el)) {
+            filtered.push(Number.isFinite(OPTS.valround) ? round(el, OPTS.valround) : el);
         }
     }
 

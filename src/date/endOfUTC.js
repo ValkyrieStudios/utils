@@ -1,7 +1,7 @@
 'use strict';
 
-import isDate from './is';
-import isNotEmptyString from '../string/isNotEmpty';
+import isDate from './is.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
 
 export default function endOfUTC (val, key) {
     if (!isDate(val)) throw new Error('Date To UTC requires a date object');

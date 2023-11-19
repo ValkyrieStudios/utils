@@ -1,6 +1,6 @@
 'use strict';
 
-import isNotEmptyArray from './isNotEmpty';
+import isNotEmptyArray from './isNotEmpty.js';
 
 //  Fisher - Yates shuffle O(n)
 //  https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle

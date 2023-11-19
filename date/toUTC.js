@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = toUTC;
-var _is = _interopRequireDefault(require("./is"));
+var _is = _interopRequireDefault(require("./is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function toUTC(val) {
   if (!(0, _is["default"])(val)) throw new Error('Date To UTC requires a date object');

@@ -1,4 +1,6 @@
-import isNotEmptyString from '../string/isNotEmpty';
+'use strict';
+
+import isNotEmptyString from '../string/isNotEmpty.js';
 
 //  Escapes a value to be used inside of a regular expression (eg: new RegExp(...))
 //  For more info: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping

@@ -1,7 +1,7 @@
 'use strict';
 
-import isArray  from '../array/is';
-import isObject from './is';
+import isArray  from '../array/is.js';
+import isObject from './is.js';
 
 const merge = (target = {}, obj = {}) => {
     if (!isObject(target)) throw new TypeError('Please pass an object to merge');

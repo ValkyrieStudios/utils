@@ -1,14 +1,13 @@
 'use strict';
 
-import isString from './is';
-import isNumber from '../number/is';
+import isString from './is.js';
 
 //  Check if a string is between a range in length
 export default function isStringBetween (val, min, max, trimmed = true) {
     if (
         !isString(val) ||
-        !isNumber(min) ||
-        !isNumber(max) ||
+        !Number.isFinite(min) ||
+        !Number.isFinite(max) ||
         min >= max
     ) return false;
 

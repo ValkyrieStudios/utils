@@ -1,6 +1,6 @@
 'use strict';
 
-import isObject from './is';
+import isObject from './is.js';
 
 export default function define (props = {}, obj = {}) {
     if (

@@ -1,13 +1,12 @@
 'use strict';
 
-import isNotEmptyArray          from '../array/isNotEmpty';
-import isBoolean                from '../boolean/is';
-import isIntegerAboveOrEqual    from '../number/isIntegerAboveOrEqual';
-import isNumber                 from '../number/is';
-import isObject                 from '../object/is';
-import isString                 from '../string/is';
-import isNotEmptyString         from '../string/isNotEmpty';
-import round                    from '../number/round';
+import isNotEmptyArray          from '../array/isNotEmpty.js';
+import isBoolean                from '../boolean/is.js';
+import isIntegerAboveOrEqual    from '../number/isIntegerAboveOrEqual.js';
+import isObject                 from '../object/is.js';
+import isString                 from '../string/is.js';
+import isNotEmptyString         from '../string/isNotEmpty.js';
+import round                    from '../number/round.js';
 
 //  Humanize a numerical value into a unit base
 //
@@ -37,7 +36,7 @@ export default function humanizeNumber (val, options = {}) {
     };
 
     //  If not a valid value, return
-    if (!(isNumber(val) || isNotEmptyString(val))) {
+    if (!(Number.isFinite(val) || isNotEmptyString(val))) {
         return `0${OPTS.units.length > 0 ? OPTS.units[0] : ''}`;
     }
 
@@ -48,7 +47,7 @@ export default function humanizeNumber (val, options = {}) {
     } else {
         normalized = parseFloat(isString(val) ? val.trim() : val) || 0;
     }
-    if (!isNumber(normalized) || normalized === 0) {
+    if (!Number.isFinite(normalized) || normalized === 0) {
         return `0${OPTS.units.length > 0 ? OPTS.units[0] : ''}`;
     }
 

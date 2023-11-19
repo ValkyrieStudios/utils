@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = deepGet;
-var _is = _interopRequireDefault(require("../object/is"));
-var _is2 = _interopRequireDefault(require("../array/is"));
-var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty"));
+var _is = _interopRequireDefault(require("../object/is.js"));
+var _is2 = _interopRequireDefault(require("../array/is.js"));
+var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }

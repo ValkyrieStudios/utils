@@ -1,23 +1,25 @@
 'use strict';
 
-import fnv1A            from '../hash/fnv1A';
-import isNotEmptyArray  from './isNotEmpty';
+import fnv1A            from '../hash/fnv1A.js';
+import isNotEmptyArray  from './isNotEmpty.js';
 
-export default function dedupe (val = []) {
+export default function dedupe (val) {
     if (!isNotEmptyArray(val)) return [];
 
-    const seen = {};
-    return val.filter(item => {
-        //  Calculate hash for item
-        const hash = fnv1A(item);
-
-        //  If hash is already seen, filter out
-        if (Object.prototype.hasOwnProperty.call(seen, hash)) return false;
+    const map = new Map();
+    const acc = [];
+    let hash;
+    for (const item of val) {
+        //  Calculate hash for item and continue if already seen
+        hash = fnv1A(item);
+        if (map.has(hash)) continue;
 
         //  Set seen hash to true
-        seen[hash] = true;
+        map.set(hash, true);
 
-        //  Return true as this was the first occurrence
-        return true;
-    });
+        //  Push into accumulator
+        acc.push(item);
+    }
+
+    return acc;
 }

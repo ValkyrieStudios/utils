@@ -1,11 +1,11 @@
 'use strict';
 
-import isNotEmptyArray          from '../array/isNotEmpty';
-import isIntegerAboveOrEqual    from '../number/isIntegerAboveOrEqual';
-import isObject                 from '../object/is';
-import isString                 from '../string/is';
-import isNotEmptyString         from '../string/isNotEmpty';
-import humanizeNumber           from './humanizeNumber';
+import isNotEmptyArray          from '../array/isNotEmpty.js';
+import isIntegerAboveOrEqual    from '../number/isIntegerAboveOrEqual.js';
+import isObject                 from '../object/is.js';
+import isString                 from '../string/is.js';
+import isNotEmptyString         from '../string/isNotEmpty.js';
+import humanizeNumber           from './humanizeNumber.js';
 
 //  Humanize a numerical byte value into a readable file size
 //

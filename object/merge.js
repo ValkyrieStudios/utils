@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = void 0;
-var _is = _interopRequireDefault(require("../array/is"));
-var _is2 = _interopRequireDefault(require("./is"));
+var _is = _interopRequireDefault(require("../array/is.js"));
+var _is2 = _interopRequireDefault(require("./is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var merge = function merge() {
   var target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};

@@ -1,8 +1,8 @@
 'use strict';
 
-import isString 		from './is';
-import isNotEmptyString from './isNotEmpty';
-import isNumberAbove    from '../number/isAbove';
+import isString 		from './is.js';
+import isNotEmptyString from './isNotEmpty.js';
+import isNumberAbove    from '../number/isAbove.js';
 
 //  Shorten a string and add a postfix if it goes over a specific length, will autotrim value
 //

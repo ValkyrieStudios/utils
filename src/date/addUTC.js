@@ -1,12 +1,11 @@
 'use strict';
 
-import isDate           from './is';
-import isInteger        from '../number/isInteger';
-import isNotEmptyString from '../string/isNotEmpty';
+import isDate           from './is.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
 
 export default function addUTC (val, amount, key) {
     if (!isDate(val)) throw new Error('Date To UTC requires a date object');
-    if (!isInteger(amount)) throw new Error('Amount needs to be an integer');
+    if (!Number.isInteger(amount)) throw new Error('Amount needs to be an integer');
     if (!isNotEmptyString(key)) throw new Error('Key needs to be a string with content');
 
     const copy = new Date(Date.UTC(

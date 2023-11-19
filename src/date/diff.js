@@ -1,7 +1,7 @@
 'use strict';
 
-import isDate from './is';
-import isNotEmptyString from '../string/isNotEmpty';
+import isDate from './is.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
 
 const SECOND_IN_MILLISECONDS    = 1000;
 const MINUTE_IN_MILLISECONDS    = SECOND_IN_MILLISECONDS * 60;

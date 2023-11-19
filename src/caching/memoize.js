@@ -1,6 +1,6 @@
 'use strict';
 
-import isFunction from '../function/is';
+import isFunction from '../function/is.js';
 
 export default function memoize (fn, resolver = false) {
     const has_resolver = isFunction(resolver);

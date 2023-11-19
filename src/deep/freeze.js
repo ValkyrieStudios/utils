@@ -1,7 +1,7 @@
 'use strict';
 
-import isObject from '../object/is';
-import isArray  from '../array/is';
+import isObject from '../object/is.js';
+import isArray  from '../array/is.js';
 
 function deep (obj, next = Object.seal) {
     (Object.keys(obj) || []).forEach(key => {

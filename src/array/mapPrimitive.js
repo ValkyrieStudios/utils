@@ -1,9 +1,8 @@
 'use strict';
 
-import isNumber         from '../number/is';
-import isNotEmptyString from '../string/isNotEmpty';
-import isNotEmptyArray  from './isNotEmpty';
-import isNotEmptyObject from '../object/isNotEmpty';
+import isNotEmptyString from '../string/isNotEmpty.js';
+import isNotEmptyArray  from './isNotEmpty.js';
+import isNotEmptyObject from '../object/isNotEmpty.js';
 
 export default function mapPrimitive (arr, opts = {}) {
     if (!isNotEmptyArray(arr)) return {};
@@ -16,7 +15,7 @@ export default function mapPrimitive (arr, opts = {}) {
 
     const map = {};
     for (const el of arr) {
-        if (isNumber(el)) {
+        if (Number.isFinite(el)) {
             if (OPTS.keyround === true) {
                 map[Math.round(el)] = OPTS.valround ? Math.round(el) : el;
             } else {

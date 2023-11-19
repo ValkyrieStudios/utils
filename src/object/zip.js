@@ -1,6 +1,6 @@
 'use strict';
 
-import isArray from '../array/is';
+import isArray from '../array/is.js';
 
 export default function zip (keys = [], values = [], default_to = null) {
     if (!isArray(keys)) throw new TypeError('Please pass an array as value for keys');

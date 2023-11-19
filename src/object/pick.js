@@ -1,10 +1,10 @@
 'use strict';
 
-import deepGet          from '../deep/get';
-import deepSet          from '../deep/set';
-import isArray          from '../array/is';
-import isNotEmptyString from '../string/isNotEmpty';
-import isObject         from './is';
+import deepGet          from '../deep/get.js';
+import deepSet          from '../deep/set.js';
+import isArray          from '../array/is.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
+import isObject         from './is.js';
 
 export default function pick (obj = {}, keys = []) {
     if (!isObject(obj)) throw new TypeError('Please pass an object to pick as the value for obj');

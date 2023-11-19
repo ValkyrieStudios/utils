@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = void 0;
-var _is = _interopRequireDefault(require("./object/is"));
-var _is2 = _interopRequireDefault(require("./array/is"));
-var _isNumericalNaN = _interopRequireDefault(require("./number/isNumericalNaN"));
-var _is3 = _interopRequireDefault(require("./regexp/is"));
-var _is4 = _interopRequireDefault(require("./date/is"));
+var _is = _interopRequireDefault(require("./object/is.js"));
+var _is2 = _interopRequireDefault(require("./array/is.js"));
+var _isNumericalNaN = _interopRequireDefault(require("./number/isNumericalNaN.js"));
+var _is3 = _interopRequireDefault(require("./regexp/is.js"));
+var _is4 = _interopRequireDefault(require("./date/is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function isArrayEqual(a, b) {
   if (a.length !== b.length) return !1;

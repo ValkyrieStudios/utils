@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = zip;
-var _is = _interopRequireDefault(require("../array/is"));
+var _is = _interopRequireDefault(require("../array/is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function zip() {
   var keys = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];

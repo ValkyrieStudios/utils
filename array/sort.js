@@ -4,12 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = sort;
-var _is = _interopRequireDefault(require("../boolean/is"));
-var _isNotEmpty = _interopRequireDefault(require("./isNotEmpty"));
-var _is2 = _interopRequireDefault(require("../object/is"));
-var _isNotEmpty2 = _interopRequireDefault(require("../object/isNotEmpty"));
-var _isNotEmpty3 = _interopRequireDefault(require("../string/isNotEmpty"));
-var _is3 = _interopRequireDefault(require("../function/is"));
+var _is = _interopRequireDefault(require("../boolean/is.js"));
+var _isNotEmpty = _interopRequireDefault(require("./isNotEmpty.js"));
+var _is2 = _interopRequireDefault(require("../object/is.js"));
+var _isNotEmpty2 = _interopRequireDefault(require("../object/isNotEmpty.js"));
+var _isNotEmpty3 = _interopRequireDefault(require("../string/isNotEmpty.js"));
+var _is3 = _interopRequireDefault(require("../function/is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -19,12 +19,12 @@ function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function partition(arr, start_ix, end_ix) {
-  var pivotVal = arr[Math.floor((start_ix + end_ix) / 2)].t;
+  var pivot_val = arr[Math.floor((start_ix + end_ix) / 2)].t;
   while (start_ix <= end_ix) {
-    while (arr[start_ix].t < pivotVal) {
+    while (arr[start_ix].t < pivot_val) {
       start_ix++;
     }
-    while (arr[end_ix].t > pivotVal) {
+    while (arr[end_ix].t > pivot_val) {
       end_ix--;
     }
     if (start_ix <= end_ix) {

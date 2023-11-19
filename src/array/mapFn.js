@@ -1,10 +1,9 @@
 'use strict';
 
-import isObject         from '../object/is';
-import isNotEmptyArray  from './isNotEmpty';
-import isFunction       from '../function/is';
-import isNotEmptyString from '../string/isNotEmpty';
-import isNumber         from '../number/is';
+import isObject         from '../object/is.js';
+import isNotEmptyArray  from './isNotEmpty.js';
+import isFunction       from '../function/is.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
 
 export default function mapFn (arr, fn, opts = {}) {
     if (!isNotEmptyArray(arr) || !isFunction(fn)) return {};
@@ -20,7 +19,7 @@ export default function mapFn (arr, fn, opts = {}) {
 
         //  Get hash
         hash = fn(el);
-        if (!isNumber(hash) && !isNotEmptyString(hash)) continue;
+        if (!Number.isFinite(hash) && !isNotEmptyString(hash)) continue;
 
         if (OPTS.merge === true && map.hasOwnProperty(hash)) {
             map[hash] = Object.assign(map[hash], el);

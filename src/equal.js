@@ -2,11 +2,11 @@
 
 /* eslint-disable no-use-before-define */
 
-import isObject         from './object/is';
-import isArray          from './array/is';
-import isNumericalNaN   from './number/isNumericalNaN';
-import isRegExp         from './regexp/is';
-import isDate           from './date/is';
+import isObject         from './object/is.js';
+import isArray          from './array/is.js';
+import isNumericalNaN   from './number/isNumericalNaN.js';
+import isRegExp         from './regexp/is.js';
+import isDate           from './date/is.js';
 
 function isArrayEqual (a, b) {
     if (a.length !== b.length) return false;

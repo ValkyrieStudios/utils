@@ -5,7 +5,7 @@
 function testFunction () {}
 const testArrowFunction = () => {};
 
-const IS_NUMERIC    = [1, 0.000001, 8e10, Math.PI, new Number(1.12345), new Number(Number.EPSILON)];
+const IS_NUMERIC    = [1, 0.000001, 8e10, Math.PI, Number(1.12345), Number(Number.EPSILON)];
 const IS_INTEGER    = [-1, 100, -50, 99999, 20];
 const IS_BOOLEAN    = [true, false, Boolean(true), Boolean(false), Boolean('foo'), new Boolean(false)];
 const IS_STRING     = ['foo', new String('bar')];
@@ -36,6 +36,8 @@ const NOT_NUMERIC = [
     ...IS_OBJECT,
     ...IS_FUNCTION,
     ...IS_NULLABLE,
+    new Number(1.12345),
+    new Number(Number.EPSILON),
 ];
 const NOT_STRING = [
     ...IS_NUMERIC,

@@ -8,7 +8,7 @@ export default function toPercentage (val, precision = 0, min = 0, max = 1) {
         !Number.isFinite(val) ||
         !Number.isFinite(min) ||
         !Number.isFinite(max)
-    ) throw new TypeError('Value should be numeric');
+    ) throw new TypeError('value/min/max should be numeric');
 
     return round(((val - min)/ (max - min)) * 100, precision);
 }

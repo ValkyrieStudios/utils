@@ -51,7 +51,7 @@ function sort(arr, by) {
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
   if (!Array.isArray(arr) || arr.length === 0) return [];
   if (!(0, _isNotEmpty2["default"])(by) && !(0, _is3["default"])(by)) throw new Error('Sort by should be either a string or a function');
-  if (dir !== 'asc' && dir !== 'desc') throw new Error('dir should be either asc or desc');
+  if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
   var OPTS = {
     filter_fn: (0, _is2["default"])(options) && (0, _is3["default"])(options.filter_fn) ? options.filter_fn : _isNotEmpty["default"],
     nokey_hide: (0, _is2["default"])(options) && (0, _is["default"])(options.nokey_hide) ? options.nokey_hide : !1,

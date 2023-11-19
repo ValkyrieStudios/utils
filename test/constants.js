@@ -2,8 +2,6 @@
 
 /* eslint-disable max-len,no-new-wrappers,no-array-constructor,no-new-object */
 
-import guid from '../src/hash/guid.js';
-
 function testFunction () {}
 const testArrowFunction = () => {};
 
@@ -189,7 +187,6 @@ const NOT_DATE_STRING = [
     'foobar',
     '-1000000000000000000000',
     '202a-1b-0c',
-    guid(),
     '20221125',
     '20220318',
     'abcdefg',
@@ -233,3 +230,9 @@ const CONSTANTS = {
 };
 
 export default CONSTANTS;
+
+//  Get Time
+export function getTime () {
+    const hr_time = process.hrtime();
+    return ((hr_time[0] * 1000) + hr_time[1])/1000000;
+}

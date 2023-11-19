@@ -49,7 +49,7 @@ export default function sort (arr, by, dir = 'asc', options = {}) {
     if (!isNotEmptyString(by) && !isFunction(by)) throw new Error('Sort by should be either a string or a function');
 
     //  Check dir
-    if (dir !== 'asc' && dir !== 'desc') throw new Error('dir should be either asc or desc');
+    if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
 
     const OPTS = {
         filter_fn   : isObject(options) && isFunction(options.filter_fn) ? options.filter_fn : isNotEmptyObject,

@@ -1,629 +1,522 @@
 'use strict';
 
-import Is                       from '../../src/is';
-import equal                    from '../../src/equal';
-import isArray                  from '../../src/array/is';
-import isNotEmptyArray          from '../../src/array/isNotEmpty';
-import isBoolean                from '../../src/boolean/is';
-import isDate                   from '../../src/date/is';
-import isFunction               from '../../src/function/is';
-import isNumber                 from '../../src/number/is';
-import isNumberBetween          from '../../src/number/isBetween';
-import isNumberBelow            from '../../src/number/isBelow';
-import isNumberBelowOrEqual     from '../../src/number/isBelowOrEqual';
-import isNumberAbove            from '../../src/number/isAbove';
-import isNumberAboveOrEqual     from '../../src/number/isAboveOrEqual';
-import isInteger                from '../../src/number/isInteger';
-import isIntegerBetween         from '../../src/number/isIntegerBetween';
-import isIntegerBelow           from '../../src/number/isIntegerBelow';
-import isIntegerBelowOrEqual    from '../../src/number/isIntegerBelowOrEqual';
-import isIntegerAbove           from '../../src/number/isIntegerAbove';
-import isIntegerAboveOrEqual    from '../../src/number/isIntegerAboveOrEqual';
-import isRegExp                 from '../../src/regexp/is';
-import isObject                 from '../../src/object/is';
-import isNotEmptyObject         from '../../src/object/isNotEmpty';
-import isString                 from '../../src/string/is';
-import isStringBetween          from '../../src/string/isBetween';
-import isNotEmptyString         from '../../src/string/isNotEmpty';
+/* eslint-disable max-statements */
 
+import {describe, it}           from 'node:test';
+import assert                   from 'node:assert/strict';
+import Is                       from '../../src/is.js';
+import equal                    from '../../src/equal.js';
+import isNotEmptyArray          from '../../src/array/isNotEmpty.js';
+import isBoolean                from '../../src/boolean/is.js';
+import isDate                   from '../../src/date/is.js';
+import isFunction               from '../../src/function/is.js';
+import isNumberBetween          from '../../src/number/isBetween.js';
+import isNumberBelow            from '../../src/number/isBelow.js';
+import isNumberBelowOrEqual     from '../../src/number/isBelowOrEqual.js';
+import isNumberAbove            from '../../src/number/isAbove.js';
+import isNumberAboveOrEqual     from '../../src/number/isAboveOrEqual.js';
+import isIntegerBetween         from '../../src/number/isIntegerBetween.js';
+import isIntegerBelow           from '../../src/number/isIntegerBelow.js';
+import isIntegerBelowOrEqual    from '../../src/number/isIntegerBelowOrEqual.js';
+import isIntegerAbove           from '../../src/number/isIntegerAbove.js';
+import isIntegerAboveOrEqual    from '../../src/number/isIntegerAboveOrEqual.js';
+import isRegExp                 from '../../src/regexp/is.js';
+import isObject                 from '../../src/object/is.js';
+import isNotEmptyObject         from '../../src/object/isNotEmpty.js';
+import isString                 from '../../src/string/is.js';
+import isStringBetween          from '../../src/string/isBetween.js';
+import isNotEmptyString         from '../../src/string/isNotEmpty.js';
 
-const chai = require('chai');
-const spies = require('chai-spies');
-chai.use(spies);
-
-const expect = chai.expect;
-const assert = chai.assert;
-const should = chai.should();
-const spy = chai.spy;
-
-describe("Is", () => {
-
-    it ('Should be an object', () => {
-        expect(isObject(Is)).to.eql(true);
+describe('Is', () => {
+    it('Should be an object', () => {
+        assert.equal(isObject(Is), true);
     });
 
-    it ('Should be a frozen object', () => {
-        expect(Object.isFrozen(Is)).to.eql(true);
+    it('Should be a frozen object', () => {
+        assert.equal(Object.isFrozen(Is), true);
     });
 
-    it ('Should have its prototype stripped and be a pure object', () => {
-        expect(Is.__proto__).to.eql(undefined);
+    it('Should have its prototype stripped and be a pure object', () => {
+        assert.equal(Is.__proto__, undefined); // eslint-disable-line no-proto
     });
 
-//  Is.Array
-
-    describe("Array", () => {
-        it ('Should have a Array function', () => {
-            assert.typeOf(Is.Array, 'Function');
+    describe('Array', () => {
+        it('Should have a Array function', () => {
+            assert.equal(typeof Is.Array, 'function');
         });
 
-        it ('Should link to isArray', () => {
-            expect(Is.Array).to.eql(isArray);
+        it('Should link to Array.isArray', () => {
+            assert.equal(Is.Array, Array.isArray);
         });
     });
 
-//  Is.NeArray
-
-    describe("NeArray", () => {
-        it ('Should have a NeArray function', () => {
-            assert.typeOf(Is.NeArray, 'Function');
+    describe('NeArray', () => {
+        it('Should have a NeArray function', () => {
+            assert.equal(typeof Is.NeArray, 'function');
         });
 
-        it ('Should link to isNotEmptyArray', () => {
-            expect(Is.NeArray).to.eql(isNotEmptyArray);
+        it('Should link to isNotEmptyArray', () => {
+            assert.equal(Is.NeArray, isNotEmptyArray);
         });
     });
 
-//  Is.NotEmptyArray
-
-    describe("NotEmptyArray", () => {
-        it ('Should have a NotEmptyArray function', () => {
-            assert.typeOf(Is.NotEmptyArray, 'Function');
+    describe('NotEmptyArray', () => {
+        it('Should have a NotEmptyArray function', () => {
+            assert.equal(typeof Is.NotEmptyArray, 'function');
         });
 
-        it ('Should link to isNotEmptyArray', () => {
-            expect(Is.NotEmptyArray).to.eql(isNotEmptyArray);
+        it('Should link to isNotEmptyArray', () => {
+            assert.equal(Is.NotEmptyArray, isNotEmptyArray);
         });
     });
 
-//  Is.Boolean
-
-    describe("Boolean", () => {
-        it ('Should have a Boolean function', () => {
-            assert.typeOf(Is.Boolean, 'Function');
+    describe('Boolean', () => {
+        it('Should have a Boolean function', () => {
+            assert.equal(typeof Is.Boolean, 'function');
         });
 
-        it ('Should link to isBoolean', () => {
-            expect(Is.Boolean).to.eql(isBoolean);
+        it('Should link to isBoolean', () => {
+            assert.equal(Is.Boolean, isBoolean);
         });
     });
 
-//  Is.Date
-
-    describe("Date", () => {
-        it ('Should have a Date function', () => {
-            assert.typeOf(Is.Date, 'Function');
+    describe('Date', () => {
+        it('Should have a Date function', () => {
+            assert.equal(typeof Is.Date, 'function');
         });
 
-        it ('Should link to isDate', () => {
-            expect(Is.Date).to.eql(isDate);
+        it('Should link to isDate', () => {
+            assert.equal(Is.Date, isDate);
         });
     });
 
-//  Is.Function
-
-    describe("Function", () => {
-        it ('Should have a Function function', () => {
-            assert.typeOf(Is.Function, 'Function');
+    describe('Function', () => {
+        it('Should have a Function function', () => {
+            assert.equal(typeof Is.Function, 'function');
         });
 
-        it ('Should link to isFunction', () => {
-            expect(Is.Function).to.eql(isFunction);
+        it('Should link to isFunction', () => {
+            assert.equal(Is.Function, isFunction);
         });
     });
 
-//  Is.Num
-
-    describe("Num", () => {
-        it ('Should have a Num function', () => {
-            assert.typeOf(Is.Num, 'Function');
+    describe('Num', () => {
+        it('Should have a Num function', () => {
+            assert.equal(typeof Is.Num, 'function');
         });
 
-        it ('Should link to isNumber', () => {
-            expect(Is.Num).to.eql(isNumber);
+        it('Should link to Number.isFinite', () => {
+            assert.equal(Is.Num, Number.isFinite);
         });
     });
 
-//  Is.NumBetween
-
-    describe("NumBetween", () => {
-        it ('Should have a NumBetween function', () => {
-            assert.typeOf(Is.NumBetween, 'Function');
+    describe('NumBetween', () => {
+        it('Should have a NumBetween function', () => {
+            assert.equal(typeof Is.NumBetween, 'function');
         });
 
-        it ('Should link to isNumberBetween', () => {
-            expect(Is.NumBetween).to.eql(isNumberBetween);
+        it('Should link to isNumberBetween', () => {
+            assert.equal(Is.NumBetween, isNumberBetween);
         });
     });
 
-//  Is.NumAbove
-
-    describe("NumAbove", () => {
-        it ('Should have a NumAbove function', () => {
-            assert.typeOf(Is.NumAbove, 'Function');
+    describe('NumAbove', () => {
+        it('Should have a NumAbove function', () => {
+            assert.equal(typeof Is.NumAbove, 'function');
         });
 
-        it ('Should link to isNumberAbove', () => {
-            expect(Is.NumAbove).to.eql(isNumberAbove);
+        it('Should link to isNumberAbove', () => {
+            assert.equal(Is.NumAbove, isNumberAbove);
         });
     });
 
-//  Is.NumAboveOrEqual
-
-    describe("NumAboveOrEqual", () => {
-        it ('Should have a NumAboveOrEqual function', () => {
-            assert.typeOf(Is.NumAboveOrEqual, 'Function');
+    describe('NumAboveOrEqual', () => {
+        it('Should have a NumAboveOrEqual function', () => {
+            assert.equal(typeof Is.NumAboveOrEqual, 'function');
         });
 
-        it ('Should link to isNumberAboveOrEqual', () => {
-            expect(Is.NumAboveOrEqual).to.eql(isNumberAboveOrEqual);
+        it('Should link to isNumberAboveOrEqual', () => {
+            assert.equal(Is.NumAboveOrEqual, isNumberAboveOrEqual);
         });
     });
 
-//  Is.NumBelow
-
-    describe("NumBelow", () => {
-        it ('Should have a NumBelow function', () => {
-            assert.typeOf(Is.NumBelow, 'Function');
+    describe('NumBelow', () => {
+        it('Should have a NumBelow function', () => {
+            assert.equal(typeof Is.NumBelow, 'function');
         });
 
-        it ('Should link to isNumberBelow', () => {
-            expect(Is.NumBelow).to.eql(isNumberBelow);
+        it('Should link to isNumberBelow', () => {
+            assert.equal(Is.NumBelow, isNumberBelow);
         });
     });
 
-//  Is.NumBelowOrEqual
-
-    describe("NumBelowOrEqual", () => {
-        it ('Should have a NumBelowOrEqual function', () => {
-            assert.typeOf(Is.NumBelowOrEqual, 'Function');
+    describe('NumBelowOrEqual', () => {
+        it('Should have a NumBelowOrEqual function', () => {
+            assert.equal(typeof Is.NumBelowOrEqual, 'function');
         });
 
-        it ('Should link to isNumberBelowOrEqual', () => {
-            expect(Is.NumBelowOrEqual).to.eql(isNumberBelowOrEqual);
+        it('Should link to isNumberBelowOrEqual', () => {
+            assert.equal(Is.NumBelowOrEqual, isNumberBelowOrEqual);
         });
     });
 
-//  Is.NumGt
-
-    describe("NumGt", () => {
-        it ('Should have a NumGt function', () => {
-            assert.typeOf(Is.NumGt, 'Function');
+    describe('NumGt', () => {
+        it('Should have a NumGt function', () => {
+            assert.equal(typeof Is.NumGt, 'function');
         });
 
-        it ('Should link to isNumberAbove', () => {
-            expect(Is.NumGt).to.eql(isNumberAbove);
+        it('Should link to isNumberAbove', () => {
+            assert.equal(Is.NumGt, isNumberAbove);
         });
     });
 
-//  Is.NumGte
-
-    describe("NumGte", () => {
-        it ('Should have a NumGte function', () => {
-            assert.typeOf(Is.NumGte, 'Function');
+    describe('NumGte', () => {
+        it('Should have a NumGte function', () => {
+            assert.equal(typeof Is.NumGte, 'function');
         });
 
-        it ('Should link to isNumberAboveOrEqual', () => {
-            expect(Is.NumGte).to.eql(isNumberAboveOrEqual);
+        it('Should link to isNumberAboveOrEqual', () => {
+            assert.equal(Is.NumGte, isNumberAboveOrEqual);
         });
     });
 
-//  Is.NumLt
-
-    describe("NumLt", () => {
-        it ('Should have a NumLt function', () => {
-            assert.typeOf(Is.NumLt, 'Function');
+    describe('NumLt', () => {
+        it('Should have a NumLt function', () => {
+            assert.equal(typeof Is.NumLt, 'function');
         });
 
-        it ('Should link to isNumberBelow', () => {
-            expect(Is.NumLt).to.eql(isNumberBelow);
+        it('Should link to isNumberBelow', () => {
+            assert.equal(Is.NumLt, isNumberBelow);
         });
     });
 
-//  Is.NumLte
-
-    describe("NumLte", () => {
-        it ('Should have a NumLte function', () => {
-            assert.typeOf(Is.NumLte, 'Function');
+    describe('NumLte', () => {
+        it('Should have a NumLte function', () => {
+            assert.equal(typeof Is.NumLte, 'function');
         });
 
-        it ('Should link to isNumberBelowOrEqual', () => {
-            expect(Is.NumLte).to.eql(isNumberBelowOrEqual);
+        it('Should link to isNumberBelowOrEqual', () => {
+            assert.equal(Is.NumLte, isNumberBelowOrEqual);
         });
     });
 
-//  Is.Number
-
-    describe("Number", () => {
-        it ('Should have a Number function', () => {
-            assert.typeOf(Is.Number, 'Function');
+    describe('Number', () => {
+        it('Should have a Number function', () => {
+            assert.equal(typeof Is.Number, 'function');
         });
 
-        it ('Should link to isNumber', () => {
-            expect(Is.Number).to.eql(isNumber);
+        it('Should link to Number.isFinite', () => {
+            assert.equal(Is.Number, Number.isFinite);
         });
     });
 
-//  Is.NumberBetween
-
-    describe("NumberBetween", () => {
-        it ('Should have a NumberBetween function', () => {
-            assert.typeOf(Is.NumberBetween, 'Function');
+    describe('NumberBetween', () => {
+        it('Should have a NumberBetween function', () => {
+            assert.equal(typeof Is.NumberBetween, 'function');
         });
 
-        it ('Should link to isNumberBetween', () => {
-            expect(Is.NumberBetween).to.eql(isNumberBetween);
+        it('Should link to isNumberBetween', () => {
+            assert.equal(Is.NumberBetween, isNumberBetween);
         });
     });
 
-//  Is.NumberAbove
-
-    describe("NumberAbove", () => {
-        it ('Should have a NumberAbove function', () => {
-            assert.typeOf(Is.NumberAbove, 'Function');
+    describe('NumberAbove', () => {
+        it('Should have a NumberAbove function', () => {
+            assert.equal(typeof Is.NumberAbove, 'function');
         });
 
-        it ('Should link to isNumberAbove', () => {
-            expect(Is.NumberAbove).to.eql(isNumberAbove);
+        it('Should link to isNumberAbove', () => {
+            assert.equal(Is.NumberAbove, isNumberAbove);
         });
     });
 
-//  Is.NumberAboveOrEqual
-
-    describe("NumberAboveOrEqual", () => {
-        it ('Should have a NumberAboveOrEqual function', () => {
-            assert.typeOf(Is.NumberAboveOrEqual, 'Function');
+    describe('NumberAboveOrEqual', () => {
+        it('Should have a NumberAboveOrEqual function', () => {
+            assert.equal(typeof Is.NumberAboveOrEqual, 'function');
         });
 
-        it ('Should link to isNumberAboveOrEqual', () => {
-            expect(Is.NumberAboveOrEqual).to.eql(isNumberAboveOrEqual);
+        it('Should link to isNumberAboveOrEqual', () => {
+            assert.equal(Is.NumberAboveOrEqual, isNumberAboveOrEqual);
         });
     });
 
-//  Is.NumberBelow
-
-    describe("NumberBelow", () => {
-        it ('Should have a NumberBelow function', () => {
-            assert.typeOf(Is.NumberBelow, 'Function');
+    describe('NumberBelow', () => {
+        it('Should have a NumberBelow function', () => {
+            assert.equal(typeof Is.NumberBelow, 'function');
         });
 
-        it ('Should link to isNumberBelow', () => {
-            expect(Is.NumberBelow).to.eql(isNumberBelow);
+        it('Should link to isNumberBelow', () => {
+            assert.equal(Is.NumberBelow, isNumberBelow);
         });
     });
 
-//  Is.NumberBelowOrEqual
-
-    describe("NumberBelowOrEqual", () => {
-        it ('Should have a NumberBelowOrEqual function', () => {
-            assert.typeOf(Is.NumberBelowOrEqual, 'Function');
+    describe('NumberBelowOrEqual', () => {
+        it('Should have a NumberBelowOrEqual function', () => {
+            assert.equal(typeof Is.NumberBelowOrEqual, 'function');
         });
 
-        it ('Should link to isNumberBelowOrEqual', () => {
-            expect(Is.NumberBelowOrEqual).to.eql(isNumberBelowOrEqual);
+        it('Should link to isNumberBelowOrEqual', () => {
+            assert.equal(Is.NumberBelowOrEqual, isNumberBelowOrEqual);
         });
     });
 
-//  Is.Int
-
-    describe("Int", () => {
-        it ('Should have a Int function', () => {
-            assert.typeOf(Is.Int, 'Function');
+    describe('Int', () => {
+        it('Should have a Int function', () => {
+            assert.equal(typeof Is.Int, 'function');
         });
 
-        it ('Should link to isInteger', () => {
-            expect(Is.Int).to.eql(isInteger);
+        it('Should link to Number.isInteger', () => {
+            assert.equal(Is.Int, Number.isInteger);
         });
     });
 
-//  Is.IntBetween
-
-    describe("IntBetween", () => {
-        it ('Should have a IntBetween function', () => {
-            assert.typeOf(Is.IntBetween, 'Function');
+    describe('IntBetween', () => {
+        it('Should have a IntBetween function', () => {
+            assert.equal(typeof Is.IntBetween, 'function');
         });
 
-        it ('Should link to isIntegerBetween', () => {
-            expect(Is.IntBetween).to.eql(isIntegerBetween);
+        it('Should link to isIntegerBetween', () => {
+            assert.equal(Is.IntBetween, isIntegerBetween);
         });
     });
 
-//  Is.IntAbove
-
-    describe("IntAbove", () => {
-        it ('Should have a IntAbove function', () => {
-            assert.typeOf(Is.IntAbove, 'Function');
+    describe('IntAbove', () => {
+        it('Should have a IntAbove function', () => {
+            assert.equal(typeof Is.IntAbove, 'function');
         });
 
-        it ('Should link to isIntegerAbove', () => {
-            expect(Is.IntAbove).to.eql(isIntegerAbove);
+        it('Should link to isIntegerAbove', () => {
+            assert.equal(Is.IntAbove, isIntegerAbove);
         });
     });
 
-//  Is.IntAboveOrEqual
-
-    describe("IntAboveOrEqual", () => {
-        it ('Should have a IntAboveOrEqual function', () => {
-            assert.typeOf(Is.IntAboveOrEqual, 'Function');
+    describe('IntAboveOrEqual', () => {
+        it('Should have a IntAboveOrEqual function', () => {
+            assert.equal(typeof Is.IntAboveOrEqual, 'function');
         });
 
-        it ('Should link to isIntegerAboveOrEqual', () => {
-            expect(Is.IntAboveOrEqual).to.eql(isIntegerAboveOrEqual);
+        it('Should link to isIntegerAboveOrEqual', () => {
+            assert.equal(Is.IntAboveOrEqual, isIntegerAboveOrEqual);
         });
     });
 
-//  Is.IntBelow
-
-    describe("IntBelow", () => {
-        it ('Should have a IntBelow function', () => {
-            assert.typeOf(Is.IntBelow, 'Function');
+    describe('IntBelow', () => {
+        it('Should have a IntBelow function', () => {
+            assert.equal(typeof Is.IntBelow, 'function');
         });
 
-        it ('Should link to isIntegerBelow', () => {
-            expect(Is.IntBelow).to.eql(isIntegerBelow);
+        it('Should link to isIntegerBelow', () => {
+            assert.equal(Is.IntBelow, isIntegerBelow);
         });
     });
 
-//  Is.IntBelowOrEqual
-
-    describe("IntBelowOrEqual", () => {
-        it ('Should have a IntBelowOrEqual function', () => {
-            assert.typeOf(Is.IntBelowOrEqual, 'Function');
+    describe('IntBelowOrEqual', () => {
+        it('Should have a IntBelowOrEqual function', () => {
+            assert.equal(typeof Is.IntBelowOrEqual, 'function');
         });
 
-        it ('Should link to isIntegerBelowOrEqual', () => {
-            expect(Is.IntBelowOrEqual).to.eql(isIntegerBelowOrEqual);
+        it('Should link to isIntegerBelowOrEqual', () => {
+            assert.equal(Is.IntBelowOrEqual, isIntegerBelowOrEqual);
         });
     });
 
-//  Is.IntGt
-
-    describe("IntGt", () => {
-        it ('Should have a IntGt function', () => {
-            assert.typeOf(Is.IntGt, 'Function');
+    describe('IntGt', () => {
+        it('Should have a IntGt function', () => {
+            assert.equal(typeof Is.IntGt, 'function');
         });
 
-        it ('Should link to isIntegerAbove', () => {
-            expect(Is.IntGt).to.eql(isIntegerAbove);
+        it('Should link to isIntegerAbove', () => {
+            assert.equal(Is.IntGt, isIntegerAbove);
         });
     });
 
-//  Is.IntGte
-
-    describe("IntGte", () => {
-        it ('Should have a IntGte function', () => {
-            assert.typeOf(Is.IntGte, 'Function');
+    describe('IntGte', () => {
+        it('Should have a IntGte function', () => {
+            assert.equal(typeof Is.IntGte, 'function');
         });
 
-        it ('Should link to isIntegerAboveOrEqual', () => {
-            expect(Is.IntGte).to.eql(isIntegerAboveOrEqual);
+        it('Should link to isIntegerAboveOrEqual', () => {
+            assert.equal(Is.IntGte, isIntegerAboveOrEqual);
         });
     });
 
-//  Is.IntLt
-
-    describe("IntLt", () => {
-        it ('Should have a IntLt function', () => {
-            assert.typeOf(Is.IntLt, 'Function');
+    describe('IntLt', () => {
+        it('Should have a IntLt function', () => {
+            assert.equal(typeof Is.IntLt, 'function');
         });
 
-        it ('Should link to isIntegerBelow', () => {
-            expect(Is.IntLt).to.eql(isIntegerBelow);
+        it('Should link to isIntegerBelow', () => {
+            assert.equal(Is.IntLt, isIntegerBelow);
         });
     });
 
-//  Is.IntLte
-
-    describe("IntLte", () => {
-        it ('Should have a IntLte function', () => {
-            assert.typeOf(Is.IntLte, 'Function');
+    describe('IntLte', () => {
+        it('Should have a IntLte function', () => {
+            assert.equal(typeof Is.IntLte, 'function');
         });
 
-        it ('Should link to isIntegerBelowOrEqual', () => {
-            expect(Is.IntLte).to.eql(isIntegerBelowOrEqual);
+        it('Should link to isIntegerBelowOrEqual', () => {
+            assert.equal(Is.IntLte, isIntegerBelowOrEqual);
         });
     });
 
-//  Is.Integer
-
-    describe("Integer", () => {
-        it ('Should have a Integer function', () => {
-            assert.typeOf(Is.Integer, 'Function');
+    describe('Integer', () => {
+        it('Should have a Integer function', () => {
+            assert.equal(typeof Is.Integer, 'function');
         });
 
-        it ('Should link to isInteger', () => {
-            expect(Is.Integer).to.eql(isInteger);
+        it('Should link to Number.isInteger', () => {
+            assert.equal(Is.Integer, Number.isInteger);
         });
     });
 
-//  Is.IntegerBetween
-
-    describe("IntegerBetween", () => {
-        it ('Should have a IntegerBetween function', () => {
-            assert.typeOf(Is.IntegerBetween, 'Function');
+    describe('IntegerBetween', () => {
+        it('Should have a IntegerBetween function', () => {
+            assert.equal(typeof Is.IntegerBetween, 'function');
         });
 
-        it ('Should link to isIntegerBetween', () => {
-            expect(Is.IntegerBetween).to.eql(isIntegerBetween);
+        it('Should link to isIntegerBetween', () => {
+            assert.equal(Is.IntegerBetween, isIntegerBetween);
         });
     });
 
-//  Is.IntegerAbove
-
-    describe("IntegerAbove", () => {
-        it ('Should have a IntegerAbove function', () => {
-            assert.typeOf(Is.IntegerAbove, 'Function');
+    describe('IntegerAbove', () => {
+        it('Should have a IntegerAbove function', () => {
+            assert.equal(typeof Is.IntegerAbove, 'function');
         });
 
-        it ('Should link to isIntegerAbove', () => {
-            expect(Is.IntegerAbove).to.eql(isIntegerAbove);
+        it('Should link to isIntegerAbove', () => {
+            assert.equal(Is.IntegerAbove, isIntegerAbove);
         });
     });
 
-//  Is.IntegerAboveOrEqual
-
-    describe("IntegerAboveOrEqual", () => {
-        it ('Should have a IntegerAboveOrEqual function', () => {
-            assert.typeOf(Is.IntegerAboveOrEqual, 'Function');
+    describe('IntegerAboveOrEqual', () => {
+        it('Should have a IntegerAboveOrEqual function', () => {
+            assert.equal(typeof Is.IntegerAboveOrEqual, 'function');
         });
 
-        it ('Should link to isIntegerAboveOrEqual', () => {
-            expect(Is.IntegerAboveOrEqual).to.eql(isIntegerAboveOrEqual);
+        it('Should link to isIntegerAboveOrEqual', () => {
+            assert.equal(Is.IntegerAboveOrEqual, isIntegerAboveOrEqual);
         });
     });
 
-//  Is.IntegerBelow
-
-    describe("IntegerBelow", () => {
-        it ('Should have a IntegerBelow function', () => {
-            assert.typeOf(Is.IntegerBelow, 'Function');
+    describe('IntegerBelow', () => {
+        it('Should have a IntegerBelow function', () => {
+            assert.equal(typeof Is.IntegerBelow, 'function');
         });
 
-        it ('Should link to isIntegerBelow', () => {
-            expect(Is.IntegerBelow).to.eql(isIntegerBelow);
+        it('Should link to isIntegerBelow', () => {
+            assert.equal(Is.IntegerBelow, isIntegerBelow);
         });
     });
 
-//  Is.IntegerBelowOrEqual
-
-    describe("IntegerBelowOrEqual", () => {
-        it ('Should have a IntegerBelowOrEqual function', () => {
-            assert.typeOf(Is.IntegerBelowOrEqual, 'Function');
+    describe('IntegerBelowOrEqual', () => {
+        it('Should have a IntegerBelowOrEqual function', () => {
+            assert.equal(typeof Is.IntegerBelowOrEqual, 'function');
         });
 
-        it ('Should link to isIntegerBelowOrEqual', () => {
-            expect(Is.IntegerBelowOrEqual).to.eql(isIntegerBelowOrEqual);
+        it('Should link to isIntegerBelowOrEqual', () => {
+            assert.equal(Is.IntegerBelowOrEqual, isIntegerBelowOrEqual);
         });
     });
 
-//  Is.RegExp
-
-    describe("RegExp", () => {
-        it ('Should have a RegExp function', () => {
-            assert.typeOf(Is.RegExp, 'Function');
+    describe('RegExp', () => {
+        it('Should have a RegExp function', () => {
+            assert.equal(typeof Is.RegExp, 'function');
         });
 
-        it ('Should link to isRegExp', () => {
-            expect(Is.RegExp).to.eql(isRegExp);
+        it('Should link to isRegExp', () => {
+            assert.equal(Is.RegExp, isRegExp);
         });
     });
 
-//  Is.Object
-
-    describe("Object", () => {
-        it ('Should have a Object function', () => {
-            assert.typeOf(Is.Object, 'Function');
+    describe('Object', () => {
+        it('Should have a Object function', () => {
+            assert.equal(typeof Is.Object, 'function');
         });
 
-        it ('Should link to isObject', () => {
-            expect(Is.Object).to.eql(isObject);
+        it('Should link to isObject', () => {
+            assert.equal(Is.Object, isObject);
         });
     });
 
-//  Is.NeObject
-
-    describe("NeObject", () => {
-        it ('Should have a NeObject function', () => {
-            assert.typeOf(Is.NeObject, 'Function');
+    describe('NeObject', () => {
+        it('Should have a NeObject function', () => {
+            assert.equal(typeof Is.NeObject, 'function');
         });
 
-        it ('Should link to isNotEmptyObject', () => {
-            expect(Is.NeObject).to.eql(isNotEmptyObject);
+        it('Should link to isNotEmptyObject', () => {
+            assert.equal(Is.NeObject, isNotEmptyObject);
         });
     });
 
-//  Is.NotEmptyObject
-
-    describe("NotEmptyObject", () => {
-        it ('Should have a NotEmptyObject function', () => {
-            assert.typeOf(Is.NotEmptyObject, 'Function');
+    describe('NotEmptyObject', () => {
+        it('Should have a NotEmptyObject function', () => {
+            assert.equal(typeof Is.NotEmptyObject, 'function');
         });
 
-        it ('Should link to isNotEmptyObject', () => {
-            expect(Is.NotEmptyObject).to.eql(isNotEmptyObject);
+        it('Should link to isNotEmptyObject', () => {
+            assert.equal(Is.NotEmptyObject, isNotEmptyObject);
         });
     });
 
-//  Is.String
-
-    describe("String", () => {
-        it ('Should have a String function', () => {
-            assert.typeOf(Is.String, 'Function');
+    describe('String', () => {
+        it('Should have a String function', () => {
+            assert.equal(typeof Is.String, 'function');
         });
 
-        it ('Should link to isString', () => {
-            expect(Is.String).to.eql(isString);
+        it('Should link to isString', () => {
+            assert.equal(Is.String, isString);
         });
     });
 
-//  Is.StringBetween
-
-    describe("StringBetween", () => {
-        it ('Should have a StringBetween function', () => {
-            assert.typeOf(Is.StringBetween, 'Function');
+    describe('StringBetween', () => {
+        it('Should have a StringBetween function', () => {
+            assert.equal(typeof Is.StringBetween, 'function');
         });
 
-        it ('Should link to isStringBetween', () => {
-            expect(Is.StringBetween).to.eql(isStringBetween);
+        it('Should link to isStringBetween', () => {
+            assert.equal(Is.StringBetween, isStringBetween);
         });
     });
 
-//  Is.NeString
-
-    describe("NeString", () => {
-        it ('Should have a NeString function', () => {
-            assert.typeOf(Is.NeString, 'Function');
+    describe('NeString', () => {
+        it('Should have a NeString function', () => {
+            assert.equal(typeof Is.NeString, 'function');
         });
 
-        it ('Should link to isNotEmptyString', () => {
-            expect(Is.NeString).to.eql(isNotEmptyString);
+        it('Should link to isNotEmptyString', () => {
+            assert.equal(Is.NeString, isNotEmptyString);
         });
     });
 
-//  Is.NotEmptyString
-
-    describe("NotEmptyString", () => {
-        it ('Should have a NotEmptyString function', () => {
-            assert.typeOf(Is.NotEmptyString, 'Function');
+    describe('NotEmptyString', () => {
+        it('Should have a NotEmptyString function', () => {
+            assert.equal(typeof Is.NotEmptyString, 'function');
         });
 
-        it ('Should link to isNotEmptyString', () => {
-            expect(Is.NotEmptyString).to.eql(isNotEmptyString);
+        it('Should link to isNotEmptyString', () => {
+            assert.equal(Is.NotEmptyString, isNotEmptyString);
         });
     });
 
-//  Is.Equal
-
-    describe("Equal", () => {
-        it ('Should have a Equal function', () => {
-            assert.typeOf(Is.Equal, 'Function');
+    describe('Equal', () => {
+        it('Should have a Equal function', () => {
+            assert.equal(typeof Is.Equal, 'function');
         });
 
-        it ('Should link to equal', () => {
-            expect(Is.Equal).to.eql(equal);
+        it('Should link to equal', () => {
+            assert.equal(Is.Equal, equal);
         });
     });
 
-//  Is.Eq
-
-    describe("Eq", () => {
-        it ('Should have a Eq function', () => {
-            assert.typeOf(Is.Eq, 'Function');
+    describe('Eq', () => {
+        it('Should have a Eq function', () => {
+            assert.equal(typeof Is.Eq, 'function');
         });
 
-        it ('Should link to equal', () => {
-            expect(Is.Eq).to.eql(equal);
+        it('Should link to equal', () => {
+            assert.equal(Is.Eq, equal);
         });
     });
-
 });

@@ -1,10 +1,9 @@
 'use strict';
 
-import fnv1A            from '../hash/fnv1A.js';
-import isNotEmptyArray  from './isNotEmpty.js';
+import fnv1A from '../hash/fnv1A.js';
 
 export default function dedupe (val) {
-    if (!isNotEmptyArray(val)) return [];
+    if (!Array.isArray(val) || val.length === 0)  return [];
 
     const map = new Map();
     const acc = [];

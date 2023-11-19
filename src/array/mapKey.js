@@ -1,11 +1,13 @@
 'use strict';
 
 import isObject         from '../object/is.js';
-import isNotEmptyArray  from './isNotEmpty.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 
 export default function mapKey (arr, key, opts = {}) {
-    if (!isNotEmptyArray(arr) || !isNotEmptyString(key)) return {};
+    if (
+        (!Array.isArray(arr) || arr.length === 0) ||
+        !isNotEmptyString(key)
+    ) return {};
 
     const OPTS = Object.assign({
         merge: false,

@@ -1,18 +1,15 @@
 'use strict';
 
 import equal                    from './equal.js';
-import isArray                  from './array/is.js';
 import isNotEmptyArray          from './array/isNotEmpty.js';
 import isBoolean                from './boolean/is.js';
 import isDate                   from './date/is.js';
 import isFunction               from './function/is.js';
-import isNumber                 from './number/is.js';
 import isNumberBetween          from './number/isBetween.js';
 import isNumberBelow            from './number/isBelow.js';
 import isNumberBelowOrEqual     from './number/isBelowOrEqual.js';
 import isNumberAbove            from './number/isAbove.js';
 import isNumberAboveOrEqual     from './number/isAboveOrEqual.js';
-import isInteger                from './number/isInteger.js';
 import isIntegerBetween         from './number/isIntegerBetween.js';
 import isIntegerBelow           from './number/isIntegerBelow.js';
 import isIntegerBelowOrEqual    from './number/isIntegerBelowOrEqual.js';
@@ -27,7 +24,7 @@ import isNotEmptyString         from './string/isNotEmpty.js';
 
 const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     //  Array -----------------------------------------------------------------------------------------------
-    Array               : {enumerable: true, writable: false, configurable: false, value: isArray},
+    Array               : {enumerable: true, writable: false, configurable: false, value: Array.isArray},
     NeArray             : {enumerable: true, writable: false, configurable: false, value: isNotEmptyArray},
     NotEmptyArray       : {enumerable: true, writable: false, configurable: false, value: isNotEmptyArray},
     //  Boolean ---------------------------------------------------------------------------------------------
@@ -37,7 +34,7 @@ const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     //  Function --------------------------------------------------------------------------------------------
     Function            : {enumerable: true, writable: false, configurable: false, value: isFunction},
     //  Number ----------------------------------------------------------------------------------------------
-    Num                 : {enumerable: true, writable: false, configurable: false, value: isNumber},
+    Num                 : {enumerable: true, writable: false, configurable: false, value: Number.isFinite},
     NumBetween          : {enumerable: true, writable: false, configurable: false, value: isNumberBetween},
     NumAbove            : {enumerable: true, writable: false, configurable: false, value: isNumberAbove},
     NumAboveOrEqual     : {enumerable: true, writable: false, configurable: false, value: isNumberAboveOrEqual},
@@ -47,14 +44,14 @@ const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     NumGte              : {enumerable: true, writable: false, configurable: false, value: isNumberAboveOrEqual},
     NumLt               : {enumerable: true, writable: false, configurable: false, value: isNumberBelow},
     NumLte              : {enumerable: true, writable: false, configurable: false, value: isNumberBelowOrEqual},
-    Number              : {enumerable: true, writable: false, configurable: false, value: isNumber},
+    Number              : {enumerable: true, writable: false, configurable: false, value: Number.isFinite},
     NumberBetween       : {enumerable: true, writable: false, configurable: false, value: isNumberBetween},
     NumberAbove         : {enumerable: true, writable: false, configurable: false, value: isNumberAbove},
     NumberAboveOrEqual  : {enumerable: true, writable: false, configurable: false, value: isNumberAboveOrEqual},
     NumberBelow         : {enumerable: true, writable: false, configurable: false, value: isNumberBelow},
     NumberBelowOrEqual  : {enumerable: true, writable: false, configurable: false, value: isNumberBelowOrEqual},
     //  Integer ---------------------------------------------------------------------------------------------
-    Int                 : {enumerable: true, writable: false, configurable: false, value: isInteger},
+    Int                 : {enumerable: true, writable: false, configurable: false, value: Number.isInteger},
     IntBetween          : {enumerable: true, writable: false, configurable: false, value: isIntegerBetween},
     IntAbove            : {enumerable: true, writable: false, configurable: false, value: isIntegerAbove},
     IntAboveOrEqual     : {enumerable: true, writable: false, configurable: false, value: isIntegerAboveOrEqual},
@@ -64,7 +61,7 @@ const Is = Object.freeze(Object.defineProperties(Object.create(null), {
     IntGte              : {enumerable: true, writable: false, configurable: false, value: isIntegerAboveOrEqual},
     IntLt               : {enumerable: true, writable: false, configurable: false, value: isIntegerBelow},
     IntLte              : {enumerable: true, writable: false, configurable: false, value: isIntegerBelowOrEqual},
-    Integer             : {enumerable: true, writable: false, configurable: false, value: isInteger},
+    Integer             : {enumerable: true, writable: false, configurable: false, value: Number.isInteger},
     IntegerBetween      : {enumerable: true, writable: false, configurable: false, value: isIntegerBetween},
     IntegerBelow        : {enumerable: true, writable: false, configurable: false, value: isIntegerBelow},
     IntegerBelowOrEqual : {enumerable: true, writable: false, configurable: false, value: isIntegerBelowOrEqual},

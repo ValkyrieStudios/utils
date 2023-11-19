@@ -1,19 +1,18 @@
 'use strict';
 
 import isObject         from '../object/is.js';
-import isArray          from '../array/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 
 //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] ( faster processing )
 function interpolatePath (path) {
-    if (!isNotEmptyString(path) && !isArray(path)) throw new TypeError('No Path was given');
-    if (isArray(path)) return [...path];
+    if (!isNotEmptyString(path) && !Array.isArray(path)) throw new TypeError('No Path was given');
+    if (Array.isArray(path)) return [...path];
     return path.replace('[', '.').replace(']', '').split('.');
 }
 
 //  Set a value for a path in a json-like structure
 export default function deepSet (obj, path, value = null, define = false) {
-    if (!isObject(obj) && !isArray(obj)) throw new TypeError('Deepset is only supported for objects');
+    if (!isObject(obj) && !Array.isArray(obj)) throw new TypeError('Deepset is only supported for objects');
 
     const parts = interpolatePath(path);
 
@@ -28,7 +27,7 @@ export default function deepSet (obj, path, value = null, define = false) {
         obj = obj[parts[i]];
 
         //  If not an array continue
-        if (!isArray(obj)) continue;
+        if (!Array.isArray(obj)) continue;
 
         //  If an array and i is not the last index ... set the object to be the index on the array
         if (i < parts.length - 2) {

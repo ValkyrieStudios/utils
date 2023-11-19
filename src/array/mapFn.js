@@ -1,12 +1,14 @@
 'use strict';
 
 import isObject         from '../object/is.js';
-import isNotEmptyArray  from './isNotEmpty.js';
 import isFunction       from '../function/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 
 export default function mapFn (arr, fn, opts = {}) {
-    if (!isNotEmptyArray(arr) || !isFunction(fn)) return {};
+    if (
+        (!Array.isArray(arr) || arr.length === 0) ||
+        !isFunction(fn)
+    ) return {};
 
     const OPTS = Object.assign({
         merge: false,

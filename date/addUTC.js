@@ -5,12 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = addUTC;
 var _is = _interopRequireDefault(require("./is.js"));
-var _isInteger = _interopRequireDefault(require("../number/isInteger.js"));
 var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function addUTC(val, amount, key) {
   if (!(0, _is["default"])(val)) throw new Error('Date To UTC requires a date object');
-  if (!(0, _isInteger["default"])(amount)) throw new Error('Amount needs to be an integer');
+  if (!Number.isInteger(amount)) throw new Error('Amount needs to be an integer');
   if (!(0, _isNotEmpty["default"])(key)) throw new Error('Key needs to be a string with content');
   var copy = new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate(), val.getUTCHours(), val.getUTCMinutes(), val.getUTCSeconds(), val.getUTCMilliseconds()));
   switch (key) {

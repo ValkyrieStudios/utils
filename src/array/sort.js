@@ -1,7 +1,6 @@
 'use strict';
 
 import isBoolean        from '../boolean/is.js';
-import isNotEmptyArray  from './isNotEmpty.js';
 import isObject         from '../object/is.js';
 import isNotEmptyObject from '../object/isNotEmpty.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
@@ -44,7 +43,7 @@ function quickSort (arr, start_ix = 0, end_ix = arr.length - 1) {
 }
 
 export default function sort (arr, by, dir = 'asc', options = {}) {
-    if (!isNotEmptyArray(arr)) return [];
+    if (!Array.isArray(arr) || arr.length === 0) return [];
 
     //  Check by
     if (!isNotEmptyString(by) && !isFunction(by)) throw new Error('Sort by should be either a string or a function');

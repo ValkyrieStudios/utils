@@ -6,9 +6,8 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = pick;
 var _get = _interopRequireDefault(require("../deep/get.js"));
 var _set = _interopRequireDefault(require("../deep/set.js"));
-var _is = _interopRequireDefault(require("../array/is.js"));
 var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
-var _is2 = _interopRequireDefault(require("./is.js"));
+var _is = _interopRequireDefault(require("./is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: !0 }; return { done: !1, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = !0, didErr = !1, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = !0; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
@@ -16,8 +15,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function pick() {
   var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var keys = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  if (!(0, _is2["default"])(obj)) throw new TypeError('Please pass an object to pick as the value for obj');
-  if (!(0, _is["default"])(keys)) throw new TypeError('Please pass an array as the value for keys');
+  if (!(0, _is["default"])(obj)) throw new TypeError('Please pass an object to pick as the value for obj');
+  if (!Array.isArray(keys)) throw new TypeError('Please pass an array as the value for keys');
   var map = {};
   var _iterator = _createForOfIteratorHelper(keys),
     _step;

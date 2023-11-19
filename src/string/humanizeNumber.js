@@ -1,12 +1,10 @@
 'use strict';
 
-import isNotEmptyArray          from '../array/isNotEmpty.js';
-import isBoolean                from '../boolean/is.js';
-import isIntegerAboveOrEqual    from '../number/isIntegerAboveOrEqual.js';
-import isObject                 from '../object/is.js';
-import isString                 from '../string/is.js';
-import isNotEmptyString         from '../string/isNotEmpty.js';
-import round                    from '../number/round.js';
+import isBoolean        from '../boolean/is.js';
+import isObject         from '../object/is.js';
+import isString         from '../string/is.js';
+import isNotEmptyString from '../string/isNotEmpty.js';
+import round            from '../number/round.js';
 
 //  Humanize a numerical value into a unit base
 //
@@ -19,14 +17,14 @@ export default function humanizeNumber (val, options = {}) {
         separator: isObject(options) && isNotEmptyString(options.separator)
             ? options.separator
             : '.',
-        precision: isObject(options) && isIntegerAboveOrEqual(options.precision, 0)
+        precision: isObject(options) && Number.isInteger(options.precision) && options.precision >= 0
             ? options.precision
             : 2,
-        units: isObject(options) && (isNotEmptyArray(options.units) || options.units === false)
+        units: isObject(options) && ((Array.isArray(options.units) && options.units.length > 0) || options.units === false)
             ? options.units ? options.units.filter(isString) : false
             : ['', 'k', 'm', 'b', 't', 'q'],
         //  Have to have at least bigger than 1 to not end in infinite loop
-        divider: isObject(options) && isIntegerAboveOrEqual(options.divider, 2)
+        divider: isObject(options) && Number.isInteger(options.divider) && options.divider > 1
             ? options.divider
             : 1000,
         //  Should we auto parse as integer (true) or not (false)

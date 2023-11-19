@@ -1,11 +1,10 @@
 'use strict';
 
 import isNotEmptyString from '../string/isNotEmpty.js';
-import isNotEmptyArray  from './isNotEmpty.js';
 import isNotEmptyObject from '../object/isNotEmpty.js';
 
 export default function mapPrimitive (arr, opts = {}) {
-    if (!isNotEmptyArray(arr)) return {};
+    if (!Array.isArray(arr) || arr.length === 0) return {};
 
     const OPTS = Object.assign({
         valtrim: false,

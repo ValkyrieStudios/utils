@@ -5,7 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = deepSet;
 var _is = _interopRequireDefault(require("../object/is.js"));
-var _is2 = _interopRequireDefault(require("../array/is.js"));
 var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
@@ -15,20 +14,20 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function interpolatePath(path) {
-  if (!(0, _isNotEmpty["default"])(path) && !(0, _is2["default"])(path)) throw new TypeError('No Path was given');
-  if ((0, _is2["default"])(path)) return _toConsumableArray(path);
+  if (!(0, _isNotEmpty["default"])(path) && !Array.isArray(path)) throw new TypeError('No Path was given');
+  if (Array.isArray(path)) return _toConsumableArray(path);
   return path.replace('[', '.').replace(']', '').split('.');
 }
 function deepSet(obj, path) {
   var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   var define = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : !1;
-  if (!(0, _is["default"])(obj) && !(0, _is2["default"])(obj)) throw new TypeError('Deepset is only supported for objects');
+  if (!(0, _is["default"])(obj) && !Array.isArray(obj)) throw new TypeError('Deepset is only supported for objects');
   var parts = interpolatePath(path);
   for (var i = 0; i < parts.length - 1; i++) {
     if (parts[i] === '') continue;
     if (!obj[parts[i]]) obj[parts[i]] = {};
     obj = obj[parts[i]];
-    if (!(0, _is2["default"])(obj)) continue;
+    if (!Array.isArray(obj)) continue;
     if (i < parts.length - 2) {
       obj = obj[parts[i + 1]];
       i++;

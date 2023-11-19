@@ -1,11 +1,10 @@
 'use strict';
 
 import isObject from '../object/is.js';
-import isArray  from '../array/is.js';
 
 function deep (obj, next = Object.seal) {
     (Object.keys(obj) || []).forEach(key => {
-        if (isObject(obj[key]) || isArray(obj[key])) {
+        if (isObject(obj[key]) || Array.isArray(obj[key])) {
             deep(obj[key], next);
         }
     });
@@ -14,6 +13,6 @@ function deep (obj, next = Object.seal) {
 
 //  Freeze nested structures
 export default function deepFreeze (obj) {
-    if (!isObject(obj) && !isArray(obj)) throw new TypeError('Only objects can be frozen');
+    if (!isObject(obj) && !Array.isArray(obj)) throw new TypeError('Only objects can be frozen');
     return deep(obj, Object.freeze);
 }

@@ -3,7 +3,6 @@
 /* eslint-disable no-use-before-define */
 
 import isObject         from './object/is.js';
-import isArray          from './array/is.js';
 import isNumericalNaN   from './number/isNumericalNaN.js';
 import isRegExp         from './regexp/is.js';
 import isDate           from './date/is.js';
@@ -44,7 +43,7 @@ function equal (a, b) {
     }
 
     //  Array as root equal
-    if (isArray(a) && isArray(b)) {
+    if (Array.isArray(a) && Array.isArray(b)) {
         return isArrayEqual(a, b);
     }
 

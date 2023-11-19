@@ -1,6 +1,5 @@
 'use strict';
 
-import isNotEmptyArray  from './isNotEmpty.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 import isNotEmptyObject from '../object/isNotEmpty.js';
 import round            from '../number/round.js';
@@ -10,7 +9,7 @@ import round            from '../number/round.js';
 //  @param array    arr     Array of values to join
 //  @param object   options (default={}) Override options
 export default function join (arr, options = {}) {
-    if (!isNotEmptyArray(arr)) return '';
+    if (!Array.isArray(arr) || arr.length === 0) return '';
 
     const OPTS = Object.assign({
         delim       : ' ',      //  Delimiter to join with

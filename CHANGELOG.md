@@ -6,10 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Dep: c8\@8.0.1
+
 ### Improved
 - hash/fnv1A: Improved performance thanks to predefined constants and reducing internal overhead regarding conversion
 - array/dedupe: Improved performance due to replacement of filter and object map by for with native map
 - Marginal performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls and as such less Heap chatter
+
+### Removed
+- Dev Dep: babel-plugin-check-es2015-constants (as not needed)
+- Dev Dep: babel-plugin-transform-member-expression-literals (as not needed)
+- Dev Dep: babel-plugin-transform-property-literals (as not needed)
+- Dev Dep: chai (in favor of native node test runner)
+- Dev Dep: chai-as-promised (in favor of native node test runner)
+- Dev Dep: chai-spies (in favor of native node test runner)
+- Dev Dep: mocha (in favor of native node test runner)
+- Dev Dep: nyc (in favor of native node test runner in combination with c8)
 
 ## [7.5.0] - 2023-10-22
 ### Improved

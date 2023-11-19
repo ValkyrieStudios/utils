@@ -43,7 +43,7 @@ export default function fnv1A (data, offset = FNV_32) {
     } else if (data === undefined) {
         sanitized = REPL_UNDEF;
     } else {
-        throw new TypeError('An FNVA1 Hash could not be calculated for this datatype');
+        throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
     }
 
     //  Calculate the hash of the sanitized data by looping over each char

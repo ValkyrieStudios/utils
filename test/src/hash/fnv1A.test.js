@@ -16,7 +16,7 @@ describe('Hash - fnv1A', () => {
             b : false,
             c : {
                 d : [0, 1, 2, 3, {a: 'hello', b: 'world', c: [0, 1, 2, 3]}],
-                e : 10234,
+                ebc : 10234,
             },
         });
         const c_2 = fnv1A({
@@ -25,7 +25,7 @@ describe('Hash - fnv1A', () => {
             b : false,
             c : {
                 d : [0, 1, 2, 3, {a: 'hello', b: 'world', c: [0, 1, 2, 3]}],
-                e : 10234,
+                ebc : 10234,
             },
         });
         const d_1 = fnv1A(new Date(2018, 12, 5));
@@ -47,7 +47,7 @@ describe('Hash - fnv1A', () => {
 
     it('should throw a type error when passed an unhashable value', () => {
         assert.throws(
-            () => fnv1A(new Function()),
+            () => fnv1A(() => {}),
             new TypeError('An FNV1A Hash could not be calculated for this datatype')
         );
     });

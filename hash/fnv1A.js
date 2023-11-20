@@ -40,7 +40,7 @@ function fnv1A(data) {
   } else if (data === undefined) {
     sanitized = REPL_UNDEF;
   } else {
-    throw new TypeError('An FNVA1 Hash could not be calculated for this datatype');
+    throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
   }
   for (var i = 0; i < sanitized.length; i++) {
     hash ^= sanitized.charCodeAt(i);

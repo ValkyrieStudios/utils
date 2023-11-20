@@ -14,9 +14,9 @@ function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symb
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
 function interpolatePath(path) {
-  if (!(0, _isNotEmpty["default"])(path) && !Array.isArray(path)) throw new TypeError('No Path was given');
   if (Array.isArray(path)) return _toConsumableArray(path);
-  return path.replace('[', '.').replace(']', '').split('.');
+  if ((0, _isNotEmpty["default"])(path)) return path.replace('[', '.').replace(']', '').split('.');
+  throw new TypeError('No Path was given');
 }
 function deepSet(obj, path) {
   var value = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;

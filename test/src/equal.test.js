@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable no-new-wrappers,no-useless-escape */
+
 import {describe, it}   from 'node:test';
 import assert           from 'node:assert/strict';
 import equal            from '../../src/equal.js';
@@ -96,12 +98,18 @@ describe('Equal', () => {
         it('Correctly flag equal', () => {
             assert.ok(equal(/abcdefg/i, /abcdefg/i));
             assert.ok(equal(/abcdefg/i, new RegExp('abcdefg', 'i')));
-            assert.ok(equal(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, new RegExp('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$')));
+            assert.ok(equal(
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                new RegExp('^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$')
+            ));
         });
 
         it('Correctly flag inconsistency', () => {
             assert.equal(equal(/abcdefg/i, /abcdefg/), false);
-            assert.equal(equal(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, new RegExp('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')), false);
+            assert.equal(equal(
+                /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+                new RegExp('^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$')
+            ), false);
             assert.equal(equal(/abcdefg/i, 'abcdefg'), false);
             assert.equal(equal(/abcdefg/i, true), false);
         });
@@ -167,11 +175,9 @@ describe('Equal', () => {
                     ],
                 ],
             ];
-            const e = ['hello', 'world', 'foo', 1, 2];
-            const f = ['hello', 'world', 'foo', 1, 2];
             assert.ok(equal(a, b));
             assert.ok(equal(c, d));
-            assert.ok(equal(e, f));
+            assert.ok(equal(['hello', 'world', 'foo', 1, 2], ['hello', 'world', 'foo', 1, 2]));
             assert.ok(equal([], []));
         });
 
@@ -230,11 +236,9 @@ describe('Equal', () => {
                     ],
                 ],
             ];
-            const e = ['hello', 'warld', 'foo', 1, 2];
-            const f = ['hello', 'world', 'foo', 1, 2];
             assert.equal(equal(a, b), false);
             assert.equal(equal(c, d), false);
-            assert.equal(equal(e, f), false);
+            assert.equal(equal(['hello', 'warld', 'foo', 1, 2], ['hello', 'world', 'foo', 1, 2]), false);
         });
     });
 

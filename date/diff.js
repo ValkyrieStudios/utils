@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = diff;
-var _is = _interopRequireDefault(require("./is.js"));
 var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var SECOND_IN_MILLISECONDS = 1000;
@@ -14,8 +13,8 @@ var DAY_IN_MILLISECONDS = HOUR_IN_MILLISECONDS * 24;
 var WEEK_IN_MILLISECONDS = DAY_IN_MILLISECONDS * 7;
 function diff(val_a, val_b) {
   var key = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : !1;
-  if (!(0, _is["default"])(val_a) || !(0, _is["default"])(val_b)) throw new Error('Diff requires date objects for both values');
-  if (key !== !1 && !(0, _isNotEmpty["default"])(key)) throw new Error('Key needs to be a string or false');
+  if (!(val_a instanceof Date) || !(val_b instanceof Date)) throw new TypeError('Diff requires date objects for both values');
+  if (key !== !1 && !(0, _isNotEmpty["default"])(key)) throw new TypeError('Key needs to be a string or false');
   var diff_in_ms = val_a.valueOf() - val_b.valueOf();
   switch (key) {
     case 'week':

@@ -10,6 +10,6 @@ function toPercentage(val) {
   var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var min = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
   var max = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 1;
-  if (!Number.isFinite(val) || !Number.isFinite(min) || !Number.isFinite(max)) throw new TypeError('Value should be numeric');
+  if (!Number.isFinite(val) || !Number.isFinite(min) || !Number.isFinite(max)) throw new TypeError('value/min/max should be numeric');
   return (0, _round["default"])((val - min) / (max - min) * 100, precision);
 }

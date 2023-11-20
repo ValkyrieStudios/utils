@@ -5,5 +5,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = isDate;
 function isDate(val) {
-  return Object.prototype.toString.call(val) === '[object Date]';
+  return val instanceof Date;
 }

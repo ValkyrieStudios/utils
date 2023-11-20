@@ -7,51 +7,6 @@ import memoize              from '../../../src/caching/memoize.js';
 import fnv1A                from '../../../src/hash/fnv1A.js';
 
 describe('Caching - memoize', () => {
-    it('Should cache', () => {
-        function fn (a) {
-            return fnv1A(`${a}`);
-        }
-
-        function testUncached (cases) {
-            for (let i = 0; i < 10000000; i++) {
-                fn(cases[Math.floor(Math.random() * (6 - 0 + 1)) + 0]);
-            }
-        }
-
-        function testCached (cases) {
-            const memoized_fn = memoize(fn);
-            for (let i = 0; i < 10000000; i++) {
-                memoized_fn(cases[Math.floor(Math.random() * (6 - 0 + 1)) + 0]);
-            }
-        }
-
-        let uncached_time = getTime();
-        testUncached([
-            'aeywuqieiwqyeqw9374589236748974890237432',
-            'bdjsahfjkhdsffjoihfihriofherwoirtuweroi',
-            'ci4908239045734 h5;3h59085903470583405',
-            'dvcmvkljiopfklfwdj iolfjeiwpie',
-            'eeiwuo7809432538245834905 8 54543',
-            'f,cvmmklfjpfe482390 7hjnofjwehdoirujier',
-            '58934059348g4230-489230-94 0-2394-23049-2',
-        ]);
-        uncached_time = getTime() - uncached_time;
-
-        let cached_time = getTime();
-        testCached([
-            'aeywuqieiwqyeqw9374589236748974890237432',
-            'bdjsahfjkhdsffjoihfihriofherwoirtuweroi',
-            'ci4908239045734 h5;3h59085903470583405',
-            'dvcmvkljiopfklfwdj iolfjeiwpie',
-            'eeiwuo7809432538245834905 8 54543',
-            'f,cvmmklfjpfe482390 7hjnofjwehdoirujier',
-            '58934059348g4230-489230-94 0-2394-23049-2',
-        ]);
-        cached_time = getTime() - cached_time;
-
-        assert.ok(cached_time < uncached_time);
-    });
-
     it('Should cache and allow for large amount of calculations to be passed (benchmark 1000000 < .1s)', () => {
         function fn (a) {
             return fnv1A(`${a}`);

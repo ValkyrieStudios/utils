@@ -4,7 +4,7 @@ import {describe, it}   from 'node:test';
 import assert           from 'node:assert/strict';
 import equal            from '../../src/equal.js';
 
-describe("Equal", () => {
+describe('Equal', () => {
     describe('Primitive: Undefined', () => {
         it('Correctly flag equal', () => {
             assert.ok(equal(undefined, undefined));
@@ -117,7 +117,7 @@ describe("Equal", () => {
             const b = [0, 1, 2];
             const c = [
                 0,
-                { a: 'Valkyrie rules' },
+                {a: 'Valkyrie rules'},
                 new RegExp('abcdefg', 'i'),
                 true,
                 false,
@@ -132,18 +132,18 @@ describe("Equal", () => {
                         [
                             6,
                             7,
-                            8
+                            8,
                         ],
                         {
                             a: 'hello world',
-                            b: [0, 1, { c: 'foobar' }]
-                        }
-                    ]
-                ]
+                            b: [0, 1, {c: 'foobar'}],
+                        },
+                    ],
+                ],
             ];
             const d = [
                 0,
-                { a: 'Valkyrie rules' },
+                {a: 'Valkyrie rules'},
                 new RegExp('abcdefg', 'i'),
                 true,
                 false,
@@ -158,14 +158,14 @@ describe("Equal", () => {
                         [
                             6,
                             7,
-                            8
+                            8,
                         ],
                         {
                             a: 'hello world',
-                            b: [0, 1, { c: 'foobar' }]
-                        }
-                    ]
-                ]
+                            b: [0, 1, {c: 'foobar'}],
+                        },
+                    ],
+                ],
             ];
             const e = ['hello', 'world', 'foo', 1, 2];
             const f = ['hello', 'world', 'foo', 1, 2];
@@ -180,7 +180,7 @@ describe("Equal", () => {
             const b = [0, 1, 3];
             const c = [
                 0,
-                { a: 'Valkyrie rulez' },
+                {a: 'Valkyrie rulez'},
                 new RegExp('abcdefg', 'i'),
                 true,
                 false,
@@ -195,18 +195,18 @@ describe("Equal", () => {
                         [
                             6,
                             7,
-                            8
+                            8,
                         ],
                         {
                             a: 'hello world',
-                            b: [0, 1, { c: 'foobar' }]
-                        }
-                    ]
-                ]
+                            b: [0, 1, {c: 'foobar'}],
+                        },
+                    ],
+                ],
             ];
             const d = [
                 0,
-                { a: 'Valkyrie rules' },
+                {a: 'Valkyrie rules'},
                 new RegExp('abcdefg', 'i'),
                 true,
                 false,
@@ -221,14 +221,14 @@ describe("Equal", () => {
                         [
                             6,
                             7,
-                            8
+                            8,
                         ],
                         {
                             a: 'hello world',
-                            b: [0, 1, { c: 'footbar' }]
-                        }
-                    ]
-                ]
+                            b: [0, 1, {c: 'footbar'}],
+                        },
+                    ],
+                ],
             ];
             const e = ['hello', 'warld', 'foo', 1, 2];
             const f = ['hello', 'world', 'foo', 1, 2];
@@ -253,7 +253,7 @@ describe("Equal", () => {
                     1,
                     2,
                     3,
-                    { x : [0, 'Hello', 'world'], y: 'foobar42', z: 42 }
+                    {x : [0, 'Hello', 'world'], y: 'foobar42', z: 42},
                 ],
             };
             const b = {
@@ -265,11 +265,11 @@ describe("Equal", () => {
                     1,
                     2,
                     3,
-                    { x : [0, 'Hello', 'world'], y: 'foobar42', z: 42 }
+                    {x : [0, 'Hello', 'world'], y: 'foobar42', z: 42},
                 ],
             };
-            const c = { a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
-            const d = { a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
+            const c = {a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001};
+            const d = {a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001};
             assert.ok(equal(a, b));
             assert.ok(equal(c, d));
         });
@@ -284,7 +284,7 @@ describe("Equal", () => {
                     1,
                     2,
                     3,
-                    { x : [0, 'Hello', 'world'], y: 'foobar42', z: 42 }
+                    {x : [0, 'Hello', 'world'], y: 'foobar42', z: 42},
                 ],
             };
             const b = {
@@ -296,11 +296,11 @@ describe("Equal", () => {
                     1,
                     2,
                     3,
-                    { x : [0, 'Hello', 'world'], y: 'foobar42', z: 42 }
+                    {x : [0, 'Hello', 'world'], y: 'foobar42', z: 42},
                 ],
             };
-            const c = { a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
-            const d = { a: new Date(2018, 10, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001 };
+            const c = {a: new Date(2018, 9, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001};
+            const d = {a: new Date(2018, 10, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001};
             assert.equal(equal(a, b), false);
             assert.equal(equal(c, d), false);
         });

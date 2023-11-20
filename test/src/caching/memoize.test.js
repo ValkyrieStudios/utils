@@ -1,10 +1,10 @@
 'use strict';
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import memoize              from '../../../src/caching/memoize.js';
-import fnv1A                from '../../../src/hash/fnv1A.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import {getTime}        from '../../constants.js';
+import memoize          from '../../../src/caching/memoize.js';
+import fnv1A            from '../../../src/hash/fnv1A.js';
 
 describe('Caching - memoize', () => {
     it('Should cache and allow for large amount of calculations to be passed (benchmark 1000000 < .1s)', () => {

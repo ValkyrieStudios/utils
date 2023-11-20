@@ -2,7 +2,6 @@
 
 import {describe, it}   from 'node:test';
 import assert           from 'node:assert/strict';
-import CONSTANTS        from '../../constants.js';
 import guid             from '../../../src/hash/guid.js';
 
 describe('Hash - guid', () => {

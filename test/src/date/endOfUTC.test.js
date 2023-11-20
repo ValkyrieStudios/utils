@@ -51,8 +51,8 @@ describe('Date - endOfUTC', () => {
                 12: {m: 12, d: 31},
             };
             for (let i = 1; i <= 12; i++) {
-                let date = `2023-${i < 10 ? '0' : ''}${i}-04T12:04:27+02:00`;
-                let date_q = `2023-${qmap[i].m < 10 ? '0' : ''}${qmap[i].m}-${qmap[i].d}T23:59:59.999Z`;
+                const date = `2023-${i < 10 ? '0' : ''}${i}-04T12:04:27+02:00`;
+                const date_q = `2023-${qmap[i].m < 10 ? '0' : ''}${qmap[i].m}-${qmap[i].d}T23:59:59.999Z`;
                 assert.deepEqual(endOfUTC(new Date(date), 'quarter'), new Date(date_q));
             }
         });

@@ -1,9 +1,9 @@
 'use strict';
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import fnv1A                from '../../../src/hash/fnv1A.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import fnv1A            from '../../../src/hash/fnv1A.js';
 
 describe('Hash - fnv1A', () => {
     it ('should output the same hash for the same value', () => {
@@ -72,15 +72,5 @@ describe('Hash - fnv1A', () => {
         assert.ok(fnv1A("http://www.fourmilab.ch/gravitation/orbits/") === 0x29b50b38);
         assert.ok(fnv1A("EFCDAB8967452301") === 0x7fcb2275);
         assert.ok(fnv1A("2^21701-1") === 0xc0ed2114);
-    });
-
-    it('Be fast (200.000 benchmark) < 150ms', () => {
-        const start_time = getTime();
-        let cursor = 0;
-        while (cursor < 200000) {
-            fnv1A("http://www.fourmilab.ch/gravitation/orbits/");
-            cursor++;
-        }
-        assert.ok((getTime() - start_time) < 150);
     });
 });

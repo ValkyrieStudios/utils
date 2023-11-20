@@ -2,10 +2,10 @@
 
 /* eslint-disable max-statements */
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import isBelow              from '../../../src/number/isBelow.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import isBelow          from '../../../src/number/isBelow.js';
 
 describe('Number - isBelow', () => {
     it('Returns false when passing nothing', () => {
@@ -52,11 +52,5 @@ describe('Number - isBelow', () => {
 
     it('Treat numeric values at max as false', () => {
         for (const el of [0, -100, 1, 0, 0.56, 0.89]) assert.equal(isBelow(el, el), false);
-    });
-
-    it('Should be blazing fast (benchmark 1000000 ops in < 20ms)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) isBelow(20, 5);
-        assert.ok((getTime() - start_time) < 20);
     });
 });

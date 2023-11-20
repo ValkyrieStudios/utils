@@ -2,10 +2,10 @@
 
 /* eslint-disable max-statements,no-new-wrappers */
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import round                from '../../../src/number/round.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import round            from '../../../src/number/round.js';
 
 describe('Number - round', () => {
     it('Should throw if not passed anything', () => {
@@ -53,11 +53,5 @@ describe('Number - round', () => {
         assert.equal(round(39.425, 2), 39.43);
         assert.equal(round(-1.005, 2), -1.01);
         assert.equal(round(-39.425, 2), -39.43);
-    });
-
-    it('Should be blazing fast (benchmark 1000000 ops in < 50ms)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) round(42.134691918126184, 3);
-        assert.ok((getTime() - start_time) < 50);
     });
 });

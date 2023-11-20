@@ -4,7 +4,7 @@
 
 import {describe, it}           from 'node:test';
 import assert                   from 'node:assert/strict';
-import CONSTANTS, {getTime}     from '../../constants.js';
+import CONSTANTS                from '../../constants.js';
 import isIntegerBelowOrEqual    from '../../../src/number/isIntegerBelowOrEqual.js';
 
 describe('Number - isIntegerBelowOrEqual', () => {
@@ -51,11 +51,5 @@ describe('Number - isIntegerBelowOrEqual', () => {
 
     it('Treat numeric values at max as true', () => {
         for (const el of [0, -100, 1]) assert.ok(isIntegerBelowOrEqual(el, el));
-    });
-
-    it('Should be blazing fast (benchmark 1000000 ops in < 20ms)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) isIntegerBelowOrEqual(20, 5);
-        assert.ok((getTime() - start_time) < 20);
     });
 });

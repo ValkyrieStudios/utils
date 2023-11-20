@@ -1,6 +1,5 @@
 'use strict';
 
-import isDate from './is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 
 const SECOND_IN_MILLISECONDS    = 1000;
@@ -10,8 +9,15 @@ const DAY_IN_MILLISECONDS       = HOUR_IN_MILLISECONDS * 24;
 const WEEK_IN_MILLISECONDS      = DAY_IN_MILLISECONDS * 7;
 
 export default function diff (val_a, val_b, key = false) {
-    if (!isDate(val_a) || !isDate(val_b)) throw new Error('Diff requires date objects for both values');
-    if (key !== false && !isNotEmptyString(key)) throw new Error('Key needs to be a string or false');
+    if (
+        !(val_a instanceof Date) ||
+        !(val_b instanceof Date)
+    ) throw new TypeError('Diff requires date objects for both values');
+
+    if (
+        key !== false &&
+        !isNotEmptyString(key)
+    ) throw new TypeError('Key needs to be a string or false');
 
     //  Get difference in milliseconds
     const diff_in_ms = val_a.valueOf() - val_b.valueOf();

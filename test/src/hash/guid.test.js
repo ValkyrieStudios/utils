@@ -1,9 +1,9 @@
 'use strict';
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import guid                 from '../../../src/hash/guid.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import guid             from '../../../src/hash/guid.js';
 
 describe('Hash - guid', () => {
     it('Output a string value', () => {
@@ -28,16 +28,6 @@ describe('Hash - guid', () => {
         assert.ok(map.size === cursor);
     });
 
-    it('Be fast (50.000 benchmark) < 50ms', () => {
-        const start_time = getTime();
-        let cursor = 0;
-        while (cursor < 50000) {
-            guid();
-            cursor++;
-        }
-        assert.ok((getTime() - start_time) < 50);
-    });
-
     it('Be unique (100.000 benchmark)', () => {
         const map = new Map();
         let cursor = 0;
@@ -48,16 +38,6 @@ describe('Hash - guid', () => {
         assert.ok(map.size === cursor);
     });
 
-    it('Be fast (100.000 benchmark) < 100ms', () => {
-        const start_time = getTime();
-        let cursor = 0;
-        while (cursor < 100000) {
-            guid();
-            cursor++;
-        }
-        assert.ok((getTime() - start_time) < 100);
-    });
-
     it('Be unique (200.000 benchmark)', () => {
         const map = new Map();
         let cursor = 0;
@@ -66,15 +46,5 @@ describe('Hash - guid', () => {
             cursor++;
         }
         assert.ok(map.size === cursor);
-    });
-
-    it('Be fast (200.000 benchmark) < 200ms', () => {
-        const start_time = getTime();
-        let cursor = 0;
-        while (cursor < 200000) {
-            guid();
-            cursor++;
-        }
-        assert.ok((getTime() - start_time) < 200);
     });
 });

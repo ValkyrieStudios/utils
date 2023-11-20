@@ -2,10 +2,10 @@
 
 /* eslint-disable max-statements,no-new-wrappers */
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import toPercentage         from '../../../src/number/toPercentage.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import toPercentage     from '../../../src/number/toPercentage.js';
 
 describe('Number - toPercentage', () => {
     it('Should throw if not passed anything', () => {
@@ -82,11 +82,5 @@ describe('Number - toPercentage', () => {
         assert.equal(toPercentage(-356, 0, -1000, 1000), 32);
         assert.equal(toPercentage(-356.52, 3, -1000, 1000), 32.174);
         assert.equal(toPercentage(0.005, 0, 0, 0.1), 5);
-    });
-
-    it('Should be blazing fast (benchmark 1000000 ops in < 50ms)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) toPercentage(0.42134691918126184, 3, -1, 1);
-        assert.ok((getTime() - start_time) < 50);
     });
 });

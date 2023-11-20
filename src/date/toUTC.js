@@ -1,9 +1,9 @@
 'use strict';
 
-import isDate from './is.js';
-
 export default function toUTC (val) {
-    if (!isDate(val)) throw new Error('Date To UTC requires a date object');
+    if (
+        !(val instanceof Date)
+    ) throw new TypeError('toUTC requires a date object');
 
     return new Date(Date.UTC(
         val.getUTCFullYear(),

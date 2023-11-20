@@ -13,14 +13,14 @@ describe('Caching - memoize', () => {
         }
 
         function testUncached (cases) {
-            for (let i = 0; i < 1000000; i++) {
+            for (let i = 0; i < 10000000; i++) {
                 fn(cases[Math.floor(Math.random() * (6 - 0 + 1)) + 0]);
             }
         }
 
         function testCached (cases) {
             const memoized_fn = memoize(fn);
-            for (let i = 0; i < 1000000; i++) {
+            for (let i = 0; i < 10000000; i++) {
                 memoized_fn(cases[Math.floor(Math.random() * (6 - 0 + 1)) + 0]);
             }
         }

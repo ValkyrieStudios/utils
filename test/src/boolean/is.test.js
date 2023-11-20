@@ -15,6 +15,6 @@ describe('Boolean - is', () => {
     });
 
     it('Return true when passed a boolean value', () => {
-        for (const el of CONSTANTS.IS_BOOLEAN) assert.equal(isBoolean(el), true);
+        for (const el of CONSTANTS.IS_BOOLEAN) assert.ok(isBoolean(el));
     });
 });

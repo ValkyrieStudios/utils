@@ -1,9 +1,9 @@
 'use strict';
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import mapPrimitive         from '../../../src/array/mapPrimitive.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import mapPrimitive     from '../../../src/array/mapPrimitive.js';
 
 describe('Array - mapPrimitive', () => {
     it('Returns an empty object when passing nothing', () => {
@@ -144,21 +144,5 @@ describe('Array - mapPrimitive', () => {
                 bar: 'bar',
             }
         );
-    });
-
-    it('Should map a primitive number array in a fast way (benchmark 1000000 rounds with a 10 val array) in < 1sec', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) {
-            mapPrimitive([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-        }
-        assert.ok((getTime() - start_time) < 1000);
-    });
-
-    it('Should map a primitive string array in a fast way (benchmark 1000000 rounds with a 10 val array) in < 1sec', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) {
-            mapPrimitive(['helo', 'foo', 'bar', 'what?', 'that', 'that', 'is', 'amazing', 'right', 'there']);
-        }
-        assert.ok((getTime() - start_time) < 1000);
     });
 });

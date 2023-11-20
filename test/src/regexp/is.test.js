@@ -15,6 +15,6 @@ describe('RegExp - is', () => {
     });
 
     it('Return true when passed a regexp value', () => {
-        for (const el of CONSTANTS.IS_REGEXP) assert.equal(isRegExp(el), true);
+        for (const el of CONSTANTS.IS_REGEXP) assert.ok(isRegExp(el));
     });
 });

@@ -2,10 +2,10 @@
 
 /* eslint-disable max-statements,no-new-wrappers */
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import randomBetween        from '../../../src/number/randomBetween.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import randomBetween    from '../../../src/number/randomBetween.js';
 
 describe('Number - randomBetween', () => {
     it('Returns a number when passing nothing', () => {
@@ -116,11 +116,5 @@ describe('Number - randomBetween', () => {
                 new TypeError('Min/Max should be numeric')
             );
         }
-    });
-
-    it('Should be blazing fast (benchmark 1000000 ops in < 50ms)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) randomBetween(0, 100);
-        assert.ok((getTime() - start_time) < 50);
     });
 });

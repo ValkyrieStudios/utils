@@ -1,11 +1,15 @@
 'use strict';
 
-import isDate from './is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 
 export default function endOfUTC (val, key) {
-    if (!isDate(val)) throw new Error('Date To UTC requires a date object');
-    if (!isNotEmptyString(key)) throw new Error('Key needs to be a string with content');
+    if (
+        !(val instanceof Date)
+    ) throw new TypeError('endOfUTC requires a date object');
+
+    if (
+        !isNotEmptyString(key)
+    ) throw new TypeError('Key needs to be a string with content');
 
     switch (key) {
         case 'year':

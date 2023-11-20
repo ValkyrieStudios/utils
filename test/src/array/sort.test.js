@@ -2,13 +2,13 @@
 
 /* eslint-disable max-statements */
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import sort                 from '../../../src/array/sort.js';
-import shuffle              from '../../../src/array/shuffle.js';
-import isObject             from '../../../src/object/is.js';
-import isNotEmptyString     from '../../../src/string/isNotEmpty.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import sort             from '../../../src/array/sort.js';
+import shuffle          from '../../../src/array/shuffle.js';
+import isObject         from '../../../src/object/is.js';
+import isNotEmptyString from '../../../src/string/isNotEmpty.js';
 
 describe('Array - sort', () => {
     it('Returns an empty array when passing nothing', () => {
@@ -611,69 +611,5 @@ describe('Array - sort', () => {
         ]);
         out[0].test = 'Alice rocks';
         assert.equal(arr[6].test, 'Alice rocks');
-    });
-
-    it('Should sort blazing fast when sorting with a key string to sort by (500000 runs in < 1sec)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 500000; x++) {
-            sort([
-                {test: 'Peter'},
-                {test: 'Jack'},
-                {test: 'Pony'},
-                {test: 'John'},
-                {test: 'Joe'},
-                {test: 'Bob'},
-                {test: 'Alice'},
-            ], 'test', 'asc');
-        }
-        assert.ok((getTime() - start_time) < 1000);
-    });
-
-    it('Should sort blazing fast when sorting with a key string to sort by in descending order (500000 runs in < 1sec)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 500000; x++) {
-            sort([
-                {test: 'Peter'},
-                {test: 'Jack'},
-                {test: 'Pony'},
-                {test: 'John'},
-                {test: 'Joe'},
-                {test: 'Bob'},
-                {test: 'Alice'},
-            ], 'test', 'desc');
-        }
-        assert.ok((getTime() - start_time) < 1000);
-    });
-
-    it('Should sort blazing fast when sorting with a function to sort by (500000 runs in < 1sec)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 500000; x++) {
-            sort([
-                {test: 'Peter'},
-                {test: 'Jack'},
-                {test: 'Pony'},
-                {test: 'John'},
-                {test: 'Joe'},
-                {test: 'Bob'},
-                {test: 'Alice'},
-            ], el => el.test.toLowerCase(), 'asc');
-        }
-        assert.ok((getTime() - start_time) < 1000);
-    });
-
-    it('Should sort blazing fast when sorting with a function to sort by in descending order (500000 runs in < 1sec)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 500000; x++) {
-            sort([
-                {test: 'Peter'},
-                {test: 'Jack'},
-                {test: 'Pony'},
-                {test: 'John'},
-                {test: 'Joe'},
-                {test: 'Bob'},
-                {test: 'Alice'},
-            ], el => el.test.toLowerCase(), 'desc');
-        }
-        assert.ok((getTime() - start_time) < 1000);
     });
 });

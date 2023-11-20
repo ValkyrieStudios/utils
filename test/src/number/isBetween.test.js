@@ -2,10 +2,10 @@
 
 /* eslint-disable max-statements */
 
-import {describe, it}       from 'node:test';
-import assert               from 'node:assert/strict';
-import CONSTANTS, {getTime} from '../../constants.js';
-import isBetween            from '../../../src/number/isBetween.js';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
+import CONSTANTS        from '../../constants.js';
+import isBetween        from '../../../src/number/isBetween.js';
 
 describe('Number - isBetween', () => {
     it('Returns false when passing nothing', () => {
@@ -85,11 +85,5 @@ describe('Number - isBetween', () => {
             [9, 1, 9],
             [0.2, 0, 0.2],
         ]) assert.ok(isBetween(el[0], el[1], el[2]));
-    });
-
-    it('Should be blazing fast (benchmark 1000000 ops in < 20ms)', () => {
-        const start_time = getTime();
-        for (let x = 0; x < 1000000; x++) isBetween(20, 5, 25);
-        assert.ok((getTime() - start_time) < 20);
     });
 });

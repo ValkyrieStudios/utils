@@ -3,11 +3,14 @@
 import deepGet          from '../deep/get.js';
 import deepSet          from '../deep/set.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
-import isObject         from './is.js';
+import {PROTO_OBJ}      from './is.js';
 
-export default function pick (obj = {}, keys = []) {
-    if (!isObject(obj)) throw new TypeError('Please pass an object to pick as the value for obj');
-    if (!Array.isArray(keys)) throw new TypeError('Please pass an array as the value for keys');
+export default function pick (obj, keys) {
+    if (
+        Object.prototype.toString.call(obj) !== PROTO_OBJ ||
+        !Array.isArray(keys) ||
+        keys.length === 0
+    ) throw new TypeError('Please pass an object to pick from and a keys array');
 
     const map = {};
     for (const key of keys) {

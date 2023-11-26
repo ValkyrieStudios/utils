@@ -1,25 +1,26 @@
 'use strict';
 
-import isObject         from '../object/is.js';
 import isString         from '../string/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
+import {PROTO_OBJ}      from '../object/is.js';
 import humanizeNumber   from './humanizeNumber.js';
 
 //  Humanize a numerical byte value into a readable file size
 //
 //  @param int  val     Amount of bytes
 export default function humanizeBytes (val, options = {}) {
+    const has_opts = Object.prototype.toString.call(options) === PROTO_OBJ;
     return humanizeNumber(val, {
-        delim: isObject(options) && isString(options.delim)
+        delim: has_opts && isString(options.delim)
             ? options.delim
             : ',',
-        separator: isObject(options) && isNotEmptyString(options.separator)
+        separator: has_opts && isNotEmptyString(options.separator)
             ? options.separator
             : '.',
-        precision: isObject(options) && Number.isInteger(options.precision) && options.precision >= 0
+        precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0
             ? options.precision
             : 2,
-        units: isObject(options) && Array.isArray(options.units) && options.units.length > 0
+        units: has_opts && Array.isArray(options.units) && options.units.length > 0
             ? options.units.filter(isNotEmptyString)
             : [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'],
         divider: 1024,

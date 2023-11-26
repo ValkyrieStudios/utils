@@ -1,8 +1,8 @@
 'use strict';
 
-import isObject         from '../object/is.js';
 import isFunction       from '../function/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
+import {PROTO_OBJ}      from '../object/is.js';
 
 export default function mapFn (arr, fn, opts = {}) {
     if (
@@ -12,12 +12,12 @@ export default function mapFn (arr, fn, opts = {}) {
 
     const OPTS = Object.assign({
         merge: false,
-    }, isObject(opts) ? opts : {});
+    }, Object.prototype.toString.call(opts) === PROTO_OBJ ? opts : {});
 
     const map = {};
     let hash = false;
     for (const el of arr) {
-        if (!isObject(el)) continue;
+        if (Object.prototype.toString.call(el) !== PROTO_OBJ) continue;
 
         //  Get hash
         hash = fn(el);

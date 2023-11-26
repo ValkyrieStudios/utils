@@ -1,7 +1,7 @@
 'use strict';
 
-import isObject         from '../object/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
+import {PROTO_OBJ}      from '../object/is.js';
 
 export default function mapKey (arr, key, opts = {}) {
     if (
@@ -11,11 +11,13 @@ export default function mapKey (arr, key, opts = {}) {
 
     const OPTS = Object.assign({
         merge: false,
-    }, isObject(opts) ? opts : {});
+    }, Object.prototype.toString.call(opts) === PROTO_OBJ ? opts : {});
 
     const map = {};
     for (const el of arr) {
-        if (!isObject(el) || !el.hasOwnProperty(key)) continue;
+        if (
+            Object.prototype.toString.call(el) !== PROTO_OBJ ||
+            !el.hasOwnProperty(key)) continue;
         if (OPTS.merge === true && map.hasOwnProperty(el[key])) {
             map[el[key]] = Object.assign(map[el[key]], el);
         } else {

@@ -1,7 +1,7 @@
 'use strict';
 
-import isObject         from '../object/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
+import {PROTO_OBJ}      from '../object/is.js';
 
 //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
 function interpolatePath (path) {
@@ -12,7 +12,10 @@ function interpolatePath (path) {
 
 //  Get a value from a path in a json-like structure
 export default function deepGet (obj, path, get_parent = false) {
-    if (!isObject(obj) && !Array.isArray(obj)) throw new TypeError('Deepget is only supported for objects');
+    if (
+        Object.prototype.toString.call(obj) !== PROTO_OBJ &&
+        !Array.isArray(obj)
+    ) throw new TypeError('Deepget is only supported for objects');
 
     const parts = interpolatePath(path);
 

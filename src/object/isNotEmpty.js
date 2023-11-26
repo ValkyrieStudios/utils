@@ -1,6 +1,7 @@
 'use strict';
 
+import {PROTO_OBJ} from './is.js';
+
 export default function isNotEmptyObject (val) {
-    if (val === null || Object.prototype.toString.call(val) !== '[object Object]') return false;
-    return Object.keys(val).length !== 0;
+    return Object.prototype.toString.call(val) === PROTO_OBJ && Object.keys(val).length > 0;
 }

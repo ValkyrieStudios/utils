@@ -1,8 +1,8 @@
 'use strict';
 
 import isBoolean        from '../boolean/is.js';
-import isObject         from '../object/is.js';
 import isNotEmptyObject from '../object/isNotEmpty.js';
+import {PROTO_OBJ}      from '../object/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 import isFunction       from '../function/is.js';
 
@@ -51,10 +51,12 @@ export default function sort (arr, by, dir = 'asc', options = {}) {
     //  Check dir
     if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
 
+    const has_opts = Object.prototype.toString.call(options) === PROTO_OBJ;
+
     const OPTS = {
-        filter_fn   : isObject(options) && isFunction(options.filter_fn) ? options.filter_fn : isNotEmptyObject,
-        nokey_hide  : isObject(options) && isBoolean(options.nokey_hide) ? options.nokey_hide : false,
-        nokey_atend : isObject(options) && isBoolean(options.nokey_atend) ? options.nokey_atend : true,
+        filter_fn   : has_opts && isFunction(options.filter_fn) ? options.filter_fn : isNotEmptyObject,
+        nokey_hide  : has_opts && isBoolean(options.nokey_hide) ? options.nokey_hide : false,
+        nokey_atend : has_opts && isBoolean(options.nokey_atend) ? options.nokey_atend : true,
     };
 
     //  Prepare for sort

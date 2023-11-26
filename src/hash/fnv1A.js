@@ -3,10 +3,9 @@
 /* eslint-disable no-bitwise */
 
 import isString         from '../string/is.js';
-import isDate           from '../date/is.js';
-import isObject         from '../object/is.js';
 import isNumericalNaN   from '../number/isNumericalNaN.js';
-import isRegExp         from '../regexp/is.js';
+import {PROTO_RGX}      from '../regexp/is.js';
+import {PROTO_OBJ}      from '../object/is.js';
 
 //  https://tools.ietf.org/html/draft-eastlake-fnv-03
 
@@ -26,11 +25,11 @@ export default function fnv1A (data, offset = FNV_32) {
         sanitized = data;
     } else if (Number.isFinite(data)) {
         sanitized = `${data}`;
-    } else if (Array.isArray(data) || isObject(data)) {
+    } else if (Array.isArray(data) || Object.prototype.toString.call(data) === PROTO_OBJ) {
         sanitized = JSON.stringify(data);
-    } else if (isRegExp(data)) {
+    } else if (Object.prototype.toString.call(data) === PROTO_RGX) {
         sanitized = data.toString();
-    } else if (isDate(data)) {
+    } else if (data instanceof Date) {
         sanitized = `${data.getTime()}`;
     } else if (isNumericalNaN(data)) {
         sanitized = REPL_NAN;

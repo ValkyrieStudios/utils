@@ -2,10 +2,9 @@
 
 /* eslint-disable no-use-before-define */
 
-import isObject         from './object/is.js';
 import isNumericalNaN   from './number/isNumericalNaN.js';
-import isRegExp         from './regexp/is.js';
-import isDate           from './date/is.js';
+import {PROTO_RGX}      from './regexp/is.js';
+import {PROTO_OBJ}      from './object/is.js';
 
 function isArrayEqual (a, b) {
     if (a.length !== b.length) return false;
@@ -33,24 +32,28 @@ function isObjectEqual (a, b) {
 
 function equal (a, b) {
     //  Date Check
-    if (isDate(a) && isDate(b)) {
-        return a.valueOf() === b.valueOf();
-    }
+    if (
+        a instanceof Date &&
+        b instanceof Date
+    ) return a.valueOf() === b.valueOf();
 
     //  RegExp Check
-    if (isRegExp(a) || isRegExp(b)) {
-        return String(a) === String(b);
-    }
+    if (
+        Object.prototype.toString.call(a) === PROTO_RGX &&
+        Object.prototype.toString.call(b) === PROTO_RGX
+    ) return String(a) === String(b);
 
     //  Array as root equal
-    if (Array.isArray(a) && Array.isArray(b)) {
-        return isArrayEqual(a, b);
-    }
+    if (
+        Array.isArray(a) &&
+        Array.isArray(b)
+    ) return isArrayEqual(a, b);
 
     //  Object as root equal
-    if (isObject(a) && isObject(b)) {
-        return isObjectEqual(a, b);
-    }
+    if (
+        Object.prototype.toString.call(a) === PROTO_OBJ &&
+        Object.prototype.toString.call(b) === PROTO_OBJ
+    ) return isObjectEqual(a, b);
 
     //  NAN Check
     if (isNumericalNaN(a)) {

@@ -1,11 +1,11 @@
 'use strict';
 
-import isObject from './is.js';
+import {PROTO_OBJ} from './is.js';
 
-export default function define (props = {}, obj = {}) {
+export default function define (props, obj = {}) {
     if (
-        !isObject(props) ||
-        !isObject(obj)
+        Object.prototype.toString.call(props) !== PROTO_OBJ ||
+        Object.prototype.toString.call(obj) !== PROTO_OBJ
     ) throw new TypeError('Please pass an object as the value for props and obj');
 
     return Object.defineProperties(obj, props);

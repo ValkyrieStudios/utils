@@ -1,5 +1,7 @@
 'use strict';
 
+export const PROTO_OBJ = '[object Object]';
+
 export default function isObject (val) {
-    return val !== null && Object.prototype.toString.call(val) === '[object Object]';
+    return Object.prototype.toString.call(val) === PROTO_OBJ;
 }

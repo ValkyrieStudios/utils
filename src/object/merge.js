@@ -1,16 +1,22 @@
 'use strict';
 
-import isObject from './is.js';
+import {PROTO_OBJ} from './is.js';
 
-const merge = (target = {}, obj = {}) => {
-    if (!isObject(target)) throw new TypeError('Please pass an object to merge');
+const merge = (target, source = {}) => {
+    if (
+        Object.prototype.toString.call(target) !== PROTO_OBJ ||
+        Object.prototype.toString.call(source) !== PROTO_OBJ
+    ) throw new TypeError('Please pass a target and object to merge');
 
     return Object.keys(target).reduce((acc, key) => {
-        if (isObject(target[key]) && !Array.isArray(target[key])) {
-            acc[key] = merge(target[key], obj[key] || {});
+        if (
+            Object.prototype.toString.call(target[key]) === PROTO_OBJ &&
+            !Array.isArray(target[key])
+        ) {
+            acc[key] = merge(target[key], source[key] || {});
         } else {
-            acc[key] = obj.hasOwnProperty(key)
-                ? obj[key]
+            acc[key] = source.hasOwnProperty(key)
+                ? source[key]
                 : target[key];
         }
         return acc;

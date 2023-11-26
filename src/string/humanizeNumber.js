@@ -1,34 +1,35 @@
 'use strict';
 
 import isBoolean        from '../boolean/is.js';
-import isObject         from '../object/is.js';
 import isString         from '../string/is.js';
 import isNotEmptyString from '../string/isNotEmpty.js';
 import round            from '../number/round.js';
+import {PROTO_OBJ}      from '../object/is.js';
 
 //  Humanize a numerical value into a unit base
 //
 //  @param int  val     Amount of bytes
 export default function humanizeNumber (val, options = {}) {
+    const has_opts = Object.prototype.toString.call(options) === PROTO_OBJ;
     const OPTS = {
-        delim: isObject(options) && isString(options.delim)
+        delim: has_opts && isString(options.delim)
             ? options.delim
             : ',',
-        separator: isObject(options) && isNotEmptyString(options.separator)
+        separator: has_opts && isNotEmptyString(options.separator)
             ? options.separator
             : '.',
-        precision: isObject(options) && Number.isInteger(options.precision) && options.precision >= 0
+        precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0
             ? options.precision
             : 2,
-        units: isObject(options) && ((Array.isArray(options.units) && options.units.length > 0) || options.units === false)
+        units: has_opts && ((Array.isArray(options.units) && options.units.length > 0) || options.units === false)
             ? options.units ? options.units.filter(isString) : false
             : ['', 'k', 'm', 'b', 't', 'q'],
         //  Have to have at least bigger than 1 to not end in infinite loop
-        divider: isObject(options) && Number.isInteger(options.divider) && options.divider > 1
+        divider: has_opts && Number.isInteger(options.divider) && options.divider > 1
             ? options.divider
             : 1000,
         //  Should we auto parse as integer (true) or not (false)
-        real: isObject(options) && isBoolean(options.real)
+        real: has_opts && isBoolean(options.real)
             ? options.real
             : false,
     };

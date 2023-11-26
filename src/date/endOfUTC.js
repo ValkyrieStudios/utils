@@ -26,7 +26,7 @@ export default function endOfUTC (val, key) {
             const new_quarter = val.getUTCMonth() - (val.getUTCMonth() % 3);
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                new_quarter >= 0 ? new_quarter + 3 : 3,
+                new_quarter > 0 ? new_quarter + 3 : 3,
                 0,
                 23,
                 59,

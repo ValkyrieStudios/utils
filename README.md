@@ -47,7 +47,7 @@ output:
 
 Autofilters anything not meeting the spec:
 ```js
-[
+mapKey([
     0,
     {uid: 12, name: 'Peter'},
     false,
@@ -71,7 +71,7 @@ output:
 
 allows merging objects onto existing keys: 
 ```js
-[
+mapKey([
     0,
     {uid: 12, name: 'Peter'},
     false,
@@ -104,7 +104,7 @@ mapFn([
     {uid: 12, name: 'Peter'},
     {uid: 15, name: 'Jonas'},
     {uid: 87, name: 'Josh'},
-], el => el.uid))
+], el => el.uid)
 
 output:
 
@@ -412,7 +412,7 @@ Sets a property and its value deep in the structure of an object
 ```js
 const myObj = {
 	a: 2,
-});
+};
 deepSet(myObj, 'b.c.d.e', 4);
 myObj.b.c.d.e; // 4
 ```
@@ -424,7 +424,7 @@ const myObj = {
 		{ price : 2 },
 		{ price : 4 },
 	],
-});
+};
 deepSet(myObj, 'b[0].price', 100);
 deepSet(myObj, 'b[1].price', 500);
 myObj.b[0].price; // 100
@@ -434,7 +434,7 @@ myObj.b[1].price; // 500
 ```js
 const myObj = {
 	a: 2,
-});
+};
 deepSet(myObj, 'b.c', { value: function () => {...} }, true);
 myObj.b.c; // Function
 ```
@@ -448,7 +448,7 @@ const myObj = {
 		{ price : 2 },
 		{ price : 4 },
 	],
-});
+};
 deepGet(myObj, 'b[0].price', true); // [{price: 2}, {price: 4}]
 ```
 
@@ -459,7 +459,7 @@ const myObj = {
 		{ price : 2 },
 		{ price : 4 },
 	],
-});
+};
 deepGet(myObj, 'b[0].price'); // 2
 ```
 
@@ -659,13 +659,6 @@ randomIntBetween(25, 100); // Will generate a random between 25 and 100 (100 not
 ```
 
 ### object
-- **forValues(obj:Object={}, cb:Function=noopreturn)**
-Iterate over the keys of the object and apply the callback function to their values
-```js
-const obj = {a: 1, b: 2, c: 3};
-forValues(obj, (key, value, index) => value + 1); // {a: 2, b:3, c:4}
-```
-
 - **isObject(val:any)**
 Check if a variable is of type Object
 ```js
@@ -694,20 +687,6 @@ Merges two objects together, with the preference over the second object.
 merge({a: 1, b: false}, {a: 900, c: 50}); // {a: 900, b: false, c: 50}
 ```
 
-- **zip(keys:Array[string]=[], values:Array[string]=[], default_to:any=null)**
-Creates an object from a keys and a values array. Mapping them together.
-```js
-zip(['a', 'b'], [100, 200]); // {a: 100, b: 200}
-```
-
-```js
-zip(['a','b']); // {a: null, b: null}
-```
-
-```js
-zip(['a','b', false, 9999]); // {a: 9999, b: 9999}
-```
-
 - **define(props:Object, obj:Object={})**
 Creates an object with the passed accessors set on it
 ```js
@@ -730,32 +709,6 @@ define({
 		value : function () { ... }
 	}
 }); // { a : () => ... }
-```
-
-- **defineFrozen(props:Object, obj:Object={})**
-Creates an object with the passed accessors set on it, and returns it as a frozen object
-```js
-const myObject = defineFrozen({
-	a : {
-		enumerable: false,
-		value : function () { ... }
-	}
-);
-myObject; // { a : () => ... }
-Object.isFrozen(myObject); // TRUE
-```
-
-- **defineSealed(props:Object, obj:Object={})**
-Creates an object with the passed accessors set on it, and returns it as a sealed object
-```js
-const myObject = defineSealed({
-	a : {
-		enumerable: false,
-		value : function () { ... }
-	}
-);
-myObject; // { a : () => ... }
-Object.isSealed(myObject); // TRUE
 ```
 
 ### regexp

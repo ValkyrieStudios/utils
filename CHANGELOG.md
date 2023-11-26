@@ -18,6 +18,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - deep/set: Improved performance due to order change during path interpolation
 - string/shorten: Will no longer return false but an empty string when passed a string that is empty after trimming
 - string/isBetween: Will now validate that min and max are passed as above or equal to 0
+- object/pick: Will now throw when passed an empty array of keys
+- object/merge: Will now throw when passed a non-object target and source (previously only non-object target)
 - Performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls andless Heap chatter
 
 ### Breaking
@@ -32,6 +34,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: chai-spies (in favor of native node test runner)
 - Dev Dep: mocha (in favor of native node test runner)
 - Dev Dep: nyc (in favor of native node test runner in combination with c8)
+- object/defineFrozen: As these worked on a pass-by-reference and if misunderstood could have certain unwanted side-effects
+- object/defineSealed: As these worked on a pass-by-reference and if misunderstood could have certain unwanted side-effects
+- object/zip
+- object/forValues
 
 ## [7.5.0] - 2023-10-22
 ### Improved

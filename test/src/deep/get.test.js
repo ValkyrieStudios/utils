@@ -1,0 +1,100 @@
+'use strict';
+
+import {describe, it, beforeEach}   from 'node:test';
+import assert                       from 'node:assert/strict';
+import CONSTANTS                    from '../../constants.js';
+import deepGet                      from '../../../src/deep/get.js';
+
+describe.only('Deep - get', () => {
+    let subject;
+    beforeEach(function() {
+        subject = {
+            a: 1,
+            b: 2,
+            c: 3,
+            d: [
+                0,
+                1,
+                2,
+                3,
+                {
+                    e: 'Hello',
+                    f: ['a', 'b', 'c'],
+                    g: '',
+                    k: false,
+                },
+            ],
+            h : '',
+            i : false,
+            j : true,
+            l : [],
+        };
+    });
+
+    it('Correctly retrieves a value on an existing key', function () {
+        assert.equal(deepGet(subject, 'a'), 1);
+        assert.equal(deepGet(subject, 'd[0]'), 0);
+        assert.equal(deepGet(subject, 'd.0'), 0);
+        assert.equal(deepGet(subject, 'd.5'), undefined);
+        assert.equal(deepGet(subject, 'd[4].e'), 'Hello');
+        assert.equal(deepGet(subject, 'd.4.f[2]'), 'c');
+        assert.equal(deepGet(subject, 'd.4.g'), '');
+        assert.equal(deepGet(subject, 'h'), '');
+        assert.equal(deepGet(subject, 'i'), false);
+        assert.equal(deepGet(subject, 'j'), true);
+        assert.equal(deepGet(subject, 'd.4.k'), false);
+        assert.deepEqual(deepGet(subject, 'l'), []);
+    });
+
+    it('Correctly returns undefined when diving into a key that doesnt exist', function () {
+        assert.equal(deepGet(subject, 'a.x'), undefined);
+        assert.equal(deepGet(subject, 'x'), undefined);
+        assert.equal(deepGet(subject, 'l.1'), undefined);
+    });
+
+    it('Should throw when not passed an object or array', function () {
+        for (const el of [
+            ...CONSTANTS.IS_NUMERIC,
+            ...CONSTANTS.IS_INTEGER,
+            ...CONSTANTS.IS_BOOLEAN,
+            ...CONSTANTS.IS_STRING,
+            ...CONSTANTS.IS_REGEXP,
+            ...CONSTANTS.IS_DATE,
+            ...CONSTANTS.IS_FUNCTION,
+            ...CONSTANTS.IS_NULLABLE,
+        ]) {
+            assert.throws(
+                () => deepGet(el, '2'),
+                new TypeError('Deepget is only supported for objects')
+            );
+        }
+    });
+
+    it('Should throw when not passed a string/array key', function () {
+        for (const el of [
+            ...CONSTANTS.IS_NUMERIC,
+            ...CONSTANTS.IS_ARRAY,
+            ...CONSTANTS.IS_OBJECT,
+            ...CONSTANTS.IS_INTEGER,
+            ...CONSTANTS.IS_BOOLEAN,
+            ...CONSTANTS.IS_REGEXP,
+            ...CONSTANTS.IS_DATE,
+            ...CONSTANTS.IS_FUNCTION,
+            ...CONSTANTS.IS_NULLABLE,
+        ]) {
+            assert.throws(
+                () => deepGet({a: '2'}, el),
+                new TypeError('No path was given')
+            );
+        }
+    });
+
+    it('Should throw when passed an empty string path', function () {
+        const obj = {a: 'bi'};
+        assert.throws(
+            () => deepGet(obj, ''),
+            new TypeError('No path was given')
+        );
+        assert.deepEqual(obj, {a: 'bi'});
+    });
+});

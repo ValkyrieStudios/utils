@@ -25,6 +25,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Breaking
 - The usage of non-primitive number formats (eg: `new Number(...)`) will no longer be supported to allow for performance improvements during validity checks. This should not impact many people as the usage of numbers in that format has been discouraged for many years.
 
+### Fixed
+- deep/set: Fix an issue where multiple runs of deepSet could throw errors when trying to assign a deeper value to a value that was previously set to a primitive
+- deep/set: Fix an issue preventing building up of deep arrays using eg: deepSet({a: []}, 'a.0.name', 'Peter')
+- deep/get: Fix an issue where deepGet would throw an error instead of returning undefined when diving into certain keys that don't exist on deep objects and arrays
+
 ### Removed
 - Dev Dep: babel-plugin-check-es2015-constants (as not needed)
 - Dev Dep: babel-plugin-transform-member-expression-literals (as not needed)

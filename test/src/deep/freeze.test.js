@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable id-denylist */
+
 import {describe, it, beforeEach}   from 'node:test';
 import assert                       from 'node:assert/strict';
 import CONSTANTS                    from '../../constants.js';
@@ -7,7 +9,7 @@ import deepFreeze                   from '../../../src/deep/freeze.js';
 
 describe.only('Deep - get', () => {
     let subject;
-    beforeEach(function() {
+    beforeEach(() => {
         subject = deepFreeze({
             a: 1,
             test: [1, 2, 3],
@@ -25,14 +27,14 @@ describe.only('Deep - get', () => {
         });
     });
 
-    it('isSealed flag on every nested object', function () {
+    it('isSealed flag on every nested object', () => {
         assert.ok(Object.isSealed(subject));
         assert.ok(Object.isSealed(subject.test));
         assert.ok(Object.isSealed(subject.c));
         assert.ok(Object.isSealed(subject.c.e));
     });
 
-    it('Should throw when not passed an object or array', function () {
+    it('Should throw when not passed an object or array', () => {
         for (const el of [
             ...CONSTANTS.IS_NUMERIC,
             ...CONSTANTS.IS_INTEGER,

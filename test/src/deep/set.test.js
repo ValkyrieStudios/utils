@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable id-denylist */
+
 import {describe, it, beforeEach}   from 'node:test';
 import assert                       from 'node:assert/strict';
 import CONSTANTS                    from '../../constants.js';
@@ -7,7 +9,7 @@ import deepSet                      from '../../../src/deep/set.js';
 
 describe('Deep - set', () => {
     let subject;
-    beforeEach(function() {
+    beforeEach(() => {
         subject = {
             a: 1,
             b: 2,
@@ -25,7 +27,7 @@ describe('Deep - set', () => {
         };
     });
 
-    it('Correctly sets a value on an existing key', function () {
+    it('Correctly sets a value on an existing key', () => {
         deepSet(subject, 'c', 4);
         deepSet(subject, 'd.0', 100);
         deepSet(subject, 'd.4.e', 'world');
@@ -37,7 +39,7 @@ describe('Deep - set', () => {
         assert.equal(subject.d[4].f[0], 'Y');
     });
 
-    it('Correctly set a value on an inexisting key', function () {
+    it('Correctly set a value on an inexisting key', () => {
         deepSet(subject, 'f', 42);
         deepSet(subject, 'e.a.b.c.d.e.f.g.h', 'valkyrie rules');
         deepSet(subject, 'e.b', [0, 1, 2]);
@@ -50,7 +52,7 @@ describe('Deep - set', () => {
         assert.deepEqual(subject.q, {0: 'valkyrie is cool', 1: 'valkyrie is fun'});
     });
 
-    it('Correctly defines a value on an existing key', function () {
+    it('Correctly defines a value on an existing key', () => {
         deepSet(subject, 'a', {get: () => 5}, true);
 
         assert.equal(subject.a, 5);
@@ -58,7 +60,7 @@ describe('Deep - set', () => {
         assert.equal(typeof Object.getOwnPropertyDescriptor(subject, 'a').get, 'function');
     });
 
-    it('Correctly defines a value on an inexisting key', function () {
+    it('Correctly defines a value on an inexisting key', () => {
         deepSet(subject, 'g', {get: () => 5}, true);
 
         assert.equal(subject.g, 5);
@@ -66,7 +68,7 @@ describe('Deep - set', () => {
         assert.equal(typeof Object.getOwnPropertyDescriptor(subject, 'g').get, 'function');
     });
 
-    it('Should allow building up a complex object and prevent override glitches', function () {
+    it('Should allow building up a complex object and prevent override glitches', () => {
         const obj = {};
         deepSet(obj, 'a.b.c', 10);
         deepSet(obj, 'a.d', 'hello');
@@ -81,7 +83,7 @@ describe('Deep - set', () => {
         });
     });
 
-    it('Should allow building up a complex object', function () {
+    it('Should allow building up a complex object', () => {
         const obj = {};
         deepSet(obj, 'a.b.c', 10);
         deepSet(obj, 'a.d.2', 'foo');
@@ -99,7 +101,7 @@ describe('Deep - set', () => {
         });
     });
 
-    it('Should allow building up a complex object inside of an array', function () {
+    it('Should allow building up a complex object inside of an array', () => {
         const obj = {a: []};
         deepSet(obj, 'a.0.name', 'Peter');
         deepSet(obj, 'a.0.role', 'Admin');
@@ -113,7 +115,7 @@ describe('Deep - set', () => {
         });
     });
 
-    it('Should throw when not passed an object or array', function () {
+    it('Should throw when not passed an object or array', () => {
         for (const el of [
             ...CONSTANTS.IS_NUMERIC,
             ...CONSTANTS.IS_INTEGER,
@@ -131,7 +133,7 @@ describe('Deep - set', () => {
         }
     });
 
-    it('Should throw when not passed a string/array key', function () {
+    it('Should throw when not passed a string/array key', () => {
         for (const el of [
             ...CONSTANTS.IS_NUMERIC,
             ...CONSTANTS.IS_ARRAY,
@@ -150,7 +152,7 @@ describe('Deep - set', () => {
         }
     });
 
-    it('Should throw when passed an empty string path', function () {
+    it('Should throw when passed an empty string path', () => {
         const obj = {a: 'bi'};
         assert.throws(
             () => deepSet(obj, ''),

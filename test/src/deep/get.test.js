@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable id-denylist */
+
 import {describe, it, beforeEach}   from 'node:test';
 import assert                       from 'node:assert/strict';
 import CONSTANTS                    from '../../constants.js';
@@ -7,7 +9,7 @@ import deepGet                      from '../../../src/deep/get.js';
 
 describe.only('Deep - get', () => {
     let subject;
-    beforeEach(function() {
+    beforeEach(() => {
         subject = {
             a: 1,
             b: 2,
@@ -31,7 +33,7 @@ describe.only('Deep - get', () => {
         };
     });
 
-    it('Correctly retrieves a value on an existing key', function () {
+    it('Correctly retrieves a value on an existing key', () => {
         assert.equal(deepGet(subject, 'a'), 1);
         assert.equal(deepGet(subject, 'd[0]'), 0);
         assert.equal(deepGet(subject, 'd.0'), 0);
@@ -46,13 +48,13 @@ describe.only('Deep - get', () => {
         assert.deepEqual(deepGet(subject, 'l'), []);
     });
 
-    it('Correctly returns undefined when diving into a key that doesnt exist', function () {
+    it('Correctly returns undefined when diving into a key that doesnt exist', () => {
         assert.equal(deepGet(subject, 'a.x'), undefined);
         assert.equal(deepGet(subject, 'x'), undefined);
         assert.equal(deepGet(subject, 'l.1'), undefined);
     });
 
-    it('Should throw when not passed an object or array', function () {
+    it('Should throw when not passed an object or array', () => {
         for (const el of [
             ...CONSTANTS.IS_NUMERIC,
             ...CONSTANTS.IS_INTEGER,
@@ -70,7 +72,7 @@ describe.only('Deep - get', () => {
         }
     });
 
-    it('Should throw when not passed a string/array key', function () {
+    it('Should throw when not passed a string/array key', () => {
         for (const el of [
             ...CONSTANTS.IS_NUMERIC,
             ...CONSTANTS.IS_ARRAY,
@@ -89,7 +91,7 @@ describe.only('Deep - get', () => {
         }
     });
 
-    it('Should throw when passed an empty string path', function () {
+    it('Should throw when passed an empty string path', () => {
         const obj = {a: 'bi'};
         assert.throws(
             () => deepGet(obj, ''),

@@ -10,6 +10,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dep: c8\@8.0.1
 
 ### Improved
+- Dev Dep: Upgrade @babel/cli to 7.23.4
 - Switch from using chai/mocha to node native test runner
 - hash/fnv1A: Improved performance thanks to predefined constants and reducing internal overhead regarding conversion
 - array/dedupe: Improved performance due to replacement of filter and object map by for with native map

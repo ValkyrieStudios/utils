@@ -7,7 +7,9 @@ export default function isStringBetween (val, min, max, trimmed = true) {
     if (
         !isString(val) ||
         !Number.isFinite(min) ||
+        min < 0 ||
         !Number.isFinite(max) ||
+        max < 0 ||
         min >= max
     ) return false;
 

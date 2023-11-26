@@ -16,6 +16,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - deep/seal: Improved performance due to replacement of forEach with native for
 - deep/get: Improved performance due to order change during path interpolation
 - deep/set: Improved performance due to order change during path interpolation
+- string/shorten: Will no longer return false but an empty string when passed a string that is empty after trimming
+- string/isBetween: Will now validate that min and max are passed as above or equal to 0
 - Performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls andless Heap chatter
 
 ### Breaking

@@ -16,7 +16,7 @@ export default function humanizeBytes (val, options = {}) {
         separator: isObject(options) && isNotEmptyString(options.separator)
             ? options.separator
             : '.',
-        precision: isObject(options) && Number.isInteger(options.precision) && options.precision > 0
+        precision: isObject(options) && Number.isInteger(options.precision) && options.precision >= 0
             ? options.precision
             : 2,
         units: isObject(options) && Array.isArray(options.units) && options.units.length > 0

@@ -1,7 +1,6 @@
 'use strict';
 
 import isString 		from './is.js';
-import isNotEmptyString from './isNotEmpty.js';
 import isNumberAbove    from '../number/isAbove.js';
 
 //  Shorten a string and add a postfix if it goes over a specific length, will autotrim value
@@ -11,7 +10,7 @@ import isNumberAbove    from '../number/isAbove.js';
 //  @param string   postfix     (default='...') Postfix to use when shortened
 export default function shorten (val, length, postfix = '...') {
     if (
-        !isNotEmptyString(val) ||
+        !isString(val) ||
         !isString(postfix) ||
         !isNumberAbove(length, 0)
     ) return false;

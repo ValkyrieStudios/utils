@@ -15,7 +15,7 @@ function startOfUTC(val, key) {
     case 'quarter':
       {
         var new_quarter = val.getUTCMonth() - val.getUTCMonth() % 3;
-        return new Date(Date.UTC(val.getUTCFullYear(), new_quarter >= 0 ? new_quarter : 0, 1, 0, 0, 0, 0));
+        return new Date(Date.UTC(val.getUTCFullYear(), new_quarter > 0 ? new_quarter : 0, 1, 0, 0, 0, 0));
       }
     case 'month':
       return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), 1, 0, 0, 0, 0));

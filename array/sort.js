@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = sort;
 var _is = _interopRequireDefault(require("../boolean/is.js"));
-var _is2 = _interopRequireDefault(require("../object/is.js"));
 var _isNotEmpty = _interopRequireDefault(require("../object/isNotEmpty.js"));
+var _is2 = require("../object/is.js");
 var _isNotEmpty2 = _interopRequireDefault(require("../string/isNotEmpty.js"));
 var _is3 = _interopRequireDefault(require("../function/is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -52,10 +52,11 @@ function sort(arr, by) {
   if (!Array.isArray(arr) || arr.length === 0) return [];
   if (!(0, _isNotEmpty2["default"])(by) && !(0, _is3["default"])(by)) throw new Error('Sort by should be either a string or a function');
   if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
+  var has_opts = Object.prototype.toString.call(options) === _is2.PROTO_OBJ;
   var OPTS = {
-    filter_fn: (0, _is2["default"])(options) && (0, _is3["default"])(options.filter_fn) ? options.filter_fn : _isNotEmpty["default"],
-    nokey_hide: (0, _is2["default"])(options) && (0, _is["default"])(options.nokey_hide) ? options.nokey_hide : !1,
-    nokey_atend: (0, _is2["default"])(options) && (0, _is["default"])(options.nokey_atend) ? options.nokey_atend : !0
+    filter_fn: has_opts && (0, _is3["default"])(options.filter_fn) ? options.filter_fn : _isNotEmpty["default"],
+    nokey_hide: has_opts && (0, _is["default"])(options.nokey_hide) ? options.nokey_hide : !1,
+    nokey_atend: has_opts && (0, _is["default"])(options.nokey_atend) ? options.nokey_atend : !0
   };
   var prepared_arr = [];
   var nokey_arr = [];

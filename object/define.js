@@ -4,11 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = define;
-var _is = _interopRequireDefault(require("./is.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function define() {
-  var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+var _is = require("./is.js");
+function define(props) {
   var obj = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  if (!(0, _is["default"])(props) || !(0, _is["default"])(obj)) throw new TypeError('Please pass an object as the value for props and obj');
+  if (Object.prototype.toString.call(props) !== _is.PROTO_OBJ || Object.prototype.toString.call(obj) !== _is.PROTO_OBJ) throw new TypeError('Please pass an object as the value for props and obj');
   return Object.defineProperties(obj, props);
 }

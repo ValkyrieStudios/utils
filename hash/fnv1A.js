@@ -4,10 +4,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = fnv1A;
 var _is = _interopRequireDefault(require("../string/is.js"));
-var _is2 = _interopRequireDefault(require("../date/is.js"));
-var _is3 = _interopRequireDefault(require("../object/is.js"));
 var _isNumericalNaN = _interopRequireDefault(require("../number/isNumericalNaN.js"));
-var _is4 = _interopRequireDefault(require("../regexp/is.js"));
+var _is2 = require("../regexp/is.js");
+var _is3 = require("../object/is.js");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var FNV_32 = 2166136261;
 var REPL_NAN = 'nan';
@@ -23,11 +22,11 @@ function fnv1A(data) {
     sanitized = data;
   } else if (Number.isFinite(data)) {
     sanitized = "".concat(data);
-  } else if (Array.isArray(data) || (0, _is3["default"])(data)) {
+  } else if (Array.isArray(data) || Object.prototype.toString.call(data) === _is3.PROTO_OBJ) {
     sanitized = JSON.stringify(data);
-  } else if ((0, _is4["default"])(data)) {
+  } else if (Object.prototype.toString.call(data) === _is2.PROTO_RGX) {
     sanitized = data.toString();
-  } else if ((0, _is2["default"])(data)) {
+  } else if (data instanceof Date) {
     sanitized = "".concat(data.getTime());
   } else if ((0, _isNumericalNaN["default"])(data)) {
     sanitized = REPL_NAN;

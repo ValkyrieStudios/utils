@@ -23,6 +23,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - object/pick: Will now throw when passed an empty array of keys
 - object/merge: Will now throw when passed a non-object target and source (previously only non-object target)
 - Performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls andless Heap chatter
+- Published package will now also include original src files which can be imported in @valkyriestudios/utils/src, this allows anyone wishing to use in esm format to do so
 
 ### Breaking
 - The usage of non-primitive number formats (eg: `new Number(...)`) will no longer be supported to allow for performance improvements during validity checks. This should not impact many people as the usage of numbers in that format has been discouraged for many years.

@@ -7,6 +7,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- Dev Dep: Upgrade @babel/core to 7.23.5
+- Dev Dep: Upgrade @babel/preset-env to 7.23.5
 - deep/get: Allow handling of deep keys containing multiple array denominators
 - deep/set: Allow handling of deep keys containing multiple array denominators
 

@@ -36,8 +36,8 @@
   "homepage": "https://github.com/ValkyrieStudios/utils#readme",
   "devDependencies": {
     "@babel/cli": "^7.23.4",
-    "@babel/core": "^7.23.2",
-    "@babel/preset-env": "^7.23.2",
+    "@babel/core": "^7.23.5",
+    "@babel/preset-env": "^7.23.5",
     "@babel/register": "^7.22.15",
     "babel-plugin-transform-minify-booleans": "^6.9.4",
     "babel-plugin-transform-remove-console": "^6.9.4",

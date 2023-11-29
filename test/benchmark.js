@@ -2,6 +2,8 @@
 
 /* eslint-disable max-len,no-console */
 
+import fs from 'fs';
+
 import dedupe                   from '../src/array/dedupe.js';
 import isArray                  from '../src/array/is.js';
 import isNotEmptyArray          from '../src/array/isNotEmpty.js';
@@ -21,6 +23,12 @@ import nowUnixMs                from '../src/date/nowUnixMs.js';
 import startOfUTC               from '../src/date/startOfUTC.js';
 import toUnix                   from '../src/date/toUnix.js';
 import toUTC                    from '../src/date/toUTC.js';
+import deepDefine               from '../src/deep/define.js';
+import deepFreeze               from '../src/deep/freeze.js';
+import deepGet                  from '../src/deep/get.js';
+import deepSeal                 from '../src/deep/seal.js';
+import deepSet                  from '../src/deep/set.js';
+import isFunction               from '../src/function/is.js';
 import fnv1A                    from '../src/hash/fnv1A.js';
 import guid                     from '../src/hash/guid.js';
 import isNumber                 from '../src/number/is.js';
@@ -40,13 +48,23 @@ import randomBetween            from '../src/number/randomBetween.js';
 import randomIntBetween         from '../src/number/randomIntBetween.js';
 import round                    from '../src/number/round.js';
 import toPercentage             from '../src/number/toPercentage.js';
+import merge                    from '../src/object/merge.js';
+import pick                     from '../src/object/pick.js';
 import isObject                 from '../src/object/is.js';
 import isNotEmptyObject         from '../src/object/isNotEmpty.js';
 import isRegExp                 from '../src/regexp/is.js';
 import sanitize                 from '../src/regexp/sanitize.js';
+import humanizeBytes            from '../src/string/humanizeBytes.js';
+import humanizeNumber           from '../src/string/humanizeNumber.js';
+import isString                 from '../src/string/is.js';
+import isStringBetween          from '../src/string/isBetween.js';
+import isNotEmptyString         from '../src/string/isNotEmpty.js';
+import shorten                  from '../src/string/shorten.js';
+import equal                    from '../src/equal.js';
 
 const ROW_TEST_WIDTH    = 50;
 const ROW_OPS_WIDTH     = 15;
+const EXPORT_COLLECTOR  = [];
 
 function separator () {
     console.info(''.padEnd(ROW_TEST_WIDTH + ROW_OPS_WIDTH, '-'));
@@ -56,10 +74,9 @@ function bench (el, iterations) {
     let runtime = performance.now();
     for (let i = 0; i < iterations; i++) el.fn();
     runtime = performance.now() - runtime;
-    console.info([
-        el.lbl.padEnd(ROW_TEST_WIDTH, ' '),
-        `${Math.floor(iterations * (1000/runtime))}`.padEnd(ROW_OPS_WIDTH, ' '),
-    ].join('| '));
+    const ops =  Math.floor(iterations * (1000/runtime));
+    EXPORT_COLLECTOR.push({lbl: el.lbl, ops});
+    console.info([el.lbl.padEnd(ROW_TEST_WIDTH, ' '), `${ops}`.padEnd(ROW_OPS_WIDTH, ' ')].join('| '));
 }
 
 //  Header
@@ -376,6 +393,30 @@ for (const el of [
         fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sun'),
     },
     {
+        lbl: 'date/endOfUTC: week_mon',
+        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_mon'),
+    },
+    {
+        lbl: 'date/endOfUTC: week_tue',
+        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_tue'),
+    },
+    {
+        lbl: 'date/endOfUTC: week_wed',
+        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_wed'),
+    },
+    {
+        lbl: 'date/endOfUTC: week_thu',
+        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_thu'),
+    },
+    {
+        lbl: 'date/endOfUTC: week_fri',
+        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_fri'),
+    },
+    {
+        lbl: 'date/endOfUTC: week_sat',
+        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sat'),
+    },
+    {
         lbl: 'date/endOfUTC: month',
         fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'month'),
     },
@@ -428,6 +469,30 @@ for (const el of [
         fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sun'),
     },
     {
+        lbl: 'date/startOfUTC: week_mon',
+        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_mon'),
+    },
+    {
+        lbl: 'date/startOfUTC: week_tue',
+        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_tue'),
+    },
+    {
+        lbl: 'date/startOfUTC: week_wed',
+        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_wed'),
+    },
+    {
+        lbl: 'date/startOfUTC: week_thu',
+        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_thu'),
+    },
+    {
+        lbl: 'date/startOfUTC: week_fri',
+        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_fri'),
+    },
+    {
+        lbl: 'date/startOfUTC: week_sat',
+        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sat'),
+    },
+    {
         lbl: 'date/startOfUTC: month',
         fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'month'),
     },
@@ -450,15 +515,133 @@ for (const el of [
         fn: () => toUTC(new Date('2032-10-05T11:12:11.000Z')),
     },
     //  Deep - define
+    {
+        lbl: 'deep/define - 1 level',
+        fn: () => deepDefine({bla: true}, 'g', {get: () => 5}),
+    },
+    {
+        lbl: 'deep/define - 2 levels',
+        fn: () => deepDefine({bla: true}, 'g.a', {get: () => 5}),
+    },
+    {
+        lbl: 'deep/define - 3 levels',
+        fn: () => deepDefine({bla: true}, 'g.a.b', {get: () => 5}),
+    },
+    {
+        lbl: 'deep/define - 4 levels',
+        fn: () => deepDefine({bla: true}, 'g.a.b.c', {get: () => 5}),
+    },
+    {
+        lbl: 'deep/define - 5 levels',
+        fn: () => deepDefine({bla: true}, 'g.a.b.c.d', {get: () => 5}),
+    },
     //  Deep - freeze
+    {
+        lbl: 'deep/freeze - small object',
+        fn: () => deepFreeze({bla: true, a: {hello: true}}),
+    },
+    {
+        lbl: 'deep/freeze - complex object',
+        fn: () => deepFreeze({
+            bla: true,
+            a: {
+                hello: {
+                    b: {
+                        where: true,
+                    },
+                    c: {
+                        nope: 'not here',
+                    },
+                },
+            },
+            b: {
+                cool: {
+                    this: {
+                        keeps: {
+                            going: true,
+                        },
+                    },
+                },
+            },
+        }),
+    },
     //  Deep - get
+    {
+        lbl: 'deep/get - 1 level',
+        fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g'),
+    },
+    {
+        lbl: 'deep/get - 2 levels',
+        fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a'),
+    },
+    {
+        lbl: 'deep/get - 3 levels',
+        fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b'),
+    },
+    {
+        lbl: 'deep/get - 4 levels',
+        fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c'),
+    },
+    {
+        lbl: 'deep/get - 5 levels',
+        fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c.d'),
+    },
     //  Deep - seal
+    {
+        lbl: 'deep/seal - small object',
+        fn: () => deepSeal({bla: true, a: {hello: true}}),
+    },
+    {
+        lbl: 'deep/seal - complex object',
+        fn: () => deepSeal({
+            bla: true,
+            a: {
+                hello: {
+                    b: {
+                        where: true,
+                    },
+                    c: {
+                        nope: 'not here',
+                    },
+                },
+            },
+            b: {
+                cool: {
+                    this: {
+                        keeps: {
+                            going: true,
+                        },
+                    },
+                },
+            },
+        }),
+    },
     //  Deep - set
+    {
+        lbl: 'deep/set - 1 level',
+        fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.another', {more: 'treasure'}),
+    },
+    {
+        lbl: 'deep/set - 2 levels',
+        fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.another', {more: 'treasure'}),
+    },
+    {
+        lbl: 'deep/set - 3 levels',
+        fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.another', {more: 'treasure'}),
+    },
+    {
+        lbl: 'deep/set - 4 levels',
+        fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c.another', {more: 'treasure'}),
+    },
+    {
+        lbl: 'deep/set - 5 levels',
+        fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c.d.another', {more: 'treasure'}),
+    },
     //  Function - is
-    //  Function - noop
-    //  Function - noopresolve
-    //  Function - noopreturn
-    //  Function - sleep
+    {
+        lbl: 'function/is',
+        fn: () => isFunction(() => 'hello'),
+    },
     //  Hash - fnv1A
     {
         lbl: 'hash/fnv1A - 10 chars',
@@ -598,8 +781,6 @@ for (const el of [
         lbl: 'number/toPercentage - 5 precision',
         fn: () => toPercentage(39, 5, -100, 100),
     },
-    //  Object - define
-    //  Object - forValues
     //  Object - is
     {
         lbl: 'object/is',
@@ -611,8 +792,15 @@ for (const el of [
         fn: () => isNotEmptyObject({bla: true}),
     },
     //  Object - merge
+    {
+        lbl: 'object/merge',
+        fn: () => merge({a: true}, {b: true}),
+    },
     //  Object - pick
-    //  Object - zip
+    {
+        lbl: 'object/pick',
+        fn: () => pick({a: true, b: true}, ['a', 'b']),
+    },
     //  RegExp - is
     {
         lbl: 'regexp/is',
@@ -624,11 +812,194 @@ for (const el of [
         fn: () => sanitize(' contact@valkyriestudios.be '),
     },
     //  String - humanizeBytes
+    {
+        lbl: 'string/humanizeBytes - short w/ 0 precision',
+        fn: () => humanizeBytes(58432, {precision: 0}),
+    },
+    {
+        lbl: 'string/humanizeBytes - short w/ 1 precision',
+        fn: () => humanizeBytes(58432, {precision: 1}),
+    },
+    {
+        lbl: 'string/humanizeBytes - short w/ 2 precision',
+        fn: () => humanizeBytes(58432, {precision: 2}),
+    },
+    {
+        lbl: 'string/humanizeBytes - short w/ 3 precision',
+        fn: () => humanizeBytes(58432, {precision: 3}),
+    },
+    {
+        lbl: 'string/humanizeBytes - short w/ 4 precision',
+        fn: () => humanizeBytes(58432, {precision: 4}),
+    },
+    {
+        lbl: 'string/humanizeBytes - long w/ 0 precision',
+        fn: () => humanizeBytes(4328904892322, {precision: 0}),
+    },
+    {
+        lbl: 'string/humanizeBytes - long w/ 1 precision',
+        fn: () => humanizeBytes(4328904892322, {precision: 1}),
+    },
+    {
+        lbl: 'string/humanizeBytes - long w/ 2 precision',
+        fn: () => humanizeBytes(4328904892322, {precision: 2}),
+    },
+    {
+        lbl: 'string/humanizeBytes - long w/ 3 precision',
+        fn: () => humanizeBytes(4328904892322, {precision: 3}),
+    },
+    {
+        lbl: 'string/humanizeBytes - long w/ 4 precision',
+        fn: () => humanizeBytes(4328904892322, {precision: 4}),
+    },
     //  String - humanizeNumber
+    {
+        lbl: 'string/humanizeNumber - short w/ 0 precision',
+        fn: () => humanizeNumber(58432, {precision: 0}),
+    },
+    {
+        lbl: 'string/humanizeNumber - short w/ 1 precision',
+        fn: () => humanizeNumber(58432, {precision: 1}),
+    },
+    {
+        lbl: 'string/humanizeNumber - short w/ 2 precision',
+        fn: () => humanizeNumber(58432, {precision: 2}),
+    },
+    {
+        lbl: 'string/humanizeNumber - short w/ 3 precision',
+        fn: () => humanizeNumber(58432, {precision: 3}),
+    },
+    {
+        lbl: 'string/humanizeNumber - short w/ 4 precision',
+        fn: () => humanizeNumber(58432, {precision: 4}),
+    },
+    {
+        lbl: 'string/humanizeNumber - long w/ 0 precision',
+        fn: () => humanizeNumber(4328904892322, {precision: 0}),
+    },
+    {
+        lbl: 'string/humanizeNumber - long w/ 1 precision',
+        fn: () => humanizeNumber(4328904892322, {precision: 1}),
+    },
+    {
+        lbl: 'string/humanizeNumber - long w/ 2 precision',
+        fn: () => humanizeNumber(4328904892322, {precision: 2}),
+    },
+    {
+        lbl: 'string/humanizeNumber - long w/ 3 precision',
+        fn: () => humanizeNumber(4328904892322, {precision: 3}),
+    },
+    {
+        lbl: 'string/humanizeNumber - long w/ 4 precision',
+        fn: () => humanizeNumber(4328904892322, {precision: 4}),
+    },
     //  String - is
+    {
+        lbl: 'string/is',
+        fn: () => isString('foobar'),
+    },
     //  String - isBetween
+    {
+        lbl: 'string/isBetween',
+        fn: () => isStringBetween('foobar', 1, 10),
+    },
     //  String - isNotEmpty
+    {
+        lbl: 'string/isNotEmpty',
+        fn: () => isNotEmptyString('foobar'),
+    },
     //  String - shorten
+    {
+        lbl: 'string/shorten - 10 chars w/ 3 char shorten',
+        fn: () => shorten('0123456789', 3, '...'),
+    },
+    {
+        lbl: 'string/shorten - 10 chars w/ 6 char shorten',
+        fn: () => shorten('0123456789', 6, '...'),
+    },
+    {
+        lbl: 'string/shorten - 20 chars w/ 3 char shorten',
+        fn: () => shorten('01234567890123456789', 3, '...'),
+    },
+    {
+        lbl: 'string/shorten - 20 chars w/ 6 char shorten',
+        fn: () => shorten('01234567890123456789', 6, '...'),
+    },
+    //  Equal
+    {
+        lbl: 'equal - numbers - unequal',
+        fn: () => equal(5, 'foo'),
+    },
+    {
+        lbl: 'equal - numbers - unequal same type',
+        fn: () => equal(5, 10),
+    },
+    {
+        lbl: 'equal - numbers - equal',
+        fn: () => equal(5, 5),
+    },
+    {
+        lbl: 'equal - boolean - unequal',
+        fn: () => equal(false, 'foo'),
+    },
+    {
+        lbl: 'equal - boolean - unequal same type',
+        fn: () => equal(false, true),
+    },
+    {
+        lbl: 'equal - boolean - equal',
+        fn: () => equal(true, true),
+    },
+    {
+        lbl: 'equal - string - unequal',
+        fn: () => equal(5, 'foo'),
+    },
+    {
+        lbl: 'equal - string - unequal same type',
+        fn: () => equal('foo', 'bar'),
+    },
+    {
+        lbl: 'equal - string - equal',
+        fn: () => equal('bar', 'bar'),
+    },
+    {
+        lbl: 'equal - dates - unequal',
+        fn: () => equal(new Date('2022-01-01'), 'foo'),
+    },
+    {
+        lbl: 'equal - dates - unequal same type',
+        fn: () => equal(new Date('2022-01-01'), new Date('1989-08-01')),
+    },
+    {
+        lbl: 'equal - dates - equal',
+        fn: () => equal(new Date('1989-08-01'), new Date('1989-08-01')),
+    },
+    {
+        lbl: 'equal - arrays - unequal',
+        fn: () => equal([1, 2, 3], 'foo'),
+    },
+    {
+        lbl: 'equal - arrays - unequal same type',
+        fn: () => equal([1, 2, 3], [3, 2, 1]),
+    },
+    {
+        lbl: 'equal - arrays - equal',
+        fn: () => equal([1, 2, 3], [1, 2, 3]),
+    },
+    {
+        lbl: 'equal - objects - unequal',
+        fn: () => equal({a: true}, 'foo'),
+    },
+    {
+        lbl: 'equal - objects - unequal same type',
+        fn: () => equal({a: true}, {a: false}),
+    },
+    {
+        lbl: 'equal - objects - equal',
+        fn: () => equal({a: true}, {a: true}),
+    },
 ]) bench(el, 100000);
+
+fs.writeFileSync('./test/benchmarks/latest.json', JSON.stringify(EXPORT_COLLECTOR, null, 4, true), 'utf8');
 
 separator();

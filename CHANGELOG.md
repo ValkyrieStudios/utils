@@ -7,7 +7,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
-- Dev Dep: c8\@8.0.1
+- Dev: Dep: c8\@8.0.1
+- Dev: Internal benchmark script to produce ops/sec for close to all util functions
 - date/startOfUTC: Add support for week_mon as mode (alias for week with monday as first day of the week)
 - date/startOfUTC: Add support for week_tue as mode (tuesday as first day of the week)
 - date/startOfUTC: Add support for week_wed as mode (wednesday as first day of the week)

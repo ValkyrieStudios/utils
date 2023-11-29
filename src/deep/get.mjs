@@ -14,7 +14,11 @@ export default function deepGet (obj, path, get_parent = false) {
     if (!isNotEmptyString(path)) throw new TypeError('No path was given');
 
     //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
-    const parts = path.replace('[', '.').replace(']', '').split('.');
+    const parts = path
+        .replace(/\[/g, '.')
+        .replace(/(\.){2,}/g, '.')
+        .replace(/(^\.|\.$|\])/g, '')
+        .split('.');
 
     //  Return obj if no parts were passed or if only 1 part and get_parent is true
     if (parts.length === 0 || (parts.length === 1 && get_parent)) return obj;

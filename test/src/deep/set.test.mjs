@@ -115,6 +115,54 @@ describe('Deep - set', () => {
         });
     });
 
+    it('Correctly sets a value on a deeply nested multi-array structure setup', () => {
+        const matrix = [
+            [
+                ['a', 'b', 'c'],
+                ['d', 'e', 'f'],
+                ['g', 'h', 'i'],
+            ], [
+                [0, 1],
+                [2, 3],
+                [4, 5],
+                [6, 7],
+            ],
+        ];
+        const object_matrix = {
+            a: [
+                [
+                    {c: [
+                        {d: 'hello'},
+                    ]},
+                ],
+            ],
+        };
+        deepSet(matrix, '0.0.3', 'foo');
+        deepSet(matrix, '0.1.1', 'bar');
+        deepSet(matrix, '0.2.2', 'cool');
+        deepSet(matrix, '1.1.5', 999);
+        deepSet(object_matrix, 'a[0][0].c[0].e', 'world');
+        assert.deepEqual(matrix, [
+            [
+                ['a', 'b', 'c', 'foo'],
+                ['d', 'bar', 'f'],
+                ['g', 'h', 'cool'],
+            ], [
+                [0, 1],
+                [2, 3, , , , 999], // eslint-disable-line no-sparse-arrays
+                [4, 5],
+                [6, 7],
+            ],
+        ]);
+        assert.deepEqual(object_matrix, {
+            a: [
+                [{c: [
+                    {d: 'hello', e: 'world'},
+                ]}],
+            ],
+        });
+    });
+
     it('Should throw when not passed an object or array', () => {
         for (const el of [
             ...CONSTANTS.IS_NUMERIC,

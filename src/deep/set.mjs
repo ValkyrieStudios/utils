@@ -14,7 +14,11 @@ export default function deepSet (obj, path, value = null, define = false) {
     if (!isNotEmptyString(path)) throw new TypeError('No path was given');
 
     //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
-    const parts = path.replace('[', '.').replace(']', '').split('.');
+    const parts = path
+        .replace(/\[/g, '.')
+        .replace(/(\.){2,}/g, '.')
+        .replace(/(^\.|\.$|\])/g, '')
+        .split('.');
 
     //  Build any unknown paths and set cursor
     for (let i = 0; i < parts.length - 1; i++) {

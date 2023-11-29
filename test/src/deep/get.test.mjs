@@ -48,6 +48,35 @@ describe.only('Deep - get', () => {
         assert.deepEqual(deepGet(subject, 'l'), []);
     });
 
+    it('Correctly retrieves a value on a deeply nested multi-array structure setup', () => {
+        const matrix = [
+            [
+                ['a', 'b', 'c'],
+                ['d', 'e', 'f'],
+                ['g', 'h', 'i'],
+            ], [
+                [0, 1],
+                [2, 3],
+                [4, 5],
+                [6, 7],
+            ],
+        ];
+        const object_matrix = {
+            a: [
+                [
+                    {c: [
+                        {d: 'hello'},
+                    ]},
+                ],
+            ],
+        };
+        assert.equal(deepGet(matrix, '0.0.0'), 'a');
+        assert.equal(deepGet(matrix, '0.[0].2'), 'c');
+        assert.equal(deepGet(matrix, '[0].[1].[1]'), 'e');
+        assert.equal(deepGet(matrix, '1.2.1'), 5);
+        assert.equal(deepGet(object_matrix, 'a[0][0].c[0].d'), 'hello');
+    });
+
     it('Correctly returns undefined when diving into a key that doesnt exist', () => {
         assert.equal(deepGet(subject, 'a.x'), undefined);
         assert.equal(deepGet(subject, 'x'), undefined);

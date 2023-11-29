@@ -305,7 +305,7 @@ Returns the current unix timestamp in seconds
 Returns the current unix timestamp in milliseconds
 
 - **startOfUTC(val:Date, key:String)**
-Take the incoming date and return a date set to the start of passed key. Possible key options(year,quarter,month,week,week_sun,day,hour,minute,second).
+Take the incoming date and return a date set to the start of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
 ```js
@@ -325,7 +325,7 @@ startOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("20
 ```
 
 - **endOfUTC(val:Date, key:String)**
-Take the incoming date and return a date set to the end of passed key. Possible key options(year,quarter,month,week,week_sun,day,hour,minute,second).
+Take the incoming date and return a date set to the end of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
 ```js

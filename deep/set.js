@@ -12,7 +12,7 @@ function deepSet(obj, path) {
   var define = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : !1;
   if (Object.prototype.toString.call(obj) !== _is.PROTO_OBJ && !Array.isArray(obj)) throw new TypeError('Deepset is only supported for objects');
   if (!(0, _isNotEmpty["default"])(path)) throw new TypeError('No path was given');
-  var parts = path.replace('[', '.').replace(']', '').split('.');
+  var parts = path.replace(/\[/g, '.').replace(/(\.){2,}/g, '.').replace(/(^\.|\.$|\])/g, '').split('.');
   for (var i = 0; i < parts.length - 1; i++) {
     if (parts[i] === '') continue;
     if (!obj[parts[i]]) obj[parts[i]] = {};

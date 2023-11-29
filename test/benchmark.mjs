@@ -1000,6 +1000,6 @@ for (const el of [
     },
 ]) bench(el, 100000);
 
-fs.writeFileSync('./test/benchmarks/latest.mjson', JSON.stringify(EXPORT_COLLECTOR, null, 4, true), 'utf8');
+fs.writeFileSync('./test/benchmarks/latest.json', JSON.stringify(EXPORT_COLLECTOR, null, 4, true), 'utf8');
 
 separator();

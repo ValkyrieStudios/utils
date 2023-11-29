@@ -1,6 +1,6 @@
 {
     "all": true,
-    "include": ["src/**/*.js"],
+    "include": ["src/**/*.mjs"],
     "reporter": ["lcov"],
     "report-dir": "./coverage"
 }

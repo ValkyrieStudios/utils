@@ -6,6 +6,16 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = endOfUTC;
 var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var WEEK_END = {
+  week: 0,
+  week_sun: 6,
+  week_mon: 0,
+  week_tue: 1,
+  week_wed: 2,
+  week_thu: 3,
+  week_fri: 4,
+  week_sat: 5
+};
 function endOfUTC(val, key) {
   if (!(val instanceof Date)) throw new TypeError('endOfUTC requires a date object');
   if (!(0, _isNotEmpty["default"])(key)) throw new TypeError('Key needs to be a string with content');
@@ -14,24 +24,22 @@ function endOfUTC(val, key) {
       return new Date(Date.UTC(val.getUTCFullYear(), 11, 31, 23, 59, 59, 999));
     case 'quarter':
       {
-        var new_quarter = val.getUTCMonth() - val.getUTCMonth() % 3;
-        return new Date(Date.UTC(val.getUTCFullYear(), new_quarter > 0 ? new_quarter + 3 : 3, 0, 23, 59, 59, 999));
+        return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth() - val.getUTCMonth() % 3 + 3, 0, 23, 59, 59, 999));
       }
     case 'month':
       return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth() + 1, 0, 23, 59, 59, 999));
     case 'week':
-      {
-        var date = new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate(), 23, 59, 59, 999));
-        var day = date.getUTCDay();
-        if (day !== 0) date.setUTCDate(date.getUTCDate() + (7 - day));
-        return date;
-      }
     case 'week_sun':
+    case 'week_mon':
+    case 'week_tue':
+    case 'week_wed':
+    case 'week_thu':
+    case 'week_fri':
+    case 'week_sat':
       {
-        var _date = new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate(), 23, 59, 59, 999));
-        var _day = _date.getUTCDay();
-        if (_day !== 6) _date.setUTCDate(_date.getUTCDate() + (6 - _day));
-        return _date;
+        var UTC_DAY = val.getUTCDay();
+        var UTC_EOD = WEEK_END[key];
+        return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate() + (UTC_DAY <= UTC_EOD ? UTC_EOD - UTC_DAY : 7 - UTC_DAY + UTC_EOD), 23, 59, 59, 999));
       }
     case 'day':
       return new Date(Date.UTC(val.getUTCFullYear(), val.getUTCMonth(), val.getUTCDate(), 23, 59, 59, 999));

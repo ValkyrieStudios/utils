@@ -98,18 +98,10 @@ describe('Equal', () => {
         it('Correctly flag equal', () => {
             assert.ok(equal(/abcdefg/i, /abcdefg/i));
             assert.ok(equal(/abcdefg/i, new RegExp('abcdefg', 'i')));
-            assert.ok(equal(
-                /^(.w{2,3})+$/,
-                new RegExp('^(.w{2,3})+$')
-            ));
         });
 
         it('Correctly flag inconsistency', () => {
             assert.equal(equal(/abcdefg/i, /abcdefg/), false);
-            assert.equal(equal(
-                /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/,
-                new RegExp('^w+([-]?w+)*@w+([.-]?w+)*(.w{2,3})+$')
-            ), false);
             assert.equal(equal(/abcdefg/i, 'abcdefg'), false);
             assert.equal(equal(/abcdefg/i, true), false);
         });

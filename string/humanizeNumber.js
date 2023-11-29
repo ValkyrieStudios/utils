@@ -46,10 +46,11 @@ function humanizeNumber(val) {
     postfix = OPTS.units[unit_ix];
   }
   normalized = (0, _round["default"])(normalized, OPTS.precision);
-  normalized = normalized.toLocaleString('en-US', {
-    maximumFractionDigits: OPTS.precision
-  }).split('.');
-  normalized[0] = "".concat(normalized[0]).replace(/,/g, OPTS.delim);
+  normalized = "".concat(normalized).split('.');
+  normalized[0] = normalized[0].split('').reverse().map(function (_char, ix, original) {
+    if (ix > 0 && ix < original.length && ix % 3 === 0) return _char + OPTS.delim;
+    return _char;
+  }).reverse().join('');
   normalized = normalized.join(OPTS.separator);
   return "".concat(sign).concat(normalized).concat(postfix);
 }

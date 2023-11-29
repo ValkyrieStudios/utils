@@ -15,14 +15,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function pick(obj, keys) {
   if (Object.prototype.toString.call(obj) !== _is.PROTO_OBJ || !Array.isArray(keys) || keys.length === 0) throw new TypeError('Please pass an object to pick from and a keys array');
   var map = {};
+  var key_deep = !1;
+  var val;
   var _iterator = _createForOfIteratorHelper(keys),
     _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var key = _step.value;
       if (!(0, _isNotEmpty["default"])(key)) continue;
-      var val = (0, _get["default"])(obj, key.trim());
-      if (val !== undefined) (0, _set["default"])(map, key.trim(), val);
+      key_deep = key.match(/(\.|\[)/g);
+      val = key_deep ? (0, _get["default"])(obj, key.trim()) : obj[key.trim()];
+      if (val === undefined) continue;
+      if (key_deep) {
+        (0, _set["default"])(map, key.trim(), val);
+      } else {
+        map[key.trim()] = val;
+      }
     }
   } catch (err) {
     _iterator.e(err);

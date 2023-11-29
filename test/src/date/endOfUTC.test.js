@@ -29,13 +29,13 @@ describe('Date - endOfUTC', () => {
     });
 
     describe('year', () => {
-        it('Should correctly set to end of year utc', () => {
+        it('Set to end of year utc', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'year'), new Date('2023-12-31T23:59:59.999Z'));
         });
     });
 
     describe('quarter', () => {
-        it('Should correctly set to end of quarter utc', () => {
+        it('Set to end of quarter utc', () => {
             const qmap = {
                 1: {m: 3, d: 31},
                 2: {m: 3, d: 31},
@@ -59,7 +59,7 @@ describe('Date - endOfUTC', () => {
     });
 
     describe('month', () => {
-        it('Should correctly set to end of month utc', () => {
+        it('Set to end of month utc', () => {
             assert.deepEqual(endOfUTC(new Date('2023-01-04T12:04:27+02:00'), 'month'), new Date('2023-01-31T23:59:59.999Z'));
             assert.deepEqual(endOfUTC(new Date('2023-02-04T12:04:27+02:00'), 'month'), new Date('2023-02-28T23:59:59.999Z'));
             assert.deepEqual(endOfUTC(new Date('2023-03-04T12:04:27+02:00'), 'month'), new Date('2023-03-31T23:59:59.999Z'));
@@ -74,69 +74,206 @@ describe('Date - endOfUTC', () => {
             assert.deepEqual(endOfUTC(new Date('2023-12-04T12:04:27+02:00'), 'month'), new Date('2023-12-31T23:59:59.999Z'));
         });
 
-        it('Should correctly set to end of month utc for february when in a leap year', () => {
+        it('Set to end of month utc for february when in a leap year', () => {
             assert.deepEqual(endOfUTC(new Date('2024-02-04T12:04:27+02:00'), 'month'), new Date('2024-02-29T23:59:59.999Z'));
         });
     });
 
     describe('week', () => {
-        it('Should correctly set to end of week utc with monday as first day of the week', () => {
+        it('Set to end of sunday as end of week utc with monday as first day of the week', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week'), new Date('2023-05-07T23:59:59.999Z'));
             assert.deepEqual(endOfUTC(new Date('2023-05-13T12:04:27+02:00'), 'week'), new Date('2023-05-14T23:59:59.999Z'));
         });
 
-        it('Should correctly set to end of week utc with monday as first day of the week when already on that day', () => {
+        it('Set to end of sunday as end of week utc with monday as first day of the week when already on that day', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-14T12:04:27+02:00'), 'week'), new Date('2023-05-14T23:59:59.999Z'));
         });
 
-        it('Should correctly set to end of week utc with monday as first day of the week when end of week is in different month', () => {
+        it('Set to end of sunday as end of week utc with monday as first day of the week when end is in different month', () => {
             assert.deepEqual(endOfUTC(new Date('2023-02-27T12:04:27+02:00'), 'week'), new Date('2023-03-05T23:59:59.999Z'));
         });
 
-        it('Should correctly set to end of week utc with monday as first day of the week when end of week is in different year', () => {
+        it('Set to end of sunday as end of week utc with monday as first day of the week when end is in different year', () => {
             assert.deepEqual(endOfUTC(new Date('2022-12-29T12:04:27+02:00'), 'week'), new Date('2023-01-01T23:59:59.999Z'));
         });
     });
 
     describe('week_sun', () => {
-        it('Should correctly set to end of week utc with sunday as first day of the week', () => {
+        it('Set to end of saturday as end of week utc with sunday as first day of the week', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week_sun'), new Date('2023-05-06T23:59:59.999Z'));
             assert.deepEqual(endOfUTC(new Date('2023-05-12T12:04:27+02:00'), 'week_sun'), new Date('2023-05-13T23:59:59.999Z'));
         });
 
-        it('Should correctly set to end of week utc with sunday as first day of the week when already on that day', () => {
+        it('Set to end of saturday as end of week utc with sunday as first day of the week when already on that day', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-06T12:04:27+02:00'), 'week_sun'), new Date('2023-05-06T23:59:59.999Z'));
         });
 
-        it('Should correctly set to end of week utc with sunday as first day of the week when end of week is in different month', () => {
+        it('Set to end of saturday as end of week utc with sunday as first day of the week when end is in different month', () => {
             assert.deepEqual(endOfUTC(new Date('2023-03-29T12:04:27+02:00'), 'week_sun'), new Date('2023-04-01T23:59:59.999Z'));
         });
 
-        it('Should correctly set to end of week utc with sunday as first day of the week when end of week is in different year', () => {
+        it('Set to end of saturday as end of week utc with sunday as first day of the week when end is in different year', () => {
             assert.deepEqual(endOfUTC(new Date('2021-12-28T12:04:27+02:00'), 'week_sun'), new Date('2022-01-01T23:59:59.999Z'));
         });
     });
 
+    describe('week_mon', () => {
+        it('Set to end of sunday as end of week utc with monday as first day of the week', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-05-01T12:04:27+02:00'), 'week_mon'), new Date('2023-05-07T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-02T12:04:27+02:00'), 'week_mon'), new Date('2023-05-07T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-03T12:04:27+02:00'), 'week_mon'), new Date('2023-05-07T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week_mon'), new Date('2023-05-07T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-12T12:04:27+02:00'), 'week_mon'), new Date('2023-05-14T23:59:59.999Z'));
+        });
+
+        it('Set to end of sunday as end of week utc with monday as first day of the week when already on that day', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-05-14T12:04:27+02:00'), 'week_mon'), new Date('2023-05-14T23:59:59.999Z'));
+        });
+
+        it('Set to end of sunday as end of week utc with monday as first day of the week when end is in different month', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-02-27T12:04:27+02:00'), 'week_mon'), new Date('2023-03-05T23:59:59.999Z'));
+        });
+
+        it('Set to end of sunday as end of week utc with monday as first day of the week when end is in different year', () => {
+            assert.deepEqual(endOfUTC(new Date('2022-12-29T12:04:27+02:00'), 'week_mon'), new Date('2023-01-01T23:59:59.999Z'));
+        });
+    });
+
+    describe('week_tue', () => {
+        it('Set to end of monday as end of week utc with tuesday as first day of the week', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-04-30T12:04:27+02:00'), 'week_tue'), new Date('2023-05-01T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-01T12:04:27+02:00'), 'week_tue'), new Date('2023-05-01T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-02T12:04:27+02:00'), 'week_tue'), new Date('2023-05-08T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-03T12:04:27+02:00'), 'week_tue'), new Date('2023-05-08T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week_tue'), new Date('2023-05-08T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-12T12:04:27+02:00'), 'week_tue'), new Date('2023-05-15T23:59:59.999Z'));
+        });
+
+        it('Set to end of monday as end of week utc with tuesday as first day of the week when already on that day', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-05-22T12:04:27+02:00'), 'week_tue'), new Date('2023-05-22T23:59:59.999Z'));
+        });
+
+        it('Set to end of monday as end of week utc with tuesday as first day of the week when end is in different month', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-04-29T12:04:27+02:00'), 'week_tue'), new Date('2023-05-01T23:59:59.999Z'));
+        });
+
+        it('Set to end of monday as end of week utc with tuesday as first day of the week when end is in different year', () => {
+            assert.deepEqual(endOfUTC(new Date('2017-12-29T12:04:27+02:00'), 'week_tue'), new Date('2018-01-01T23:59:59.999Z'));
+        });
+    });
+
+    describe('week_wed', () => {
+        it('Set to end of tuesday as end of week utc with wednesday as first day of the week', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-04-30T12:04:27+02:00'), 'week_wed'), new Date('2023-05-02T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-01T12:04:27+02:00'), 'week_wed'), new Date('2023-05-02T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-02T12:04:27+02:00'), 'week_wed'), new Date('2023-05-02T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-03T12:04:27+02:00'), 'week_wed'), new Date('2023-05-09T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week_wed'), new Date('2023-05-09T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-16T12:04:27+02:00'), 'week_wed'), new Date('2023-05-16T23:59:59.999Z'));
+        });
+
+        it('Set to end of tuesday as end of week utc with wednesday as first day of the week when already on that day', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-05-23T12:04:27+02:00'), 'week_wed'), new Date('2023-05-23T23:59:59.999Z'));
+        });
+
+        it('Set to end of tuesday as end of week utc with wednesday as first day of the week when end is in different month', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-07-31T12:04:27+02:00'), 'week_wed'), new Date('2023-08-01T23:59:59.999Z'));
+        });
+
+        it('Set to end of tuesday as end of week utc with wednesday as first day of the week when end is in different year', () => {
+            assert.deepEqual(endOfUTC(new Date('2018-12-27T12:04:27+02:00'), 'week_wed'), new Date('2019-01-01T23:59:59.999Z'));
+        });
+    });
+
+    describe('week_thu', () => {
+        it('Set to end of wednesday as end of week utc with thursday as first day of the week', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-04-30T12:04:27+02:00'), 'week_thu'), new Date('2023-05-03T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-01T12:04:27+02:00'), 'week_thu'), new Date('2023-05-03T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-02T12:04:27+02:00'), 'week_thu'), new Date('2023-05-03T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-03T12:04:27+02:00'), 'week_thu'), new Date('2023-05-03T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week_thu'), new Date('2023-05-10T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-16T12:04:27+02:00'), 'week_thu'), new Date('2023-05-17T23:59:59.999Z'));
+        });
+
+        it('Set to end of wednesday as end of week utc with thursday as first day of the week when already on that day', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-05-17T12:04:27+02:00'), 'week_thu'), new Date('2023-05-17T23:59:59.999Z'));
+        });
+
+        it('Set to end of wednesday as end of week utc with thursday as first day of the week when end is in different month', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-01-28T12:04:27+02:00'), 'week_thu'), new Date('2023-02-01T23:59:59.999Z'));
+        });
+
+        it('Set to end of wednesday as end of week utc with thursday as first day of the week when end is in different year', () => {
+            assert.deepEqual(endOfUTC(new Date('2019-12-29T12:04:27+02:00'), 'week_thu'), new Date('2020-01-01T23:59:59.999Z'));
+        });
+    });
+
+    describe('week_fri', () => {
+        it('Set to end of thursday as end of week utc with friday as first day of the week', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-04-30T12:04:27+02:00'), 'week_fri'), new Date('2023-05-04T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-01T12:04:27+02:00'), 'week_fri'), new Date('2023-05-04T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-02T12:04:27+02:00'), 'week_fri'), new Date('2023-05-04T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-03T12:04:27+02:00'), 'week_fri'), new Date('2023-05-04T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week_fri'), new Date('2023-05-04T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-16T12:04:27+02:00'), 'week_fri'), new Date('2023-05-18T23:59:59.999Z'));
+        });
+
+        it('Set to end of thursday as end of week utc with friday as first day of the week when already on that day', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-05-11T12:04:27+02:00'), 'week_fri'), new Date('2023-05-11T23:59:59.999Z'));
+        });
+
+        it('Set to end of thursday as end of week utc with friday as first day of the week when end is in different month', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-02-27T12:04:27+02:00'), 'week_fri'), new Date('2023-03-02T23:59:59.999Z'));
+        });
+
+        it('Set to end of thursday as end of week utc with friday as first day of the week when end is in different year', () => {
+            assert.deepEqual(endOfUTC(new Date('2019-12-29T12:04:27+02:00'), 'week_fri'), new Date('2020-01-02T23:59:59.999Z'));
+        });
+    });
+
+    describe('week_sat', () => {
+        it('Set to end of friday as end of week utc with saturday as first day of the week', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-04-30T12:04:27+02:00'), 'week_sat'), new Date('2023-05-05T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-01T12:04:27+02:00'), 'week_sat'), new Date('2023-05-05T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-02T12:04:27+02:00'), 'week_sat'), new Date('2023-05-05T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-03T12:04:27+02:00'), 'week_sat'), new Date('2023-05-05T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'week_sat'), new Date('2023-05-05T23:59:59.999Z'));
+            assert.deepEqual(endOfUTC(new Date('2023-05-20T12:04:27+02:00'), 'week_sat'), new Date('2023-05-26T23:59:59.999Z'));
+        });
+
+        it('Set to end of friday as end of week utc with saturday as first day of the week when already on that day', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-05-19T12:04:27+02:00'), 'week_sat'), new Date('2023-05-19T23:59:59.999Z'));
+        });
+
+        it('Set to end of friday as end of week utc with saturday as first day of the week when end is in different month', () => {
+            assert.deepEqual(endOfUTC(new Date('2023-02-27T12:04:27+02:00'), 'week_sat'), new Date('2023-03-03T23:59:59.999Z'));
+        });
+
+        it('Set to end of friday as end of week utc with saturday as first day of the week when end is in different year', () => {
+            assert.deepEqual(endOfUTC(new Date('2020-12-29T12:04:27+02:00'), 'week_sat'), new Date('2021-01-01T23:59:59.999Z'));
+        });
+    });
+
     describe('day', () => {
-        it('Should correctly set to end of day utc', () => {
+        it('Set to end of day utc', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'day'), new Date('2023-05-04T23:59:59.999Z'));
         });
     });
 
     describe('hour', () => {
-        it('Should correctly set to end of hour utc', () => {
+        it('Set to end of hour utc', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'hour'), new Date('2023-05-04T10:59:59.999Z'));
         });
     });
 
     describe('minute', () => {
-        it('Should correctly set to end of minute utc', () => {
+        it('Set to end of minute utc', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'minute'), new Date('2023-05-04T10:04:59.999Z'));
         });
     });
 
     describe('second', () => {
-        it('Should correctly set to end of second utc', () => {
+        it('Set to end of second utc', () => {
             assert.deepEqual(endOfUTC(new Date('2023-05-04T12:04:27.043+02:00'), 'second'), new Date('2023-05-04T10:04:27.999Z'));
         });
     });

@@ -2,6 +2,17 @@
 
 import isNotEmptyString from '../string/isNotEmpty.js';
 
+const WEEK_START = {
+    week    : 1, // Original lib cases only contained week and historical was monday
+    week_sun: 0,
+    week_mon: 1,
+    week_tue: 2,
+    week_wed: 3,
+    week_thu: 4,
+    week_fri: 5,
+    week_sat: 6,
+};
+
 export default function startOfUTC (val, key) {
     if (
         !(val instanceof Date)
@@ -23,10 +34,9 @@ export default function startOfUTC (val, key) {
                 0
             ));
         case 'quarter': {
-            const new_quarter = val.getUTCMonth() - (val.getUTCMonth() % 3);
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                new_quarter > 0 ? new_quarter : 0,
+                val.getUTCMonth() - (val.getUTCMonth() % 3),
                 1,
                 0,
                 0,
@@ -44,33 +54,26 @@ export default function startOfUTC (val, key) {
                 0,
                 0
             ));
-        case 'week': {
-            const date = new Date(Date.UTC(
+        case 'week':
+        case 'week_sun':
+        case 'week_mon':
+        case 'week_tue':
+        case 'week_wed':
+        case 'week_thu':
+        case 'week_fri':
+        case 'week_sat': {
+            const UTC_DAY = val.getUTCDay();
+            const UTC_SOD = WEEK_START[key];
+
+            return new Date(Date.UTC(
                 val.getUTCFullYear(),
                 val.getUTCMonth(),
-                val.getUTCDate(),
+                val.getUTCDate() - (UTC_DAY < UTC_SOD ? (7 - UTC_SOD) + UTC_DAY : UTC_DAY - UTC_SOD),
                 0,
                 0,
                 0,
                 0
             ));
-            const subtract = date.getUTCDay() || 7;
-            if (subtract !== 1) date.setUTCDate(date.getUTCDate() - subtract + 1);
-            return date;
-        }
-        case 'week_sun': {
-            const date = new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate(),
-                0,
-                0,
-                0,
-                0
-            ));
-            const subtract = date.getUTCDay();
-            if (subtract !== 0) date.setUTCDate(date.getUTCDate() - subtract);
-            return date;
         }
         case 'day':
             return new Date(Date.UTC(

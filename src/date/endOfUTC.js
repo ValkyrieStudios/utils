@@ -2,6 +2,19 @@
 
 import isNotEmptyString from '../string/isNotEmpty.js';
 
+//  Take note: this is the end of week key for weeks starting on key,
+//  eg: end of week for week_mon is sunday as the week starts on monday and ends on sunday
+const WEEK_END = {
+    week    : 0, // Original lib cases only contained week and historical was monday
+    week_sun: 6,
+    week_mon: 0,
+    week_tue: 1,
+    week_wed: 2,
+    week_thu: 3,
+    week_fri: 4,
+    week_sat: 5,
+};
+
 export default function endOfUTC (val, key) {
     if (
         !(val instanceof Date)
@@ -23,10 +36,9 @@ export default function endOfUTC (val, key) {
                 999
             ));
         case 'quarter': {
-            const new_quarter = val.getUTCMonth() - (val.getUTCMonth() % 3);
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                new_quarter > 0 ? new_quarter + 3 : 3,
+                (val.getUTCMonth() - (val.getUTCMonth() % 3)) + 3,
                 0,
                 23,
                 59,
@@ -44,33 +56,25 @@ export default function endOfUTC (val, key) {
                 59,
                 999
             ));
-        case 'week': {
-            const date = new Date(Date.UTC(
+        case 'week':
+        case 'week_sun':
+        case 'week_mon':
+        case 'week_tue':
+        case 'week_wed':
+        case 'week_thu':
+        case 'week_fri':
+        case 'week_sat': {
+            const UTC_DAY = val.getUTCDay();
+            const UTC_EOD = WEEK_END[key];
+            return new Date(Date.UTC(
                 val.getUTCFullYear(),
                 val.getUTCMonth(),
-                val.getUTCDate(),
+                val.getUTCDate() + (UTC_DAY <= UTC_EOD ? UTC_EOD - UTC_DAY : (7 - UTC_DAY) + UTC_EOD),
                 23,
                 59,
                 59,
                 999
             ));
-            const day = date.getUTCDay();
-            if (day !== 0) date.setUTCDate(date.getUTCDate() + (7 - day));
-            return date;
-        }
-        case 'week_sun': {
-            const date = new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate(),
-                23,
-                59,
-                59,
-                999
-            ));
-            const day = date.getUTCDay();
-            if (day !== 6) date.setUTCDate(date.getUTCDate() + (6 - day));
-            return date;
         }
         case 'day':
             return new Date(Date.UTC(

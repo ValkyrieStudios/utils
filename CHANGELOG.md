@@ -7,7 +7,19 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
-- Dep: c8\@8.0.1
+- Dev Dep: c8\@8.0.1
+- date/startOfUTC: Add support for week_mon as mode (alias for week with monday as first day of the week)
+- date/startOfUTC: Add support for week_tue as mode (tuesday as first day of the week)
+- date/startOfUTC: Add support for week_wed as mode (wednesday as first day of the week)
+- date/startOfUTC: Add support for week_thu as mode (thursday as first day of the week)
+- date/startOfUTC: Add support for week_fri as mode (friday as first day of the week)
+- date/startOfUTC: Add support for week_sat as mode (saturday as first day of the week)
+- date/endOfUTC: Add support for week_mon as mode (alias for week with monday as first day of the week)
+- date/endOfUTC: Add support for week_tue as mode (tuesday as first day of the week)
+- date/endOfUTC: Add support for week_wed as mode (wednesday as first day of the week)
+- date/endOfUTC: Add support for week_thu as mode (thursday as first day of the week)
+- date/endOfUTC: Add support for week_fri as mode (friday as first day of the week)
+- date/endOfUTC: Add support for week_sat as mode (saturday as first day of the week)
 
 ### Improved
 - Dev Dep: Upgrade @babel/cli to 7.23.4
@@ -18,6 +30,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - deep/seal: Improved performance due to replacement of forEach with native for
 - deep/get: Improved performance due to order change during path interpolation
 - deep/set: Improved performance due to order change during path interpolation
+- date/startOfUTC: Improved performance for start of week and quarter calculation due to improved internal handling
+- date/endOfUTC: Improved performance for start of week and quarter calculation due to improved internal handling
 - string/shorten: Will no longer return false but an empty string when passed a string that is empty after trimming
 - string/isBetween: Will now validate that min and max are passed as above or equal to 0
 - object/pick: Will now throw when passed an empty array of keys

@@ -34,6 +34,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - date/endOfUTC: Improved performance for start of week and quarter calculation due to improved internal handling
 - string/shorten: Will no longer return false but an empty string when passed a string that is empty after trimming
 - string/isBetween: Will now validate that min and max are passed as above or equal to 0
+- string/humanizeNumber Will now be magnitudes faster (50x) due to ditching usage of Intl for separator handling
+- string/humanizeBytes: Will now be magnitudes faster (50x) due to ditching usage of Intl for separator handling
 - object/pick: Will now throw when passed an empty array of keys
 - object/pick: Will now be magnitudes faster (7x) if working with non-deep keys (eg: pick(obj, ['g.d', 'g.e']))
 - object/merge: Will now throw when passed a non-object target and source (previously only non-object target)

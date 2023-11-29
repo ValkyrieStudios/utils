@@ -72,8 +72,11 @@ export default function humanizeNumber (val, options = {}) {
     normalized = round(normalized, OPTS.precision);
 
     //  Humanize from eg: 10023 to 10,023
-    normalized    = normalized.toLocaleString('en-US', {maximumFractionDigits: OPTS.precision}).split('.');
-    normalized[0] = `${normalized[0]}`.replace(/,/g, OPTS.delim);
+    normalized    = `${normalized}`.split('.');
+    normalized[0] = normalized[0].split('').reverse().map((char, ix, original) => {
+        if (ix > 0 && ix < original.length && ix % 3 === 0) return char + OPTS.delim;
+        return char;
+    }).reverse().join('');
     normalized    = normalized.join(OPTS.separator);
 
     //  Include a decimal point and a tenths-place digit if presenting less than then of KB or greater units

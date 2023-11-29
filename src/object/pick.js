@@ -13,10 +13,21 @@ export default function pick (obj, keys) {
     ) throw new TypeError('Please pass an object to pick from and a keys array');
 
     const map = {};
+    let key_deep = false;
+    let val;
     for (const key of keys) {
         if (!isNotEmptyString(key)) continue;
-        const val = deepGet(obj, key.trim());
-        if (val !== undefined) deepSet(map, key.trim(), val);
+        key_deep = key.match(/(\.|\[)/g);
+        val = key_deep
+            ? deepGet(obj, key.trim())
+            : obj[key.trim()];
+        if (val === undefined) continue;
+
+        if (key_deep) {
+            deepSet(map, key.trim(), val);
+        } else {
+            map[key.trim()] = val;
+        }
     }
     return map;
 }

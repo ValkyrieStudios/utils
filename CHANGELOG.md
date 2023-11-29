@@ -35,6 +35,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - string/shorten: Will no longer return false but an empty string when passed a string that is empty after trimming
 - string/isBetween: Will now validate that min and max are passed as above or equal to 0
 - object/pick: Will now throw when passed an empty array of keys
+- object/pick: Will now be magnitudes faster (7x) if working with non-deep keys (eg: pick(obj, ['g.d', 'g.e']))
 - object/merge: Will now throw when passed a non-object target and source (previously only non-object target)
 - Performance improvements across a plethora of functions due to internal usage swaps in favor of Number.isFinite, Number.isInteger and Array.isArray leading to reduction of function calls andless Heap chatter
 - Published package will now also include original src files which can be imported in @valkyriestudios/utils/src, this allows anyone wishing to use in esm format to do so

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [8.0.0] - 2023-11-29
 ### Added
 - Dev: Dep: c8\@8.0.1
 - Dev: Internal benchmark script to produce ops/sec for close to all util functions

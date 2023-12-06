@@ -32,7 +32,7 @@ export default function deepGet (obj, path, get_parent = false) {
             const ix = parseInt(parts.shift());
             if (!Number.isInteger(ix) || ix < 0 || ix > (cursor.length - 1)) return undefined;
             cursor = cursor[ix];
-        } else {
+        } else if (Object.prototype.toString.call(cursor) === PROTO_OBJ) {
             const key = parts.shift();
             if (!cursor.hasOwnProperty(key)) return undefined;
             cursor = cursor[key];

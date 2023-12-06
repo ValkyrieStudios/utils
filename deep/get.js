@@ -20,7 +20,7 @@ function deepGet(obj, path) {
       var ix = parseInt(parts.shift());
       if (!Number.isInteger(ix) || ix < 0 || ix > cursor.length - 1) return undefined;
       cursor = cursor[ix];
-    } else {
+    } else if (Object.prototype.toString.call(cursor) === _is.PROTO_OBJ) {
       var key = parts.shift();
       if (!cursor.hasOwnProperty(key)) return undefined;
       cursor = cursor[key];

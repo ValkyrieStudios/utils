@@ -6,5 +6,6 @@
     plugins: [
         'transform-remove-console',
         'transform-minify-booleans',
+        ['module-extension', {mjs: 'js'}]
     ]
 }

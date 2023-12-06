@@ -23,7 +23,7 @@
     "lint": "npm run lint:src && npm run lint:test",
     "lint:src": "./node_modules/.bin/eslint --ext .js,.mjs ./src",
     "lint:test": "./node_modules/.bin/eslint --ext .js,.mjs ./test",
-    "build": "npm run lint && npm run test:coverage && rm -rf ./dist && mkdir ./dist && npx babel src --out-dir ./dist && sh ./adjust_esm_to_cjs.sh && mv -f ./dist/* ./ && rm -rf ./dist",
+    "build": "npm run lint && npm run test:coverage && npx babel src --out-dir ./",
     "codecov": "codecov"
   },
   "repository": {
@@ -39,9 +39,10 @@
     "@babel/core": "^7.23.5",
     "@babel/preset-env": "^7.23.5",
     "@babel/register": "^7.22.15",
+    "babel-plugin-module-extension": "^0.1.3",
     "babel-plugin-transform-minify-booleans": "^6.9.4",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "c8": "^8.0.1",
-    "eslint": "^8.52.0"
+    "eslint": "^8.55.0"
   }
 }

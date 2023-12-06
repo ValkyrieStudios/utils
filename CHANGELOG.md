@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [8.3.0] - 2023-12-06
+### Added
+- Dev Dep: babel-plugin-module-extension@0.1.3
+
+### Improved
+- Dev Dep: Upgrade eslint to 8.55.0
+- Rerun benchmark for v8 on intel i9
+
+### Fixed
+- deep/get: Fix edge case issue where cursor is not an object or array when parts still exist afterwards
+
 ## [8.2.0] - 2023-11-29
 ### Improved
 - Dev Dep: Upgrade @babel/core to 7.23.5

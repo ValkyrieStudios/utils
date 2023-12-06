@@ -34,7 +34,7 @@ export default function deepGet (obj, path, get_parent = false) {
             cursor = cursor[ix];
         } else if (Object.prototype.toString.call(cursor) === PROTO_OBJ) {
             const key = parts.shift();
-            if (!cursor.hasOwnProperty(key)) return undefined;
+            if (!Object.prototype.hasOwnProperty.call(cursor, key)) return undefined;
             cursor = cursor[key];
         }
 

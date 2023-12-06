@@ -54,7 +54,9 @@ export default function sort (arr, by, dir = 'asc', options = {}) {
     const has_opts = Object.prototype.toString.call(options) === PROTO_OBJ;
 
     const OPTS = {
-        filter_fn   : has_opts && isFunction(options.filter_fn) ? options.filter_fn : isNotEmptyObject,
+        filter_fn   : has_opts && isFunction(options.filter_fn)
+            ? el => isNotEmptyObject(el) && options.filter_fn(el)
+            : isNotEmptyObject,
         nokey_hide  : has_opts && isBoolean(options.nokey_hide) ? options.nokey_hide : false,
         nokey_atend : has_opts && isBoolean(options.nokey_atend) ? options.nokey_atend : true,
     };
@@ -66,7 +68,7 @@ export default function sort (arr, by, dir = 'asc', options = {}) {
         for (const el of arr) {
             if (!OPTS.filter_fn(el)) continue;
 
-            if (!el.hasOwnProperty(by) || el[by] === undefined) {
+            if (!Object.prototype.hasOwnProperty.call(el, by) || el[by] === undefined) {
                 nokey_arr.push(el);
             } else {
                 prepared_arr.push({t: el[by], el});

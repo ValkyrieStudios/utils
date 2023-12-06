@@ -17,7 +17,9 @@ export default function mapKey (arr, key, opts = {}) {
     for (const el of arr) {
         if (
             Object.prototype.toString.call(el) !== PROTO_OBJ ||
-            !el.hasOwnProperty(key)) continue;
+            !Object.prototype.hasOwnProperty.call(el, key)
+        ) continue;
+
         if (OPTS.merge === true && map.hasOwnProperty(el[key])) {
             map[el[key]] = Object.assign(map[el[key]], el);
         } else {

@@ -54,7 +54,9 @@ function sort(arr, by) {
   if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
   var has_opts = Object.prototype.toString.call(options) === _is2.PROTO_OBJ;
   var OPTS = {
-    filter_fn: has_opts && (0, _is3["default"])(options.filter_fn) ? options.filter_fn : _isNotEmpty["default"],
+    filter_fn: has_opts && (0, _is3["default"])(options.filter_fn) ? function (el) {
+      return (0, _isNotEmpty["default"])(el) && options.filter_fn(el);
+    } : _isNotEmpty["default"],
     nokey_hide: has_opts && (0, _is["default"])(options.nokey_hide) ? options.nokey_hide : !1,
     nokey_atend: has_opts && (0, _is["default"])(options.nokey_atend) ? options.nokey_atend : !0
   };
@@ -67,7 +69,7 @@ function sort(arr, by) {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var el = _step.value;
         if (!OPTS.filter_fn(el)) continue;
-        if (!el.hasOwnProperty(by) || el[by] === undefined) {
+        if (!Object.prototype.hasOwnProperty.call(el, by) || el[by] === undefined) {
           nokey_arr.push(el);
         } else {
           prepared_arr.push({

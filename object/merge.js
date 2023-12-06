@@ -12,7 +12,7 @@ var merge = function merge(target) {
     if (Object.prototype.toString.call(target[key]) === _is.PROTO_OBJ && !Array.isArray(target[key])) {
       acc[key] = merge(target[key], source[key] || {});
     } else {
-      acc[key] = source.hasOwnProperty(key) ? source[key] : target[key];
+      acc[key] = Object.prototype.hasOwnProperty.call(source, key) ? source[key] : target[key];
     }
     return acc;
   }, {});

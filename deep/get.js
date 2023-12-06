@@ -22,7 +22,7 @@ function deepGet(obj, path) {
       cursor = cursor[ix];
     } else if (Object.prototype.toString.call(cursor) === _is.PROTO_OBJ) {
       var key = parts.shift();
-      if (!cursor.hasOwnProperty(key)) return undefined;
+      if (!Object.prototype.hasOwnProperty.call(cursor, key)) return undefined;
       cursor = cursor[key];
     }
     if (!Array.isArray(cursor) && Object.prototype.toString.call(cursor) !== _is.PROTO_OBJ && parts.length > 0) return undefined;

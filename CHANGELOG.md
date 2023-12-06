@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- deep/get: Removed internal usage of `X.hasOwnProperty(key)` in favor of `Object.prototype.hasOwnProperty.call(X, key)`, allowing passing objects without prototype (eg: Object.create(null))
+- object/merge: Removed internal usage of `X.hasOwnProperty(key)` in favor of `Object.prototype.hasOwnProperty.call(X, key)`, allowing passing objects without prototype (eg: Object.create(null))
+- array/mapKey: Removed internal usage of `X.hasOwnProperty(key)` in favor of `Object.prototype.hasOwnProperty.call(X, key)`, allowing passing objects without prototype (eg: Object.create(null))
+- array/sort: Removed internal usage of `X.hasOwnProperty(key)` in favor of `Object.prototype.hasOwnProperty.call(X, key)`, allowing passing objects without prototype (eg: Object.create(null))
+- array/sort: Now wraps a custom filter function to ensure non-empty object checks are always applied, this also means custom filter functions no longer need to pass this themselves
+
 ## [8.3.0] - 2023-12-06
 ### Added
 - Dev Dep: babel-plugin-module-extension@0.1.3

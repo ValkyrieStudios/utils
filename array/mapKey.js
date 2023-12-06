@@ -22,7 +22,7 @@ function mapKey(arr, key) {
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var el = _step.value;
-      if (Object.prototype.toString.call(el) !== _is.PROTO_OBJ || !el.hasOwnProperty(key)) continue;
+      if (Object.prototype.toString.call(el) !== _is.PROTO_OBJ || !Object.prototype.hasOwnProperty.call(el, key)) continue;
       if (OPTS.merge === !0 && map.hasOwnProperty(el[key])) {
         map[el[key]] = Object.assign(map[el[key]], el);
       } else {

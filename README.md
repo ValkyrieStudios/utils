@@ -218,6 +218,7 @@ const out = sort([
 ```
 
 allows passing custom filter function to clean input
+Take note: Sort will still verify that the object is not an empty object, even when passing a custom filter function.
 
 ```js
 const out = sort([
@@ -233,7 +234,7 @@ const out = sort([
     {test: 'Bob'},
     undefined,
     {test: 'Alice'},
-], el => el.test.toLowerCase(), 'desc', {filter_fn: el => isObject(el) && isNotEmptyString(el.test)}); 
+], el => el.test.toLowerCase(), 'desc', {filter_fn: el => isNotEmptyString(el.test)}); 
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
 ```
 

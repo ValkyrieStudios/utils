@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [9.0.0] - 2023-12-07
+### Breaking
+- Removed data/countries.json, this has now been moved to https://www.npmjs.com/package/@valkyriestudios/data-countries
+- Removed data/continents.json, this has now been moved to https://www.npmjs.com/package/@valkyriestudios/data-continents
+
 ## [8.4.0] - 2023-12-06
 ### Improved
 - deep/get: Removed internal usage of `X.hasOwnProperty(key)` in favor of `Object.prototype.hasOwnProperty.call(X, key)`, allowing passing objects without prototype (eg: Object.create(null))

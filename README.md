@@ -1,7 +1,7 @@
 # @valkyriestudios/utils
 
 [![codecov](https://codecov.io/gh/ValkyrieStudios/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
-![codeql](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql/badge.svg)
+[![codeql](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql)
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 

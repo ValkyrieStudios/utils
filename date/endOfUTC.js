@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: !0
 });
 exports["default"] = endOfUTC;
-var _isNotEmpty = _interopRequireDefault(require("../string/isNotEmpty.js"));
+var _is = _interopRequireDefault(require("./is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 var WEEK_END = {
   week: 0,
@@ -17,8 +17,8 @@ var WEEK_END = {
   week_sat: 5
 };
 function endOfUTC(val, key) {
-  if (!(val instanceof Date)) throw new TypeError('endOfUTC requires a date object');
-  if (!(0, _isNotEmpty["default"])(key)) throw new TypeError('Key needs to be a string with content');
+  if (!(0, _is["default"])(val)) throw new TypeError('endOfUTC requires a date object');
+  if (typeof key !== 'string') throw new TypeError('Key needs to be a string with content');
   switch (key) {
     case 'year':
       return new Date(Date.UTC(val.getUTCFullYear(), 11, 31, 23, 59, 59, 999));

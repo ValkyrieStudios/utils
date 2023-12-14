@@ -1,6 +1,6 @@
 'use strict';
 
-export default function mapKey (arr, key, opts = {}) {
+export default function mapKey (arr, key, opts) {
     if (
         (!Array.isArray(arr) || arr.length === 0) ||
         typeof key !== 'string'

@@ -6,9 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = sort;
 var _is = _interopRequireDefault(require("../boolean/is.js"));
 var _isNotEmpty = _interopRequireDefault(require("../object/isNotEmpty.js"));
-var _is2 = require("../object/is.js");
-var _isNotEmpty2 = _interopRequireDefault(require("../string/isNotEmpty.js"));
-var _is3 = _interopRequireDefault(require("../function/is.js"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -50,11 +47,10 @@ function sort(arr, by) {
   var dir = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'asc';
   var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
   if (!Array.isArray(arr) || arr.length === 0) return [];
-  if (!(0, _isNotEmpty2["default"])(by) && !(0, _is3["default"])(by)) throw new Error('Sort by should be either a string or a function');
   if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
-  var has_opts = Object.prototype.toString.call(options) === _is2.PROTO_OBJ;
+  var has_opts = Object.prototype.toString.call(options) === '[object Object]';
   var OPTS = {
-    filter_fn: has_opts && (0, _is3["default"])(options.filter_fn) ? function (el) {
+    filter_fn: has_opts && typeof options.filter_fn === 'function' ? function (el) {
       return (0, _isNotEmpty["default"])(el) && options.filter_fn(el);
     } : _isNotEmpty["default"],
     nokey_hide: has_opts && (0, _is["default"])(options.nokey_hide) ? options.nokey_hide : !1,
@@ -62,18 +58,20 @@ function sort(arr, by) {
   };
   var prepared_arr = [];
   var nokey_arr = [];
-  if ((0, _isNotEmpty2["default"])(by)) {
+  if (typeof by === 'string') {
+    var by_s = by.trim();
+    if (by_s.length === 0) throw new Error('Sort by should either be a string with content or a function');
     var _iterator = _createForOfIteratorHelper(arr),
       _step;
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         var el = _step.value;
         if (!OPTS.filter_fn(el)) continue;
-        if (!Object.prototype.hasOwnProperty.call(el, by) || el[by] === undefined) {
+        if (!Object.prototype.hasOwnProperty.call(el, by_s) || el[by_s] === undefined) {
           nokey_arr.push(el);
         } else {
           prepared_arr.push({
-            t: el[by],
+            t: el[by_s],
             el: el
           });
         }
@@ -83,7 +81,7 @@ function sort(arr, by) {
     } finally {
       _iterator.f();
     }
-  } else {
+  } else if (typeof by === 'function') {
     var key;
     var _iterator2 = _createForOfIteratorHelper(arr),
       _step2;
@@ -106,6 +104,8 @@ function sort(arr, by) {
     } finally {
       _iterator2.f();
     }
+  } else {
+    throw new Error('Sort by should either be a string with content or a function');
   }
   quickSort(prepared_arr);
   if (dir === 'desc') prepared_arr.reverse();

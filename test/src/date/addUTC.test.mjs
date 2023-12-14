@@ -25,7 +25,7 @@ describe('Date - addUTC', () => {
     });
 
     it('Throw when passed a non-string for key', () => {
-        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+        for (const el of CONSTANTS.NOT_STRING) {
             assert.throws(
                 () => addUTC(new Date(), 10, el),
                 new TypeError('Key needs to be a string with content')

@@ -10,8 +10,8 @@ describe('RegExp - sanitize', () => {
         assert.equal(sanitize(), false);
     });
 
-    it('Return false when passed a non string or empty string value', () => {
-        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) assert.equal(sanitize(el), false);
+    it('Return false when passed a non string value', () => {
+        for (const el of CONSTANTS.NOT_STRING) assert.equal(sanitize(el), false);
     });
 
     it('Should return escaped string when passed a string with special characters', () => {

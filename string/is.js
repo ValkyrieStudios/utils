@@ -5,5 +5,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = isString;
 function isString(val) {
-  return typeof val === 'string' || val instanceof String;
+  return typeof val === 'string';
 }

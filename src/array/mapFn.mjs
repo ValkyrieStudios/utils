@@ -1,6 +1,6 @@
 'use strict';
 
-export default function mapFn (arr, fn, opts = {}) {
+export default function mapFn (arr, fn, opts) {
     if (
         (!Array.isArray(arr) || arr.length === 0) ||
         typeof fn !== 'function'

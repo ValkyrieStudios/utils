@@ -4,5 +4,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = isFunction;
 function isFunction(val) {
-  return !!(val && val.constructor && val.call && val.apply);
+  return typeof val === 'function';
 }

@@ -7,8 +7,8 @@ const testArrowFunction = () => {};
 
 const IS_NUMERIC    = [1, 0.000001, 8e10, Math.PI, Number(1.12345), Number(Number.EPSILON)];
 const IS_INTEGER    = [-1, 100, -50, 99999, 20];
-const IS_BOOLEAN    = [true, false, Boolean(true), Boolean(false), Boolean('foo'), new Boolean(false)];
-const IS_STRING     = ['foo', new String('bar')];
+const IS_BOOLEAN    = [true, false, Boolean(true), Boolean(false)];
+const IS_STRING     = ['foo', String('foo')];
 const IS_REGEXP     = [/abcdefg/i, new RegExp('\\w+')];
 const IS_DATE       = [new Date()];
 const IS_ARRAY      = [[0, 1, 2], new Array(1, 2, 3), new Array(5)];

@@ -5,5 +5,5 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = isBoolean;
 function isBoolean(val) {
-  return val === !0 || val === !1 || typeof val === 'boolean' || val instanceof Boolean;
+  return val === !0 || val === !1;
 }

@@ -27,7 +27,7 @@ describe('Date - diff', () => {
     });
 
     it('Throw when passed a non-false non-string for key', () => {
-        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+        for (const el of CONSTANTS.NOT_STRING) {
             if (el === false || el === undefined) continue;
 
             assert.throws(

@@ -34,7 +34,7 @@ describe('Array - sort', () => {
         ]) {
             assert.throws(
                 () => sort([{test: 'hello'}], el),
-                new Error('Sort by should be either a string or a function')
+                new Error('Sort by should either be a string with content or a function')
             );
         }
     });

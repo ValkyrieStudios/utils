@@ -9,6 +9,13 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - Remove old travis build badge from readme
 - Add codeql badge to readme
+- perf: ~25% performance improvement in string/shorten
+- perf: ~18% performance improvement in object/pick
+- perf: 5 to 10% performance degration in date/is, date/startOfUTC, date/addUTC, date/diff, date/endOfUTC, date/toUnix, date/toUTC due to more rigid checks on whether or not a Date is a truly valid date (see Breaking section)
+
+### Breaking
+- The usage of non-literal string formats (eg: `new String(...)`) will no longer be supported to allow for further performance improvements during validity checks. This should not impact many people as the usage of strings in that format has been discouraged for many years. For example: `isString('hello')` and `isString(String('hello'))` will return true, but `isString(new String('hello'))` will no longer return true as a string literal and a string object are two different things. Usage of String objects can lead to side-effects, for example: `new String('hello') == new String('hello')` would return false
+- date/is: Will now return false if a date object was instantiated with an invalid date (eg: `New Date('invalid_date')`)
 
 ## [9.0.0] - 2023-12-07
 ### Breaking

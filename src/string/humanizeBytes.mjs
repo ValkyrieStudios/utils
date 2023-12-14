@@ -1,20 +1,18 @@
 'use strict';
 
-import isString         from '../string/is.mjs';
-import isNotEmptyString from '../string/isNotEmpty.mjs';
-import {PROTO_OBJ}      from '../object/is.mjs';
 import humanizeNumber   from './humanizeNumber.mjs';
+import isNotEmptyString from '../string/isNotEmpty.mjs';
 
 //  Humanize a numerical byte value into a readable file size
 //
 //  @param int  val     Amount of bytes
 export default function humanizeBytes (val, options = {}) {
-    const has_opts = Object.prototype.toString.call(options) === PROTO_OBJ;
+    const has_opts = Object.prototype.toString.call(options) === '[object Object]';
     return humanizeNumber(val, {
-        delim: has_opts && isString(options.delim)
+        delim: has_opts && typeof options.delim === 'string'
             ? options.delim
             : ',',
-        separator: has_opts && isNotEmptyString(options.separator)
+        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length > 0
             ? options.separator
             : '.',
         precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0

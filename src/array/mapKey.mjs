@@ -1,29 +1,29 @@
 'use strict';
 
-import isNotEmptyString from '../string/isNotEmpty.mjs';
-import {PROTO_OBJ}      from '../object/is.mjs';
-
 export default function mapKey (arr, key, opts = {}) {
     if (
         (!Array.isArray(arr) || arr.length === 0) ||
-        !isNotEmptyString(key)
+        typeof key !== 'string'
     ) return {};
+
+    const key_s = key.trim();
+    if (key_s.length === 0) return {};
 
     const OPTS = Object.assign({
         merge: false,
-    }, Object.prototype.toString.call(opts) === PROTO_OBJ ? opts : {});
+    }, Object.prototype.toString.call(opts) === '[object Object]' ? opts : {});
 
     const map = {};
     for (const el of arr) {
         if (
-            Object.prototype.toString.call(el) !== PROTO_OBJ ||
-            !Object.prototype.hasOwnProperty.call(el, key)
+            Object.prototype.toString.call(el) !== '[object Object]' ||
+            !Object.prototype.hasOwnProperty.call(el, key_s)
         ) continue;
 
-        if (OPTS.merge === true && map.hasOwnProperty(el[key])) {
-            map[el[key]] = Object.assign(map[el[key]], el);
+        if (OPTS.merge === true && map.hasOwnProperty(el[key_s])) {
+            map[el[key_s]] = Object.assign(map[el[key_s]], el);
         } else {
-            map[el[key]] = el;
+            map[el[key_s]] = el;
         }
     }
 

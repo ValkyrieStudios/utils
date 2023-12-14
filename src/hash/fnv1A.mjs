@@ -2,11 +2,6 @@
 
 /* eslint-disable no-bitwise */
 
-import isString         from '../string/is.mjs';
-import isNumericalNaN   from '../number/isNumericalNaN.mjs';
-import {PROTO_RGX}      from '../regexp/is.mjs';
-import {PROTO_OBJ}      from '../object/is.mjs';
-
 //  https://tools.ietf.org/html/draft-eastlake-fnv-03
 
 const FNV_32        = 2166136261;
@@ -21,17 +16,17 @@ export default function fnv1A (data, offset = FNV_32) {
     let sanitized;
 
     //  Convert data to a format that is hashable
-    if (isString(data)) {
+    if (typeof data === 'string') {
         sanitized = data;
     } else if (Number.isFinite(data)) {
         sanitized = `${data}`;
-    } else if (Array.isArray(data) || Object.prototype.toString.call(data) === PROTO_OBJ) {
+    } else if (Array.isArray(data) || Object.prototype.toString.call(data) === '[object Object]') {
         sanitized = JSON.stringify(data);
-    } else if (Object.prototype.toString.call(data) === PROTO_RGX) {
+    } else if (Object.prototype.toString.call(data) === '[object RegExp]') {
         sanitized = data.toString();
     } else if (data instanceof Date) {
         sanitized = `${data.getTime()}`;
-    } else if (isNumericalNaN(data)) {
+    } else if (Number.isNaN(data) || data === Infinity) {
         sanitized = REPL_NAN;
     } else if (data === false) {
         sanitized = REPL_FALSE;

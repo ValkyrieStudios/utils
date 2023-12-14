@@ -1,9 +1,7 @@
 'use strict';
 
-import isFunction from '../function/is.mjs';
-
 export default function memoize (fn, resolver = false) {
-    const has_resolver = isFunction(resolver);
+    const has_resolver = typeof resolver === 'function';
     const memoized = function () {
         //  Get key
         const key = has_resolver ? resolver.apply(this, arguments) : arguments[0]; // eslint-disable-line

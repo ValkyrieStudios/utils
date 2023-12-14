@@ -1,10 +1,10 @@
 'use strict';
 
-import isNotEmptyString from '../string/isNotEmpty.mjs';
+import isDate from './is.mjs';
 
 export default function addUTC (val, amount, key) {
     if (
-        !(val instanceof Date)
+        !isDate(val)
     ) throw new TypeError('addUTC requires a date object');
 
     if (
@@ -12,7 +12,7 @@ export default function addUTC (val, amount, key) {
     ) throw new TypeError('Amount needs to be an integer');
 
     if (
-        !isNotEmptyString(key)
+        typeof key !== 'string'
     ) throw new TypeError('Key needs to be a string with content');
 
     const copy = new Date(Date.UTC(

@@ -1,6 +1,6 @@
 'use strict';
 
-import isNotEmptyString from '../string/isNotEmpty.mjs';
+import isDate from './is.mjs';
 
 const WEEK_START = {
     week    : 1, // Original lib cases only contained week and historical was monday
@@ -15,11 +15,11 @@ const WEEK_START = {
 
 export default function startOfUTC (val, key) {
     if (
-        !(val instanceof Date)
+        !isDate(val)
     ) throw new TypeError('startOfUTC requires a date object');
 
     if (
-        !isNotEmptyString(key)
+        typeof key !== 'string'
     ) throw new TypeError('Key needs to be a string with content');
 
     switch (key) {

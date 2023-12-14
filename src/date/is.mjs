@@ -1,5 +1,5 @@
 'use strict';
 
 export default function isDate (val) {
-    return val instanceof Date;
+    return Object.prototype.toString.call(val) === '[object Date]' && !isNaN(val);
 }

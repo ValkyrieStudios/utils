@@ -2,9 +2,6 @@
 
 import isBoolean        from '../boolean/is.mjs';
 import isNotEmptyObject from '../object/isNotEmpty.mjs';
-import {PROTO_OBJ}      from '../object/is.mjs';
-import isNotEmptyString from '../string/isNotEmpty.mjs';
-import isFunction       from '../function/is.mjs';
 
 function partition (arr, start_ix, end_ix) {
     const pivot_val = arr[Math.floor((start_ix + end_ix) / 2)].t;
@@ -45,16 +42,13 @@ function quickSort (arr, start_ix = 0, end_ix = arr.length - 1) {
 export default function sort (arr, by, dir = 'asc', options = {}) {
     if (!Array.isArray(arr) || arr.length === 0) return [];
 
-    //  Check by
-    if (!isNotEmptyString(by) && !isFunction(by)) throw new Error('Sort by should be either a string or a function');
-
     //  Check dir
     if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
 
-    const has_opts = Object.prototype.toString.call(options) === PROTO_OBJ;
+    const has_opts = Object.prototype.toString.call(options) === '[object Object]';
 
     const OPTS = {
-        filter_fn   : has_opts && isFunction(options.filter_fn)
+        filter_fn   : has_opts && typeof options.filter_fn === 'function'
             ? el => isNotEmptyObject(el) && options.filter_fn(el)
             : isNotEmptyObject,
         nokey_hide  : has_opts && isBoolean(options.nokey_hide) ? options.nokey_hide : false,
@@ -64,17 +58,20 @@ export default function sort (arr, by, dir = 'asc', options = {}) {
     //  Prepare for sort
     const prepared_arr    = [];
     const nokey_arr       = [];
-    if (isNotEmptyString(by)) {
+    if (typeof by === 'string') {
+        const by_s = by.trim();
+        if (by_s.length === 0) throw new Error('Sort by should either be a string with content or a function');
+
         for (const el of arr) {
             if (!OPTS.filter_fn(el)) continue;
 
-            if (!Object.prototype.hasOwnProperty.call(el, by) || el[by] === undefined) {
+            if (!Object.prototype.hasOwnProperty.call(el, by_s) || el[by_s] === undefined) {
                 nokey_arr.push(el);
             } else {
-                prepared_arr.push({t: el[by], el});
+                prepared_arr.push({t: el[by_s], el});
             }
         }
-    } else {
+    } else if (typeof by === 'function') {
         let key;
         for (const el of arr) {
             if (!OPTS.filter_fn(el)) continue;
@@ -86,6 +83,8 @@ export default function sort (arr, by, dir = 'asc', options = {}) {
                 prepared_arr.push({t: by(el), el});
             }
         }
+    } else {
+        throw new Error('Sort by should either be a string with content or a function');
     }
 
     //  Sort

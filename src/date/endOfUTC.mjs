@@ -1,6 +1,6 @@
 'use strict';
 
-import isNotEmptyString from '../string/isNotEmpty.mjs';
+import isDate from './is.mjs';
 
 //  Take note: this is the end of week key for weeks starting on key,
 //  eg: end of week for week_mon is sunday as the week starts on monday and ends on sunday
@@ -17,11 +17,11 @@ const WEEK_END = {
 
 export default function endOfUTC (val, key) {
     if (
-        !(val instanceof Date)
+        !isDate(val)
     ) throw new TypeError('endOfUTC requires a date object');
 
     if (
-        !isNotEmptyString(key)
+        typeof key !== 'string'
     ) throw new TypeError('Key needs to be a string with content');
 
     switch (key) {

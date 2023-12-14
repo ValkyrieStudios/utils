@@ -1,20 +1,21 @@
 'use strict';
 
-import isNotEmptyString from '../string/isNotEmpty.mjs';
-import {PROTO_OBJ}      from '../object/is.mjs';
-
 //  Set a value for a path in a json-like structure
 export default function deepSet (obj, path, value = null, define = false) {
     if (
-        Object.prototype.toString.call(obj) !== PROTO_OBJ &&
+        Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
     ) throw new TypeError('Deepset is only supported for objects');
 
     //  If no path is provided, do nothing
-    if (!isNotEmptyString(path)) throw new TypeError('No path was given');
+    if (typeof path !== 'string') throw new TypeError('No path was given');
+
+    //  Check if path contains content
+    const path_s = path.trim();
+    if (path_s.length === 0) throw new TypeError('No path was given');
 
     //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
-    const parts = path
+    const parts = path_s
         .replace(/\[/g, '.')
         .replace(/(\.){2,}/g, '.')
         .replace(/(^\.|\.$|\])/g, '')
@@ -32,7 +33,7 @@ export default function deepSet (obj, path, value = null, define = false) {
     }
 
     //  Prevent overriding of properties, eg: {d: 'hello'} -> deepSet('d.a.b', 'should not work')
-    if (!Array.isArray(obj) && Object.prototype.toString.call(obj) !== PROTO_OBJ) return false;
+    if (!Array.isArray(obj) && Object.prototype.toString.call(obj) !== '[object Object]') return false;
 
     //  Set the actual value on the cursor
     if (define) {

@@ -2,9 +2,7 @@
 
 /* eslint-disable no-use-before-define */
 
-import isNumericalNaN   from './number/isNumericalNaN.mjs';
-import {PROTO_RGX}      from './regexp/is.mjs';
-import {PROTO_OBJ}      from './object/is.mjs';
+import isNumericalNaN from './number/isNumericalNaN.mjs';
 
 function isArrayEqual (a, b) {
     if (a.length !== b.length) return false;
@@ -39,8 +37,8 @@ function equal (a, b) {
 
     //  RegExp Check
     if (
-        Object.prototype.toString.call(a) === PROTO_RGX &&
-        Object.prototype.toString.call(b) === PROTO_RGX
+        Object.prototype.toString.call(a) === '[object RegExp]' &&
+        Object.prototype.toString.call(b) === '[object RegExp]'
     ) return String(a) === String(b);
 
     //  Array as root equal
@@ -51,8 +49,8 @@ function equal (a, b) {
 
     //  Object as root equal
     if (
-        Object.prototype.toString.call(a) === PROTO_OBJ &&
-        Object.prototype.toString.call(b) === PROTO_OBJ
+        Object.prototype.toString.call(a) === '[object Object]' &&
+        Object.prototype.toString.call(b) === '[object Object]'
     ) return isObjectEqual(a, b);
 
     //  NAN Check

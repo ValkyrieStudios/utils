@@ -1,8 +1,5 @@
 'use strict';
 
-import isString 		from './is.mjs';
-import isNumberAbove    from '../number/isAbove.mjs';
-
 //  Shorten a string and add a postfix if it goes over a specific length, will autotrim value
 //
 //  @param string   val         Value to shorten, returns false a string is not passed
@@ -10,12 +7,14 @@ import isNumberAbove    from '../number/isAbove.mjs';
 //  @param string   postfix     (default='...') Postfix to use when shortened
 export default function shorten (val, length, postfix = '...') {
     if (
-        !isString(val) ||
-        !isString(postfix) ||
-        !isNumberAbove(length, 0)
+        typeof val !== 'string' ||
+        typeof postfix !== 'string' ||
+        !Number.isFinite(length) ||
+        length <= 0
     ) return false;
 
-    if (val.trim().length <= length) return val.trim();
+    //  Trim first
+    const sanitized = val.trim();
 
-    return `${val.trim().substr(0, length)}${postfix}`;
+    return sanitized.length <= length ? sanitized : `${sanitized.substr(0, length)}${postfix}`;
 }

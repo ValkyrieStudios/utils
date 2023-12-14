@@ -1,21 +1,19 @@
 'use strict';
 
-import isBoolean        from '../boolean/is.mjs';
-import isString         from '../string/is.mjs';
-import isNotEmptyString from '../string/isNotEmpty.mjs';
-import round            from '../number/round.mjs';
-import {PROTO_OBJ}      from '../object/is.mjs';
+import isBoolean    from '../boolean/is.mjs';
+import isString     from '../string/is.mjs';
+import round        from '../number/round.mjs';
 
 //  Humanize a numerical value into a unit base
 //
 //  @param int  val     Amount of bytes
 export default function humanizeNumber (val, options = {}) {
-    const has_opts = Object.prototype.toString.call(options) === PROTO_OBJ;
+    const has_opts = Object.prototype.toString.call(options) === '[object Object]';
     const OPTS = {
-        delim: has_opts && isString(options.delim)
+        delim: has_opts && typeof options.delim === 'string'
             ? options.delim
             : ',',
-        separator: has_opts && isNotEmptyString(options.separator)
+        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length > 0
             ? options.separator
             : '.',
         precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0
@@ -35,16 +33,16 @@ export default function humanizeNumber (val, options = {}) {
     };
 
     //  If not a valid value, return
-    if (!(Number.isFinite(val) || isNotEmptyString(val))) {
+    if (!Number.isFinite(val) && typeof val !== 'string') {
         return `0${OPTS.units.length > 0 ? OPTS.units[0] : ''}`;
     }
 
     //  Ensure we are working with an integer
     let normalized;
     if (OPTS.real) {
-        normalized = parseInt(isString(val) ? val.trim() : val) || 0;
+        normalized = parseInt(typeof val === 'string' ? val.trim() : val) || 0;
     } else {
-        normalized = parseFloat(isString(val) ? val.trim() : val) || 0;
+        normalized = parseFloat(typeof val === 'string' ? val.trim() : val) || 0;
     }
     if (!Number.isFinite(normalized) || normalized === 0) {
         return `0${OPTS.units.length > 0 ? OPTS.units[0] : ''}`;

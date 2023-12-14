@@ -1,11 +1,9 @@
 'use strict';
 
-import {PROTO_OBJ} from '../object/is.mjs';
-
 function deep (obj) {
     for (const key of Object.keys(obj)) {
         if (
-            Object.prototype.toString.call(obj[key]) === PROTO_OBJ ||
+            Object.prototype.toString.call(obj[key]) === '[object Object]' ||
             Array.isArray(obj[key])
         ) deep(obj[key]);
     }
@@ -15,7 +13,7 @@ function deep (obj) {
 //  Freeze nested structures
 export default function deepFreeze (obj) {
     if (
-        Object.prototype.toString.call(obj) !== PROTO_OBJ &&
+        Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
     ) throw new TypeError('Only objects/arrays can be frozen');
     return deep(obj);

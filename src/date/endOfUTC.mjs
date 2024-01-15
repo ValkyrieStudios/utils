@@ -15,7 +15,7 @@ const WEEK_END = {
     week_sat: 5,
 };
 
-export default function endOfUTC (val, key) {
+export default function endOfUTC (val, key = 'millisecond') {
     if (
         !isDate(val)
     ) throw new TypeError('endOfUTC requires a date object');
@@ -116,6 +116,7 @@ export default function endOfUTC (val, key) {
                 val.getUTCSeconds(),
                 999
             ));
+        case 'millisecond':
         default:
             return new Date(Date.UTC(
                 val.getUTCFullYear(),

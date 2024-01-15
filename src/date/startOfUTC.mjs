@@ -13,7 +13,7 @@ const WEEK_START = {
     week_sat: 6,
 };
 
-export default function startOfUTC (val, key) {
+export default function startOfUTC (val, key = 'millisecond') {
     if (
         !isDate(val)
     ) throw new TypeError('startOfUTC requires a date object');
@@ -115,6 +115,7 @@ export default function startOfUTC (val, key) {
                 val.getUTCSeconds(),
                 0
             ));
+        case 'millisecond':
         default:
             return new Date(Date.UTC(
                 val.getUTCFullYear(),

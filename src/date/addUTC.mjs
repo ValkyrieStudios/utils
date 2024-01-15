@@ -2,7 +2,7 @@
 
 import isDate from './is.mjs';
 
-export default function addUTC (val, amount, key) {
+export default function addUTC (val, amount = 0, key = 'millisecond') {
     if (
         !isDate(val)
     ) throw new TypeError('addUTC requires a date object');

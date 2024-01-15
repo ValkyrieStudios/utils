@@ -8,16 +8,15 @@ const HOUR_IN_MILLISECONDS      = MINUTE_IN_MILLISECONDS * 60;
 const DAY_IN_MILLISECONDS       = HOUR_IN_MILLISECONDS * 24;
 const WEEK_IN_MILLISECONDS      = DAY_IN_MILLISECONDS * 7;
 
-export default function diff (val_a, val_b, key = false) {
+export default function diff (val_a, val_b, key = 'millisecond') {
     if (
         !isDate(val_a) ||
         !isDate(val_b)
     ) throw new TypeError('Diff requires date objects for both values');
 
     if (
-        key !== false &&
         typeof key !== 'string'
-    ) throw new TypeError('Key needs to be a string or false');
+    ) throw new TypeError('Key needs to be a string');
 
     //  Get difference in milliseconds
     const diff_in_ms = val_a.valueOf() - val_b.valueOf();

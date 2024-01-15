@@ -32,7 +32,7 @@ describe('Date - diff', () => {
 
             assert.throws(
                 () => diff(new Date(), new Date(), el),
-                new TypeError('Key needs to be a string or false')
+                new TypeError('Key needs to be a string')
             );
         }
     });

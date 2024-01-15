@@ -6,6 +6,7 @@
  * @param val - Value to verify
  * @param min - Lower boundary
  * @param max - Upper boundary
+ *
  * @returns Whether or not the value is an integer between min and max inclusive
  */
 declare function isIntegerBetween(val:any, min:number, max:number):boolean;

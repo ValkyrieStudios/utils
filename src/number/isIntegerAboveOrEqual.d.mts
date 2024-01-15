@@ -4,6 +4,7 @@
  *
  * @param val - Value to verify
  * @param ref - Reference the provided value needs to be above or equal to
+ *
  * @returns Whether or not the value is above or equal to the reference
  */
 declare function isIntegerAboveOrEqual(val:any, ref:number):boolean;

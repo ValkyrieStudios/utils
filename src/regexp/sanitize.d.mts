@@ -4,6 +4,7 @@
  * regexp
  *
  * @param val - Value to sanitize
+ *
  * @returns Sanitized value
  */
 declare function sanitizeRegExp(val:string):string;

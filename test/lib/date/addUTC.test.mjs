@@ -17,6 +17,8 @@ describe('Date - addUTC', () => {
 
     it('Throw when passed a non-integer amount', () => {
         for (const el of CONSTANTS.NOT_INTEGER) {
+            if (el === undefined) continue;
+
             assert.throws(
                 () => addUTC(new Date(), el, 'day'),
                 new TypeError('Amount needs to be an integer')
@@ -26,6 +28,8 @@ describe('Date - addUTC', () => {
 
     it('Throw when passed a non-string for key', () => {
         for (const el of CONSTANTS.NOT_STRING) {
+            if (el === undefined) continue;
+
             assert.throws(
                 () => addUTC(new Date(), 10, el),
                 new TypeError('Key needs to be a string with content')

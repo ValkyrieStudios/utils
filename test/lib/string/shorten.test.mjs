@@ -6,27 +6,27 @@ import CONSTANTS        from '../../constants.mjs';
 import shorten          from '../../../lib/string/shorten.mjs';
 
 describe('String - shorten', () => {
-    it('Return false when passing nothing', () => {
-        assert.equal(shorten(), false);
+    it('Return empty string when passed nothing', () => {
+        assert.equal(shorten(), '');
     });
 
-    it('Return false when passed a non string value', () => {
+    it('Return empty string when passed a non string value', () => {
         for (const el of CONSTANTS.NOT_STRING) {
-            assert.equal(shorten(el), false);
+            assert.equal(shorten(el), '');
         }
     });
 
-    it('Return false when passed a non-numeric length', () => {
+    it('Return original string when passed a non-numeric length', () => {
         for (const el of CONSTANTS.NOT_NUMERIC) {
             if (el === undefined) continue;
-            assert.equal(shorten('  Mama Mia   ', el), false);
+            assert.equal(shorten('  Mama Mia   ', el), '  Mama Mia   ');
         }
     });
 
-    it('Return false when passed a non string value', () => {
+    it('Return original string when passed a non string postfix', () => {
         for (const el of CONSTANTS.NOT_STRING) {
             if (el === undefined) continue;
-            assert.equal(shorten('  Mama Mia   ', 10, el), false);
+            assert.equal(shorten('  Mama Mia   ', 10, el), '  Mama Mia   ');
         }
     });
 

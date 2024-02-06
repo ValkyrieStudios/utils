@@ -17,6 +17,8 @@ describe('Date - startOfUTC', () => {
 
     it('Throw when passed a non-string for key', () => {
         for (const el of CONSTANTS.NOT_STRING) {
+            if (el === undefined) continue;
+
             assert.throws(
                 () => startOfUTC(new Date(), el),
                 new TypeError('Key needs to be a string with content')

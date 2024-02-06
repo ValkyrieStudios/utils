@@ -28,11 +28,11 @@ function deepSet(obj, path, value = null, define = false) {
     throw new TypeError("Deepset is only supported for objects");
   if (typeof path !== "string")
     throw new TypeError("No path was given");
+  if (/__proto__|constructor|prototype/.test(path))
+    throw new Error("Malicious path provided");
   const path_s = path.trim();
   if (path_s.length === 0)
     throw new TypeError("No path was given");
-  if (/(^|\.){0,}(__proto__|constructor|prototype)(\.|\[|$){1,}/.test(path_s))
-    throw new Error("Malicious path provided");
   const parts = path_s.replace(/\[/g, ".").replace(/(\.){2,}/g, ".").replace(/(^\.|\.$|\])/g, "").split(".");
   for (let i = 0; i < parts.length - 1; i++) {
     if (parts[i] === "")

@@ -26,22 +26,15 @@ describe('Date - diff', () => {
         }
     });
 
-    it('Throw when passed a non-false non-string for key', () => {
+    it('Throw when passed a non-string for key', () => {
         for (const el of CONSTANTS.NOT_STRING) {
-            if (el === false || el === undefined) continue;
+            if (el === undefined) continue;
 
             assert.throws(
                 () => diff(new Date(), new Date(), el),
                 new TypeError('Key needs to be a string')
             );
         }
-    });
-
-    it('Should correctly calculate difference in milliseconds when passing a var_a after var_b and false for key', () => {
-        assert.equal(
-            diff(new Date('2022-10-05T13:12:11+02:00'), new Date('2032-10-05T11:12:11.000Z'), false),
-            -315619200000
-        );
     });
 
     it('Should correctly calculate difference in milliseconds when passing a var_a after var_b and nothing for key', () => {

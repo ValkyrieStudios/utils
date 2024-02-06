@@ -24,8 +24,10 @@ __export(shorten_exports, {
 });
 module.exports = __toCommonJS(shorten_exports);
 function shorten(val, length, postfix = "...") {
-  if (typeof val !== "string" || typeof postfix !== "string" || !Number.isFinite(length) || length <= 0)
-    return false;
+  if (typeof val !== "string")
+    return "";
+  if (typeof postfix !== "string" || !Number.isFinite(length) || length <= 0)
+    return val;
   const sanitized = val.trim();
   return sanitized.length <= length ? sanitized : `${sanitized.substr(0, length)}${postfix}`;
 }

@@ -2,8 +2,8 @@
 
 /* eslint-disable max-statements */
 
-import {describe, it}   from 'bun:test';
-import assert           from 'bun:assert/strict';
+import {describe, it}   from 'node:test';
+import assert           from 'node:assert/strict';
 import CONSTANTS        from '../../constants.mjs';
 import sort             from '../../../lib/array/sort.mjs';
 import shuffle          from '../../../lib/array/shuffle.mjs';

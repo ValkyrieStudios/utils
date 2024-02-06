@@ -23,15 +23,8 @@ __export(sleep_exports, {
   default: () => sleep
 });
 module.exports = __toCommonJS(sleep_exports);
-
-// lib/number/isAbove.mjs
-function isNumberAbove(val, ref) {
-  return !Number.isFinite(val) || !Number.isFinite(ref) ? false : val > ref;
-}
-
-// lib/function/sleep.mjs
 function sleep(ms = 1e3) {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(), isNumberAbove(ms, 0) ? parseInt(ms) : 0);
+    setTimeout(() => resolve(), Number.isFinite(ms) && ms > 0 ? parseInt(ms) : 0);
   });
 }

@@ -26,6 +26,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: babel-plugin-transform-minify-booleans
 - Dev dep: babel-plugin-transform-remove-console
 
+### Breaking
+- Removed src folder in favor of lib folder combined with exports in package.json, this only breaks things if directly linking to src files. For recommended adjustment, see the added section
+- string/shorten: Will now return original string or empty string instead of false when invalid props are passed
+
 ## [10.0.0] - 2023-12-14
 ### Improved
 - Remove old travis build badge from readme

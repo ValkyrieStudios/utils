@@ -6,12 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Typescript declarations 🚀
+- Module exports setup (import vs require), this allows for both using require and import and internally maps to the correct file. For example where previously you'd have to do `import join from '@valkyriestudios/utils/src/array/join.mjs` to make use of the ESM version you can now simply do `import join from '@valkyriestudios/utils/array/join'`. This goes hand in hand with the typescript declaration support, allowing for improved DX across the board 😎
+- Dev Dep: esbuild@0.20.0
+
 ### Improved
-- Dev Dep: Upgrade @babel/core to 7.23.7
-- Dev Dep: Upgrade @babel/preset-env to 7.23.8
-- Dev Dep: Upgrade @babel/register to 7.23.7
 - Dev Dep: Upgrade eslint to 8.56.0
 - Dev Dep: Upgrade c8 to 9.1.0
+- function/sleep: Will now internally check whether or not the value passed to it is a number above 0 and fallback to 0 if that is not the case
+
+### Removed
+- Dev Dep: @babel/cli
+- Dev Dep: @babel/core
+- Dev Dep: @babel/preset-env
+- Dev Dep: @babel/register
+- Dev Dep: babel-plugin-module-extension
+- Dev Dep: babel-plugin-transform-minify-booleans
+- Dev dep: babel-plugin-transform-remove-console
 
 ## [10.0.0] - 2023-12-14
 ### Improved

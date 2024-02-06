@@ -16,6 +16,7 @@
     ],
     "license": "MIT",
     "scripts": {
+        "build": "esbuild lib/**/*.mjs --bundle --format=cjs --target=es2020 --drop:console --drop:debugger --outdir=dist",
         "test": "node --test ./test/lib",
         "test:only": "node --test --test-only ./test/lib",
         "test:coverage": "c8 node --test ./test/lib",
@@ -35,335 +36,329 @@
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
     "exports": {
         "./is": {
-            "bun": "./lib/is.mjs",
+            "require": "./dist/is.js",
             "import": "./lib/is.mjs",
             "types": "./lib/is.d.mts"
         },
         "./equal": {
-            "bun": "./lib/equal.mjs",
+            "require": "./dist/equal.js",
             "import": "./lib/equal.mjs",
             "types": "./lib/equal.d.mts"
         },
         "./array/dedupe": {
-            "bun": "./lib/array/dedupe.mjs",
+            "require": "./dist/array/dedupe.js",
             "import": "./lib/array/dedupe.mjs",
             "types": "./lib/array/dedupe.d.mts"
         },
         "./array/is": {
-            "bun": "./lib/array/is.mjs",
+            "require": "./dist/array/is.js",
             "import": "./lib/array/is.mjs",
             "types": "./lib/array/is.d.mts"
         },
         "./array/isNotEmpty": {
-            "bun": "./lib/array/isNotEmpty.mjs",
+            "require": "./dist/array/isNotEmpty.js",
             "import": "./lib/array/isNotEmpty.mjs",
             "types": "./lib/array/isNotEmpty.d.mts"
         },
         "./array/join": {
-            "bun": "./lib/array/join.mjs",
+            "require": "./dist/array/join.js",
             "import": "./lib/array/join.mjs",
             "types": "./lib/array/join.d.mts"
         },
         "./array/mapFn": {
-            "bun": "./lib/array/mapFn.mjs",
+            "require": "./dist/array/mapFn.js",
             "import": "./lib/array/mapFn.mjs",
             "types": "./lib/array/mapFn.d.mts"
         },
         "./array/mapKey": {
-            "bun": "./lib/array/mapKey.mjs",
+            "require": "./dist/array/mapKey.js",
             "import": "./lib/array/mapKey.mjs",
             "types": "./lib/array/mapKey.d.mts"
         },
         "./array/mapPrimitive": {
-            "bun": "./lib/array/mapPrimitive.mjs",
+            "require": "./dist/array/mapPrimitive.js",
             "import": "./lib/array/mapPrimitive.mjs",
             "types": "./lib/array/mapPrimitive.d.mts"
         },
         "./array/shuffle": {
-            "bun": "./lib/array/shuffle.mjs",
+            "require": "./dist/array/shuffle.js",
             "import": "./lib/array/shuffle.mjs",
             "types": "./lib/array/shuffle.d.mts"
         },
         "./array/sort": {
-            "bun": "./lib/array/sort.mjs",
+            "require": "./dist/array/sort.js",
             "import": "./lib/array/sort.mjs",
             "types": "./lib/array/sort.d.mts"
         },
         "./boolean/is": {
-            "bun": "./lib/boolean/is.mjs",
+            "require": "./dist/boolean/is.js",
             "import": "./lib/boolean/is.mjs",
             "types": "./lib/boolean/is.d.mts"
         },
         "./caching/memoize": {
-            "bun": "./lib/caching/memoize.mjs",
+            "require": "./dist/caching/memoize.js",
             "import": "./lib/caching/memoize.mjs",
             "types": "./lib/caching/memoize.d.mts"
         },
         "./date/addUTC": {
-            "bun": "./lib/date/addUTC.mjs",
+            "require": "./dist/date/addUTC.js",
             "import": "./lib/date/addUTC.mjs",
             "types": "./lib/date/addUTC.d.mts"
         },
         "./date/diff": {
-            "bun": "./lib/date/diff.mjs",
+            "require": "./dist/date/diff.js",
             "import": "./lib/date/diff.mjs",
             "types": "./lib/date/diff.d.mts"
         },
         "./date/endOfUTC": {
-            "bun": "./lib/date/endOfUTC.mjs",
+            "require": "./dist/date/endOfUTC.js",
             "import": "./lib/date/endOfUTC.mjs",
             "types": "./lib/date/endOfUTC.d.mts"
         },
         "./date/is": {
-            "bun": "./lib/date/is.mjs",
+            "require": "./dist/date/is.js",
             "import": "./lib/date/is.mjs",
             "types": "./lib/date/is.d.mts"
         },
         "./date/nowUnix": {
-            "bun": "./lib/date/nowUnix.mjs",
+            "require": "./dist/date/nowUnix.js",
             "import": "./lib/date/nowUnix.mjs",
             "types": "./lib/date/nowUnix.d.mts"
         },
         "./date/nowUnixMs": {
-            "bun": "./lib/date/nowUnixMs.mjs",
+            "require": "./dist/date/nowUnixMs.js",
             "import": "./lib/date/nowUnixMs.mjs",
             "types": "./lib/date/nowUnixMs.d.mts"
         },
         "./date/startOfUTC": {
-            "bun": "./lib/date/startOfUTC.mjs",
+            "require": "./dist/date/startOfUTC.js",
             "import": "./lib/date/startOfUTC.mjs",
             "types": "./lib/date/startOfUTC.d.mts"
         },
         "./date/toUnix": {
-            "bun": "./lib/date/toUnix.mjs",
+            "require": "./dist/date/toUnix.js",
             "import": "./lib/date/toUnix.mjs",
             "types": "./lib/date/toUnix.d.mts"
         },
         "./date/toUTC": {
-            "bun": "./lib/date/toUTC.mjs",
+            "require": "./dist/date/toUTC.js",
             "import": "./lib/date/toUTC.mjs",
             "types": "./lib/date/toUTC.d.mts"
         },
         "./deep/define": {
-            "bun": "./lib/deep/define.mjs",
+            "require": "./dist/deep/define.js",
             "import": "./lib/deep/define.mjs",
             "types": "./lib/deep/define.d.mts"
         },
         "./deep/freeze": {
-            "bun": "./lib/deep/freeze.mjs",
+            "require": "./dist/deep/freeze.js",
             "import": "./lib/deep/freeze.mjs",
             "types": "./lib/deep/freeze.d.mts"
         },
         "./deep/get": {
-            "bun": "./lib/deep/get.mjs",
+            "require": "./dist/deep/get.js",
             "import": "./lib/deep/get.mjs",
             "types": "./lib/deep/get.d.mts"
         },
         "./deep/seal": {
-            "bun": "./lib/deep/seal.mjs",
+            "require": "./dist/deep/seal.js",
             "import": "./lib/deep/seal.mjs",
             "types": "./lib/deep/seal.d.mts"
         },
         "./deep/set": {
-            "bun": "./lib/deep/set.mjs",
+            "require": "./dist/deep/set.js",
             "import": "./lib/deep/set.mjs",
             "types": "./lib/deep/set.d.mts"
         },
         "./function/is": {
-            "bun": "./lib/function/is.mjs",
+            "require": "./dist/function/is.js",
             "import": "./lib/function/is.mjs",
             "types": "./lib/function/is.d.mts"
         },
         "./function/noop": {
-            "bun": "./lib/function/noop.mjs",
+            "require": "./dist/function/noop.js",
             "import": "./lib/function/noop.mjs",
             "types": "./lib/function/noop.d.mts"
         },
         "./function/noopresolve": {
-            "bun": "./lib/function/noopresolve.mjs",
+            "require": "./dist/function/noopresolve.js",
             "import": "./lib/function/noopresolve.mjs",
             "types": "./lib/function/noopresolve.d.mts"
         },
         "./function/noopreturn": {
-            "bun": "./lib/function/noopreturn.mjs",
+            "require": "./dist/function/noopreturn.js",
             "import": "./lib/function/noopreturn.mjs",
             "types": "./lib/function/noopreturn.d.mts"
         },
         "./function/sleep": {
-            "bun": "./lib/function/sleep.mjs",
+            "require": "./dist/function/sleep.js",
             "import": "./lib/function/sleep.mjs",
             "types": "./lib/function/sleep.d.mts"
         },
         "./hash/fnv1A": {
-            "bun": "./lib/hash/fnv1A.mjs",
+            "require": "./dist/hash/fnv1A.js",
             "import": "./lib/hash/fnv1A.mjs",
             "types": "./lib/hash/fnv1A.d.mts"
         },
         "./hash/guid": {
-            "bun": "./lib/hash/guid.mjs",
+            "require": "./dist/hash/guid.js",
             "import": "./lib/hash/guid.mjs",
             "types": "./lib/hash/guid.d.mts"
         },
         "./number/isAbove": {
-            "bun": "./lib/number/isAbove.mjs",
+            "require": "./dist/number/isAbove.js",
             "import": "./lib/number/isAbove.mjs",
             "types": "./lib/number/isAbove.d.mts"
         },
         "./number/isAboveOrEqual": {
-            "bun": "./lib/number/isAboveOrEqual.mjs",
+            "require": "./dist/number/isAboveOrEqual.js",
             "import": "./lib/number/isAboveOrEqual.mjs",
             "types": "./lib/number/isAboveOrEqual.d.mts"
         },
         "./number/isBelow": {
-            "bun": "./lib/number/isBelow.mjs",
+            "require": "./dist/number/isBelow.js",
             "import": "./lib/number/isBelow.mjs",
             "types": "./lib/number/isBelow.d.mts"
         },
         "./number/isBelowOrEqual": {
-            "bun": "./lib/number/isBelowOrEqual.mjs",
+            "require": "./dist/number/isBelowOrEqual.js",
             "import": "./lib/number/isBelowOrEqual.mjs",
             "types": "./lib/number/isBelowOrEqual.d.mts"
         },
         "./number/isBetween": {
-            "bun": "./lib/number/isBetween.mjs",
+            "require": "./dist/number/isBetween.js",
             "import": "./lib/number/isBetween.mjs",
             "types": "./lib/number/isBetween.d.mts"
         },
         "./number/isIntegerAbove": {
-            "bun": "./lib/number/isIntegerAbove.mjs",
+            "require": "./dist/number/isIntegerAbove.js",
             "import": "./lib/number/isIntegerAbove.mjs",
             "types": "./lib/number/isIntegerAbove.d.mts"
         },
         "./number/isIntegerAboveOrEqual": {
-            "bun": "./lib/number/isIntegerAboveOrEqual.mjs",
+            "require": "./dist/number/isIntegerAboveOrEqual.js",
             "import": "./lib/number/isIntegerAboveOrEqual.mjs",
             "types": "./lib/number/isIntegerAboveOrEqual.d.mts"
         },
         "./number/isIntegerBelow": {
-            "bun": "./lib/number/isIntegerBelow.mjs",
+            "require": "./dist/number/isIntegerBelow.js",
             "import": "./lib/number/isIntegerBelow.mjs",
             "types": "./lib/number/isIntegerBelow.d.mts"
         },
         "./number/isIntegerBelowOrEqual": {
-            "bun": "./lib/number/isIntegerBelowOrEqual.mjs",
+            "require": "./dist/number/isIntegerBelowOrEqual.js",
             "import": "./lib/number/isIntegerBelowOrEqual.mjs",
             "types": "./lib/number/isIntegerBelowOrEqual.d.mts"
         },
         "./number/isIntegerBetween": {
-            "bun": "./lib/number/isIntegerBetween.mjs",
+            "require": "./dist/number/isIntegerBetween.js",
             "import": "./lib/number/isIntegerBetween.mjs",
             "types": "./lib/number/isIntegerBetween.d.mts"
         },
         "./number/isInteger": {
-            "bun": "./lib/number/isInteger.mjs",
+            "require": "./dist/number/isInteger.js",
             "import": "./lib/number/isInteger.mjs",
             "types": "./lib/number/isInteger.d.mts"
         },
         "./number/is": {
-            "bun": "./lib/number/is.mjs",
+            "require": "./dist/number/is.js",
             "import": "./lib/number/is.mjs",
             "types": "./lib/number/is.d.mts"
         },
         "./number/isNumericalNaN": {
-            "bun": "./lib/number/isNumericalNaN.mjs",
+            "require": "./dist/number/isNumericalNaN.js",
             "import": "./lib/number/isNumericalNaN.mjs",
             "types": "./lib/number/isNumericalNaN.d.mts"
         },
         "./number/randomBetween": {
-            "bun": "./lib/number/randomBetween.mjs",
+            "require": "./dist/number/randomBetween.js",
             "import": "./lib/number/randomBetween.mjs",
             "types": "./lib/number/randomBetween.d.mts"
         },
         "./number/randomIntBetween": {
-            "bun": "./lib/number/randomIntBetween.mjs",
+            "require": "./dist/number/randomIntBetween.js",
             "import": "./lib/number/randomIntBetween.mjs",
             "types": "./lib/number/randomIntBetween.d.mts"
         },
         "./number/round": {
-            "bun": "./lib/number/round.mjs",
+            "require": "./dist/number/round.js",
             "import": "./lib/number/round.mjs",
             "types": "./lib/number/round.d.mts"
         },
         "./number/toPercentage": {
-            "bun": "./lib/number/toPercentage.mjs",
+            "require": "./dist/number/toPercentage.js",
             "import": "./lib/number/toPercentage.mjs",
             "types": "./lib/number/toPercentage.d.mts"
         },
         "./object/define": {
-            "bun": "./lib/object/define.mjs",
+            "require": "./dist/object/define.js",
             "import": "./lib/object/define.mjs",
             "types": "./lib/object/define.d.mts"
         },
         "./object/is": {
-            "bun": "./lib/object/is.mjs",
+            "require": "./dist/object/is.js",
             "import": "./lib/object/is.mjs",
             "types": "./lib/object/is.d.mts"
         },
         "./object/isNotEmpty": {
-            "bun": "./lib/object/isNotEmpty.mjs",
+            "require": "./dist/object/isNotEmpty.js",
             "import": "./lib/object/isNotEmpty.mjs",
             "types": "./lib/object/isNotEmpty.d.mts"
         },
         "./object/merge": {
-            "bun": "./lib/object/merge.mjs",
+            "require": "./dist/object/merge.js",
             "import": "./lib/object/merge.mjs",
             "types": "./lib/object/merge.d.mts"
         },
         "./object/pick": {
-            "bun": "./lib/object/pick.mjs",
+            "require": "./dist/object/pick.js",
             "import": "./lib/object/pick.mjs",
             "types": "./lib/object/pick.d.mts"
         },
         "./regexp/is": {
-            "bun": "./lib/regexp/is.mjs",
+            "require": "./dist/regexp/is.js",
             "import": "./lib/regexp/is.mjs",
             "types": "./lib/regexp/is.d.mts"
         },
         "./regexp/sanitize": {
-            "bun": "./lib/regexp/sanitize.mjs",
+            "require": "./dist/regexp/sanitize.js",
             "import": "./lib/regexp/sanitize.mjs",
             "types": "./lib/regexp/sanitize.d.mts"
         },
         "./string/humanizeBytes": {
-            "bun": "./lib/string/humanizeBytes.mjs",
+            "require": "./dist/string/humanizeBytes.js",
             "import": "./lib/string/humanizeBytes.mjs",
             "types": "./lib/string/humanizeBytes.d.mts"
         },
         "./string/humanizeNumber": {
-            "bun": "./lib/string/humanizeNumber.mjs",
+            "require": "./dist/string/humanizeNumber.js",
             "import": "./lib/string/humanizeNumber.mjs",
             "types": "./lib/string/humanizeNumber.d.mts"
         },
         "./string/isBetween": {
-            "bun": "./lib/string/isBetween.mjs",
+            "require": "./dist/string/isBetween.js",
             "import": "./lib/string/isBetween.mjs",
             "types": "./lib/string/isBetween.d.mts"
         },
         "./string/is": {
-            "bun": "./lib/string/is.mjs",
+            "require": "./dist/string/is.js",
             "import": "./lib/string/is.mjs",
             "types": "./lib/string/is.d.mts"
         },
         "./string/isNotEmpty": {
-            "bun": "./lib/string/isNotEmpty.mjs",
+            "require": "./dist/string/isNotEmpty.js",
             "import": "./lib/string/isNotEmpty.mjs",
             "types": "./lib/string/isNotEmpty.d.mts"
         },
         "./string/shorten": {
-            "bun": "./lib/string/shorten.mjs",
+            "require": "./dist/string/shorten.js",
             "import": "./lib/string/shorten.mjs",
             "types": "./lib/string/shorten.d.mts"
         }
     },
     "devDependencies": {
-        "@babel/cli": "^7.23.4",
-        "@babel/core": "^7.23.7",
-        "@babel/preset-env": "^7.23.8",
-        "@babel/register": "^7.23.7",
-        "babel-plugin-module-extension": "^0.1.3",
-        "babel-plugin-transform-minify-booleans": "^6.9.4",
-        "babel-plugin-transform-remove-console": "^6.9.4",
         "c8": "^9.1.0",
+        "esbuild": "^0.20.0",
         "eslint": "^8.56.0"
     }
 }

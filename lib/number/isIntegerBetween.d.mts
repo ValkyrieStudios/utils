@@ -1,5 +1,5 @@
 /**
- * Check whether or not the provided value is an integer between a nim and max
+ * Check whether or not the provided value is an integer between a min and max
  * inclusive of min and max
  * equal to another value
  *

@@ -16,13 +16,14 @@
     ],
     "license": "MIT",
     "scripts": {
-        "test": "node --test ./test/src",
-        "test:only": "node --test --test-only ./test/src",
-        "test:coverage": "c8 node --test ./test/src",
+        "test": "node --test ./test/lib",
+        "test:only": "node --test --test-only ./test/lib",
+        "test:coverage": "c8 node --test ./test/lib",
         "lint": "npm run lint:src && npm run lint:test",
-        "lint:src": "./node_modules/.bin/eslint --ext .js,.mjs ./src",
+        "lint:src": "./node_modules/.bin/eslint --ext .js,.mjs ./lib",
         "lint:test": "./node_modules/.bin/eslint --ext .js,.mjs ./test",
-        "codecov": "codecov"
+        "codecov": "codecov",
+        "benchmark": "node ./test/benchmark.mjs"
     },
     "repository": {
         "type": "git",

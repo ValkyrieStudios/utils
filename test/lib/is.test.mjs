@@ -1,0 +1,522 @@
+'use strict';
+
+/* eslint-disable max-statements */
+
+import {describe, it}           from 'node:test';
+import assert                   from 'node:assert/strict';
+import Is                       from '../../lib/is.mjs';
+import equal                    from '../../lib/equal.mjs';
+import isNotEmptyArray          from '../../lib/array/isNotEmpty.mjs';
+import isBoolean                from '../../lib/boolean/is.mjs';
+import isDate                   from '../../lib/date/is.mjs';
+import isFunction               from '../../lib/function/is.mjs';
+import isNumberBetween          from '../../lib/number/isBetween.mjs';
+import isNumberBelow            from '../../lib/number/isBelow.mjs';
+import isNumberBelowOrEqual     from '../../lib/number/isBelowOrEqual.mjs';
+import isNumberAbove            from '../../lib/number/isAbove.mjs';
+import isNumberAboveOrEqual     from '../../lib/number/isAboveOrEqual.mjs';
+import isIntegerBetween         from '../../lib/number/isIntegerBetween.mjs';
+import isIntegerBelow           from '../../lib/number/isIntegerBelow.mjs';
+import isIntegerBelowOrEqual    from '../../lib/number/isIntegerBelowOrEqual.mjs';
+import isIntegerAbove           from '../../lib/number/isIntegerAbove.mjs';
+import isIntegerAboveOrEqual    from '../../lib/number/isIntegerAboveOrEqual.mjs';
+import isRegExp                 from '../../lib/regexp/is.mjs';
+import isObject                 from '../../lib/object/is.mjs';
+import isNotEmptyObject         from '../../lib/object/isNotEmpty.mjs';
+import isString                 from '../../lib/string/is.mjs';
+import isStringBetween          from '../../lib/string/isBetween.mjs';
+import isNotEmptyString         from '../../lib/string/isNotEmpty.mjs';
+
+describe('Is', () => {
+    it('Should be an object', () => {
+        assert.equal(isObject(Is), true);
+    });
+
+    it('Should be a frozen object', () => {
+        assert.equal(Object.isFrozen(Is), true);
+    });
+
+    it('Should have its prototype stripped and be a pure object', () => {
+        assert.equal(Is.__proto__, undefined); // eslint-disable-line no-proto
+    });
+
+    describe('Array', () => {
+        it('Should have a Array function', () => {
+            assert.equal(typeof Is.Array, 'function');
+        });
+
+        it('Should link to Array.isArray', () => {
+            assert.equal(Is.Array, Array.isArray);
+        });
+    });
+
+    describe('NeArray', () => {
+        it('Should have a NeArray function', () => {
+            assert.equal(typeof Is.NeArray, 'function');
+        });
+
+        it('Should link to isNotEmptyArray', () => {
+            assert.equal(Is.NeArray, isNotEmptyArray);
+        });
+    });
+
+    describe('NotEmptyArray', () => {
+        it('Should have a NotEmptyArray function', () => {
+            assert.equal(typeof Is.NotEmptyArray, 'function');
+        });
+
+        it('Should link to isNotEmptyArray', () => {
+            assert.equal(Is.NotEmptyArray, isNotEmptyArray);
+        });
+    });
+
+    describe('Boolean', () => {
+        it('Should have a Boolean function', () => {
+            assert.equal(typeof Is.Boolean, 'function');
+        });
+
+        it('Should link to isBoolean', () => {
+            assert.equal(Is.Boolean, isBoolean);
+        });
+    });
+
+    describe('Date', () => {
+        it('Should have a Date function', () => {
+            assert.equal(typeof Is.Date, 'function');
+        });
+
+        it('Should link to isDate', () => {
+            assert.equal(Is.Date, isDate);
+        });
+    });
+
+    describe('Function', () => {
+        it('Should have a Function function', () => {
+            assert.equal(typeof Is.Function, 'function');
+        });
+
+        it('Should link to isFunction', () => {
+            assert.equal(Is.Function, isFunction);
+        });
+    });
+
+    describe('Num', () => {
+        it('Should have a Num function', () => {
+            assert.equal(typeof Is.Num, 'function');
+        });
+
+        it('Should link to Number.isFinite', () => {
+            assert.equal(Is.Num, Number.isFinite);
+        });
+    });
+
+    describe('NumBetween', () => {
+        it('Should have a NumBetween function', () => {
+            assert.equal(typeof Is.NumBetween, 'function');
+        });
+
+        it('Should link to isNumberBetween', () => {
+            assert.equal(Is.NumBetween, isNumberBetween);
+        });
+    });
+
+    describe('NumAbove', () => {
+        it('Should have a NumAbove function', () => {
+            assert.equal(typeof Is.NumAbove, 'function');
+        });
+
+        it('Should link to isNumberAbove', () => {
+            assert.equal(Is.NumAbove, isNumberAbove);
+        });
+    });
+
+    describe('NumAboveOrEqual', () => {
+        it('Should have a NumAboveOrEqual function', () => {
+            assert.equal(typeof Is.NumAboveOrEqual, 'function');
+        });
+
+        it('Should link to isNumberAboveOrEqual', () => {
+            assert.equal(Is.NumAboveOrEqual, isNumberAboveOrEqual);
+        });
+    });
+
+    describe('NumBelow', () => {
+        it('Should have a NumBelow function', () => {
+            assert.equal(typeof Is.NumBelow, 'function');
+        });
+
+        it('Should link to isNumberBelow', () => {
+            assert.equal(Is.NumBelow, isNumberBelow);
+        });
+    });
+
+    describe('NumBelowOrEqual', () => {
+        it('Should have a NumBelowOrEqual function', () => {
+            assert.equal(typeof Is.NumBelowOrEqual, 'function');
+        });
+
+        it('Should link to isNumberBelowOrEqual', () => {
+            assert.equal(Is.NumBelowOrEqual, isNumberBelowOrEqual);
+        });
+    });
+
+    describe('NumGt', () => {
+        it('Should have a NumGt function', () => {
+            assert.equal(typeof Is.NumGt, 'function');
+        });
+
+        it('Should link to isNumberAbove', () => {
+            assert.equal(Is.NumGt, isNumberAbove);
+        });
+    });
+
+    describe('NumGte', () => {
+        it('Should have a NumGte function', () => {
+            assert.equal(typeof Is.NumGte, 'function');
+        });
+
+        it('Should link to isNumberAboveOrEqual', () => {
+            assert.equal(Is.NumGte, isNumberAboveOrEqual);
+        });
+    });
+
+    describe('NumLt', () => {
+        it('Should have a NumLt function', () => {
+            assert.equal(typeof Is.NumLt, 'function');
+        });
+
+        it('Should link to isNumberBelow', () => {
+            assert.equal(Is.NumLt, isNumberBelow);
+        });
+    });
+
+    describe('NumLte', () => {
+        it('Should have a NumLte function', () => {
+            assert.equal(typeof Is.NumLte, 'function');
+        });
+
+        it('Should link to isNumberBelowOrEqual', () => {
+            assert.equal(Is.NumLte, isNumberBelowOrEqual);
+        });
+    });
+
+    describe('Number', () => {
+        it('Should have a Number function', () => {
+            assert.equal(typeof Is.Number, 'function');
+        });
+
+        it('Should link to Number.isFinite', () => {
+            assert.equal(Is.Number, Number.isFinite);
+        });
+    });
+
+    describe('NumberBetween', () => {
+        it('Should have a NumberBetween function', () => {
+            assert.equal(typeof Is.NumberBetween, 'function');
+        });
+
+        it('Should link to isNumberBetween', () => {
+            assert.equal(Is.NumberBetween, isNumberBetween);
+        });
+    });
+
+    describe('NumberAbove', () => {
+        it('Should have a NumberAbove function', () => {
+            assert.equal(typeof Is.NumberAbove, 'function');
+        });
+
+        it('Should link to isNumberAbove', () => {
+            assert.equal(Is.NumberAbove, isNumberAbove);
+        });
+    });
+
+    describe('NumberAboveOrEqual', () => {
+        it('Should have a NumberAboveOrEqual function', () => {
+            assert.equal(typeof Is.NumberAboveOrEqual, 'function');
+        });
+
+        it('Should link to isNumberAboveOrEqual', () => {
+            assert.equal(Is.NumberAboveOrEqual, isNumberAboveOrEqual);
+        });
+    });
+
+    describe('NumberBelow', () => {
+        it('Should have a NumberBelow function', () => {
+            assert.equal(typeof Is.NumberBelow, 'function');
+        });
+
+        it('Should link to isNumberBelow', () => {
+            assert.equal(Is.NumberBelow, isNumberBelow);
+        });
+    });
+
+    describe('NumberBelowOrEqual', () => {
+        it('Should have a NumberBelowOrEqual function', () => {
+            assert.equal(typeof Is.NumberBelowOrEqual, 'function');
+        });
+
+        it('Should link to isNumberBelowOrEqual', () => {
+            assert.equal(Is.NumberBelowOrEqual, isNumberBelowOrEqual);
+        });
+    });
+
+    describe('Int', () => {
+        it('Should have a Int function', () => {
+            assert.equal(typeof Is.Int, 'function');
+        });
+
+        it('Should link to Number.isInteger', () => {
+            assert.equal(Is.Int, Number.isInteger);
+        });
+    });
+
+    describe('IntBetween', () => {
+        it('Should have a IntBetween function', () => {
+            assert.equal(typeof Is.IntBetween, 'function');
+        });
+
+        it('Should link to isIntegerBetween', () => {
+            assert.equal(Is.IntBetween, isIntegerBetween);
+        });
+    });
+
+    describe('IntAbove', () => {
+        it('Should have a IntAbove function', () => {
+            assert.equal(typeof Is.IntAbove, 'function');
+        });
+
+        it('Should link to isIntegerAbove', () => {
+            assert.equal(Is.IntAbove, isIntegerAbove);
+        });
+    });
+
+    describe('IntAboveOrEqual', () => {
+        it('Should have a IntAboveOrEqual function', () => {
+            assert.equal(typeof Is.IntAboveOrEqual, 'function');
+        });
+
+        it('Should link to isIntegerAboveOrEqual', () => {
+            assert.equal(Is.IntAboveOrEqual, isIntegerAboveOrEqual);
+        });
+    });
+
+    describe('IntBelow', () => {
+        it('Should have a IntBelow function', () => {
+            assert.equal(typeof Is.IntBelow, 'function');
+        });
+
+        it('Should link to isIntegerBelow', () => {
+            assert.equal(Is.IntBelow, isIntegerBelow);
+        });
+    });
+
+    describe('IntBelowOrEqual', () => {
+        it('Should have a IntBelowOrEqual function', () => {
+            assert.equal(typeof Is.IntBelowOrEqual, 'function');
+        });
+
+        it('Should link to isIntegerBelowOrEqual', () => {
+            assert.equal(Is.IntBelowOrEqual, isIntegerBelowOrEqual);
+        });
+    });
+
+    describe('IntGt', () => {
+        it('Should have a IntGt function', () => {
+            assert.equal(typeof Is.IntGt, 'function');
+        });
+
+        it('Should link to isIntegerAbove', () => {
+            assert.equal(Is.IntGt, isIntegerAbove);
+        });
+    });
+
+    describe('IntGte', () => {
+        it('Should have a IntGte function', () => {
+            assert.equal(typeof Is.IntGte, 'function');
+        });
+
+        it('Should link to isIntegerAboveOrEqual', () => {
+            assert.equal(Is.IntGte, isIntegerAboveOrEqual);
+        });
+    });
+
+    describe('IntLt', () => {
+        it('Should have a IntLt function', () => {
+            assert.equal(typeof Is.IntLt, 'function');
+        });
+
+        it('Should link to isIntegerBelow', () => {
+            assert.equal(Is.IntLt, isIntegerBelow);
+        });
+    });
+
+    describe('IntLte', () => {
+        it('Should have a IntLte function', () => {
+            assert.equal(typeof Is.IntLte, 'function');
+        });
+
+        it('Should link to isIntegerBelowOrEqual', () => {
+            assert.equal(Is.IntLte, isIntegerBelowOrEqual);
+        });
+    });
+
+    describe('Integer', () => {
+        it('Should have a Integer function', () => {
+            assert.equal(typeof Is.Integer, 'function');
+        });
+
+        it('Should link to Number.isInteger', () => {
+            assert.equal(Is.Integer, Number.isInteger);
+        });
+    });
+
+    describe('IntegerBetween', () => {
+        it('Should have a IntegerBetween function', () => {
+            assert.equal(typeof Is.IntegerBetween, 'function');
+        });
+
+        it('Should link to isIntegerBetween', () => {
+            assert.equal(Is.IntegerBetween, isIntegerBetween);
+        });
+    });
+
+    describe('IntegerAbove', () => {
+        it('Should have a IntegerAbove function', () => {
+            assert.equal(typeof Is.IntegerAbove, 'function');
+        });
+
+        it('Should link to isIntegerAbove', () => {
+            assert.equal(Is.IntegerAbove, isIntegerAbove);
+        });
+    });
+
+    describe('IntegerAboveOrEqual', () => {
+        it('Should have a IntegerAboveOrEqual function', () => {
+            assert.equal(typeof Is.IntegerAboveOrEqual, 'function');
+        });
+
+        it('Should link to isIntegerAboveOrEqual', () => {
+            assert.equal(Is.IntegerAboveOrEqual, isIntegerAboveOrEqual);
+        });
+    });
+
+    describe('IntegerBelow', () => {
+        it('Should have a IntegerBelow function', () => {
+            assert.equal(typeof Is.IntegerBelow, 'function');
+        });
+
+        it('Should link to isIntegerBelow', () => {
+            assert.equal(Is.IntegerBelow, isIntegerBelow);
+        });
+    });
+
+    describe('IntegerBelowOrEqual', () => {
+        it('Should have a IntegerBelowOrEqual function', () => {
+            assert.equal(typeof Is.IntegerBelowOrEqual, 'function');
+        });
+
+        it('Should link to isIntegerBelowOrEqual', () => {
+            assert.equal(Is.IntegerBelowOrEqual, isIntegerBelowOrEqual);
+        });
+    });
+
+    describe('RegExp', () => {
+        it('Should have a RegExp function', () => {
+            assert.equal(typeof Is.RegExp, 'function');
+        });
+
+        it('Should link to isRegExp', () => {
+            assert.equal(Is.RegExp, isRegExp);
+        });
+    });
+
+    describe('Object', () => {
+        it('Should have a Object function', () => {
+            assert.equal(typeof Is.Object, 'function');
+        });
+
+        it('Should link to isObject', () => {
+            assert.equal(Is.Object, isObject);
+        });
+    });
+
+    describe('NeObject', () => {
+        it('Should have a NeObject function', () => {
+            assert.equal(typeof Is.NeObject, 'function');
+        });
+
+        it('Should link to isNotEmptyObject', () => {
+            assert.equal(Is.NeObject, isNotEmptyObject);
+        });
+    });
+
+    describe('NotEmptyObject', () => {
+        it('Should have a NotEmptyObject function', () => {
+            assert.equal(typeof Is.NotEmptyObject, 'function');
+        });
+
+        it('Should link to isNotEmptyObject', () => {
+            assert.equal(Is.NotEmptyObject, isNotEmptyObject);
+        });
+    });
+
+    describe('String', () => {
+        it('Should have a String function', () => {
+            assert.equal(typeof Is.String, 'function');
+        });
+
+        it('Should link to isString', () => {
+            assert.equal(Is.String, isString);
+        });
+    });
+
+    describe('StringBetween', () => {
+        it('Should have a StringBetween function', () => {
+            assert.equal(typeof Is.StringBetween, 'function');
+        });
+
+        it('Should link to isStringBetween', () => {
+            assert.equal(Is.StringBetween, isStringBetween);
+        });
+    });
+
+    describe('NeString', () => {
+        it('Should have a NeString function', () => {
+            assert.equal(typeof Is.NeString, 'function');
+        });
+
+        it('Should link to isNotEmptyString', () => {
+            assert.equal(Is.NeString, isNotEmptyString);
+        });
+    });
+
+    describe('NotEmptyString', () => {
+        it('Should have a NotEmptyString function', () => {
+            assert.equal(typeof Is.NotEmptyString, 'function');
+        });
+
+        it('Should link to isNotEmptyString', () => {
+            assert.equal(Is.NotEmptyString, isNotEmptyString);
+        });
+    });
+
+    describe('Equal', () => {
+        it('Should have a Equal function', () => {
+            assert.equal(typeof Is.Equal, 'function');
+        });
+
+        it('Should link to equal', () => {
+            assert.equal(Is.Equal, equal);
+        });
+    });
+
+    describe('Eq', () => {
+        it('Should have a Eq function', () => {
+            assert.equal(typeof Is.Eq, 'function');
+        });
+
+        it('Should link to equal', () => {
+            assert.equal(Is.Eq, equal);
+        });
+    });
+});

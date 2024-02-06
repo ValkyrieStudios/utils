@@ -15,6 +15,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: Upgrade eslint to 8.56.0
 - Dev Dep: Upgrade c8 to 9.1.0
 - function/sleep: Will now internally check whether or not the value passed to it is a number above 0 and fallback to 0 if that is not the case
+- deep/set: Will now reject paths containing \_\_proto\_\_, constructor, prototype as keys to prevent possibility of prototype pollution
 
 ### Removed
 - Dev Dep: @babel/cli

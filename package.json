@@ -16,7 +16,7 @@
     ],
     "license": "MIT",
     "scripts": {
-        "build": "esbuild lib/**/*.mjs --bundle --format=cjs --target=es2020 --drop:console --drop:debugger --outdir=dist",
+        "build": "npm run lint && npm run test:coverage && esbuild lib/**/*.mjs --bundle --format=cjs --target=es2020 --drop:console --drop:debugger --outdir=dist",
         "test": "node --test ./test/lib",
         "test:only": "node --test --test-only ./test/lib",
         "test:coverage": "c8 node --test ./test/lib",

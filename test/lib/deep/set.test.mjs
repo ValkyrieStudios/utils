@@ -208,4 +208,118 @@ describe('Deep - set', () => {
         );
         assert.deepEqual(obj, {a: 'bi'});
     });
+
+    describe('malicious: __proto__', () => {
+        it('Should throw when passed as single value', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, '__proto__'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed at start', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, '__proto__.hacked'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed as part of', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'hacked.__proto__.yup'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed at end', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'hacked.__proto__'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+    });
+
+    describe('malicious: prototype', () => {
+        it('Should throw when passed as single value', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'prototype'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed at start', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'prototype.hacked'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed as part of', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'hacked.prototype.yup'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed at end', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'hacked.prototype'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+    });
+
+    describe('malicious: constructor', () => {
+        it('Should throw when passed as single value', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'constructor'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed at start', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'constructor.hacked'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed as part of', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'hacked.constructor.yup'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+
+        it('Should throw when passed at end', () => {
+            const obj = {a: 'bi'};
+            assert.throws(
+                () => deepSet(obj, 'hacked.constructor'),
+                new Error('Malicious path provided')
+            );
+            assert.deepEqual(obj, {a: 'bi'});
+        });
+    });
 });

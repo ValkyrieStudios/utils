@@ -31,6 +31,8 @@ function deepSet(obj, path, value = null, define = false) {
   const path_s = path.trim();
   if (path_s.length === 0)
     throw new TypeError("No path was given");
+  if (/(^|\.){0,}(__proto__|constructor|prototype)(\.|\[|$){1,}/.test(path_s))
+    throw new Error("Malicious path provided");
   const parts = path_s.replace(/\[/g, ".").replace(/(\.){2,}/g, ".").replace(/(^\.|\.$|\])/g, "").split(".");
   for (let i = 0; i < parts.length - 1; i++) {
     if (parts[i] === "")

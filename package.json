@@ -1,48 +1,62 @@
 {
-  "name": "@valkyriestudios/utils",
-  "version": "10.0.0",
-  "description": "A collection of single-function utilities for common tasks",
-  "main": "index.js",
-  "author": {
-    "name": "Peter Vermeulen",
-    "email": "contact@valkyriestudios.be",
-    "url": "www.valkyriestudios.be"
-  },
-  "keywords": [
-    "utility",
-    "library",
-    "javascript",
-    "js",
-    "node"
-  ],
-  "license": "MIT",
-  "scripts": {
-    "test": "node --test ./test/src",
-    "test:only": "node --test --test-only ./test/src",
-    "test:coverage": "c8 node --test ./test/src",
-    "lint": "npm run lint:src && npm run lint:test",
-    "lint:src": "./node_modules/.bin/eslint --ext .js,.mjs ./src",
-    "lint:test": "./node_modules/.bin/eslint --ext .js,.mjs ./test",
-    "build": "npm run lint && npm run test:coverage && npx babel src --out-dir ./",
-    "codecov": "codecov"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ValkyrieStudios/utils.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ValkyrieStudios/utils/issues"
-  },
-  "homepage": "https://github.com/ValkyrieStudios/utils#readme",
-  "devDependencies": {
-    "@babel/cli": "^7.23.4",
-    "@babel/core": "^7.23.7",
-    "@babel/preset-env": "^7.23.8",
-    "@babel/register": "^7.23.7",
-    "babel-plugin-module-extension": "^0.1.3",
-    "babel-plugin-transform-minify-booleans": "^6.9.4",
-    "babel-plugin-transform-remove-console": "^6.9.4",
-    "c8": "^9.1.0",
-    "eslint": "^8.56.0"
-  }
+    "name": "@valkyriestudios/utils",
+    "version": "10.0.0",
+    "description": "A collection of single-function utilities for common tasks",
+    "main": "index.js",
+    "author": {
+        "name": "Peter Vermeulen",
+        "email": "contact@valkyriestudios.be",
+        "url": "www.valkyriestudios.be"
+    },
+    "keywords": [
+        "utility",
+        "library",
+        "javascript",
+        "js",
+        "node"
+    ],
+    "license": "MIT",
+    "scripts": {
+        "test": "node --test ./test/src",
+        "test:only": "node --test --test-only ./test/src",
+        "test:coverage": "c8 node --test ./test/src",
+        "lint": "npm run lint:src && npm run lint:test",
+        "lint:src": "./node_modules/.bin/eslint --ext .js,.mjs ./src",
+        "lint:test": "./node_modules/.bin/eslint --ext .js,.mjs ./test",
+        "codecov": "codecov"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ValkyrieStudios/utils.git"
+    },
+    "bugs": {
+        "url": "https://github.com/ValkyrieStudios/utils/issues"
+    },
+    "homepage": "https://github.com/ValkyrieStudios/utils#readme",
+    "exports": {
+        "is": "./lib/is.mjs",
+        "equal": "./lib/equal.mjs",
+        "array": "./lib/array/*.mjs",
+        "boolean": "./lib/boolean/*.mjs",
+        "caching": "./lib/caching/*.mjs",
+        "date": "./lib/date/*.mjs",
+        "deep": "./lib/deep/*.mjs",
+        "function": "./lib/function/*.mjs",
+        "hash": "./lib/hash/*.mjs",
+        "number": "./lib/number/*.mjs",
+        "object": "./lib/object/*.mjs",
+        "regexp": "./lib/regexp/*.mjs",
+        "string": "./lib/string/*.mjs"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.23.4",
+        "@babel/core": "^7.23.7",
+        "@babel/preset-env": "^7.23.8",
+        "@babel/register": "^7.23.7",
+        "babel-plugin-module-extension": "^0.1.3",
+        "babel-plugin-transform-minify-booleans": "^6.9.4",
+        "babel-plugin-transform-remove-console": "^6.9.4",
+        "c8": "^9.1.0",
+        "eslint": "^8.56.0"
+    }
 }

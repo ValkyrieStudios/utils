@@ -2,7 +2,6 @@
     "name": "@valkyriestudios/utils",
     "version": "10.0.0",
     "description": "A collection of single-function utilities for common tasks",
-    "main": "index.js",
     "author": {
         "name": "Peter Vermeulen",
         "email": "contact@valkyriestudios.be",
@@ -34,322 +33,322 @@
     },
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
     "exports": {
-        "is": {
+        "./is": {
             "bun": "./lib/is.mjs",
             "import": "./lib/is.mjs",
             "types": "./lib/is.d.mts"
         },
-        "equal": {
+        "./equal": {
             "bun": "./lib/equal.mjs",
             "import": "./lib/equal.mjs",
             "types": "./lib/equal.d.mts"
         },
-        "array/dedupe": {
+        "./array/dedupe": {
             "bun": "./lib/array/dedupe.mjs",
             "import": "./lib/array/dedupe.mjs",
             "types": "./lib/array/dedupe.d.mts"
         },
-        "array/is": {
+        "./array/is": {
             "bun": "./lib/array/is.mjs",
             "import": "./lib/array/is.mjs",
             "types": "./lib/array/is.d.mts"
         },
-        "array/isNotEmpty": {
+        "./array/isNotEmpty": {
             "bun": "./lib/array/isNotEmpty.mjs",
             "import": "./lib/array/isNotEmpty.mjs",
             "types": "./lib/array/isNotEmpty.d.mts"
         },
-        "array/join": {
+        "./array/join": {
             "bun": "./lib/array/join.mjs",
             "import": "./lib/array/join.mjs",
             "types": "./lib/array/join.d.mts"
         },
-        "array/mapFn": {
+        "./array/mapFn": {
             "bun": "./lib/array/mapFn.mjs",
             "import": "./lib/array/mapFn.mjs",
             "types": "./lib/array/mapFn.d.mts"
         },
-        "array/mapKey": {
+        "./array/mapKey": {
             "bun": "./lib/array/mapKey.mjs",
             "import": "./lib/array/mapKey.mjs",
             "types": "./lib/array/mapKey.d.mts"
         },
-        "array/mapPrimitive": {
+        "./array/mapPrimitive": {
             "bun": "./lib/array/mapPrimitive.mjs",
             "import": "./lib/array/mapPrimitive.mjs",
             "types": "./lib/array/mapPrimitive.d.mts"
         },
-        "array/shuffle": {
+        "./array/shuffle": {
             "bun": "./lib/array/shuffle.mjs",
             "import": "./lib/array/shuffle.mjs",
             "types": "./lib/array/shuffle.d.mts"
         },
-        "array/sort": {
+        "./array/sort": {
             "bun": "./lib/array/sort.mjs",
             "import": "./lib/array/sort.mjs",
             "types": "./lib/array/sort.d.mts"
         },
-        "boolean/is": {
+        "./boolean/is": {
             "bun": "./lib/boolean/is.mjs",
             "import": "./lib/boolean/is.mjs",
             "types": "./lib/boolean/is.d.mts"
         },
-        "caching/memoize": {
+        "./caching/memoize": {
             "bun": "./lib/caching/memoize.mjs",
             "import": "./lib/caching/memoize.mjs",
             "types": "./lib/caching/memoize.d.mts"
         },
-        "date/addUTC": {
+        "./date/addUTC": {
             "bun": "./lib/date/addUTC.mjs",
             "import": "./lib/date/addUTC.mjs",
             "types": "./lib/date/addUTC.d.mts"
         },
-        "date/diff": {
+        "./date/diff": {
             "bun": "./lib/date/diff.mjs",
             "import": "./lib/date/diff.mjs",
             "types": "./lib/date/diff.d.mts"
         },
-        "date/endOfUTC": {
+        "./date/endOfUTC": {
             "bun": "./lib/date/endOfUTC.mjs",
             "import": "./lib/date/endOfUTC.mjs",
             "types": "./lib/date/endOfUTC.d.mts"
         },
-        "date/is": {
+        "./date/is": {
             "bun": "./lib/date/is.mjs",
             "import": "./lib/date/is.mjs",
             "types": "./lib/date/is.d.mts"
         },
-        "date/nowUnix": {
+        "./date/nowUnix": {
             "bun": "./lib/date/nowUnix.mjs",
             "import": "./lib/date/nowUnix.mjs",
             "types": "./lib/date/nowUnix.d.mts"
         },
-        "date/nowUnixMs": {
+        "./date/nowUnixMs": {
             "bun": "./lib/date/nowUnixMs.mjs",
             "import": "./lib/date/nowUnixMs.mjs",
             "types": "./lib/date/nowUnixMs.d.mts"
         },
-        "date/startOfUTC": {
+        "./date/startOfUTC": {
             "bun": "./lib/date/startOfUTC.mjs",
             "import": "./lib/date/startOfUTC.mjs",
             "types": "./lib/date/startOfUTC.d.mts"
         },
-        "date/toUnix": {
+        "./date/toUnix": {
             "bun": "./lib/date/toUnix.mjs",
             "import": "./lib/date/toUnix.mjs",
             "types": "./lib/date/toUnix.d.mts"
         },
-        "date/toUTC": {
+        "./date/toUTC": {
             "bun": "./lib/date/toUTC.mjs",
             "import": "./lib/date/toUTC.mjs",
             "types": "./lib/date/toUTC.d.mts"
         },
-        "deep/define": {
+        "./deep/define": {
             "bun": "./lib/deep/define.mjs",
             "import": "./lib/deep/define.mjs",
             "types": "./lib/deep/define.d.mts"
         },
-        "deep/freeze": {
+        "./deep/freeze": {
             "bun": "./lib/deep/freeze.mjs",
             "import": "./lib/deep/freeze.mjs",
             "types": "./lib/deep/freeze.d.mts"
         },
-        "deep/get": {
+        "./deep/get": {
             "bun": "./lib/deep/get.mjs",
             "import": "./lib/deep/get.mjs",
             "types": "./lib/deep/get.d.mts"
         },
-        "deep/seal": {
+        "./deep/seal": {
             "bun": "./lib/deep/seal.mjs",
             "import": "./lib/deep/seal.mjs",
             "types": "./lib/deep/seal.d.mts"
         },
-        "deep/set": {
+        "./deep/set": {
             "bun": "./lib/deep/set.mjs",
             "import": "./lib/deep/set.mjs",
             "types": "./lib/deep/set.d.mts"
         },
-        "function/is": {
+        "./function/is": {
             "bun": "./lib/function/is.mjs",
             "import": "./lib/function/is.mjs",
             "types": "./lib/function/is.d.mts"
         },
-        "function/noop": {
+        "./function/noop": {
             "bun": "./lib/function/noop.mjs",
             "import": "./lib/function/noop.mjs",
             "types": "./lib/function/noop.d.mts"
         },
-        "function/noopresolve": {
+        "./function/noopresolve": {
             "bun": "./lib/function/noopresolve.mjs",
             "import": "./lib/function/noopresolve.mjs",
             "types": "./lib/function/noopresolve.d.mts"
         },
-        "function/noopreturn": {
+        "./function/noopreturn": {
             "bun": "./lib/function/noopreturn.mjs",
             "import": "./lib/function/noopreturn.mjs",
             "types": "./lib/function/noopreturn.d.mts"
         },
-        "function/sleep": {
+        "./function/sleep": {
             "bun": "./lib/function/sleep.mjs",
             "import": "./lib/function/sleep.mjs",
             "types": "./lib/function/sleep.d.mts"
         },
-        "hash/fnv1A": {
+        "./hash/fnv1A": {
             "bun": "./lib/hash/fnv1A.mjs",
             "import": "./lib/hash/fnv1A.mjs",
             "types": "./lib/hash/fnv1A.d.mts"
         },
-        "hash/guid": {
+        "./hash/guid": {
             "bun": "./lib/hash/guid.mjs",
             "import": "./lib/hash/guid.mjs",
             "types": "./lib/hash/guid.d.mts"
         },
-        "number/isAbove": {
+        "./number/isAbove": {
             "bun": "./lib/number/isAbove.mjs",
             "import": "./lib/number/isAbove.mjs",
             "types": "./lib/number/isAbove.d.mts"
         },
-        "number/isAboveOrEqual": {
+        "./number/isAboveOrEqual": {
             "bun": "./lib/number/isAboveOrEqual.mjs",
             "import": "./lib/number/isAboveOrEqual.mjs",
             "types": "./lib/number/isAboveOrEqual.d.mts"
         },
-        "number/isBelow": {
+        "./number/isBelow": {
             "bun": "./lib/number/isBelow.mjs",
             "import": "./lib/number/isBelow.mjs",
             "types": "./lib/number/isBelow.d.mts"
         },
-        "number/isBelowOrEqual": {
+        "./number/isBelowOrEqual": {
             "bun": "./lib/number/isBelowOrEqual.mjs",
             "import": "./lib/number/isBelowOrEqual.mjs",
             "types": "./lib/number/isBelowOrEqual.d.mts"
         },
-        "number/isBetween": {
+        "./number/isBetween": {
             "bun": "./lib/number/isBetween.mjs",
             "import": "./lib/number/isBetween.mjs",
             "types": "./lib/number/isBetween.d.mts"
         },
-        "number/isIntegerAbove": {
+        "./number/isIntegerAbove": {
             "bun": "./lib/number/isIntegerAbove.mjs",
             "import": "./lib/number/isIntegerAbove.mjs",
             "types": "./lib/number/isIntegerAbove.d.mts"
         },
-        "number/isIntegerAboveOrEqual": {
+        "./number/isIntegerAboveOrEqual": {
             "bun": "./lib/number/isIntegerAboveOrEqual.mjs",
             "import": "./lib/number/isIntegerAboveOrEqual.mjs",
             "types": "./lib/number/isIntegerAboveOrEqual.d.mts"
         },
-        "number/isIntegerBelow": {
+        "./number/isIntegerBelow": {
             "bun": "./lib/number/isIntegerBelow.mjs",
             "import": "./lib/number/isIntegerBelow.mjs",
             "types": "./lib/number/isIntegerBelow.d.mts"
         },
-        "number/isIntegerBelowOrEqual": {
+        "./number/isIntegerBelowOrEqual": {
             "bun": "./lib/number/isIntegerBelowOrEqual.mjs",
             "import": "./lib/number/isIntegerBelowOrEqual.mjs",
             "types": "./lib/number/isIntegerBelowOrEqual.d.mts"
         },
-        "number/isIntegerBetween": {
+        "./number/isIntegerBetween": {
             "bun": "./lib/number/isIntegerBetween.mjs",
             "import": "./lib/number/isIntegerBetween.mjs",
             "types": "./lib/number/isIntegerBetween.d.mts"
         },
-        "number/isInteger": {
+        "./number/isInteger": {
             "bun": "./lib/number/isInteger.mjs",
             "import": "./lib/number/isInteger.mjs",
             "types": "./lib/number/isInteger.d.mts"
         },
-        "number/is": {
+        "./number/is": {
             "bun": "./lib/number/is.mjs",
             "import": "./lib/number/is.mjs",
             "types": "./lib/number/is.d.mts"
         },
-        "number/isNumericalNaN": {
+        "./number/isNumericalNaN": {
             "bun": "./lib/number/isNumericalNaN.mjs",
             "import": "./lib/number/isNumericalNaN.mjs",
             "types": "./lib/number/isNumericalNaN.d.mts"
         },
-        "number/randomBetween": {
+        "./number/randomBetween": {
             "bun": "./lib/number/randomBetween.mjs",
             "import": "./lib/number/randomBetween.mjs",
             "types": "./lib/number/randomBetween.d.mts"
         },
-        "number/randomIntBetween": {
+        "./number/randomIntBetween": {
             "bun": "./lib/number/randomIntBetween.mjs",
             "import": "./lib/number/randomIntBetween.mjs",
             "types": "./lib/number/randomIntBetween.d.mts"
         },
-        "number/round": {
+        "./number/round": {
             "bun": "./lib/number/round.mjs",
             "import": "./lib/number/round.mjs",
             "types": "./lib/number/round.d.mts"
         },
-        "number/toPercentage": {
+        "./number/toPercentage": {
             "bun": "./lib/number/toPercentage.mjs",
             "import": "./lib/number/toPercentage.mjs",
             "types": "./lib/number/toPercentage.d.mts"
         },
-        "object/define": {
+        "./object/define": {
             "bun": "./lib/object/define.mjs",
             "import": "./lib/object/define.mjs",
             "types": "./lib/object/define.d.mts"
         },
-        "object/is": {
+        "./object/is": {
             "bun": "./lib/object/is.mjs",
             "import": "./lib/object/is.mjs",
             "types": "./lib/object/is.d.mts"
         },
-        "object/isNotEmpty": {
+        "./object/isNotEmpty": {
             "bun": "./lib/object/isNotEmpty.mjs",
             "import": "./lib/object/isNotEmpty.mjs",
             "types": "./lib/object/isNotEmpty.d.mts"
         },
-        "object/merge": {
+        "./object/merge": {
             "bun": "./lib/object/merge.mjs",
             "import": "./lib/object/merge.mjs",
             "types": "./lib/object/merge.d.mts"
         },
-        "object/pick": {
+        "./object/pick": {
             "bun": "./lib/object/pick.mjs",
             "import": "./lib/object/pick.mjs",
             "types": "./lib/object/pick.d.mts"
         },
-        "regexp/is": {
+        "./regexp/is": {
             "bun": "./lib/regexp/is.mjs",
             "import": "./lib/regexp/is.mjs",
             "types": "./lib/regexp/is.d.mts"
         },
-        "regexp/sanitize": {
+        "./regexp/sanitize": {
             "bun": "./lib/regexp/sanitize.mjs",
             "import": "./lib/regexp/sanitize.mjs",
             "types": "./lib/regexp/sanitize.d.mts"
         },
-        "string/humanizeBytes": {
+        "./string/humanizeBytes": {
             "bun": "./lib/string/humanizeBytes.mjs",
             "import": "./lib/string/humanizeBytes.mjs",
             "types": "./lib/string/humanizeBytes.d.mts"
         },
-        "string/humanizeNumber": {
+        "./string/humanizeNumber": {
             "bun": "./lib/string/humanizeNumber.mjs",
             "import": "./lib/string/humanizeNumber.mjs",
             "types": "./lib/string/humanizeNumber.d.mts"
         },
-        "string/isBetween": {
+        "./string/isBetween": {
             "bun": "./lib/string/isBetween.mjs",
             "import": "./lib/string/isBetween.mjs",
             "types": "./lib/string/isBetween.d.mts"
         },
-        "string/is": {
+        "./string/is": {
             "bun": "./lib/string/is.mjs",
             "import": "./lib/string/is.mjs",
             "types": "./lib/string/is.d.mts"
         },
-        "string/isNotEmpty": {
+        "./string/isNotEmpty": {
             "bun": "./lib/string/isNotEmpty.mjs",
             "import": "./lib/string/isNotEmpty.mjs",
             "types": "./lib/string/isNotEmpty.d.mts"
         },
-        "string/shorten": {
+        "./string/shorten": {
             "bun": "./lib/string/shorten.mjs",
             "import": "./lib/string/shorten.mjs",
             "types": "./lib/string/shorten.d.mts"

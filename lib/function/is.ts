@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not a provided value is a Function
  *
@@ -5,5 +7,6 @@
  *
  * @returns Whether or not the value is a Function
  */
-declare function isFunction(val:any):boolean;
-export = isFunction;
+export default function isFunction (val:any):boolean {
+    return typeof val === 'function';
+}

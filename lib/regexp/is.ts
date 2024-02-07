@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not a provided value is a RegExp instance
  *
@@ -5,5 +7,6 @@
  * 
  * @returns Whether or not the value is a RegExp
  */
-declare function isRegExp(val:any):boolean;
-export = isRegExp;
+export default function isRegExp (val:any):boolean {
+    return Object.prototype.toString.call(val) === '[object RegExp]';
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * No-Operation (noop) resolver that simply returns a promise
  * that resolves with the value that was passed to it
@@ -6,5 +8,6 @@
  *
  * @returns Promise that resolves with passed value
  */
-declare function noopresolve(val:any):Promise<any>;
-export = noopresolve;
+export default function noopresolve (val:any):Promise<any> {
+    return new Promise(resolve => resolve(val));
+}

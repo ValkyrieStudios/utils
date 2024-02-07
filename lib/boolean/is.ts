@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not a provided value is a boolean
  *
@@ -5,5 +7,6 @@
  * 
  * @returns Whether or not the value is a boolean
  */
-declare function isBoolean(val:any):boolean;
-export = isBoolean;
+export default function isBoolean (val:any):boolean {
+    return val === true || val === false;
+}

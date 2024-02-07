@@ -1,16 +1,27 @@
 'use strict';
 
-import deepGet from '../deep/get.mjs';
-import deepSet from '../deep/set.mjs';
+import deepGet from '../deep/get';
+import deepSet from '../deep/set';
 
-export default function pick (obj, keys) {
+/**
+ * Returns a new object with the keys picked from the passed object
+ *
+ * @param obj - Object to pick from
+ * @param keys - Array of keys to pick from object
+ * 
+ * @returns Object containing the picked keys from source object
+ */
+export default function pick (
+    obj:{[key:string]:any},
+    keys:string[]
+):{[key:string]:any} {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' ||
         !Array.isArray(keys) ||
         keys.length === 0
     ) throw new TypeError('Please pass an object to pick from and a keys array');
 
-    const map = {};
+    const map:{[key:string]:any} = {};
     let key_deep = false;
     let val;
     for (const key of keys) {
@@ -19,7 +30,7 @@ export default function pick (obj, keys) {
         const sanitized = key.trim();
         if (sanitized.length === 0) continue;
 
-        key_deep = sanitized.match(/(\.|\[)/g);
+        key_deep = /(\.|\[)/g.test(sanitized);
         val = key_deep
             ? deepGet(obj, sanitized)
             : obj[sanitized];

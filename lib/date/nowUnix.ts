@@ -1,7 +1,10 @@
+'use strict';
+
 /**
  * Compute the current unix timestamp in seconds
  *
  * @returns Current unix timestamp in seconds
  */
-declare function nowUnix():number;
-export = nowUnix;
+export default function nowUnix ():number {
+    return Math.floor(Date.now()/1000);
+}

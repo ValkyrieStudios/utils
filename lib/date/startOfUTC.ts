@@ -1,24 +1,48 @@
 'use strict';
 
-import isDate from './is.mjs';
+import isDate from './is';
 
-//  Take note: this is the end of week key for weeks starting on key,
-//  eg: end of week for week_mon is sunday as the week starts on monday and ends on sunday
-const WEEK_END = {
-    week    : 0, // Original lib cases only contained week and historical was monday
-    week_sun: 6,
-    week_mon: 0,
-    week_tue: 1,
-    week_wed: 2,
-    week_thu: 3,
-    week_fri: 4,
-    week_sat: 5,
+const WEEK_START = {
+    week    : 1, // Original lib cases only contained week and historical was monday
+    week_sun: 0,
+    week_mon: 1,
+    week_tue: 2,
+    week_wed: 3,
+    week_thu: 4,
+    week_fri: 5,
+    week_sat: 6,
 };
 
-export default function endOfUTC (val, key = 'millisecond') {
+/**
+ * Sets the provided date to start of UTC of provided key
+ *
+ * @param val - Date to set to start of
+ * @param key - (default='millisecond') Key to set
+ * 
+ * @returns New date set to start of key
+ */
+export default function startOfUTC (
+    val:Date,
+    key: 'year'
+	    | 'quarter'
+		| 'month'
+		| 'week'
+		| 'week_sun'
+		| 'week_mon'
+		| 'week_tue'
+		| 'week_wed'
+		| 'week_thu'
+		| 'week_fri'
+		| 'week_sat'
+		| 'day'
+		| 'hour'
+		| 'minute'
+		| 'second'
+		| 'millisecond' = 'millisecond'
+):Date {
     if (
         !isDate(val)
-    ) throw new TypeError('endOfUTC requires a date object');
+    ) throw new TypeError('startOfUTC requires a date object');
 
     if (
         typeof key !== 'string'
@@ -28,33 +52,33 @@ export default function endOfUTC (val, key = 'millisecond') {
         case 'year':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                11,
-                31,
-                23,
-                59,
-                59,
-                999
+                0,
+                1,
+                0,
+                0,
+                0,
+                0
             ));
         case 'quarter': {
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                (val.getUTCMonth() - (val.getUTCMonth() % 3)) + 3,
+                val.getUTCMonth() - (val.getUTCMonth() % 3),
+                1,
                 0,
-                23,
-                59,
-                59,
-                999
+                0,
+                0,
+                0
             ));
         }
         case 'month':
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                val.getUTCMonth() + 1,
+                val.getUTCMonth(),
+                1,
                 0,
-                23,
-                59,
-                59,
-                999
+                0,
+                0,
+                0
             ));
         case 'week':
         case 'week_sun':
@@ -65,15 +89,16 @@ export default function endOfUTC (val, key = 'millisecond') {
         case 'week_fri':
         case 'week_sat': {
             const UTC_DAY = val.getUTCDay();
-            const UTC_EOD = WEEK_END[key];
+            const UTC_SOD = WEEK_START[key];
+
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
                 val.getUTCMonth(),
-                val.getUTCDate() + (UTC_DAY <= UTC_EOD ? UTC_EOD - UTC_DAY : (7 - UTC_DAY) + UTC_EOD),
-                23,
-                59,
-                59,
-                999
+                val.getUTCDate() - (UTC_DAY < UTC_SOD ? (7 - UTC_SOD) + UTC_DAY : UTC_DAY - UTC_SOD),
+                0,
+                0,
+                0,
+                0
             ));
         }
         case 'day':
@@ -81,10 +106,10 @@ export default function endOfUTC (val, key = 'millisecond') {
                 val.getUTCFullYear(),
                 val.getUTCMonth(),
                 val.getUTCDate(),
-                23,
-                59,
-                59,
-                999
+                0,
+                0,
+                0,
+                0
             ));
         case 'hour':
             return new Date(Date.UTC(
@@ -92,9 +117,9 @@ export default function endOfUTC (val, key = 'millisecond') {
                 val.getUTCMonth(),
                 val.getUTCDate(),
                 val.getUTCHours(),
-                59,
-                59,
-                999
+                0,
+                0,
+                0
             ));
         case 'minute':
             return new Date(Date.UTC(
@@ -103,8 +128,8 @@ export default function endOfUTC (val, key = 'millisecond') {
                 val.getUTCDate(),
                 val.getUTCHours(),
                 val.getUTCMinutes(),
-                59,
-                999
+                0,
+                0
             ));
         case 'second':
             return new Date(Date.UTC(
@@ -114,7 +139,7 @@ export default function endOfUTC (val, key = 'millisecond') {
                 val.getUTCHours(),
                 val.getUTCMinutes(),
                 val.getUTCSeconds(),
-                999
+                0
             ));
         case 'millisecond':
         default:

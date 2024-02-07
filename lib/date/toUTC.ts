@@ -1,8 +1,15 @@
 'use strict';
 
-import isDate from './is.mjs';
+import isDate from './is';
 
-export default function toUTC (val) {
+/**
+ * Sets a passed date to UTC
+ *
+ * @param val - Date to set to UTC
+ * 
+ * @returns New date object set to the UTC contents of the passed date
+ */
+export default function toUTC (val:Date):Date {
     if (
         !isDate(val)
     ) throw new TypeError('toUTC requires a date object');

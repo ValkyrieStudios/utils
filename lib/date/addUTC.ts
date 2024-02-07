@@ -1,8 +1,34 @@
 'use strict';
 
-import isDate from './is.mjs';
+import isDate from './is';
 
-export default function addUTC (val, amount = 0, key = 'millisecond') {
+/**
+ * Adds the provided amount of a specific key to the provided date
+ *
+ * @param val - Date to set to end of
+ * @param amount - (default=0) Amount of key to add
+ * @param key - (default='millisecond') Key to set
+ * 
+ * @returns New date with provided amount of key added
+ */
+export default function addUTC (
+    val:Date,
+	amount:number=0,
+	key: 'years'
+        | 'year'
+        | 'months'
+        | 'month'
+        | 'days'
+        | 'day'
+        | 'hours'
+        | 'hour'
+        | 'minutes'
+        | 'minute'
+        | 'seconds'
+        | 'second'
+        | 'milliseconds'
+        | 'millisecond' = 'millisecond'
+):Date {
     if (
         !isDate(val)
     ) throw new TypeError('addUTC requires a date object');

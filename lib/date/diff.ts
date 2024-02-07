@@ -1,6 +1,6 @@
 'use strict';
 
-import isDate from './is.mjs';
+import isDate from './is';
 
 const SECOND_IN_MILLISECONDS    = 1000;
 const MINUTE_IN_MILLISECONDS    = SECOND_IN_MILLISECONDS * 60;
@@ -8,7 +8,31 @@ const HOUR_IN_MILLISECONDS      = MINUTE_IN_MILLISECONDS * 60;
 const DAY_IN_MILLISECONDS       = HOUR_IN_MILLISECONDS * 24;
 const WEEK_IN_MILLISECONDS      = DAY_IN_MILLISECONDS * 7;
 
-export default function diff (val_a, val_b, key = 'millisecond') {
+/**
+ * Compute the diff between two dates in the provided key
+ *
+ * @param val_a - Date to diff against
+ * @param val_b - Date to diff with
+ * @param key - (default='millisecond') Key to diff in
+ * 
+ * @returns Numerical diff between two dates
+ */
+export default function diff (
+    val_a:Date,
+	val_b:Date,
+	key: 'week'
+        | 'weeks'
+        | 'day'
+        | 'days'
+        | 'hour'
+        | 'hours'
+        | 'minute'
+        | 'minutes'
+        | 'second'
+        | 'seconds'
+        | 'millisecond'
+        | 'milliseconds' = 'millisecond'
+):number {
     if (
         !isDate(val_a) ||
         !isDate(val_b)

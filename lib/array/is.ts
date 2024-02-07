@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not a provided value is an array
  *
@@ -5,5 +7,6 @@
  * 
  * @returns Whether or not the value is an array
  */
-declare function isArray(val:any):boolean;
-export = isArray;
+export default function isArray (val:any):boolean {
+    return Array.isArray(val);
+}

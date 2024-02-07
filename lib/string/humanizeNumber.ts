@@ -57,7 +57,7 @@ interface humanizeNumberOptions {
  */
 export default function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):string {
     const has_opts = Object.prototype.toString.call(options) === '[object Object]';
-    const OPTS = {
+    const OPTS:humanizeNumberOptions = {
         delim: has_opts && typeof options.delim === 'string'
             ? options.delim
             : ',',

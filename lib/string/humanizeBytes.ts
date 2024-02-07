@@ -55,7 +55,7 @@ export default function humanizeBytes (val:number|string, options:humanizeBytesO
             ? options.precision
             : 2,
         units: has_opts && Array.isArray(options.units) && options.units.length > 0
-            ? options.units.filter(isNotEmptyString)
+            ? options.units.filter(el => isNotEmptyString(el))
             : [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'],
         divider: 1024,
         real: true,

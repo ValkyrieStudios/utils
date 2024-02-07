@@ -2,9 +2,12 @@
 
 /* eslint-disable no-use-before-define */
 
-import isNumericalNaN from './number/isNumericalNaN.mjs';
+import isNumericalNaN from './number/isNumericalNaN';
 
-function isArrayEqual (a, b) {
+function isArrayEqual (
+    a:any[],
+    b:any[]
+):boolean {
     if (a.length !== b.length) return false;
 
     for (let i = a.length - 1; i >= 0; i--) {
@@ -15,7 +18,10 @@ function isArrayEqual (a, b) {
     return true;
 }
 
-function isObjectEqual (a, b) {
+function isObjectEqual (
+    a:{[key:string]:any},
+    b:{[key:string]:any}
+):boolean {
     const keys_a = Object.keys(a);
 
     if (keys_a.length !== Object.keys(b).length) return false;
@@ -28,7 +34,15 @@ function isObjectEqual (a, b) {
     return true;
 }
 
-function equal (a, b) {
+/**
+ * Compute whether or not two provided values are deeply equal
+ *
+ * @param a - Value to compare against
+ * @param b - Value to compare with
+ *
+ * @returns Whether or not they are equal
+ */
+function equal (a:any, b:any):boolean {
     //  Date Check
     if (
         a instanceof Date &&

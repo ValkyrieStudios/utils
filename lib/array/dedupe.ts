@@ -1,8 +1,15 @@
 'use strict';
 
-import fnv1A from '../hash/fnv1A.mjs';
+import fnv1A from '../hash/fnv1A';
 
-export default function dedupe (val) {
+/**
+ * Dedupes the provided array
+ *
+ * @param val - Array to dedupe
+ *
+ * @returns Deduped array
+ */
+export default function dedupe (val:any[]):any[] {
     if (!Array.isArray(val) || val.length === 0)  return [];
 
     const map = new Map();

@@ -16,6 +16,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: Upgrade c8 to 9.1.0
 - function/sleep: Will now internally check whether or not the value passed to it is a number above 0 and fallback to 0 if that is not the case
 - deep/set: Will now reject paths containing \_\_proto\_\_, constructor, prototype as keys to prevent possibility of prototype pollution
+- deep/seal: Will now allow arrays as input
+- deep/freeze: Will now allow arrays as input
 - array/mapPrimitive: Now allows passing a number for valround, which in turn will be used to round to a certain decimal precision
 
 ### Removed
@@ -30,6 +32,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Breaking
 - Removed src folder in favor of lib folder combined with exports in package.json, this only breaks things if directly linking to src files. For recommended adjustment, see the added section
 - string/shorten: Will now return original string or empty string instead of false when invalid props are passed
+- regexp/sanitize: Will now return an empty string instead of false when a non-string is passed
 
 ## [10.0.0] - 2023-12-14
 ### Improved

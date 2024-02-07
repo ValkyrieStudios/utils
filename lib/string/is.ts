@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not a provided value is a string
  *
@@ -5,5 +7,6 @@
  * 
  * @returns Whether or not the value is a string
  */
-declare function isString(val:any):boolean;
-export = isString;
+export default function isString (val:any):boolean {
+    return typeof val === 'string';
+}

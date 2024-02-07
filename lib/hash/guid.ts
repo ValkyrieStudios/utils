@@ -2,15 +2,18 @@
 
 /* eslint-disable no-bitwise, prefer-template */
 
-//  RFC4122 Compliant
-
-//  Generates a prebuilt hexmap from 0 to 255
-const HEXMAP = [];
+//  Prebuilt hexmap from 0 to 255
+const HEXMAP:string[] = [];
 for (let i = 0; i < 256; i++) {
     HEXMAP[i] = (i < 16 ? '0' : '') + i.toString(16);
 }
 
-export default function guid () {
+/**
+ * Generate a unique identifier (guid) according to RFC4122
+ *
+ * @returns Generated guid string
+ */
+export default function guid ():string {
     const d0 = (Math.random()*0xffffffff) | 0;
     const d1 = (Math.random()*0xffffffff) | 0;
     const d2 = (Math.random()*0xffffffff) | 0;

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not a provided value is a string with content
  *
@@ -6,5 +8,7 @@
  * 
  * @returns Whether or not the value is a string with content
  */
-declare function isNotEmptyString(val:any, trimmed?:boolean):boolean;
-export = isNotEmptyString;
+export default function isNotEmptyString (val:any, trimmed:boolean=true):boolean {
+    if (typeof val !== 'string') return false;
+    return (trimmed === true ? val.trim() : val).length > 0;
+}

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not a provided value is a number
  *
@@ -5,5 +7,6 @@
  *
  * @returns Whether or not the value is a number
  */
-declare function isNumber(val:any):boolean;
-export = isNumber;
+export default function isNumber (val:any):boolean {
+    return Number.isFinite(val);
+}

@@ -2,8 +2,6 @@
 
 /* eslint-disable no-bitwise */
 
-//  https://tools.ietf.org/html/draft-eastlake-fnv-03
-
 const FNV_32        = 2166136261;
 const REPL_NAN      = 'nan';
 const REPL_TRUE     = 'true';
@@ -11,9 +9,18 @@ const REPL_FALSE    = 'false';
 const REPL_UNDEF    = 'undefined';
 const REPL_NULL     = 'null';
 
-export default function fnv1A (data, offset = FNV_32) {
-    let hash = offset;
-    let sanitized;
+/**
+ * Convert a provided value into a Fowler-Noll-Vo 1A hash
+ * For more info: https://tools.ietf.org/html/draft-eastlake-fnv-03
+ *
+ * @param data - Value to be converted
+ * @param offset - (default=2166136261) FNV prime to use
+ *
+ * @returns FNV1A hash of provided value
+ */
+export default function fnv1A (data:any, offset:number = FNV_32):number {
+    let hash:number = offset;
+    let sanitized:any;
 
     //  Convert data to a format that is hashable
     if (typeof data === 'string') {

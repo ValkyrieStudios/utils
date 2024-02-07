@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not the provided value is an integer between a min and max
  * inclusive of min and max
@@ -9,5 +11,17 @@
  *
  * @returns Whether or not the value is an integer between min and max inclusive
  */
-declare function isIntegerBetween(val:any, min:number, max:number):boolean;
-export = isIntegerBetween;
+export default function isIntegerBetween (
+    val:any,
+    min:number,
+    max:number
+):boolean {
+    if (
+        !Number.isInteger(val) ||
+        !Number.isFinite(min) ||
+        !Number.isFinite(max) ||
+        min >= max
+    ) return false;
+
+    return val >= min && val <= max;
+}

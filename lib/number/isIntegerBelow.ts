@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not the provided value is an integer below another value
  *
@@ -6,5 +8,6 @@
  *
  * @returns Whether or not the value is below the reference
  */
-declare function isIntegerBelow(val:any, ref:number):boolean;
-export = isIntegerBelow;
+export default function isIntegerBelow (val:any, ref:number):boolean {
+    return !Number.isInteger(val) || !Number.isFinite(ref) ? false : val < ref;
+}

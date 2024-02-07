@@ -1,3 +1,7 @@
+'use strict';
+
+import round from './round';
+
 /**
  * Converts a number into a percentage respective to a provided range
  *
@@ -8,5 +12,17 @@
  *
  * @returns Percentage value respective to the provided range
  */
-declare function round(val:number, precision?:number, min?:number, max?:number):number;
-export = round;
+export default function toPercentage (
+    val:number,
+    precision:number = 0,
+    min:number = 0,
+    max:number = 1
+):number {
+    if (
+        !Number.isFinite(val) ||
+        !Number.isFinite(min) ||
+        !Number.isFinite(max)
+    ) throw new TypeError('value/min/max should be numeric');
+
+    return round(((val - min)/ (max - min)) * 100, precision);
+}

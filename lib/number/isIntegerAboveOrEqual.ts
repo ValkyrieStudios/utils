@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Check whether or not the provided value is an integer above or equal
  * to another value
@@ -7,5 +9,6 @@
  *
  * @returns Whether or not the value is above or equal to the reference
  */
-declare function isIntegerAboveOrEqual(val:any, ref:number):boolean;
-export = isIntegerAboveOrEqual;
+export default function isIntegerAboveOrEqual (val:any, ref:number):boolean {
+    return !Number.isInteger(val) || !Number.isFinite(ref) ? false : val >= ref;
+}

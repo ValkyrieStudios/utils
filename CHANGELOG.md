@@ -9,7 +9,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Typescript declarations 🚀
 - Module exports setup (import vs require), this allows for both using require and import and internally maps to the correct file. For example where previously you'd have to do `import join from '@valkyriestudios/utils/src/array/join.mjs` to make use of the ESM version you can now simply do `import join from '@valkyriestudios/utils/array/join'`. This goes hand in hand with the typescript declaration support, allowing for improved DX across the board 😎
-- Dev Dep: esbuild@0.20.0
+- Dev Dep: esbuild-register@3.5.0
+- Dev Dep: typescript@5.3.3
+- Dev Dep: @typescript-eslint/eslint-plugin@6.21.0
+- Dev Dep: @typescript-eslint/parser@6.21.0
 
 ### Improved
 - Dev Dep: Upgrade eslint to 8.56.0

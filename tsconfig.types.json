@@ -4,7 +4,9 @@
         "esModuleInterop": false,
         "sourceMap": false,
         "outDir": "dist/",
-        "declaration": false,
+        "declaration": true,
+        "removeComments": false,
+        "emitDeclarationOnly": true,
         "noEmit": false
     }
 }

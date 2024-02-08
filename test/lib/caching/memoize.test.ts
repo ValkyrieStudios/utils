@@ -1,10 +1,10 @@
 'use strict';
 
 import {describe, it}   from 'node:test';
-import assert           from 'node:assert/strict';
-import {getTime}        from '../../constants.mjs';
-import memoize          from '../../../lib/caching/memoize.mjs';
-import fnv1A            from '../../../lib/hash/fnv1A.mjs';
+import * as assert      from 'node:assert/strict';
+import {getTime}        from '../../constants';
+import memoize          from '../../../lib/caching/memoize';
+import fnv1A            from '../../../lib/hash/fnv1A';
 
 describe('Caching - memoize', () => {
     it('Should cache and allow for large amount of calculations to be passed (benchmark 1000000 < .1s)', () => {
@@ -53,25 +53,46 @@ describe('Caching - memoize', () => {
             memoized_fn(cases[Math.floor(Math.random() * (6 - 0 + 1)) + 0]);
         }
 
+        //  @ts-ignore
         assert.ok(memoized_fn.cache.has(0));
+
+        //  @ts-ignore
         assert.equal(memoized_fn.cache.get(0), fnv1A(cases[0]));
 
+        //  @ts-ignore
         assert.ok(memoized_fn.cache.has(1));
+
+        //  @ts-ignore
         assert.equal(memoized_fn.cache.get(1), fnv1A(cases[1]));
 
+        //  @ts-ignore
         assert.ok(memoized_fn.cache.has(2));
+
+        //  @ts-ignore
         assert.equal(memoized_fn.cache.get(2), fnv1A(cases[2]));
 
+        //  @ts-ignore
         assert.ok(memoized_fn.cache.has(3));
+
+        //  @ts-ignore
         assert.equal(memoized_fn.cache.get(3), fnv1A(cases[3]));
 
+        //  @ts-ignore
         assert.ok(memoized_fn.cache.has(4));
+
+        //  @ts-ignore
         assert.equal(memoized_fn.cache.get(4), fnv1A(cases[4]));
 
+        //  @ts-ignore
         assert.ok(memoized_fn.cache.has(5));
+
+        //  @ts-ignore
         assert.equal(memoized_fn.cache.get(5), fnv1A(cases[5]));
 
+        //  @ts-ignore
         assert.ok(memoized_fn.cache.has(6));
+
+        //  @ts-ignore
         assert.equal(memoized_fn.cache.get(6), fnv1A(cases[6]));
     });
 });

@@ -9,7 +9,7 @@ import fnv1A from '../hash/fnv1A';
  *
  * @returns Deduped array
  */
-export default function dedupe (val:any[]):any[] {
+export default function dedupe <T> (val:T[]):T[] {
     if (!Array.isArray(val) || val.length === 0)  return [];
 
     const map = new Map();

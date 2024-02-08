@@ -8,7 +8,7 @@ import deepSet from '../deep/set';
  *
  * @param obj - Object to pick from
  * @param keys - Array of keys to pick from object
- * 
+ *
  * @returns Object containing the picked keys from source object
  */
 export default function pick (

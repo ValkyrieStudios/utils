@@ -14,6 +14,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: @types/node
 - Dev Dep: @typescript-eslint/eslint-plugin@6.21.0
 - Dev Dep: @typescript-eslint/parser@6.21.0
+- Dev Dep: nyc@15.1.0
 
 ### Improved
 - Dev Dep: Upgrade eslint to 8.56.0
@@ -31,7 +32,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: @babel/register
 - Dev Dep: babel-plugin-module-extension
 - Dev Dep: babel-plugin-transform-minify-booleans
-- Dev dep: babel-plugin-transform-remove-console
+- Dev Dep: babel-plugin-transform-remove-console
+- Dev Dep: c8 (in favor of moving back to nyc due to proper ts support)
 
 ### Breaking
 - Removed src folder in favor of lib folder combined with exports in package.json, this only breaks things if directly linking to src files. For recommended adjustment, see the added section

@@ -8,12 +8,15 @@
 .gitignore
 .eslintrc.json
 .travis.yml
-adjust_esm_to_cjs.sh
+.git
+tsconfig.json
 codecov.sh
 codecov
 node_modules/
 coverage/
 test/
+lib/
 gulpfile.js
 yarn.lock
+package-lock.json
 CHANGELOG.md

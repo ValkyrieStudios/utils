@@ -151,6 +151,7 @@
         "template-tag-spacing": ["error", "always"],
         "wrap-iife": ["error", "inside"],
         "yield-star-spacing": ["error", "before"],
-        "@typescript-eslint/no-explicit-any": "off"
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "off"
     }
 }

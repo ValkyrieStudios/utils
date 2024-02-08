@@ -6,15 +6,18 @@ import {describe, it}           from 'node:test';
 import * as assert              from 'node:assert/strict';
 import Is                       from '../../lib/is';
 import equal                    from '../../lib/equal';
+import isArray                  from '../../lib/array/is';
 import isNotEmptyArray          from '../../lib/array/isNotEmpty';
 import isBoolean                from '../../lib/boolean/is';
 import isDate                   from '../../lib/date/is';
 import isFunction               from '../../lib/function/is';
+import isNumber                 from '../../lib/number/is';
 import isNumberBetween          from '../../lib/number/isBetween';
 import isNumberBelow            from '../../lib/number/isBelow';
 import isNumberBelowOrEqual     from '../../lib/number/isBelowOrEqual';
 import isNumberAbove            from '../../lib/number/isAbove';
 import isNumberAboveOrEqual     from '../../lib/number/isAboveOrEqual';
+import isInteger                from '../../lib/number/isInteger';
 import isIntegerBetween         from '../../lib/number/isIntegerBetween';
 import isIntegerBelow           from '../../lib/number/isIntegerBelow';
 import isIntegerBelowOrEqual    from '../../lib/number/isIntegerBelowOrEqual';
@@ -41,8 +44,8 @@ describe('Is', () => {
             assert.equal(typeof Is.Array, 'function');
         });
 
-        it('Should link to Array.isArray', () => {
-            assert.equal(Is.Array, Array.isArray);
+        it('Should link to isArray', () => {
+            assert.equal(Is.Array, isArray);
         });
     });
 
@@ -101,8 +104,8 @@ describe('Is', () => {
             assert.equal(typeof Is.Num, 'function');
         });
 
-        it('Should link to Number.isFinite', () => {
-            assert.equal(Is.Num, Number.isFinite);
+        it('Should link to isNumber', () => {
+            assert.equal(Is.Num, isNumber);
         });
     });
 
@@ -201,8 +204,8 @@ describe('Is', () => {
             assert.equal(typeof Is.Number, 'function');
         });
 
-        it('Should link to Number.isFinite', () => {
-            assert.equal(Is.Number, Number.isFinite);
+        it('Should link to isNumber', () => {
+            assert.equal(Is.Number, isNumber);
         });
     });
 
@@ -261,8 +264,8 @@ describe('Is', () => {
             assert.equal(typeof Is.Int, 'function');
         });
 
-        it('Should link to Number.isInteger', () => {
-            assert.equal(Is.Int, Number.isInteger);
+        it('Should link to isInteger', () => {
+            assert.equal(Is.Int, isInteger);
         });
     });
 
@@ -361,8 +364,8 @@ describe('Is', () => {
             assert.equal(typeof Is.Integer, 'function');
         });
 
-        it('Should link to Number.isInteger', () => {
-            assert.equal(Is.Integer, Number.isInteger);
+        it('Should link to isInteger', () => {
+            assert.equal(Is.Integer, isInteger);
         });
     });
 

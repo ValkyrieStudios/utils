@@ -13,7 +13,7 @@ const IS_REGEXP:RegExp[]                = [/abcdefg/i, new RegExp('\\w+')];
 const IS_DATE:Date[]                    = [new Date()];
 const IS_ARRAY:number[][]               = [[0, 1, 2], new Array(1, 2, 3), new Array(5)];
 const IS_OBJECT:{[key:string]:any}[]    = [{bar:'foo'}, new Object(), Object.create(null), Object.create([])];
-const IS_FUNCTION:Function[]            = [testFunction, testArrowFunction];
+const IS_FUNCTION:any[]                 = [testFunction, testArrowFunction];
 const IS_NULLABLE:unknown[]             = [NaN, undefined, null];
 
 const NOT_ARRAY:any[] = [
@@ -234,7 +234,7 @@ const CONSTANTS = {
 export default CONSTANTS;
 
 //  Get Time
-export function getTime():number {
+export function getTime ():number {
     const hr_time = process.hrtime();
     return ((hr_time[0] * 1000) + hr_time[1])/1000000;
 }

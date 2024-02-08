@@ -1,6 +1,0 @@
-{
-    "all": true,
-    "include": ["src/**/*.mjs"],
-    "reporter": ["lcov"],
-    "report-dir": "./coverage"
-}

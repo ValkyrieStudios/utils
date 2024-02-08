@@ -1,5 +1,6 @@
 node_modules/
 coverage/
+dist/
 .DS_STORE
 .nyc_output
 codecov.sh

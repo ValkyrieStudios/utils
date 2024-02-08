@@ -17,10 +17,10 @@
     ],
     "license": "MIT",
     "scripts": {
-        "build": "npm run lint && tsc -p ./tsconfig.json && npm run test",
-        "test": "node --require esbuild-register --test ./test/lib/**/*.ts",
-        "test:only": "node --require esbuild-register --test --test-only ./test/lib/**/*.ts",
-        "test:coverage": "c8 node --require esbuild-register --test ./test/lib/**/*.ts",
+        "build": "npm run lint && npm run test && tsc -p ./tsconfig.build.json",
+        "test": "node --require esbuild-register --test ./test/lib/**/*.ts ./test/lib/*.ts",
+        "test:only": "node --require esbuild-register --test --test-only ./test/lib/**/*.ts ./test/lib/*.ts",
+        "test:coverage": "nyc npm run test",
         "lint": "npm run lint:src && npm run lint:test",
         "lint:src": "./node_modules/.bin/eslint --ext .js,.ts,.mjs ./lib",
         "lint:test": "./node_modules/.bin/eslint --ext .js,.ts,.mjs ./test",
@@ -37,333 +37,269 @@
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
     "exports": {
         "./is": {
-            "require": "./dist/is.js",
-            "import": "./lib/is.mjs",
-            "types": "./lib/is.d.mts"
+            "default": "./dist/is.js",
+            "types": "./dist/is.d.ts"
         },
         "./equal": {
-            "require": "./dist/equal.js",
-            "import": "./lib/equal.mjs",
-            "types": "./lib/equal.d.mts"
+            "default": "./dist/equal.js",
+            "types": "./dist/equal.d.ts"
         },
         "./array/dedupe": {
-            "require": "./dist/array/dedupe.js",
-            "import": "./lib/array/dedupe.mjs",
-            "types": "./lib/array/dedupe.d.mts"
+            "default": "./dist/array/dedupe.js",
+            "types": "./dist/array/dedupe.d.ts"
         },
         "./array/is": {
-            "require": "./dist/array/is.js",
-            "import": "./lib/array/is.mjs",
-            "types": "./lib/array/is.d.mts"
+            "default": "./dist/array/is.js",
+            "types": "./dist/array/is.d.ts"
         },
         "./array/isNotEmpty": {
-            "require": "./dist/array/isNotEmpty.js",
-            "import": "./lib/array/isNotEmpty.mjs",
-            "types": "./lib/array/isNotEmpty.d.mts"
+            "default": "./dist/array/isNotEmpty.js",
+            "types": "./dist/array/isNotEmpty.d.ts"
         },
         "./array/join": {
-            "require": "./dist/array/join.js",
-            "import": "./lib/array/join.mjs",
-            "types": "./lib/array/join.d.mts"
+            "default": "./dist/array/join.js",
+            "types": "./dist/array/join.d.ts"
         },
         "./array/mapFn": {
-            "require": "./dist/array/mapFn.js",
-            "import": "./lib/array/mapFn.mjs",
-            "types": "./lib/array/mapFn.d.mts"
+            "default": "./dist/array/mapFn.js",
+            "types": "./dist/array/mapFn.d.ts"
         },
         "./array/mapKey": {
-            "require": "./dist/array/mapKey.js",
-            "import": "./lib/array/mapKey.mjs",
-            "types": "./lib/array/mapKey.d.mts"
+            "default": "./dist/array/mapKey.js",
+            "types": "./dist/array/mapKey.d.ts"
         },
         "./array/mapPrimitive": {
-            "require": "./dist/array/mapPrimitive.js",
-            "import": "./lib/array/mapPrimitive.mjs",
-            "types": "./lib/array/mapPrimitive.d.mts"
+            "default": "./dist/array/mapPrimitive.js",
+            "types": "./dist/array/mapPrimitive.d.ts"
         },
         "./array/shuffle": {
-            "require": "./dist/array/shuffle.js",
-            "import": "./lib/array/shuffle.mjs",
-            "types": "./lib/array/shuffle.d.mts"
+            "default": "./dist/array/shuffle.js",
+            "types": "./dist/array/shuffle.d.ts"
         },
         "./array/sort": {
-            "require": "./dist/array/sort.js",
-            "import": "./lib/array/sort.mjs",
-            "types": "./lib/array/sort.d.mts"
+            "default": "./dist/array/sort.js",
+            "types": "./dist/array/sort.d.ts"
         },
         "./boolean/is": {
-            "require": "./dist/boolean/is.js",
-            "import": "./lib/boolean/is.mjs",
-            "types": "./lib/boolean/is.d.mts"
+            "default": "./dist/boolean/is.js",
+            "types": "./dist/boolean/is.d.ts"
         },
         "./caching/memoize": {
-            "require": "./dist/caching/memoize.js",
-            "import": "./lib/caching/memoize.mjs",
-            "types": "./lib/caching/memoize.d.mts"
+            "default": "./dist/caching/memoize.js",
+            "types": "./dist/caching/memoize.d.ts"
         },
         "./date/addUTC": {
-            "require": "./dist/date/addUTC.js",
-            "import": "./lib/date/addUTC.mjs",
-            "types": "./lib/date/addUTC.d.mts"
+            "default": "./dist/date/addUTC.js",
+            "types": "./dist/date/addUTC.d.ts"
         },
         "./date/diff": {
-            "require": "./dist/date/diff.js",
-            "import": "./lib/date/diff.mjs",
-            "types": "./lib/date/diff.d.mts"
+            "default": "./dist/date/diff.js",
+            "types": "./dist/date/diff.d.ts"
         },
         "./date/endOfUTC": {
-            "require": "./dist/date/endOfUTC.js",
-            "import": "./lib/date/endOfUTC.mjs",
-            "types": "./lib/date/endOfUTC.d.mts"
+            "default": "./dist/date/endOfUTC.js",
+            "types": "./dist/date/endOfUTC.d.ts"
         },
         "./date/is": {
-            "require": "./dist/date/is.js",
-            "import": "./lib/date/is.mjs",
-            "types": "./lib/date/is.d.mts"
+            "default": "./dist/date/is.js",
+            "types": "./dist/date/is.d.ts"
         },
         "./date/nowUnix": {
-            "require": "./dist/date/nowUnix.js",
-            "import": "./lib/date/nowUnix.mjs",
-            "types": "./lib/date/nowUnix.d.mts"
+            "default": "./dist/date/nowUnix.js",
+            "types": "./dist/date/nowUnix.d.ts"
         },
         "./date/nowUnixMs": {
-            "require": "./dist/date/nowUnixMs.js",
-            "import": "./lib/date/nowUnixMs.mjs",
-            "types": "./lib/date/nowUnixMs.d.mts"
+            "default": "./dist/date/nowUnixMs.js",
+            "types": "./dist/date/nowUnixMs.d.ts"
         },
         "./date/startOfUTC": {
-            "require": "./dist/date/startOfUTC.js",
-            "import": "./lib/date/startOfUTC.mjs",
-            "types": "./lib/date/startOfUTC.d.mts"
+            "default": "./dist/date/startOfUTC.js",
+            "types": "./dist/date/startOfUTC.d.ts"
         },
         "./date/toUnix": {
-            "require": "./dist/date/toUnix.js",
-            "import": "./lib/date/toUnix.mjs",
-            "types": "./lib/date/toUnix.d.mts"
+            "default": "./dist/date/toUnix.js",
+            "types": "./dist/date/toUnix.d.ts"
         },
         "./date/toUTC": {
-            "require": "./dist/date/toUTC.js",
-            "import": "./lib/date/toUTC.mjs",
-            "types": "./lib/date/toUTC.d.mts"
+            "default": "./dist/date/toUTC.js",
+            "types": "./dist/date/toUTC.d.ts"
         },
         "./deep/define": {
-            "require": "./dist/deep/define.js",
-            "import": "./lib/deep/define.mjs",
-            "types": "./lib/deep/define.d.mts"
+            "default": "./dist/deep/define.js",
+            "types": "./dist/deep/define.d.ts"
         },
         "./deep/freeze": {
-            "require": "./dist/deep/freeze.js",
-            "import": "./lib/deep/freeze.mjs",
-            "types": "./lib/deep/freeze.d.mts"
+            "default": "./dist/deep/freeze.js",
+            "types": "./dist/deep/freeze.d.ts"
         },
         "./deep/get": {
-            "require": "./dist/deep/get.js",
-            "import": "./lib/deep/get.mjs",
-            "types": "./lib/deep/get.d.mts"
+            "default": "./dist/deep/get.js",
+            "types": "./dist/deep/get.d.ts"
         },
         "./deep/seal": {
-            "require": "./dist/deep/seal.js",
-            "import": "./lib/deep/seal.mjs",
-            "types": "./lib/deep/seal.d.mts"
+            "default": "./dist/deep/seal.js",
+            "types": "./dist/deep/seal.d.ts"
         },
         "./deep/set": {
-            "require": "./dist/deep/set.js",
-            "import": "./lib/deep/set.mjs",
-            "types": "./lib/deep/set.d.mts"
+            "default": "./dist/deep/set.js",
+            "types": "./dist/deep/set.d.ts"
         },
         "./function/is": {
-            "require": "./dist/function/is.js",
-            "import": "./lib/function/is.mjs",
-            "types": "./lib/function/is.d.mts"
+            "default": "./dist/function/is.js",
+            "types": "./dist/function/is.d.ts"
         },
         "./function/noop": {
-            "require": "./dist/function/noop.js",
-            "import": "./lib/function/noop.mjs",
-            "types": "./lib/function/noop.d.mts"
+            "default": "./dist/function/noop.js",
+            "types": "./dist/function/noop.d.ts"
         },
         "./function/noopresolve": {
-            "require": "./dist/function/noopresolve.js",
-            "import": "./lib/function/noopresolve.mjs",
-            "types": "./lib/function/noopresolve.d.mts"
+            "default": "./dist/function/noopresolve.js",
+            "types": "./dist/function/noopresolve.d.ts"
         },
         "./function/noopreturn": {
-            "require": "./dist/function/noopreturn.js",
-            "import": "./lib/function/noopreturn.mjs",
-            "types": "./lib/function/noopreturn.d.mts"
+            "default": "./dist/function/noopreturn.js",
+            "types": "./dist/function/noopreturn.d.ts"
         },
         "./function/sleep": {
-            "require": "./dist/function/sleep.js",
-            "import": "./lib/function/sleep.mjs",
-            "types": "./lib/function/sleep.d.mts"
+            "default": "./dist/function/sleep.js",
+            "types": "./dist/function/sleep.d.ts"
         },
         "./hash/fnv1A": {
-            "require": "./dist/hash/fnv1A.js",
-            "import": "./lib/hash/fnv1A.mjs",
-            "types": "./lib/hash/fnv1A.d.mts"
+            "default": "./dist/hash/fnv1A.js",
+            "types": "./dist/hash/fnv1A.d.ts"
         },
         "./hash/guid": {
-            "require": "./dist/hash/guid.js",
-            "import": "./lib/hash/guid.mjs",
-            "types": "./lib/hash/guid.d.mts"
+            "default": "./dist/hash/guid.js",
+            "types": "./dist/hash/guid.d.ts"
         },
         "./number/isAbove": {
-            "require": "./dist/number/isAbove.js",
-            "import": "./lib/number/isAbove.mjs",
-            "types": "./lib/number/isAbove.d.mts"
+            "default": "./dist/number/isAbove.js",
+            "types": "./dist/number/isAbove.d.ts"
         },
         "./number/isAboveOrEqual": {
-            "require": "./dist/number/isAboveOrEqual.js",
-            "import": "./lib/number/isAboveOrEqual.mjs",
-            "types": "./lib/number/isAboveOrEqual.d.mts"
+            "default": "./dist/number/isAboveOrEqual.js",
+            "types": "./dist/number/isAboveOrEqual.d.ts"
         },
         "./number/isBelow": {
-            "require": "./dist/number/isBelow.js",
-            "import": "./lib/number/isBelow.mjs",
-            "types": "./lib/number/isBelow.d.mts"
+            "default": "./dist/number/isBelow.js",
+            "types": "./dist/number/isBelow.d.ts"
         },
         "./number/isBelowOrEqual": {
-            "require": "./dist/number/isBelowOrEqual.js",
-            "import": "./lib/number/isBelowOrEqual.mjs",
-            "types": "./lib/number/isBelowOrEqual.d.mts"
+            "default": "./dist/number/isBelowOrEqual.js",
+            "types": "./dist/number/isBelowOrEqual.d.ts"
         },
         "./number/isBetween": {
-            "require": "./dist/number/isBetween.js",
-            "import": "./lib/number/isBetween.mjs",
-            "types": "./lib/number/isBetween.d.mts"
+            "default": "./dist/number/isBetween.js",
+            "types": "./dist/number/isBetween.d.ts"
         },
         "./number/isIntegerAbove": {
-            "require": "./dist/number/isIntegerAbove.js",
-            "import": "./lib/number/isIntegerAbove.mjs",
-            "types": "./lib/number/isIntegerAbove.d.mts"
+            "default": "./dist/number/isIntegerAbove.js",
+            "types": "./dist/number/isIntegerAbove.d.ts"
         },
         "./number/isIntegerAboveOrEqual": {
-            "require": "./dist/number/isIntegerAboveOrEqual.js",
-            "import": "./lib/number/isIntegerAboveOrEqual.mjs",
-            "types": "./lib/number/isIntegerAboveOrEqual.d.mts"
+            "default": "./dist/number/isIntegerAboveOrEqual.js",
+            "types": "./dist/number/isIntegerAboveOrEqual.d.ts"
         },
         "./number/isIntegerBelow": {
-            "require": "./dist/number/isIntegerBelow.js",
-            "import": "./lib/number/isIntegerBelow.mjs",
-            "types": "./lib/number/isIntegerBelow.d.mts"
+            "default": "./dist/number/isIntegerBelow.js",
+            "types": "./dist/number/isIntegerBelow.d.ts"
         },
         "./number/isIntegerBelowOrEqual": {
-            "require": "./dist/number/isIntegerBelowOrEqual.js",
-            "import": "./lib/number/isIntegerBelowOrEqual.mjs",
-            "types": "./lib/number/isIntegerBelowOrEqual.d.mts"
+            "default": "./dist/number/isIntegerBelowOrEqual.js",
+            "types": "./dist/number/isIntegerBelowOrEqual.d.ts"
         },
         "./number/isIntegerBetween": {
-            "require": "./dist/number/isIntegerBetween.js",
-            "import": "./lib/number/isIntegerBetween.mjs",
-            "types": "./lib/number/isIntegerBetween.d.mts"
+            "default": "./dist/number/isIntegerBetween.js",
+            "types": "./dist/number/isIntegerBetween.d.ts"
         },
         "./number/isInteger": {
-            "require": "./dist/number/isInteger.js",
-            "import": "./lib/number/isInteger.mjs",
-            "types": "./lib/number/isInteger.d.mts"
+            "default": "./dist/number/isInteger.js",
+            "types": "./dist/number/isInteger.d.ts"
         },
         "./number/is": {
-            "require": "./dist/number/is.js",
-            "import": "./lib/number/is.mjs",
-            "types": "./lib/number/is.d.mts"
+            "default": "./dist/number/is.js",
+            "types": "./dist/number/is.d.ts"
         },
         "./number/isNumericalNaN": {
-            "require": "./dist/number/isNumericalNaN.js",
-            "import": "./lib/number/isNumericalNaN.mjs",
-            "types": "./lib/number/isNumericalNaN.d.mts"
+            "default": "./dist/number/isNumericalNaN.js",
+            "types": "./dist/number/isNumericalNaN.d.ts"
         },
         "./number/randomBetween": {
-            "require": "./dist/number/randomBetween.js",
-            "import": "./lib/number/randomBetween.mjs",
-            "types": "./lib/number/randomBetween.d.mts"
+            "default": "./dist/number/randomBetween.js",
+            "types": "./dist/number/randomBetween.d.ts"
         },
         "./number/randomIntBetween": {
-            "require": "./dist/number/randomIntBetween.js",
-            "import": "./lib/number/randomIntBetween.mjs",
-            "types": "./lib/number/randomIntBetween.d.mts"
+            "default": "./dist/number/randomIntBetween.js",
+            "types": "./dist/number/randomIntBetween.d.ts"
         },
         "./number/round": {
-            "require": "./dist/number/round.js",
-            "import": "./lib/number/round.mjs",
-            "types": "./lib/number/round.d.mts"
+            "default": "./dist/number/round.js",
+            "types": "./dist/number/round.d.ts"
         },
         "./number/toPercentage": {
-            "require": "./dist/number/toPercentage.js",
-            "import": "./lib/number/toPercentage.mjs",
-            "types": "./lib/number/toPercentage.d.mts"
+            "default": "./dist/number/toPercentage.js",
+            "types": "./dist/number/toPercentage.d.ts"
         },
         "./object/define": {
-            "require": "./dist/object/define.js",
-            "import": "./lib/object/define.mjs",
-            "types": "./lib/object/define.d.mts"
+            "default": "./dist/object/define.js",
+            "types": "./dist/object/define.d.ts"
         },
         "./object/is": {
-            "require": "./dist/object/is.js",
-            "import": "./lib/object/is.mjs",
-            "types": "./lib/object/is.d.mts"
+            "default": "./dist/object/is.js",
+            "types": "./dist/object/is.d.ts"
         },
         "./object/isNotEmpty": {
-            "require": "./dist/object/isNotEmpty.js",
-            "import": "./lib/object/isNotEmpty.mjs",
-            "types": "./lib/object/isNotEmpty.d.mts"
+            "default": "./dist/object/isNotEmpty.js",
+            "types": "./dist/object/isNotEmpty.d.ts"
         },
         "./object/merge": {
-            "require": "./dist/object/merge.js",
-            "import": "./lib/object/merge.mjs",
-            "types": "./lib/object/merge.d.mts"
+            "default": "./dist/object/merge.js",
+            "types": "./dist/object/merge.d.ts"
         },
         "./object/pick": {
-            "require": "./dist/object/pick.js",
-            "import": "./lib/object/pick.mjs",
-            "types": "./lib/object/pick.d.mts"
+            "default": "./dist/object/pick.js",
+            "types": "./dist/object/pick.d.ts"
         },
         "./regexp/is": {
-            "require": "./dist/regexp/is.js",
-            "import": "./lib/regexp/is.mjs",
-            "types": "./lib/regexp/is.d.mts"
+            "default": "./dist/regexp/is.js",
+            "types": "./dist/regexp/is.d.ts"
         },
         "./regexp/sanitize": {
-            "require": "./dist/regexp/sanitize.js",
-            "import": "./lib/regexp/sanitize.mjs",
-            "types": "./lib/regexp/sanitize.d.mts"
+            "default": "./dist/regexp/sanitize.js",
+            "types": "./dist/regexp/sanitize.d.ts"
         },
         "./string/humanizeBytes": {
-            "require": "./dist/string/humanizeBytes.js",
-            "import": "./lib/string/humanizeBytes.mjs",
-            "types": "./lib/string/humanizeBytes.d.mts"
+            "default": "./dist/string/humanizeBytes.js",
+            "types": "./dist/string/humanizeBytes.d.ts"
         },
         "./string/humanizeNumber": {
-            "require": "./dist/string/humanizeNumber.js",
-            "import": "./lib/string/humanizeNumber.mjs",
-            "types": "./lib/string/humanizeNumber.d.mts"
+            "default": "./dist/string/humanizeNumber.js",
+            "types": "./dist/string/humanizeNumber.d.ts"
         },
         "./string/isBetween": {
-            "require": "./dist/string/isBetween.js",
-            "import": "./lib/string/isBetween.mjs",
-            "types": "./lib/string/isBetween.d.mts"
+            "default": "./dist/string/isBetween.js",
+            "types": "./dist/string/isBetween.d.ts"
         },
         "./string/is": {
-            "require": "./dist/string/is.js",
-            "import": "./lib/string/is.mjs",
-            "types": "./lib/string/is.d.mts"
+            "default": "./dist/string/is.js",
+            "types": "./dist/string/is.d.ts"
         },
         "./string/isNotEmpty": {
-            "require": "./dist/string/isNotEmpty.js",
-            "import": "./lib/string/isNotEmpty.mjs",
-            "types": "./lib/string/isNotEmpty.d.mts"
+            "default": "./dist/string/isNotEmpty.js",
+            "types": "./dist/string/isNotEmpty.d.ts"
         },
         "./string/shorten": {
-            "require": "./dist/string/shorten.js",
-            "import": "./lib/string/shorten.mjs",
-            "types": "./lib/string/shorten.d.mts"
+            "default": "./dist/string/shorten.js",
+            "types": "./dist/string/shorten.d.ts"
         }
     },
     "devDependencies": {
         "@types/node": "^20.11.16",
         "@typescript-eslint/eslint-plugin": "^6.21.0",
         "@typescript-eslint/parser": "^6.21.0",
-        "c8": "^9.1.0",
         "esbuild-register": "^3.5.0",
         "eslint": "^8.56.0",
+        "nyc": "^15.1.0",
         "typescript": "^5.3.3"
     }
 }

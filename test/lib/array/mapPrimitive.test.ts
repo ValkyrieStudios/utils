@@ -104,6 +104,20 @@ describe('Array - mapPrimitive', () => {
         );
     });
 
+    it('Should correctly map a numeric primitive array and valround to precision and keyround if asked', () => {
+        assert.deepEqual(
+            mapPrimitive([1.2345, 4, 4.198, 5, 5.409, 8, 8.6, 4023], {valround: 2, keyround: true}),
+            {
+                1: 1.23,
+                4: 4.2,
+                5: 5.41,
+                8: 8,
+                9: 8.6,
+                4023: 4023,
+            }
+        );
+    });
+
     it('Should correctly map a string primitive array', () => {
         assert.deepEqual(
             mapPrimitive(['hello', 'foo', 'bar']),

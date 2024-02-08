@@ -47,7 +47,7 @@ function sort(arr, by, dir = 'asc', opts = {}) {
     if (typeof by === 'string') {
         const by_s = by.trim();
         if (by_s.length === 0)
-            throw new Error('Sort by should either be a string with content or a function');
+            throw new Error('Sort by as string should contain content');
         for (const el of arr) {
             if (!OPTS.filter_fn(el))
                 continue;

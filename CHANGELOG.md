@@ -7,8 +7,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
-- Typescript declarations 🚀
-- Module exports setup (import vs require), this allows for both using require and import and internally maps to the correct file. For example where previously you'd have to do `import join from '@valkyriestudios/utils/src/array/join.mjs` to make use of the ESM version you can now simply do `import join from '@valkyriestudios/utils/array/join'`. This goes hand in hand with the typescript declaration support, allowing for improved DX across the board 😎
+- Migrate to Typescript and as such comes with declarations 🚀
+- Module exports setup in package.json which goes hand in hand with the typescript declaration support, allowing for improved DX across the board 😎
 - Dev Dep: esbuild-register@3.5.0
 - Dev Dep: typescript@5.3.3
 - Dev Dep: @types/node
@@ -36,7 +36,6 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: c8 (in favor of moving back to nyc due to proper ts support)
 
 ### Breaking
-- Removed src folder in favor of lib folder combined with exports in package.json, this only breaks things if directly linking to src files. For recommended adjustment, see the added section
 - string/shorten: Will now return original string or empty string instead of false when invalid props are passed
 
 ## [10.0.0] - 2023-12-14

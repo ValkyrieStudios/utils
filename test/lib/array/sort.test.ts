@@ -68,6 +68,32 @@ describe('Array - sort', () => {
     });
 
     it('Sorts correctly when passed an array of objects with a string to sort by and default dir', () => {
+        const out = [
+            {test: 'Peter'},
+            {test: 'Jack'},
+            {test: 'Pony'},
+            {test: 'John'},
+            {test: 'Joe'},
+            {test: 'Bob'},
+            {test: 'Alice'},
+        ];
+
+        assert.throws(
+            () => sort(out, '   '),
+            new Error('Sort by as string should contain content')
+        );
+        assert.deepEqual(out, [
+            {test: 'Peter'},
+            {test: 'Jack'},
+            {test: 'Pony'},
+            {test: 'John'},
+            {test: 'Joe'},
+            {test: 'Bob'},
+            {test: 'Alice'},
+        ]);
+    });
+
+    it('Sorts correctly when passed an array of objects with a string to sort by and default dir', () => {
         const out = sort([
             {test: 'Peter'},
             {test: 'Jack'},

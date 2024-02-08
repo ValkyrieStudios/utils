@@ -47,6 +47,33 @@ describe('Object - merge', () => {
         );
     });
 
+    it('Merges keys correctly when passed a source that is not as complete as target', () => {
+        assert.deepEqual(
+            merge(
+                {
+                    a: 1,
+                    b: {
+                        d: {bd: 'hello'},
+                        f: false,
+                    },
+                },
+                {
+                    a: 5,
+                    b: {
+                        f: 'world',
+                    },
+                }
+            ),
+            {
+                a: 5,
+                b: {
+                    d: {bd: 'hello'},
+                    f: 'world',
+                },
+            }
+        );
+    });
+
     it('Does not merge in keys that are not defined in the target by default', () => {
         assert.deepEqual(
             merge({a: 1, b: 2}, {a: 2, b: 3, c: 4}),

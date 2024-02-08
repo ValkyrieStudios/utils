@@ -7,7 +7,7 @@ function merge(target, source = {}) {
     return Object.keys(target).reduce((acc, key) => {
         if (Object.prototype.toString.call(target[key]) === '[object Object]' &&
             !Array.isArray(target[key])) {
-            acc[key] = merge(target[key], source[key] || {});
+            acc[key] = source[key] ? merge(target[key], source[key]) : target[key];
         }
         else {
             acc[key] = Object.prototype.hasOwnProperty.call(source, key)

@@ -11,6 +11,8 @@
 .git
 tsconfig.json
 tsconfig.build.json
+tsconfig.types.json
+tsconfig.types_all.json
 codecov.sh
 codecov
 node_modules/

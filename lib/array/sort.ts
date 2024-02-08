@@ -19,11 +19,11 @@ interface sortOptions {
      * (default=true)
      */
     nokey_atend?:boolean;
-};
+}
 
 interface sortObject {
     [key:string]:any;
-};
+}
 
 type sortByFunction = (el:sortObject) => string;
 

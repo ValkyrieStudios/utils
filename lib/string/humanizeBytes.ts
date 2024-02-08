@@ -5,30 +5,30 @@ import isNotEmptyString from '../string/isNotEmpty';
 
 interface humanizeBytesOptions {
     /**
-    * Delimiter used
-    * (default=',')
-    * eg: 20000 -> 20,000
-    **/
+     * Delimiter used
+     * (default=',')
+     * eg: 20000 -> 20,000
+     */
     delim?:string;
     /**
-    * Separator used for floats
-    * (default='.')
-    * eg: 20.034 -> 20,034
-    **/
+     * Separator used for floats
+     * (default='.')
+     * eg: 20.034 -> 20,034
+     */
     separator?:string;
-	/**
-    * Decimal precision for floats
-    * (default=2)
-    * eg: 20.0344233 with precision 2 -> 20.03
-    **/
+    /**
+     * Decimal precision for floats
+     * (default=2)
+     * eg: 20.0344233 with precision 2 -> 20.03
+     */
     precision?:number;
-	/**
-    * Units used for conversion
-    * (default=['', 'k', 'm', 'b', 't', 'q'])
-    * eg: 1073741823 with units ['', 'K']` -> 1.073.741,82K
-    */
+    /**
+     * Units used for conversion
+     * (default=['', 'k', 'm', 'b', 't', 'q'])
+     * eg: 1073741823 with units ['', 'K']` -> 1.073.741,82K
+     */
     units?:string[];
-};
+}
 
 /**
  * Humanize a numerical byte value into a humanly readable file size

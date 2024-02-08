@@ -6,28 +6,28 @@ import round        from '../number/round';
 
 interface humanizeNumberOptions {
     /**
-    * Delimiter used
-    * (default=',')
-    * eg: 20000 -> 20,000
-    **/
+     *  Delimiter used
+     *  (default=',')
+     *  eg: 20000 -> 20,000
+     */
     delim?:string;
     /**
-    * Separator used for floats
-    * (default='.')
-    * eg: 20.034 -> 20,034
-    **/
+     * Separator used for floats
+     * (default='.')
+     * eg: 20.034 -> 20,034
+     */
     separator?:string;
-	/**
-    * Decimal precision for floats
-    * (default=2)
-    * eg: 20.0344233 with precision 2 -> 20.03
-    **/
+    /**
+     * Decimal precision for floats
+     * (default=2)
+     * eg: 20.0344233 with precision 2 -> 20.03
+     */
     precision?:number;
-	/**
-    * Units used for conversion
-    * (default=['', 'k', 'm', 'b', 't', 'q'])
-    * eg: 1073741823 with units ['', 'K']` -> 1.073.741,82K
-    */
+    /**
+     * Units used for conversion
+     * default=['', 'k', 'm', 'b', 't', 'q'])
+     * eg: 1073741823 with units ['', 'K']` -> 1.073.741,82K
+     */
     units?:string[]|boolean;
     /**
      * Override default divider used for units
@@ -40,7 +40,7 @@ interface humanizeNumberOptions {
      * (default=false)
      */
     real?:boolean;
-};
+}
 
 /**
  * Humanize a number
@@ -115,7 +115,7 @@ export default function humanizeNumber (val:number|string, options:humanizeNumbe
     normalized = round(normalized, OPTS.precision);
 
     //  Humanize from eg: 10023 to 10,023
-    let humanized:string[]= `${normalized}`.split('.');
+    const humanized:string[]= `${normalized}`.split('.');
     humanized[0] = humanized[0].split('').reverse().map((char, ix, original) => {
         if (ix > 0 && ix < original.length && ix % 3 === 0) return char + OPTS.delim;
         return char;

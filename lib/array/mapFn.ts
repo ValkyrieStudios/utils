@@ -13,11 +13,11 @@ interface mapOptions {
      *  {12: {uid: 12, b: 'ho'}}
      */
     merge?:boolean;
-};
+}
 
 interface kvMap {
     [key:string]:{[key:string]:any};
-};
+}
 
 /**
  * Map an object array into a kv-object through a function that generates a key. Returning a non-string,

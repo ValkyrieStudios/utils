@@ -32,6 +32,6 @@ function merge (
         }
         return acc;
     }, {});
-};
+}
 
 export default merge;

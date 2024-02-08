@@ -7,6 +7,6 @@
  *
  * @returns Passed value
  */
-export default function noopreturn (val:any):any {
+export default function noopreturn (val?:any):any {
     return val;
 }

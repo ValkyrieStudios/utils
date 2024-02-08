@@ -3,7 +3,11 @@
         "es2020": true,
         "node": true
     },
-    "extends": "eslint:recommended",
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 8,
         "ecmaFeatures": {
@@ -38,7 +42,7 @@
         "max-lines": ["warn", {"max": 1000, "skipBlankLines": true}],
         "max-classes-per-file": ["error", 2],
         "max-depth": ["warn", 5],
-        "multiline-comment-style": ["error", "separate-lines"],
+        "multiline-comment-style": ["error", "starred-block"],
         "max-statements": ["warn", 30],
         "no-alert": "error",
         "no-array-constructor": "error",
@@ -146,6 +150,7 @@
         "template-curly-spacing": ["error", "never"],
         "template-tag-spacing": ["error", "always"],
         "wrap-iife": ["error", "inside"],
-        "yield-star-spacing": ["error", "before"]
+        "yield-star-spacing": ["error", "before"],
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }

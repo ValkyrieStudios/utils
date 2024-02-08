@@ -2,8 +2,10 @@
 
 import isDate from './is';
 
-//  Take note: this is the end of week key for weeks starting on key,
-//  eg: end of week for week_mon is sunday as the week starts on monday and ends on sunday
+/**
+ * Take note: this is the end of week key for weeks starting on key,
+ * eg: end of week for week_mon is sunday as the week starts on monday and ends on sunday
+ */
 const WEEK_END = {
     week    : 0, // Original lib cases only contained week and historical was monday
     week_sun: 6,
@@ -20,12 +22,12 @@ const WEEK_END = {
  *
  * @param val - Date to set to end of
  * @param key - (default='millisecond') Key to set
- * 
+ *
  * @returns New date set to end of key
  */
 export default function endOfUTC (
     val:Date,
-	key: 'year'
+    key:'year'
 		| 'quarter'
 		| 'month'
 		| 'week'

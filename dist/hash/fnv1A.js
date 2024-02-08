@@ -1,63 +1,51 @@
-"use strict";
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// lib/hash/fnv1A.mjs
-var fnv1A_exports = {};
-__export(fnv1A_exports, {
-  default: () => fnv1A
-});
-module.exports = __toCommonJS(fnv1A_exports);
-var FNV_32 = 2166136261;
-var REPL_NAN = "nan";
-var REPL_TRUE = "true";
-var REPL_FALSE = "false";
-var REPL_UNDEF = "undefined";
-var REPL_NULL = "null";
+'use strict';
+Object.defineProperty(exports, "__esModule", { value: true });
+const FNV_32 = 2166136261;
+const REPL_NAN = 'nan';
+const REPL_TRUE = 'true';
+const REPL_FALSE = 'false';
+const REPL_UNDEF = 'undefined';
+const REPL_NULL = 'null';
 function fnv1A(data, offset = FNV_32) {
-  let hash = offset;
-  let sanitized;
-  if (typeof data === "string") {
-    sanitized = data;
-  } else if (Number.isFinite(data)) {
-    sanitized = `${data}`;
-  } else if (Array.isArray(data) || Object.prototype.toString.call(data) === "[object Object]") {
-    sanitized = JSON.stringify(data);
-  } else if (Object.prototype.toString.call(data) === "[object RegExp]") {
-    sanitized = data.toString();
-  } else if (data instanceof Date) {
-    sanitized = `${data.getTime()}`;
-  } else if (Number.isNaN(data) || data === Infinity) {
-    sanitized = REPL_NAN;
-  } else if (data === false) {
-    sanitized = REPL_FALSE;
-  } else if (data === true) {
-    sanitized = REPL_TRUE;
-  } else if (data === null) {
-    sanitized = REPL_NULL;
-  } else if (data === void 0) {
-    sanitized = REPL_UNDEF;
-  } else {
-    throw new TypeError("An FNV1A Hash could not be calculated for this datatype");
-  }
-  for (let i = 0; i < sanitized.length; i++) {
-    hash ^= sanitized.charCodeAt(i);
-    hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
-  }
-  return hash >>> 0;
+    let hash = offset;
+    let sanitized;
+    if (typeof data === 'string') {
+        sanitized = data;
+    }
+    else if (Number.isFinite(data)) {
+        sanitized = `${data}`;
+    }
+    else if (Array.isArray(data) || Object.prototype.toString.call(data) === '[object Object]') {
+        sanitized = JSON.stringify(data);
+    }
+    else if (Object.prototype.toString.call(data) === '[object RegExp]') {
+        sanitized = data.toString();
+    }
+    else if (data instanceof Date) {
+        sanitized = `${data.getTime()}`;
+    }
+    else if (Number.isNaN(data) || data === Infinity) {
+        sanitized = REPL_NAN;
+    }
+    else if (data === false) {
+        sanitized = REPL_FALSE;
+    }
+    else if (data === true) {
+        sanitized = REPL_TRUE;
+    }
+    else if (data === null) {
+        sanitized = REPL_NULL;
+    }
+    else if (data === undefined) {
+        sanitized = REPL_UNDEF;
+    }
+    else {
+        throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
+    }
+    for (let i = 0; i < sanitized.length; i++) {
+        hash ^= sanitized.charCodeAt(i);
+        hash += (hash << 1) + (hash << 4) + (hash << 7) + (hash << 8) + (hash << 24);
+    }
+    return hash >>> 0;
 }
+exports.default = fnv1A;

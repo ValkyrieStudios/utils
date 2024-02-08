@@ -22,11 +22,11 @@ interface mapOptions {
      * eg: mapPrimitive([5.432, 5.4, 5.43, 4.2, 4.1], {keyround: true}) -> {5: 5.43, 4: 4.1}
      */
     keyround?:boolean;
-};
+}
 
 interface mapReturn {
     [key:string]: string|number;
-};
+}
 
 /**
  * Map an array of primitive values (numbers/strings) into a kv-object

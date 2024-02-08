@@ -8,6 +8,6 @@
  *
  * @returns Promise that resolves with passed value
  */
-export default function noopresolve (val:any):Promise<any> {
+export default function noopresolve (val?:any):Promise<any> {
     return new Promise(resolve => resolve(val));
 }

@@ -38,11 +38,11 @@
  * @throws {TypeError}
  */
 export default function deepSet (
-    obj:{[key:string]:any},
+    obj:{[key:string]:any}|{[key:string]:any}[]|any[],
     path:string,
     value:any,
     define:boolean=false
-) {
+):boolean {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
@@ -70,10 +70,16 @@ export default function deepSet (
         //  If this part is an empty string, just continue
         if (parts[i] === '') continue;
 
-        if (!obj[parts[i]]) obj[parts[i]] = {};
+        if (Array.isArray(obj)) {
+            const idx = parseInt(parts[i]);
+            if (!Number.isInteger(idx) || idx < 0) throw new TypeError('Invalid path provided');
 
-        //  Set cursor
-        obj = obj[parts[i]];
+            if (!obj[idx]) obj[idx] = {};
+            obj = obj[idx];
+        } else {
+            if (!obj[parts[i]]) obj[parts[i]] = {};
+            obj = obj[parts[i]];
+        }
     }
 
     //  Prevent overriding of properties, eg: {d: 'hello'} -> deepSet('d.a.b', 'should not work')
@@ -82,6 +88,10 @@ export default function deepSet (
     //  Set the actual value on the cursor
     if (define) {
         Object.defineProperty(obj, parts[parts.length - 1], value);
+    } else if (Array.isArray(obj)) {
+        const idx = parseInt(parts[parts.length - 1]);
+        if (!Number.isInteger(idx) || idx < 0) throw new TypeError('Invalid path provided');
+        obj[idx] = value;
     } else {
         obj[parts[parts.length - 1]] = value;
     }

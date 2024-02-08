@@ -27,7 +27,7 @@ interface joinOptions {
      * eg: join([5.432, 'world', 1.2], {valround: 1}) -> '5.4 world 1.2'
      */
     valround?:number;
-};
+}
 
 /**
  * Join an array of values while autofiltering any non-string/non-number elements

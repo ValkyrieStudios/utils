@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [11.2.0] - 2023-02-08
+### Added
+- Publish script
+
+### Improved
+- Remove exports from package.json and use publish script to generate dist folder
+
 ## [11.1.0] - 2024-02-08
 ### Improved
 - Typings: Add global declaration file 🚀

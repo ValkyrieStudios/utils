@@ -5,7 +5,7 @@
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 
-A collection of single-function utilities for common tasks
+Zero-dependency collection of single-function utilities for common tasks
 
 `npm install @valkyriestudios/utils`
 

@@ -10,6 +10,7 @@
 .travis.yml
 .git
 tsconfig.json
+tsconfig.build.json
 codecov.sh
 codecov
 node_modules/

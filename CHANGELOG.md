@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [11.0.0] - 2024-02-08
 ### Added
 - Migrate to Typescript and as such comes with declarations 🚀
 - Module exports setup in package.json which goes hand in hand with the typescript declaration support, allowing for improved DX across the board 😎

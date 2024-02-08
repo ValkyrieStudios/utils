@@ -2,65 +2,64 @@
 
 /* eslint-disable max-len,no-console */
 
-import fs from 'fs';
+import * as fs from 'node:fs';
 
-import dedupe                   from '../lib/array/dedupe.mjs';
-import isArray                  from '../lib/array/is.mjs';
-import isNotEmptyArray          from '../lib/array/isNotEmpty.mjs';
-import join                     from '../lib/array/join.mjs';
-import mapFn                    from '../lib/array/mapFn.mjs';
-import mapKey                   from '../lib/array/mapKey.mjs';
-import mapPrimitive             from '../lib/array/mapPrimitive.mjs';
-import shuffle                  from '../lib/array/shuffle.mjs';
-import sort                     from '../lib/array/sort.mjs';
-import isBoolean                from '../lib/boolean/is.mjs';
-import addUTC                   from '../lib/date/addUTC.mjs';
-import diff                     from '../lib/date/diff.mjs';
-import endOfUTC                 from '../lib/date/endOfUTC.mjs';
-import isDate                   from '../lib/date/is.mjs';
-import nowUnix                  from '../lib/date/nowUnix.mjs';
-import nowUnixMs                from '../lib/date/nowUnixMs.mjs';
-import startOfUTC               from '../lib/date/startOfUTC.mjs';
-import toUnix                   from '../lib/date/toUnix.mjs';
-import toUTC                    from '../lib/date/toUTC.mjs';
-import deepDefine               from '../lib/deep/define.mjs';
-import deepFreeze               from '../lib/deep/freeze.mjs';
-import deepGet                  from '../lib/deep/get.mjs';
-import deepSeal                 from '../lib/deep/seal.mjs';
-import deepSet                  from '../lib/deep/set.mjs';
-import isFunction               from '../lib/function/is.mjs';
-import fnv1A                    from '../lib/hash/fnv1A.mjs';
-import guid                     from '../lib/hash/guid.mjs';
-import isNumber                 from '../lib/number/is.mjs';
-import isNumberAbove            from '../lib/number/isAbove.mjs';
-import isNumberAboveOrEqual     from '../lib/number/isAboveOrEqual.mjs';
-import isNumberBelow            from '../lib/number/isBelow.mjs';
-import isNumberBelowOrEqual     from '../lib/number/isBelowOrEqual.mjs';
-import isNumberBetween          from '../lib/number/isBetween.mjs';
-import isInteger                from '../lib/number/isInteger.mjs';
-import isIntegerAbove           from '../lib/number/isIntegerAbove.mjs';
-import isIntegerAboveOrEqual    from '../lib/number/isIntegerAboveOrEqual.mjs';
-import isIntegerBelow           from '../lib/number/isIntegerBelow.mjs';
-import isIntegerBelowOrEqual    from '../lib/number/isIntegerBelowOrEqual.mjs';
-import isIntegerBetween         from '../lib/number/isIntegerBetween.mjs';
-import isNumericalNaN           from '../lib/number/isNumericalNaN.mjs';
-import randomBetween            from '../lib/number/randomBetween.mjs';
-import randomIntBetween         from '../lib/number/randomIntBetween.mjs';
-import round                    from '../lib/number/round.mjs';
-import toPercentage             from '../lib/number/toPercentage.mjs';
-import merge                    from '../lib/object/merge.mjs';
-import pick                     from '../lib/object/pick.mjs';
-import isObject                 from '../lib/object/is.mjs';
-import isNotEmptyObject         from '../lib/object/isNotEmpty.mjs';
-import isRegExp                 from '../lib/regexp/is.mjs';
-import sanitize                 from '../lib/regexp/sanitize.mjs';
-import humanizeBytes            from '../lib/string/humanizeBytes.mjs';
-import humanizeNumber           from '../lib/string/humanizeNumber.mjs';
-import isString                 from '../lib/string/is.mjs';
-import isStringBetween          from '../lib/string/isBetween.mjs';
-import isNotEmptyString         from '../lib/string/isNotEmpty.mjs';
-import shorten                  from '../lib/string/shorten.mjs';
-import equal                    from '../lib/equal.mjs';
+import dedupe                   from '../dist/array/dedupe';
+import isArray                  from '../dist/array/is';
+import isNotEmptyArray          from '../dist/array/isNotEmpty';
+import join                     from '../dist/array/join';
+import mapFn                    from '../dist/array/mapFn';
+import mapKey                   from '../dist/array/mapKey';
+import mapPrimitive             from '../dist/array/mapPrimitive';
+import shuffle                  from '../dist/array/shuffle';
+import sort                     from '../dist/array/sort';
+import isBoolean                from '../dist/boolean/is';
+import addUTC                   from '../dist/date/addUTC';
+import diff                     from '../dist/date/diff';
+import endOfUTC                 from '../dist/date/endOfUTC';
+import isDate                   from '../dist/date/is';
+import nowUnix                  from '../dist/date/nowUnix';
+import nowUnixMs                from '../dist/date/nowUnixMs';
+import startOfUTC               from '../dist/date/startOfUTC';
+import toUnix                   from '../dist/date/toUnix';
+import toUTC                    from '../dist/date/toUTC';
+import deepFreeze               from '../dist/deep/freeze';
+import deepGet                  from '../dist/deep/get';
+import deepSeal                 from '../dist/deep/seal';
+import deepSet                  from '../dist/deep/set';
+import isFunction               from '../dist/function/is';
+import fnv1A                    from '../dist/hash/fnv1A';
+import guid                     from '../dist/hash/guid';
+import isNumber                 from '../dist/number/is';
+import isNumberAbove            from '../dist/number/isAbove';
+import isNumberAboveOrEqual     from '../dist/number/isAboveOrEqual';
+import isNumberBelow            from '../dist/number/isBelow';
+import isNumberBelowOrEqual     from '../dist/number/isBelowOrEqual';
+import isNumberBetween          from '../dist/number/isBetween';
+import isInteger                from '../dist/number/isInteger';
+import isIntegerAbove           from '../dist/number/isIntegerAbove';
+import isIntegerAboveOrEqual    from '../dist/number/isIntegerAboveOrEqual';
+import isIntegerBelow           from '../dist/number/isIntegerBelow';
+import isIntegerBelowOrEqual    from '../dist/number/isIntegerBelowOrEqual';
+import isIntegerBetween         from '../dist/number/isIntegerBetween';
+import isNumericalNaN           from '../dist/number/isNumericalNaN';
+import randomBetween            from '../dist/number/randomBetween';
+import randomIntBetween         from '../dist/number/randomIntBetween';
+import round                    from '../dist/number/round';
+import toPercentage             from '../dist/number/toPercentage';
+import merge                    from '../dist/object/merge';
+import pick                     from '../dist/object/pick';
+import isObject                 from '../dist/object/is';
+import isNotEmptyObject         from '../dist/object/isNotEmpty';
+import isRegExp                 from '../dist/regexp/is';
+import sanitize                 from '../dist/regexp/sanitize';
+import humanizeBytes            from '../dist/string/humanizeBytes';
+import humanizeNumber           from '../dist/string/humanizeNumber';
+import isString                 from '../dist/string/is';
+import isStringBetween          from '../dist/string/isBetween';
+import isNotEmptyString         from '../dist/string/isNotEmpty';
+import shorten                  from '../dist/string/shorten';
+import equal                    from '../dist/equal';
 
 const ROW_TEST_WIDTH    = 50;
 const ROW_OPS_WIDTH     = 15;
@@ -125,10 +124,8 @@ for (const el of [
     {
         lbl: 'array/mapFn',
         fn: () => mapFn([
-            0,
             {uid: 12, name: 'Peter'},
-            false,
-            'foobar',
+            {uid: 14, name: 'Jake'},
             {uid: 15, name: 'Jonas'},
             [{hi: 'there'}],
             null,
@@ -141,10 +138,8 @@ for (const el of [
     {
         lbl: 'array/mapKey',
         fn: () => mapKey([
-            0,
             {uid: 12, name: 'Peter'},
-            false,
-            'foobar',
+            {uid: 14, name: 'Jake'},
             {uid: 15, name: 'Jonas'},
             [{hi: 'there'}],
             null,
@@ -365,7 +360,7 @@ for (const el of [
     },
     {
         lbl: 'date/diff: weeks',
-        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'months'),
+        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'weeks'),
     },
     //  Date - endOfUTC
     {
@@ -513,27 +508,6 @@ for (const el of [
     {
         lbl: 'date/toUTC',
         fn: () => toUTC(new Date('2032-10-05T11:12:11.000Z')),
-    },
-    //  Deep - define
-    {
-        lbl: 'deep/define - 1 level',
-        fn: () => deepDefine({bla: true}, 'g', {get: () => 5}),
-    },
-    {
-        lbl: 'deep/define - 2 levels',
-        fn: () => deepDefine({bla: true}, 'g.a', {get: () => 5}),
-    },
-    {
-        lbl: 'deep/define - 3 levels',
-        fn: () => deepDefine({bla: true}, 'g.a.b', {get: () => 5}),
-    },
-    {
-        lbl: 'deep/define - 4 levels',
-        fn: () => deepDefine({bla: true}, 'g.a.b.c', {get: () => 5}),
-    },
-    {
-        lbl: 'deep/define - 5 levels',
-        fn: () => deepDefine({bla: true}, 'g.a.b.c.d', {get: () => 5}),
     },
     //  Deep - freeze
     {
@@ -998,8 +972,8 @@ for (const el of [
         lbl: 'equal - objects - equal',
         fn: () => equal({a: true}, {a: true}),
     },
-]) bench(el, 100000);
+]) bench(el, 500000);
 
-fs.writeFileSync('./test/benchmarks/latest.json', JSON.stringify(EXPORT_COLLECTOR, null, 4, true), 'utf8');
+fs.writeFileSync('./test/benchmarks/latest.json', JSON.stringify(EXPORT_COLLECTOR, null, 4), 'utf8');
 
 separator();

@@ -25,7 +25,7 @@
         "lint:src": "./node_modules/.bin/eslint --ext .js,.ts,.mjs ./lib",
         "lint:test": "./node_modules/.bin/eslint --ext .js,.ts,.mjs ./test",
         "codecov": "codecov",
-        "benchmark": "node ./test/benchmark.mjs"
+        "benchmark": "node --require esbuild-register ./test/benchmark.ts"
     },
     "repository": {
         "type": "git",

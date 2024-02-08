@@ -16,6 +16,7 @@
         "bun"
     ],
     "license": "MIT",
+    "types": "./dist/index.d.ts",
     "scripts": {
         "build": "npm run lint && npm run test && tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.types.json",
         "test": "node --require esbuild-register --test ./test/lib/**/*.ts ./test/lib/*.ts",
@@ -36,262 +37,70 @@
     },
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
     "exports": {
-        "./is": {
-            "default": "./dist/is.js",
-            "types": "./dist/is.d.ts"
-        },
-        "./equal": {
-            "default": "./dist/equal.js",
-            "types": "./dist/equal.d.ts"
-        },
-        "./array/dedupe": {
-            "default": "./dist/array/dedupe.js",
-            "types": "./dist/array/dedupe.d.ts"
-        },
-        "./array/is": {
-            "default": "./dist/array/is.js",
-            "types": "./dist/array/is.d.ts"
-        },
-        "./array/isNotEmpty": {
-            "default": "./dist/array/isNotEmpty.js",
-            "types": "./dist/array/isNotEmpty.d.ts"
-        },
-        "./array/join": {
-            "default": "./dist/array/join.js",
-            "types": "./dist/array/join.d.ts"
-        },
-        "./array/mapFn": {
-            "default": "./dist/array/mapFn.js",
-            "types": "./dist/array/mapFn.d.ts"
-        },
-        "./array/mapKey": {
-            "default": "./dist/array/mapKey.js",
-            "types": "./dist/array/mapKey.d.ts"
-        },
-        "./array/mapPrimitive": {
-            "default": "./dist/array/mapPrimitive.js",
-            "types": "./dist/array/mapPrimitive.d.ts"
-        },
-        "./array/shuffle": {
-            "default": "./dist/array/shuffle.js",
-            "types": "./dist/array/shuffle.d.ts"
-        },
-        "./array/sort": {
-            "default": "./dist/array/sort.js",
-            "types": "./dist/array/sort.d.ts"
-        },
-        "./boolean/is": {
-            "default": "./dist/boolean/is.js",
-            "types": "./dist/boolean/is.d.ts"
-        },
-        "./caching/memoize": {
-            "default": "./dist/caching/memoize.js",
-            "types": "./dist/caching/memoize.d.ts"
-        },
-        "./date/addUTC": {
-            "default": "./dist/date/addUTC.js",
-            "types": "./dist/date/addUTC.d.ts"
-        },
-        "./date/diff": {
-            "default": "./dist/date/diff.js",
-            "types": "./dist/date/diff.d.ts"
-        },
-        "./date/endOfUTC": {
-            "default": "./dist/date/endOfUTC.js",
-            "types": "./dist/date/endOfUTC.d.ts"
-        },
-        "./date/is": {
-            "default": "./dist/date/is.js",
-            "types": "./dist/date/is.d.ts"
-        },
-        "./date/nowUnix": {
-            "default": "./dist/date/nowUnix.js",
-            "types": "./dist/date/nowUnix.d.ts"
-        },
-        "./date/nowUnixMs": {
-            "default": "./dist/date/nowUnixMs.js",
-            "types": "./dist/date/nowUnixMs.d.ts"
-        },
-        "./date/startOfUTC": {
-            "default": "./dist/date/startOfUTC.js",
-            "types": "./dist/date/startOfUTC.d.ts"
-        },
-        "./date/toUnix": {
-            "default": "./dist/date/toUnix.js",
-            "types": "./dist/date/toUnix.d.ts"
-        },
-        "./date/toUTC": {
-            "default": "./dist/date/toUTC.js",
-            "types": "./dist/date/toUTC.d.ts"
-        },
-        "./deep/define": {
-            "default": "./dist/deep/define.js",
-            "types": "./dist/deep/define.d.ts"
-        },
-        "./deep/freeze": {
-            "default": "./dist/deep/freeze.js",
-            "types": "./dist/deep/freeze.d.ts"
-        },
-        "./deep/get": {
-            "default": "./dist/deep/get.js",
-            "types": "./dist/deep/get.d.ts"
-        },
-        "./deep/seal": {
-            "default": "./dist/deep/seal.js",
-            "types": "./dist/deep/seal.d.ts"
-        },
-        "./deep/set": {
-            "default": "./dist/deep/set.js",
-            "types": "./dist/deep/set.d.ts"
-        },
-        "./function/is": {
-            "default": "./dist/function/is.js",
-            "types": "./dist/function/is.d.ts"
-        },
-        "./function/noop": {
-            "default": "./dist/function/noop.js",
-            "types": "./dist/function/noop.d.ts"
-        },
-        "./function/noopresolve": {
-            "default": "./dist/function/noopresolve.js",
-            "types": "./dist/function/noopresolve.d.ts"
-        },
-        "./function/noopreturn": {
-            "default": "./dist/function/noopreturn.js",
-            "types": "./dist/function/noopreturn.d.ts"
-        },
-        "./function/sleep": {
-            "default": "./dist/function/sleep.js",
-            "types": "./dist/function/sleep.d.ts"
-        },
-        "./hash/fnv1A": {
-            "default": "./dist/hash/fnv1A.js",
-            "types": "./dist/hash/fnv1A.d.ts"
-        },
-        "./hash/guid": {
-            "default": "./dist/hash/guid.js",
-            "types": "./dist/hash/guid.d.ts"
-        },
-        "./number/isAbove": {
-            "default": "./dist/number/isAbove.js",
-            "types": "./dist/number/isAbove.d.ts"
-        },
-        "./number/isAboveOrEqual": {
-            "default": "./dist/number/isAboveOrEqual.js",
-            "types": "./dist/number/isAboveOrEqual.d.ts"
-        },
-        "./number/isBelow": {
-            "default": "./dist/number/isBelow.js",
-            "types": "./dist/number/isBelow.d.ts"
-        },
-        "./number/isBelowOrEqual": {
-            "default": "./dist/number/isBelowOrEqual.js",
-            "types": "./dist/number/isBelowOrEqual.d.ts"
-        },
-        "./number/isBetween": {
-            "default": "./dist/number/isBetween.js",
-            "types": "./dist/number/isBetween.d.ts"
-        },
-        "./number/isIntegerAbove": {
-            "default": "./dist/number/isIntegerAbove.js",
-            "types": "./dist/number/isIntegerAbove.d.ts"
-        },
-        "./number/isIntegerAboveOrEqual": {
-            "default": "./dist/number/isIntegerAboveOrEqual.js",
-            "types": "./dist/number/isIntegerAboveOrEqual.d.ts"
-        },
-        "./number/isIntegerBelow": {
-            "default": "./dist/number/isIntegerBelow.js",
-            "types": "./dist/number/isIntegerBelow.d.ts"
-        },
-        "./number/isIntegerBelowOrEqual": {
-            "default": "./dist/number/isIntegerBelowOrEqual.js",
-            "types": "./dist/number/isIntegerBelowOrEqual.d.ts"
-        },
-        "./number/isIntegerBetween": {
-            "default": "./dist/number/isIntegerBetween.js",
-            "types": "./dist/number/isIntegerBetween.d.ts"
-        },
-        "./number/isInteger": {
-            "default": "./dist/number/isInteger.js",
-            "types": "./dist/number/isInteger.d.ts"
-        },
-        "./number/is": {
-            "default": "./dist/number/is.js",
-            "types": "./dist/number/is.d.ts"
-        },
-        "./number/isNumericalNaN": {
-            "default": "./dist/number/isNumericalNaN.js",
-            "types": "./dist/number/isNumericalNaN.d.ts"
-        },
-        "./number/randomBetween": {
-            "default": "./dist/number/randomBetween.js",
-            "types": "./dist/number/randomBetween.d.ts"
-        },
-        "./number/randomIntBetween": {
-            "default": "./dist/number/randomIntBetween.js",
-            "types": "./dist/number/randomIntBetween.d.ts"
-        },
-        "./number/round": {
-            "default": "./dist/number/round.js",
-            "types": "./dist/number/round.d.ts"
-        },
-        "./number/toPercentage": {
-            "default": "./dist/number/toPercentage.js",
-            "types": "./dist/number/toPercentage.d.ts"
-        },
-        "./object/define": {
-            "default": "./dist/object/define.js",
-            "types": "./dist/object/define.d.ts"
-        },
-        "./object/is": {
-            "default": "./dist/object/is.js",
-            "types": "./dist/object/is.d.ts"
-        },
-        "./object/isNotEmpty": {
-            "default": "./dist/object/isNotEmpty.js",
-            "types": "./dist/object/isNotEmpty.d.ts"
-        },
-        "./object/merge": {
-            "default": "./dist/object/merge.js",
-            "types": "./dist/object/merge.d.ts"
-        },
-        "./object/pick": {
-            "default": "./dist/object/pick.js",
-            "types": "./dist/object/pick.d.ts"
-        },
-        "./regexp/is": {
-            "default": "./dist/regexp/is.js",
-            "types": "./dist/regexp/is.d.ts"
-        },
-        "./regexp/sanitize": {
-            "default": "./dist/regexp/sanitize.js",
-            "types": "./dist/regexp/sanitize.d.ts"
-        },
-        "./string/humanizeBytes": {
-            "default": "./dist/string/humanizeBytes.js",
-            "types": "./dist/string/humanizeBytes.d.ts"
-        },
-        "./string/humanizeNumber": {
-            "default": "./dist/string/humanizeNumber.js",
-            "types": "./dist/string/humanizeNumber.d.ts"
-        },
-        "./string/isBetween": {
-            "default": "./dist/string/isBetween.js",
-            "types": "./dist/string/isBetween.d.ts"
-        },
-        "./string/is": {
-            "default": "./dist/string/is.js",
-            "types": "./dist/string/is.d.ts"
-        },
-        "./string/isNotEmpty": {
-            "default": "./dist/string/isNotEmpty.js",
-            "types": "./dist/string/isNotEmpty.d.ts"
-        },
-        "./string/shorten": {
-            "default": "./dist/string/shorten.js",
-            "types": "./dist/string/shorten.d.ts"
-        }
+        "./is": "./dist/is.js",
+        "./equal": "./dist/equal.js",
+        "./array/dedupe": "./dist/array/dedupe.js",
+        "./array/is": "./dist/array/is.js",
+        "./array/isNotEmpty": "./dist/array/isNotEmpty.js",
+        "./array/join": "./dist/array/join.js",
+        "./array/mapFn": "./dist/array/mapFn.js",
+        "./array/mapKey": "./dist/array/mapKey.js",
+        "./array/mapPrimitive": "./dist/array/mapPrimitive.js",
+        "./array/shuffle": "./dist/array/shuffle.js",
+        "./array/sort": "./dist/array/sort.js",
+        "./boolean/is": "./dist/boolean/is.js",
+        "./caching/memoize": "./dist/caching/memoize.js",
+        "./date/addUTC": "./dist/date/addUTC.js",
+        "./date/diff": "./dist/date/diff.js",
+        "./date/endOfUTC": "./dist/date/endOfUTC.js",
+        "./date/is": "./dist/date/is.js",
+        "./date/nowUnix": "./dist/date/nowUnix.js",
+        "./date/nowUnixMs": "./dist/date/nowUnixMs.js",
+        "./date/startOfUTC": "./dist/date/startOfUTC.js",
+        "./date/toUnix": "./dist/date/toUnix.js",
+        "./date/toUTC": "./dist/date/toUTC.js",
+        "./deep/define": "./dist/deep/define.js",
+        "./deep/freeze": "./dist/deep/freeze.js",
+        "./deep/get": "./dist/deep/get.js",
+        "./deep/seal": "./dist/deep/seal.js",
+        "./deep/set": "./dist/deep/set.js",
+        "./function/is": "./dist/function/is.js",
+        "./function/noop": "./dist/function/noop.js",
+        "./function/noopresolve": "./dist/function/noopresolve.js",
+        "./function/noopreturn": "./dist/function/noopreturn.js",
+        "./function/sleep": "./dist/function/sleep.js",
+        "./hash/fnv1A": "./dist/hash/fnv1A.js",
+        "./hash/guid": "./dist/hash/guid.js",
+        "./number/isAbove": "./dist/number/isAbove.js",
+        "./number/isAboveOrEqual": "./dist/number/isAboveOrEqual.js",
+        "./number/isBelow": "./dist/number/isBelow.js",
+        "./number/isBelowOrEqual": "./dist/number/isBelowOrEqual.js",
+        "./number/isBetween": "./dist/number/isBetween.js",
+        "./number/isIntegerAbove": "./dist/number/isIntegerAbove.js",
+        "./number/isIntegerAboveOrEqual": "./dist/number/isIntegerAboveOrEqual.js",
+        "./number/isIntegerBelow": "./dist/number/isIntegerBelow.js",
+        "./number/isIntegerBelowOrEqual": "./dist/number/isIntegerBelowOrEqual.js",
+        "./number/isIntegerBetween": "./dist/number/isIntegerBetween.js",
+        "./number/isInteger": "./dist/number/isInteger.js",
+        "./number/is": "./dist/number/is.js",
+        "./number/isNumericalNaN": "./dist/number/isNumericalNaN.js",
+        "./number/randomBetween": "./dist/number/randomBetween.js",
+        "./number/randomIntBetween": "./dist/number/randomIntBetween.js",
+        "./number/round": "./dist/number/round.js",
+        "./number/toPercentage": "./dist/number/toPercentage.js",
+        "./object/define": "./dist/object/define.js",
+        "./object/is": "./dist/object/is.js",
+        "./object/isNotEmpty": "./dist/object/isNotEmpty.js",
+        "./object/merge": "./dist/object/merge.js",
+        "./object/pick": "./dist/object/pick.js",
+        "./regexp/is": "./dist/regexp/is.js",
+        "./regexp/sanitize": "./dist/regexp/sanitize.js",
+        "./string/humanizeBytes": "./dist/string/humanizeBytes.js",
+        "./string/humanizeNumber": "./dist/string/humanizeNumber.js",
+        "./string/isBetween": "./dist/string/isBetween.js",
+        "./string/is": "./dist/string/is.js",
+        "./string/isNotEmpty": "./dist/string/isNotEmpty.js",
+        "./string/shorten": "./dist/string/shorten.js"
     },
     "devDependencies": {
         "@types/node": "^20.11.16",

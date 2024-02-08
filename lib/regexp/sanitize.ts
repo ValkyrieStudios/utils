@@ -10,7 +10,7 @@
  *
  * @returns Sanitized value
  */
-export default function sanitizeRegExp (val:string):string {
-    if (typeof val !== 'string') return '';
+export default function sanitizeRegExp (val:string):string|false {
+    if (typeof val !== 'string') return false;
     return val.trim().replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
 }

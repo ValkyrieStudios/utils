@@ -215,7 +215,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, '__proto__', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -224,7 +224,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, '__proto__.hacked', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -233,7 +233,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'hacked.__proto__.yup', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -242,7 +242,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'hacked.__proto__', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -253,7 +253,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'prototype', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -262,7 +262,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'prototype.hacked', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -271,7 +271,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'hacked.prototype.yup', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -280,7 +280,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'hacked.prototype', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -291,7 +291,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'constructor', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -300,7 +300,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'constructor.hacked', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -309,7 +309,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'hacked.constructor.yup', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });
@@ -318,7 +318,7 @@ describe('Deep - set', () => {
             const obj = {a: 'bi'};
             assert.throws(
                 () => deepSet(obj, 'hacked.constructor', 1),
-                new Error('Malicious path provided')
+                new TypeError('Malicious path provided')
             );
             assert.deepEqual(obj, {a: 'bi'});
         });

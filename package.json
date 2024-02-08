@@ -18,7 +18,7 @@
     "license": "MIT",
     "types": "./dist/index.d.ts",
     "scripts": {
-        "build": "npm run lint && npm run test && tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.types.json",
+        "build": "npm run lint && npm run test && tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.types.json && tsc -p ./tsconfig.types_all.json",
         "test": "node --require esbuild-register --test ./test/lib/**/*.ts ./test/lib/*.ts",
         "test:only": "node --require esbuild-register --test --test-only ./test/lib/**/*.ts ./test/lib/*.ts",
         "test:coverage": "nyc npm run test",

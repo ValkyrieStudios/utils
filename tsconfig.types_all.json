@@ -4,8 +4,8 @@
         "esModuleInterop": false,
         "sourceMap": false,
         "outDir": "dist/",
-        "outFile": "dist/index.d.ts",
         "declaration": true,
+        "removeComments": false,
         "emitDeclarationOnly": true,
         "noEmit": false
     }

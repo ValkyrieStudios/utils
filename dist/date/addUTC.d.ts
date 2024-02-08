@@ -1,0 +1,1 @@
+export default function addUTC(val: Date, amount?: number, key?: 'years' | 'year' | 'months' | 'month' | 'days' | 'day' | 'hours' | 'hour' | 'minutes' | 'minute' | 'seconds' | 'second' | 'milliseconds' | 'millisecond'): Date;

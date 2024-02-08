@@ -1,0 +1,1 @@
+export default function startOfUTC(val: Date, key?: 'year' | 'quarter' | 'month' | 'week' | 'week_sun' | 'week_mon' | 'week_tue' | 'week_wed' | 'week_thu' | 'week_fri' | 'week_sat' | 'day' | 'hour' | 'minute' | 'second' | 'millisecond'): Date;

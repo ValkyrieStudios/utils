@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable @typescript-eslint/ban-types */
+
 /**
  * Turn a function into a memoized function. An optional resolver function can be passed which allows custom cache key generation.
  *

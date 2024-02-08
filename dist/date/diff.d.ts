@@ -1,0 +1,1 @@
+export default function diff(val_a: Date, val_b: Date, key?: 'week' | 'weeks' | 'day' | 'days' | 'hour' | 'hours' | 'minute' | 'minutes' | 'second' | 'seconds' | 'millisecond' | 'milliseconds'): number;

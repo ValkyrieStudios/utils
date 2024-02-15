@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [11.4.0] - 2023-02-15
+## [11.4.0] - 2024-02-15
 ### Added
 - function/isAsync: Returns true when the passed value is an async function
 
@@ -15,13 +15,13 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: Upgrade @typescript-eslint/eslint-plugin to 7.0.1
 - Dev Dep: Upgrade @typescript-eslint/parser to 7.0.1
 
-## [11.3.0] - 2023-02-08
+## [11.3.0] - 2024-02-08
 ### Improved
 - dx-typings: array/dedupe now makes use of generics
 - dx-typings: function/noopresolve now makes use of generics
 - dx-typings: function/noopreturn now makes use of generics
 
-## [11.2.0] - 2023-02-08
+## [11.2.0] - 2024-02-08
 ### Added
 - Publish script
 

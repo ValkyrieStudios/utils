@@ -18,4 +18,8 @@ describe('Function - is', () => {
     it('Return true when passed a function value', () => {
         for (const el of CONSTANTS.IS_FUNCTION) assert.ok(isFunction(el));
     });
+
+    it('Return true when passed an async function value', () => {
+        for (const el of CONSTANTS.IS_ASYNC_FUNCTION) assert.ok(isFunction(el));
+    });
 });

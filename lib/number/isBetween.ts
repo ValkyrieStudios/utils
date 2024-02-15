@@ -11,7 +11,7 @@
  *
  * @returns Whether or not the value is a number between min and max inclusive
  */
-export default function isNumberBetween (val:any, min:number, max:number):boolean {
+export default function isNumberBetween (val:unknown, min:number, max:number):boolean {
     if (
         !Number.isFinite(val) ||
         !Number.isFinite(min) ||
@@ -19,5 +19,5 @@ export default function isNumberBetween (val:any, min:number, max:number):boolea
         min >= max
     ) return false;
 
-    return val >= min && val <= max;
+    return (val as number) >= min && (val as number) <= max;
 }

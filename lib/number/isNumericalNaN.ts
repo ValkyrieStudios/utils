@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is a numerical NaN
  */
-export default function isNumericalNaN (val:any):boolean {
+export default function isNumericalNaN (val:unknown):boolean {
     return Number.isNaN(val) || val === Infinity;
 }

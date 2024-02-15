@@ -12,7 +12,7 @@
  *
  * @returns Whether or not the value is a string of length between min and max inclusive
  */
-export default function isStringBetween (val:any, min:number, max:number, trimmed:boolean=true):boolean {
+export default function isStringBetween (val:unknown, min:number, max:number, trimmed:boolean=true):boolean {
     if (
         typeof val !== 'string' ||
         !Number.isFinite(min) ||

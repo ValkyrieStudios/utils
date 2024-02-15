@@ -43,7 +43,7 @@ interface mapReturn {
  * @returns KV-Map object
  */
 export default function mapPrimitive (
-    arr:any[],
+    arr:unknown[],
     opts:mapOptions = {}
 ):mapReturn {
     if (!Array.isArray(arr) || arr.length === 0) return {};
@@ -58,8 +58,8 @@ export default function mapPrimitive (
     for (const el of arr) {
         if (typeof el === 'string' && el.trim().length > 0) {
             map[el.trim()] = OPTS.valtrim ? el.trim() : el;
-        } else if (Number.isFinite(el)) {
-            map[OPTS.keyround === true ? Math.round(el) : el] = OPTS.valround === false
+        } else if (typeof el === 'number' && Number.isFinite(el)) {
+            map[`${OPTS.keyround === true ? Math.round(el) : el}`] = OPTS.valround === false
                 ? el
                 : OPTS.valround === true
                     ? Math.round(el)

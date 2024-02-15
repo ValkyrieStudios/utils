@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is a Date
  */
-export default function isDate (val:any):boolean {
-    return Object.prototype.toString.call(val) === '[object Date]' && !isNaN(val);
+export default function isDate (val:unknown):boolean {
+    return Object.prototype.toString.call(val) === '[object Date]' && !isNaN(val as number);
 }

@@ -5,10 +5,10 @@
  *
  * @param val - Value to verify
  * @param trimmed  - (default=true) Trim the string or not
- * 
+ *
  * @returns Whether or not the value is a string with content
  */
-export default function isNotEmptyString (val:any, trimmed:boolean=true):boolean {
+export default function isNotEmptyString (val:unknown, trimmed:boolean=true):boolean {
     if (typeof val !== 'string') return false;
     return (trimmed === true ? val.trim() : val).length > 0;
 }

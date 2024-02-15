@@ -8,6 +8,6 @@
  *
  * @returns Whether or not the value is below the reference
  */
-export default function isIntegerBelow (val:any, ref:number):boolean {
-    return !Number.isInteger(val) || !Number.isFinite(ref) ? false : val < ref;
+export default function isIntegerBelow (val:unknown, ref:number):boolean {
+    return !Number.isInteger(val) || !Number.isFinite(ref) ? false : (val as number) < ref;
 }

@@ -11,6 +11,7 @@ import isNotEmptyArray          from '../../lib/array/isNotEmpty';
 import isBoolean                from '../../lib/boolean/is';
 import isDate                   from '../../lib/date/is';
 import isFunction               from '../../lib/function/is';
+import isAsyncFunction          from '../../lib/function/isAsync';
 import isNumber                 from '../../lib/number/is';
 import isNumberBetween          from '../../lib/number/isBetween';
 import isNumberBelow            from '../../lib/number/isBelow';
@@ -96,6 +97,16 @@ describe('Is', () => {
 
         it('Should link to isFunction', () => {
             assert.equal(Is.Function, isFunction);
+        });
+    });
+
+    describe('AsyncFunction', () => {
+        it('Should have a AsyncFunction function', () => {
+            assert.equal(typeof Is.AsyncFunction, 'function');
+        });
+
+        it('Should link to isAsyncFunction', () => {
+            assert.equal(Is.AsyncFunction, isAsyncFunction);
         });
     });
 

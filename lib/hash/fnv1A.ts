@@ -18,7 +18,7 @@ const REPL_NULL     = 'null';
  *
  * @returns FNV1A hash of provided value
  */
-export default function fnv1A (data:any, offset:number = FNV_32):number {
+export default function fnv1A (data:unknown, offset:number = FNV_32):number {
     let hash:number = offset;
     let sanitized:any;
 

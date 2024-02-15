@@ -8,7 +8,7 @@
  *
  * @param val - Array to shuffle
  */
-export default function shuffle (arr:any[]):void {
+export default function shuffle (arr:unknown[]):void {
     if (!Array.isArray(arr) || arr.length === 0) return;
 
     for (let i = arr.length - 1; i > 0; i--) {

@@ -6,6 +6,7 @@ import isArray                  from './array/is';
 import isBoolean                from './boolean/is';
 import isDate                   from './date/is';
 import isFunction               from './function/is';
+import isAsyncFunction          from './function/isAsync';
 import isNumber                 from './number/is';
 import isNumberBetween          from './number/isBetween';
 import isNumberBelow            from './number/isBelow';
@@ -36,6 +37,7 @@ const Is = Object.freeze({
     Date                : isDate,
     //  Function --------------------------------------------------------------------------------------------
     Function            : isFunction,
+    AsyncFunction       : isAsyncFunction,
     //  Number ----------------------------------------------------------------------------------------------
     Num                 : isNumber,
     NumBetween          : isNumberBetween,

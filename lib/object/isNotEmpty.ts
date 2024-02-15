@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is an object with content
  */
-export default function isNotEmptyObject (val:any):boolean {
+export default function isNotEmptyObject (val:unknown):boolean {
     return Object.prototype.toString.call(val) === '[object Object]' && Object.keys(val).length > 0;
 }

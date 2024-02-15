@@ -4,6 +4,8 @@
 
 function testFunction ():void {}
 const testArrowFunction = ():void => {};
+async function testAsync ():Promise<void> {}
+const testAsyncArrowFunction = async ():Promise<void> => {};
 
 const IS_NUMERIC:number[]               = [1, 0.000001, 8e10, Math.PI, Number(1.12345), Number(Number.EPSILON)];
 const IS_INTEGER:number[]               = [-1, 100, -50, 99999, 20];
@@ -14,6 +16,7 @@ const IS_DATE:Date[]                    = [new Date()];
 const IS_ARRAY:number[][]               = [[0, 1, 2], new Array(1, 2, 3), new Array(5)];
 const IS_OBJECT:{[key:string]:any}[]    = [{bar:'foo'}, new Object(), Object.create(null), Object.create([])];
 const IS_FUNCTION:any[]                 = [testFunction, testArrowFunction];
+const IS_ASYNC_FUNCTION:unknown[]       = [testAsync, testAsyncArrowFunction];
 const IS_NULLABLE:unknown[]             = [NaN, undefined, null];
 
 const NOT_ARRAY:any[] = [
@@ -25,6 +28,7 @@ const NOT_ARRAY:any[] = [
     ...IS_DATE,
     ...IS_OBJECT,
     ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
 ];
 const NOT_NUMERIC:any[] = [
@@ -35,6 +39,7 @@ const NOT_NUMERIC:any[] = [
     ...IS_ARRAY,
     ...IS_OBJECT,
     ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
     new Number(1.12345),
     new Number(Number.EPSILON),
@@ -48,6 +53,7 @@ const NOT_STRING:any[] = [
     ...IS_ARRAY,
     ...IS_OBJECT,
     ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
 ];
 const NOT_OBJECT:any[] = [
@@ -59,6 +65,7 @@ const NOT_OBJECT:any[] = [
     ...IS_DATE,
     ...IS_ARRAY,
     ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
 ];
 const NOT_DATE:any[] = [
@@ -70,6 +77,7 @@ const NOT_DATE:any[] = [
     ...IS_ARRAY,
     ...IS_OBJECT,
     ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
 ];
 const NOT_FUNCTION:any[] = [
@@ -92,6 +100,7 @@ const NOT_BOOLEAN:any[] = [
     ...IS_ARRAY,
     ...IS_OBJECT,
     ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
 ];
 const NOT_REGEXP:any[] = [
@@ -103,6 +112,7 @@ const NOT_REGEXP:any[] = [
     ...IS_ARRAY,
     ...IS_OBJECT,
     ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
 ];
 
@@ -228,6 +238,7 @@ const CONSTANTS = {
     IS_ARRAY,
     IS_OBJECT,
     IS_FUNCTION,
+    IS_ASYNC_FUNCTION,
     IS_NULLABLE,
 };
 

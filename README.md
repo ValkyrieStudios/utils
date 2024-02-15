@@ -478,8 +478,11 @@ equal(new RegExp(/ab+c/, 'i'), /ab+c/i); // TRUE
 ```
 
 ### function
-- **isFunction(val:any)**
+- **isFunction(val:unknown)**
 Check if a variable is a Function
+
+- **isAsyncFunction(val:unknown):boolean**
+Check if a variable is an async function
 
 - **noop()**
 An empty function that can be used in (for example) piping

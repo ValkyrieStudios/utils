@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is a number
  */
-export default function isNumber (val:any):boolean {
+export default function isNumber (val:unknown):boolean {
     return Number.isFinite(val);
 }

@@ -38,7 +38,7 @@ interface joinOptions {
  * @returns Joined array as string
  */
 export default function join (
-    val:any[],
+    val:unknown[],
     opts:joinOptions={}
 ):string {
     if (!Array.isArray(val) || val.length === 0) return '';

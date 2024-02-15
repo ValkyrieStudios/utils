@@ -28,6 +28,7 @@ import deepGet                  from '../dist/deep/get';
 import deepSeal                 from '../dist/deep/seal';
 import deepSet                  from '../dist/deep/set';
 import isFunction               from '../dist/function/is';
+import isAsyncFunction          from '../dist/function/isAsync';
 import fnv1A                    from '../dist/hash/fnv1A';
 import guid                     from '../dist/hash/guid';
 import isNumber                 from '../dist/number/is';
@@ -615,6 +616,11 @@ for (const el of [
     {
         lbl: 'function/is',
         fn: () => isFunction(() => 'hello'),
+    },
+    //  Function - isAsync
+    {
+        lbl: 'function/isAsync',
+        fn: () => isAsyncFunction(async () => 'hello'),
     },
     //  Hash - fnv1A
     {

@@ -43,12 +43,12 @@ export default function join (
 ):string {
     if (!Array.isArray(val) || val.length === 0) return '';
 
-    const OPTS:joinOptions = Object.assign({
-        delim       : ' ',      //  Delimiter to join with
-        trim        : true,     //  Trim after joining
-        valtrim     : true,     //  Automatically trim string values
-        valround    : false,    //  Automatically round numbers
-    }, Object.prototype.toString.call(opts) === '[object Object]' ? opts : {});
+    const OPTS:joinOptions = {
+        delim   : ' ',
+        trim    : true,
+        valtrim : true,
+        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
+    };
 
     const filtered = [];
     for (const el of val) {

@@ -12,18 +12,16 @@ import fnv1A from '../hash/fnv1A';
 export default function dedupe <T> (val:T[]):T[] {
     if (!Array.isArray(val) || val.length === 0)  return [];
 
-    const map = new Map();
-    const acc = [];
+    const set = new Set<number>();
+    const acc:T[] = [];
     let hash;
     for (const item of val) {
         //  Calculate hash for item and continue if already seen
         hash = fnv1A(item);
-        if (map.has(hash)) continue;
+        if (set.has(hash)) continue;
 
-        //  Set seen hash to true
-        map.set(hash, true);
-
-        //  Push into accumulator
+        //  Add hash to set and accumulator
+        set.add(hash);
         acc.push(item);
     }
 

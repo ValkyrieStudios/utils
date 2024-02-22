@@ -44,9 +44,10 @@ export default function mapFn (
         typeof fn !== 'function'
     ) return {};
 
-    const OPTS = Object.assign({
+    const OPTS:mapOptions= {
         merge: false,
-    }, Object.prototype.toString.call(opts) === '[object Object]' ? opts : {});
+        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
+    };
 
     const map:{
         [key:string]:{[key:string]:any}
@@ -63,7 +64,7 @@ export default function mapFn (
         hash = `${hash}`;
 
         if (OPTS.merge === true && map.hasOwnProperty(hash)) {
-            map[hash] = Object.assign(map[hash], el);
+            map[hash] = {...map[hash], ...el};
         } else {
             map[hash] = el;
         }

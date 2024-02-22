@@ -48,11 +48,12 @@ export default function mapPrimitive (
 ):mapReturn {
     if (!Array.isArray(arr) || arr.length === 0) return {};
 
-    const OPTS = Object.assign({
+    const OPTS:mapOptions = {
         valtrim: false,
         valround: false,
         keyround: false,
-    }, Object.prototype.toString.call(opts) === '[object Object]' ? opts : {});
+        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
+    };
 
     const map:mapReturn = {};
     for (const el of arr) {

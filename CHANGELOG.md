@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- array/dedupe: Reduce memory footprint of dedupe when working on larger arrays by using a set over a map
+- array/mapFn: Slight performance improvement (~1%) due to spread vs Object.assign (in favor of spread)
+- array/mapKey: Slight performance improvement (~5%) due to spread vs Object.assign (in favor of spread)
+- array/sort: Slight performance improvement (~5%) due to push vs spread (in favor of push) as well as removing one internal operation 
+- object/merge: Decent performance improvement (~20%) due to simplication of code in favor of 'for ... in' over Object.keys reducer
+
 ## [11.4.0] - 2024-02-15
 ### Added
 - function/isAsync: Returns true when the passed value is an async function

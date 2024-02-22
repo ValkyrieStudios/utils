@@ -47,9 +47,10 @@ export default function mapKey (
     const key_s = key.trim();
     if (key_s.length === 0) return {};
 
-    const OPTS = Object.assign({
+    const OPTS:mapOptions = {
         merge: false,
-    }, Object.prototype.toString.call(opts) === '[object Object]' ? opts : {});
+        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
+    };
 
     const map:kvMap = {};
     for (const el of arr) {
@@ -59,7 +60,7 @@ export default function mapKey (
         ) continue;
 
         if (OPTS.merge === true && map.hasOwnProperty(el[key_s])) {
-            map[el[key_s]] = Object.assign(map[el[key_s]], el);
+            map[el[key_s]] = {...map[el[key_s]], ...el};
         } else {
             map[el[key_s]] = el;
         }

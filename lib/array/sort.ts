@@ -128,8 +128,8 @@ export default function sort (
     };
 
     //  Prepare for sort
-    const prepared_arr    = [];
-    const nokey_arr       = [];
+    const prepared_arr  = [];
+    const nokey_arr     = [];
     if (typeof by === 'string') {
         const by_s = by.trim();
         if (by_s.length === 0) throw new Error('Sort by as string should contain content');
@@ -152,7 +152,7 @@ export default function sort (
             if (key === undefined) {
                 nokey_arr.push(el);
             } else {
-                prepared_arr.push({t: by(el), el});
+                prepared_arr.push({t: key, el});
             }
         }
     } else {
@@ -163,11 +163,15 @@ export default function sort (
     quickSort(prepared_arr);
     if (dir === 'desc') prepared_arr.reverse();
 
+    const result = [];
     if (OPTS.nokey_hide) {
-        return prepared_arr.map(obj => obj.el);
+        for (const obj of prepared_arr) result.push(obj.el);
     } else if (OPTS.nokey_atend) {
-        return [...prepared_arr.map(obj => obj.el), ...nokey_arr];
+        for (const obj of prepared_arr) result.push(obj.el);
+        for (const el of nokey_arr) result.push(el);
     } else {
-        return [...nokey_arr, ...prepared_arr.map(obj => obj.el)];
+        for (const el of nokey_arr) result.push(el);
+        for (const obj of prepared_arr) result.push(obj.el);
     }
+    return result;
 }

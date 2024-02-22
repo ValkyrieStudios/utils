@@ -19,19 +19,28 @@ function merge (
         Object.prototype.toString.call(source) !== '[object Object]'
     ) throw new TypeError('Please pass a target and object to merge');
 
-    return Object.keys(target).reduce((acc:{[key:string]:any}, key) => {
+    const acc:{[key:string]:any} = {};
+    for (const key in target) {
+        if (!Object.prototype.hasOwnProperty.call(target, key)) continue;
+
         if (
-            Object.prototype.toString.call(target[key]) === '[object Object]' &&
-            !Array.isArray(target[key])
+            typeof target[key] === 'object' &&
+            target[key] !== null &&
+            !Array.isArray(target[key]) &&
+            Object.prototype.hasOwnProperty.call(source, key) &&
+            typeof source[key] === 'object' &&
+            source[key] !== null &&
+            !Array.isArray(source[key])
         ) {
-            acc[key] = source[key] ? merge(target[key], source[key]) : target[key];
+            acc[key] = merge(target[key], source[key]);
         } else {
             acc[key] = Object.prototype.hasOwnProperty.call(source, key)
                 ? source[key]
                 : target[key];
         }
-        return acc;
-    }, {});
+    }
+
+    return acc;
 }
 
 export default merge;

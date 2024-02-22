@@ -26,13 +26,13 @@ export default function fnv1A (data:unknown, offset:number = FNV_32):number {
     if (typeof data === 'string') {
         sanitized = data;
     } else if (Number.isFinite(data)) {
-        sanitized = `${data}`;
+        sanitized = String(data);
     } else if (Array.isArray(data) || Object.prototype.toString.call(data) === '[object Object]') {
         sanitized = JSON.stringify(data);
     } else if (Object.prototype.toString.call(data) === '[object RegExp]') {
         sanitized = data.toString();
     } else if (data instanceof Date) {
-        sanitized = `${data.getTime()}`;
+        sanitized = String(data.getTime());
     } else if (Number.isNaN(data) || data === Infinity) {
         sanitized = REPL_NAN;
     } else if (data === false) {
@@ -48,7 +48,8 @@ export default function fnv1A (data:unknown, offset:number = FNV_32):number {
     }
 
     //  Calculate the hash of the sanitized data by looping over each char
-    for (let i = 0; i < sanitized.length; i++) {
+    const len = sanitized.length;
+    for (let i = 0; i < len; i++) {
         hash ^= sanitized.charCodeAt(i);
 
         /**

@@ -12,6 +12,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - array/mapKey: Slight performance improvement (~5%) due to spread vs Object.assign (in favor of spread)
 - array/sort: Slight performance improvement (~5%) due to push vs spread (in favor of push) as well as removing one internal operation 
 - object/merge: Decent performance improvement (~20%) due to simplication of code in favor of 'for ... in' over Object.keys reducer
+- Dev Dep: Upgrade @types/node to 20.11.20
+- Dev Dep: Upgrade @typescript-eslint/eslint-plugin to 7.0.2
+- Dev Dep: Upgrade @typescript-eslint/parser to 7.0.2
 
 ## [11.4.0] - 2024-02-15
 ### Added

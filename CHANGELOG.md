@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [11.5.0] - 2024-02-22
 ### Improved
 - array/dedupe: Reduce memory footprint of dedupe when working on larger arrays by using a set over a map
 - array/mapFn: Slight performance improvement (~1%) due to spread vs Object.assign (in favor of spread)

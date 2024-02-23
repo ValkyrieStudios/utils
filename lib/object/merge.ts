@@ -1,5 +1,7 @@
 'use strict';
 
+const PROTO_OBJ = '[object Object]';
+
 /**
  * Deep merge two objects together while ensuring nested objects also get merged,
  * take note: this does not merge onto passed objects by reference but instead
@@ -15,8 +17,8 @@ function merge (
     source:{[key:string]:any} = {}
 ):{[key:string]:any} {
     if (
-        Object.prototype.toString.call(target) !== '[object Object]' ||
-        Object.prototype.toString.call(source) !== '[object Object]'
+        Object.prototype.toString.call(target) !== PROTO_OBJ ||
+        Object.prototype.toString.call(source) !== PROTO_OBJ
     ) throw new TypeError('Please pass a target and object to merge');
 
     const acc:{[key:string]:any} = {};
@@ -24,13 +26,9 @@ function merge (
         if (!Object.prototype.hasOwnProperty.call(target, key)) continue;
 
         if (
-            typeof target[key] === 'object' &&
-            target[key] !== null &&
-            !Array.isArray(target[key]) &&
+            Object.prototype.toString.call(target[key]) === PROTO_OBJ && 
             Object.prototype.hasOwnProperty.call(source, key) &&
-            typeof source[key] === 'object' &&
-            source[key] !== null &&
-            !Array.isArray(source[key])
+            Object.prototype.toString.call(source[key]) === PROTO_OBJ 
         ) {
             acc[key] = merge(target[key], source[key]);
         } else {

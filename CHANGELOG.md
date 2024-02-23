@@ -8,6 +8,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - object/merge: Further performance improvement (~8%) due to further simplification of code by using proto object checks
+- object/pick: Slight performance improvement (~3%) due to simplication of code being able to remove an internal check
+
 ## [11.5.0] - 2024-02-22
 ### Improved
 - array/dedupe: Reduce memory footprint of dedupe when working on larger arrays by using a set over a map

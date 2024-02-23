@@ -22,24 +22,20 @@ export default function pick (
     ) throw new TypeError('Please pass an object to pick from and a keys array');
 
     const map:{[key:string]:any} = {};
-    let key_deep = false;
     let val;
+    let sanitized;
     for (const key of keys) {
         if (typeof key !== 'string') continue;
 
-        const sanitized = key.trim();
+        sanitized = key.trim();
         if (sanitized.length === 0) continue;
 
-        key_deep = /(\.|\[)/g.test(sanitized);
-        val = key_deep
-            ? deepGet(obj, sanitized)
-            : obj[sanitized];
-        if (val === undefined) continue;
-
-        if (key_deep) {
+        if (/(\.|\[)/g.test(sanitized)) {
+            val = deepGet(obj, sanitized);
+            if (val === undefined) continue;
             deepSet(map, sanitized, val);
-        } else {
-            map[sanitized] = val;
+        } else if (obj[sanitized] !== undefined) {
+            map[sanitized] = obj[sanitized];
         }
     }
     return map;

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- object/merge: Further simplication of merge leading to further performance improvements
+
 ## [11.6.0] - 2024-02-23
 ### Improved
 - object/merge: Further performance improvement (~8%) due to further simplification of code by using proto object checks

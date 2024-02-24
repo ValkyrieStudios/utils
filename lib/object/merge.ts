@@ -23,12 +23,9 @@ function merge (
 
     const acc:{[key:string]:any} = {};
     for (const key in target) {
-        if (!Object.prototype.hasOwnProperty.call(target, key)) continue;
-
         if (
-            Object.prototype.toString.call(target[key]) === PROTO_OBJ && 
-            Object.prototype.hasOwnProperty.call(source, key) &&
-            Object.prototype.toString.call(source[key]) === PROTO_OBJ 
+            Object.prototype.toString.call(target[key]) === PROTO_OBJ &&
+            Object.prototype.toString.call(source[key]) === PROTO_OBJ
         ) {
             acc[key] = merge(target[key], source[key]);
         } else {

@@ -9,7 +9,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - deep/freeze: Now works with generics to ensure proper typing and flagging as Readonly
 - deep/seal: Now works with generics to ensure proper typing
-- object/merge: Further simplication of merge leading to further performance improvements
+- object/merge: Further simplication of merge logic leading to minor performance improvements
+- Dev Dep: Upgrade @typescript-eslint/eslint-plugin to 7.1.0
+- Dev Dep: Upgrade @typescript-eslint/parser to 7.1.0
+- Dev Dep: Upgrade eslint to 8.57.0
 
 ## [11.6.0] - 2024-02-23
 ### Improved

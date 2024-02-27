@@ -2,6 +2,10 @@
 
 type deepInput = {[key:string]:any}|{[key:string]:any}[]|any[];
 
+type Sealed<T> = {
+    [K in keyof T]: Sealed<T[K]>
+}
+
 function deep (obj:deepInput) {
     if (Array.isArray(obj)) {
         for (const el of obj) deep(el);
@@ -23,10 +27,10 @@ function deep (obj:deepInput) {
  *
  * @returns Deeply sealed object
  */
-export default function deepSeal (obj:deepInput) {
+export default function deepSeal <T extends deepInput> (obj:T):Sealed<T> {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
     ) throw new TypeError('Only objects/arrays can be sealed');
-    return deep(obj);
+    return deep(obj) as Sealed<T>;
 }

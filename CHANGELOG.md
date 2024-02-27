@@ -7,6 +7,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- deep/freeze: Now works with generics to ensure proper typing and flagging as Readonly
+- deep/seal: Now works with generics to ensure proper typing
 - object/merge: Further simplication of merge leading to further performance improvements
 
 ## [11.6.0] - 2024-02-23

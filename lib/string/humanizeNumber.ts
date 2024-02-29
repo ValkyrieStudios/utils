@@ -103,10 +103,8 @@ export default function humanizeNumber (val:number|string, options:humanizeNumbe
     let postfix = '';
     if (Array.isArray(OPTS.units) && OPTS.units.length) {
         let unit_ix = 0;
-        while (normalized >= OPTS.divider) {
-            unit_ix++;
-            normalized = normalized/OPTS.divider;
-            if (unit_ix === OPTS.units.length - 1) break;
+        for (unit_ix; normalized >= OPTS.divider && unit_ix < OPTS.units.length - 1; unit_ix++) {
+            normalized /= OPTS.divider;
         }
         postfix = OPTS.units[unit_ix];
     }

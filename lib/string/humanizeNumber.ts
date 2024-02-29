@@ -61,13 +61,13 @@ export default function humanizeNumber (val:number|string, options:humanizeNumbe
         delim: has_opts && typeof options.delim === 'string'
             ? options.delim
             : ',',
-        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length > 0
+        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length
             ? options.separator
             : '.',
         precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0
             ? options.precision
             : 2,
-        units: has_opts && ((Array.isArray(options.units) && options.units.length > 0) || options.units === false)
+        units: has_opts && ((Array.isArray(options.units) && options.units.length) || options.units === false)
             ? options.units ? options.units.filter(isString) : false
             : ['', 'k', 'm', 'b', 't', 'q'],
         //  Have to have at least bigger than 1 to not end in infinite loop
@@ -90,7 +90,7 @@ export default function humanizeNumber (val:number|string, options:humanizeNumbe
 
     //  If not a valid value or 0, return
     if (!Number.isFinite(normalized) || normalized === 0) {
-        return `0${Array.isArray(OPTS.units) && OPTS.units.length > 0 ? OPTS.units[0] : ''}`;
+        return `0${Array.isArray(OPTS.units) && OPTS.units.length ? OPTS.units[0] : ''}`;
     }
 
     //  Determine sign
@@ -101,7 +101,7 @@ export default function humanizeNumber (val:number|string, options:humanizeNumbe
 
     //  At each step, divide by divider, based on that we get the unit size
     let postfix = '';
-    if (Array.isArray(OPTS.units) && OPTS.units.length > 0) {
+    if (Array.isArray(OPTS.units) && OPTS.units.length) {
         let unit_ix = 0;
         while (normalized >= OPTS.divider) {
             unit_ix++;

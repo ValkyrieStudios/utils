@@ -46,7 +46,7 @@ export default function mapPrimitive (
     arr:unknown[],
     opts:mapOptions = {}
 ):mapReturn {
-    if (!Array.isArray(arr) || arr.length === 0) return {};
+    if (!Array.isArray(arr) || !arr.length) return {};
 
     const OPTS:mapOptions = {
         valtrim: false,
@@ -57,7 +57,7 @@ export default function mapPrimitive (
 
     const map:mapReturn = {};
     for (const el of arr) {
-        if (typeof el === 'string' && el.trim().length > 0) {
+        if (typeof el === 'string' && el.trim().length) {
             map[el.trim()] = OPTS.valtrim ? el.trim() : el;
         } else if (typeof el === 'number' && Number.isFinite(el)) {
             map[`${OPTS.keyround === true ? Math.round(el) : el}`] = OPTS.valround === false

@@ -40,12 +40,12 @@ export default function mapKey (
     opts:mapOptions={}
 ):kvMap {
     if (
-        (!Array.isArray(arr) || arr.length === 0) ||
+        (!Array.isArray(arr) || !arr.length) ||
         typeof key !== 'string'
     ) return {};
 
     const key_s = key.trim();
-    if (key_s.length === 0) return {};
+    if (!key_s.length) return {};
 
     const OPTS:mapOptions = {
         merge: false,

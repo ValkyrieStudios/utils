@@ -9,7 +9,7 @@
  * @param val - Array to shuffle
  */
 export default function shuffle (arr:unknown[]):void {
-    if (!Array.isArray(arr) || arr.length === 0) return;
+    if (!Array.isArray(arr) || !arr.length) return;
 
     for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));  //  Random index from 0 to i

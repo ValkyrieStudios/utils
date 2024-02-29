@@ -56,7 +56,7 @@ export default function deepSet (
 
     //  Check if path contains content
     const path_s = path.trim();
-    if (path_s.length === 0) throw new TypeError('No path was given');
+    if (!path_s.length) throw new TypeError('No path was given');
 
     //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
     const parts = path_s

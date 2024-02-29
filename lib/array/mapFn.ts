@@ -40,7 +40,7 @@ export default function mapFn (
     opts:mapOptions={}
 ):kvMap {
     if (
-        (!Array.isArray(arr) || arr.length === 0) ||
+        (!Array.isArray(arr) || !arr.length) ||
         typeof fn !== 'function'
     ) return {};
 
@@ -58,7 +58,7 @@ export default function mapFn (
 
         //  Get hash
         hash = fn(el);
-        if (!Number.isFinite(hash) && !(typeof hash === 'string' && hash.trim().length > 0)) continue;
+        if (!Number.isFinite(hash) && !(typeof hash === 'string' && hash.trim().length)) continue;
 
         //  Normalize hash to string
         hash = `${hash}`;

@@ -112,7 +112,7 @@ export default function sort (
     dir:'asc'|'desc' = 'asc',
     opts:sortOptions = {}
 ) {
-    if (!Array.isArray(arr) || arr.length === 0) return [];
+    if (!Array.isArray(arr) || !arr.length) return [];
 
     //  Check dir
     if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
@@ -132,7 +132,7 @@ export default function sort (
     const nokey_arr     = [];
     if (typeof by === 'string') {
         const by_s = by.trim();
-        if (by_s.length === 0) throw new Error('Sort by as string should contain content');
+        if (!by_s.length) throw new Error('Sort by as string should contain content');
 
         for (const el of arr) {
             if (!OPTS.filter_fn(el)) continue;

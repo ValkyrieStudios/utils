@@ -18,7 +18,7 @@ export default function pick (
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' ||
         !Array.isArray(keys) ||
-        keys.length === 0
+        !keys.length
     ) throw new TypeError('Please pass an object to pick from and a keys array');
 
     const map:{[key:string]:any} = {};
@@ -28,7 +28,7 @@ export default function pick (
         if (typeof key !== 'string') continue;
 
         sanitized = key.trim();
-        if (sanitized.length === 0) continue;
+        if (!sanitized.length) continue;
 
         if (/(\.|\[)/g.test(sanitized)) {
             val = deepGet(obj, sanitized);

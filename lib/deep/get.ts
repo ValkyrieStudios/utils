@@ -37,7 +37,7 @@ export default function deepGet (
 
     //  Check if path contains content
     const path_s = path.trim();
-    if (path_s.length === 0) throw new TypeError('No path was given');
+    if (!path_s.length) throw new TypeError('No path was given');
 
     //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
     const parts = path_s
@@ -47,13 +47,13 @@ export default function deepGet (
         .split('.');
 
     //  Return obj if no parts were passed or if only 1 part and get_parent is true
-    if (parts.length === 0 || (parts.length === 1 && get_parent)) return obj;
+    if (!parts.length || (parts.length === 1 && get_parent)) return obj;
 
     //  Cut last part if get_parent
     if (get_parent) parts.pop();
 
     let cursor = obj;
-    while (parts.length > 0) {
+    while (parts.length) {
         if (Array.isArray(cursor)) {
             const ix = parseInt(parts.shift());
             if (!Number.isInteger(ix) || ix < 0 || ix > (cursor.length - 1)) return undefined;
@@ -67,7 +67,7 @@ export default function deepGet (
         //  If we have more parts and cursor is not an array or object -> immediately return undefined
         if (
             (!Array.isArray(cursor) && Object.prototype.toString.call(cursor) !== '[object Object]') &&
-            parts.length > 0
+            parts.length
         ) return undefined;
     }
 

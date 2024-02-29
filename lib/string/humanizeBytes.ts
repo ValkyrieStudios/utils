@@ -48,13 +48,13 @@ export default function humanizeBytes (val:number|string, options:humanizeBytesO
         delim: has_opts && typeof options.delim === 'string'
             ? options.delim
             : ',',
-        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length > 0
+        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length
             ? options.separator
             : '.',
         precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0
             ? options.precision
             : 2,
-        units: has_opts && Array.isArray(options.units) && options.units.length > 0
+        units: has_opts && Array.isArray(options.units) && options.units.length
             ? options.units.filter(el => isNotEmptyString(el))
             : [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'],
         divider: 1024,

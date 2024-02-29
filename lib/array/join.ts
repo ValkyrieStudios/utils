@@ -41,7 +41,7 @@ export default function join (
     val:unknown[],
     opts:joinOptions={}
 ):string {
-    if (!Array.isArray(val) || val.length === 0) return '';
+    if (!Array.isArray(val) || !val.length) return '';
 
     const OPTS:joinOptions = {
         delim   : ' ',
@@ -52,7 +52,7 @@ export default function join (
 
     const filtered = [];
     for (const el of val) {
-        if (typeof el === 'string' && el.trim().length > 0) {
+        if (typeof el === 'string' && el.trim().length) {
             filtered.push(OPTS.valtrim === true ? el.trim() : el);
         } else if (Number.isFinite(el)) {
             filtered.push(Number.isFinite(OPTS.valround) ? round(el as number, OPTS.valround) : el);

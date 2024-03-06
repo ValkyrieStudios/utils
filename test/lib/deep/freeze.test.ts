@@ -7,7 +7,7 @@ import * as assert                  from 'node:assert/strict';
 import CONSTANTS                    from '../../constants';
 import deepFreeze                   from '../../../lib/deep/freeze';
 
-describe.only('Deep - get', () => {
+describe('Deep - get', () => {
     let subject;
     beforeEach(() => {
         subject = deepFreeze({

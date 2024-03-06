@@ -7,7 +7,7 @@ import * as assert                  from 'node:assert/strict';
 import CONSTANTS                    from '../../constants';
 import deepGet                      from '../../../lib/deep/get';
 
-describe.only('Deep - get', () => {
+describe('Deep - get', () => {
     let subject;
     beforeEach(() => {
         subject = {

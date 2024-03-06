@@ -48,27 +48,27 @@ function runIntl (
  * Take Note: RegExp memoization is done ahead of time to ensure no regex compilation needs to happen during formatting
  */
 const Tokens:TokenTuple[] = ([
-    ['YYYY', d => `${d.getUTCFullYear()}`],                             /* Full Year: eg (2021) */
-    ['Q', d => `${(d.getUTCMonth() + 3) / 3}`],                         /* Quarters of the year: eg (1 2 3 4) */
+    ['YYYY', d => d.getUTCFullYear()],                                  /* Full Year: eg (2021) */
+    ['Q', d => (d.getUTCMonth() + 3) / 3],                              /* Quarters of the year: eg (1 2 3 4) */
     ['MMMM', (d, loc) => runIntl(loc, 'MMMM', {month: 'long'}, d)],     /* Month in full: eg (January February ... November December) */
     ['MMM', (d, loc) => runIntl(loc, 'MMM', {month: 'short'}, d)],      /* Month as 3 char: eg (Jan Feb ... Nov Dec) */
     ['MM', d => `${d.getUTCMonth() + 1}`.padStart(2, '0')],             /* Month as 2 char: eg (01 02 .. 11 12) */
-    ['M', d => `${d.getUTCMonth() + 1}`],                               /* Month as pure digit: eg (1 2 .. 11 12) */
+    ['M', d => d.getUTCMonth() + 1],                                    /* Month as pure digit: eg (1 2 .. 11 12) */
     ['DD', d => `${d.getUTCDate()}`.padStart(2, '0')],                  /* Day of month as 2 char: eg (01 02 .. 30 31) */
-    ['D', d => `${d.getUTCDate()}`],                                    /* Day of month as 1 char: eg (1 2 .. 30 31) */
+    ['D', d => d.getUTCDate()],                                         /* Day of month as 1 char: eg (1 2 .. 30 31) */
     ['dddd', (d, loc) => runIntl(loc, 'dddd', {weekday: 'long'}, d)],   /* Day of week as 3 char: eg (Sun Mon ... Fri Sat) */
-    ['ddd', (d, loc) => runIntl(loc, 'ddd', {weekday: 'short'}, d)],    /* Day of week in full: eg (Sunday Monday ... Friday Saturday) */
+    ['ddd', (d, loc) => runIntl(loc, 'ddd', {weekday: 'short'}, d)],    /* Day of week in full: eg (Sunday Monday ... Saturday) */
     ['HH', d => `${d.getUTCHours()}`.padStart(2, '0')],                 /* Hours as 2-char: eg (00 01 .. 22 23) */
-    ['H', d => `${d.getUTCHours()}`],                                   /* Hours as pure digit: eg (0 1 .. 22 23) */
+    ['H', d => d.getUTCHours()],                                        /* Hours as pure digit: eg (0 1 .. 22 23) */
     ['hh', d => `${((d.getUTCHours()+11)%12)+1}`.padStart(2, '0')],     /* Hours in 12 hour time as 2 char: eg (01 02 ... 11 12) */
-    ['h', d => `${((d.getUTCHours()+11)%12)+1}`],                       /* Hours in 12 hour time as pure digit: eg (1 2 ... 11 12) */
+    ['h', d => ((d.getUTCHours()+11)%12)+1],                            /* Hours in 12 hour time as pure digit: eg (1 2 ... 11 12) */
     ['mm', d => `${d.getUTCMinutes()}`.padStart(2, '0')],               /* Minutes as 2-char: eg (00 01 .. 58 59) */
-    ['m', d => `${d.getUTCMinutes()}`],                                 /* Minutes as pure digit: eg (0 1 .. 58 59) */
+    ['m', d => d.getUTCMinutes()],                                      /* Minutes as pure digit: eg (0 1 .. 58 59) */
     ['ss', d => `${d.getUTCSeconds()}`.padStart(2, '0')],               /* Seconds as 2-char: eg (00 01 .. 58 59) */
-    ['s', d => `${d.getUTCSeconds()}`],                                 /* Seconds as pure digit: eg (0 1 .. 58 59) */
+    ['s', d => d.getUTCSeconds()],                                      /* Seconds as pure digit: eg (0 1 .. 58 59) */
     ['SSS', d => `${d.getUTCMilliseconds()}`.padStart(3, '0')],         /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
-    ['X', d => `${Math.floor(d.valueOf()/1000)}`],                      /* Unix Timestamp */
-    ['x', d => `${Math.floor(d.valueOf())}`],                           /* Unix Millisecond Timestamp */
+    ['X', d => Math.floor(d.valueOf()/1000)],                           /* Unix Timestamp */
+    ['x', d => Math.floor(d.valueOf())],                                /* Unix Millisecond Timestamp */
     ['A', d => d.getUTCHours() < 12 ? 'AM' : 'PM'],                     /* Uppercase AM/PM */
     ['a', d => d.getUTCHours() < 12 ? 'am' : 'pm'],                     /* Lowercase AM/PM */
     ['G', d => d.getUTCFullYear() >= 0 ? 'AD' : 'BC'],                  /* AD or BC */
@@ -118,9 +118,11 @@ export default function format (val:Date, spec:string, locale:string = 'en'):str
     }
 
     /* Run format functons for found tokens*/
-    for (const el of Tokens) {
-        if (formatted_string.indexOf(el[0]) < 0) continue;
-        formatted_string = formatted_string.replace(el[1], el[2](val, locale));
+    let cursor;
+    for (let i = 0; i < Tokens.length; i++) {
+        cursor = Tokens[i];
+        if (formatted_string.indexOf(cursor[0]) < 0) continue;
+        formatted_string = formatted_string.replace(cursor[1], cursor[2](val, locale));
     }
 
     /* Re-insert escaped tokens */

@@ -177,4 +177,68 @@ describe('Date - format', () => {
             }
         });
     });
+
+    describe('token:MM', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2019-02-01T05:20:19+02:00'), '02'],
+                [new Date('2007-12-31T23:59:59+02:00'), '12'],
+                [new Date('2007-12-31T23:59:59-02:00'), '01'],
+                [new Date('2023-04-23T12:23:34'), '04'],
+                [new Date('2023-08-23T12:23:34'), '08'],
+                [new Date('2009-10-01T08:40:42'), '10'],
+                [new Date('2023-09-23T12:23:34'), '09'],
+                [new Date('2023-11-05T23:23:34'), '11'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'MM'), el[1]);
+            }
+        });
+
+        it('Should not take locale into account', () => {
+            for (const el of [
+                [new Date('2019-02-01T05:20:19+02:00'), '02'],
+                [new Date('2007-12-31T23:59:59+02:00'), '12'],
+                [new Date('2007-12-31T23:59:59-02:00'), '01'],
+                [new Date('2023-04-23T12:23:34'), '04'],
+                [new Date('2023-08-23T12:23:34'), '08'],
+                [new Date('2009-10-01T08:40:42'), '10'],
+                [new Date('2023-09-23T12:23:34'), '09'],
+                [new Date('2023-11-05T23:23:34'), '11'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'MM', 'fr'), el[1]);
+            }
+        });
+    });
+
+    describe('token:M', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2019-02-01T05:20:19+02:00'), '2'],
+                [new Date('2007-12-31T23:59:59+02:00'), '12'],
+                [new Date('2007-12-31T23:59:59-02:00'), '1'],
+                [new Date('2023-04-23T12:23:34'), '4'],
+                [new Date('2023-08-23T12:23:34'), '8'],
+                [new Date('2009-10-01T08:40:42'), '10'],
+                [new Date('2023-09-23T12:23:34'), '9'],
+                [new Date('2023-11-05T23:23:34'), '11'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'M'), el[1]);
+            }
+        });
+
+        it('Should not take locale into account', () => {
+            for (const el of [
+                [new Date('2019-02-01T05:20:19+02:00'), '2'],
+                [new Date('2007-12-31T23:59:59+02:00'), '12'],
+                [new Date('2007-12-31T23:59:59-02:00'), '1'],
+                [new Date('2023-04-23T12:23:34'), '4'],
+                [new Date('2023-08-23T12:23:34'), '8'],
+                [new Date('2009-10-01T08:40:42'), '10'],
+                [new Date('2023-09-23T12:23:34'), '9'],
+                [new Date('2023-11-05T23:23:34'), '11'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'M', 'fr'), el[1]);
+            }
+        });
+    });
 });

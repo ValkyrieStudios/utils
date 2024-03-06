@@ -18,8 +18,8 @@
     "license": "MIT",
     "scripts": {
         "build": "npm run lint && npm run test && tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.types.json && tsc -p ./tsconfig.types_all.json",
-        "test": "node --require esbuild-register --test ./test/lib/**/*.ts ./test/lib/*.ts",
-        "test:only": "node --require esbuild-register --test --test-only ./test/lib/**/*.ts ./test/lib/*.ts",
+        "test": "node --icu-data-dir=node_modules/full-icu --require esbuild-register --test ./test/lib/**/*.ts ./test/lib/*.ts",
+        "test:only": "node --icu-data-dir=node_modules/full-icu --require esbuild-register --test --test-only ./test/lib/**/*.ts ./test/lib/*.ts",
         "test:coverage": "nyc npm run test",
         "lint": "npm run lint:src && npm run lint:test",
         "lint:src": "./node_modules/.bin/eslint --ext .js,.ts,.mjs ./lib",
@@ -41,6 +41,7 @@
         "@typescript-eslint/parser": "^7.1.0",
         "esbuild-register": "^3.5.0",
         "eslint": "^8.57.0",
+        "full-icu": "^1.5.0",
         "nyc": "^15.1.0",
         "typescript": "^5.3.3"
     }

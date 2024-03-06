@@ -9,6 +9,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Dev Dep: full-icu (used for format testing)
 
+### Improved
+- Dev Dep: Upgrade @types/node to 20.11.25
+- Dev Dep: Upgrade @typescript-eslint/eslint-plugin to 7.1.1
+- Dev Dep: Upgrade @typescript-eslint/parser to 7.1.1
+
 ## [11.7.0] - 2024-02-27
 ### Improved
 - deep/freeze: Now works with generics to ensure proper typing and flagging as Readonly

@@ -128,7 +128,6 @@ export default function format (val:Date, spec:string, locale:string = 'en'):str
      */
     let spec_chain:TokenTuple[] = [];
     if (!spec_cache.has(spec)) {
-        spec_chain = [];
         let cursor;
         for (let i = 0; i < Tokens.length; i++) {
             cursor = Tokens[i];

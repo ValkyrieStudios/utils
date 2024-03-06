@@ -52,7 +52,7 @@ function runIntl (
  */
 const Tokens:TokenTuple[] = ([
     ['YYYY', d => d.getUTCFullYear()],                                  /* Full Year: eg (2021) */
-    ['Q', d => (d.getUTCMonth() + 3) / 3],                              /* Quarters of the year: eg (1 2 3 4) */
+    ['Q', d => Math.floor((d.getUTCMonth() + 3) / 3)],                  /* Quarters of the year: eg (1 2 3 4) */
     ['MMMM', (d, loc) => runIntl(loc, 'MMMM', {month: 'long'}, d)],     /* Month in full: eg (January February ... November December) */
     ['MMM', (d, loc) => runIntl(loc, 'MMM', {month: 'short'}, d)],      /* Month as 3 char: eg (Jan Feb ... Nov Dec) */
     ['MM', d => `${d.getUTCMonth() + 1}`.padStart(2, '0')],             /* Month as 2 char: eg (01 02 .. 11 12) */

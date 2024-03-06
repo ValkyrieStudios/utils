@@ -75,8 +75,8 @@ const Tokens:TokenTuple[] = ([
     ['Z', d => {                                                        /* Timezone offset, eg: +00:00 */
         const offset    = d.getTimezoneOffset();
         const sign      = offset > 0 ? '-' : '+';
-        const hours     = Math.floor(Math.abs(offset)/60).toString().padStart(2, '0');
-        const minutes   = (Math.abs(offset)%60).toString().padStart(2, '0');
+        const hours     = `${Math.floor(Math.abs(offset)/60)}`.padStart(2, '0');
+        const minutes   = `${Math.abs(offset)%60}`.padStart(2, '0');
         return `${sign}${hours}:${minutes}`;
     }],
 ] as RawTuple[])

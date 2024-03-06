@@ -2,16 +2,16 @@
 
 import isDate from './is';
 
-const WEEK_START = {
-    week    : 1, // Original lib cases only contained week and historical was monday
-    week_sun: 0,
-    week_mon: 1,
-    week_tue: 2,
-    week_wed: 3,
-    week_thu: 4,
-    week_fri: 5,
-    week_sat: 6,
-};
+const WEEK_START = new Map([
+    ['week', 1], /* Original lib cases only contained week and historical was monday */
+    ['week_sun', 0],
+    ['week_mon', 1],
+    ['week_tue', 2],
+    ['week_wed', 3],
+    ['week_thu', 4],
+    ['week_fri', 5],
+    ['week_sat', 6],
+]);
 
 /**
  * Sets the provided date to start of UTC of provided key
@@ -89,7 +89,7 @@ export default function startOfUTC (
         case 'week_fri':
         case 'week_sat': {
             const UTC_DAY = val.getUTCDay();
-            const UTC_SOD = WEEK_START[key];
+            const UTC_SOD = WEEK_START.get(key);
 
             return new Date(Date.UTC(
                 val.getUTCFullYear(),

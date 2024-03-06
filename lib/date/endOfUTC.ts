@@ -6,16 +6,16 @@ import isDate from './is';
  * Take note: this is the end of week key for weeks starting on key,
  * eg: end of week for week_mon is sunday as the week starts on monday and ends on sunday
  */
-const WEEK_END = {
-    week    : 0, // Original lib cases only contained week and historical was monday
-    week_sun: 6,
-    week_mon: 0,
-    week_tue: 1,
-    week_wed: 2,
-    week_thu: 3,
-    week_fri: 4,
-    week_sat: 5,
-};
+const WEEK_END = new Map([
+    ['week', 0], /* Original lib cases only contained week and historical was monday */
+    ['week_sun', 6],
+    ['week_mon', 0],
+    ['week_tue', 1],
+    ['week_wed', 2],
+    ['week_thu', 3],
+    ['week_fri', 4],
+    ['week_sat', 5],
+]);
 
 /**
  * Sets the provided date to end of UTC of provided key
@@ -93,7 +93,7 @@ export default function endOfUTC (
         case 'week_fri':
         case 'week_sat': {
             const UTC_DAY = val.getUTCDay();
-            const UTC_EOD = WEEK_END[key];
+            const UTC_EOD = WEEK_END.get(key);
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
                 val.getUTCMonth(),

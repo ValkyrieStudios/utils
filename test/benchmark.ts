@@ -17,6 +17,7 @@ import isBoolean                from '../dist/boolean/is';
 import addUTC                   from '../dist/date/addUTC';
 import diff                     from '../dist/date/diff';
 import endOfUTC                 from '../dist/date/endOfUTC';
+import format                   from '../dist/date/format';
 import isDate                   from '../dist/date/is';
 import nowUnix                  from '../dist/date/nowUnix';
 import nowUnixMs                from '../dist/date/nowUnixMs';
@@ -423,6 +424,11 @@ for (const el of [
     {
         lbl: 'date/endOfUTC: year',
         fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'year'),
+    },
+    //  Date - format
+    {
+        lbl: 'date/format: YYYY-MM-DD',
+        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD'),
     },
     //  Date - is
     {

@@ -6,7 +6,7 @@ import isDate from './is';
 
 type Formatter  = (d:Date, loc?:string) => string;
 type RawTuple   = [string, Formatter];
-type TokenTuple = [RegExp, Formatter];
+type TokenTuple = [string, RegExp, Formatter];
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
 const EscapeRgx = /\[[\w\s]+]/g;
@@ -81,7 +81,7 @@ const Tokens:TokenTuple[] = ([
     }],
 ] as RawTuple[])
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1)
-    .map((el:RawTuple):TokenTuple => [new RegExp(el[0], 'g'), el[1]]);
+    .map((el:RawTuple):TokenTuple => [el[0], new RegExp(el[0], 'g'), el[1]]);
 
 /**
  * Formats the provided date according to a specific spec
@@ -96,8 +96,11 @@ export default function format (val:Date, spec:string, locale:string = 'en'):str
     /* Ensure val is a Date */
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 
-    /* Ensure spec is a string */
-    if (typeof spec !== 'string') throw new TypeError('format: spec must be a non-empty string');
+    /* Ensure spec is a non-empty string */
+    if (typeof spec !== 'string' || !spec.trim().length) throw new TypeError('format: spec must be a non-empty string');
+
+    /* Ensure locale is a non-empty string */
+    if (typeof locale !== 'string' || !locale.trim().length) throw new TypeError('format: locale must be a non-empty string');
 
     let formatted_string = spec;
 
@@ -106,22 +109,25 @@ export default function format (val:Date, spec:string, locale:string = 'en'):str
      * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$R0$YYYY $R0$Q $R1$M $R2$D' -> 2021 Q1 M2 D7
      */
     const escaped_acc:[string, string][] = [];
-    formatted_string = formatted_string.replace(EscapeRgx, match => {
-        const escape_token = `$R${escaped_acc.length}$`;
-        escaped_acc.push([escape_token, match]);
-        return escape_token;
-    });
+    if (formatted_string.indexOf('[') >= 0) {
+        formatted_string = formatted_string.replace(EscapeRgx, match => {
+            const escape_token = `$R${escaped_acc.length}$`;
+            escaped_acc.push([escape_token, match]);
+            return escape_token;
+        });
+    }
 
     /* Run format functons for found tokens*/
-    let cursor;
-    for (let i = 0; i < Tokens.length; i++) {
-        cursor = Tokens[i];
-        formatted_string = formatted_string.replace(cursor[0], cursor[1](val, locale));
+    for (const el of Tokens) {
+        if (formatted_string.indexOf(el[0]) < 0) continue;
+        formatted_string = formatted_string.replace(el[1], el[2](val, locale));
     }
 
     /* Re-insert escaped tokens */
-    for (const escape_token of escaped_acc) {
-        formatted_string = formatted_string.replace(escape_token[0], escape_token[1]);
+    if (escaped_acc.length) {
+        for (const escape_token of escaped_acc) {
+            formatted_string = formatted_string.replace(escape_token[0], escape_token[1]);
+        }
     }
 
     return formatted_string;

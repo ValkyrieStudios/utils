@@ -9,10 +9,13 @@ type RawTuple   = [string, Formatter];
 type TokenTuple = [string, RegExp, Formatter];
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
-const EscapeRgx = /\[[\w\s]+]/g;
+const escape_rgx = /\[[\w\s]+]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
-const DTFormatters:Map<string, Intl.DateTimeFormat> = new Map();
+const intl_formatters:Map<string, Intl.DateTimeFormat> = new Map();
+
+/* Memoize specs passed and their function chain */
+const spec_cache:Map<string, TokenTuple[]> = new Map();
 
 /**
  * Creates an Intl DateTimeFormat instance, caches it and runs the specific date against it
@@ -32,11 +35,11 @@ function runIntl (
     const hash = `${loc}:${token}`;
 
     /* Use existing formatter if we already have a formatter for this */
-    if (DTFormatters.has(hash)) return DTFormatters.get(hash).format(val);
+    if (intl_formatters.has(hash)) return intl_formatters.get(hash).format(val);
 
     /* Create new instance of Intl.DateTimeFormat and store it */
     const instance = new Intl.DateTimeFormat(loc, props);
-    DTFormatters.set(hash, instance);
+    intl_formatters.set(hash, instance);
 
     return instance.format(val);
 }
@@ -110,19 +113,37 @@ export default function format (val:Date, spec:string, locale:string = 'en'):str
      */
     const escaped_acc:[string, string][] = [];
     if (formatted_string.indexOf('[') >= 0) {
-        formatted_string = formatted_string.replace(EscapeRgx, match => {
+        formatted_string = formatted_string.replace(escape_rgx, match => {
             const escape_token = `$R${escaped_acc.length}$`;
             escaped_acc.push([escape_token, match]);
             return escape_token;
         });
     }
 
-    /* Run format functons for found tokens*/
-    let cursor;
-    for (let i = 0; i < Tokens.length; i++) {
-        cursor = Tokens[i];
-        if (formatted_string.indexOf(cursor[0]) < 0) continue;
-        formatted_string = formatted_string.replace(cursor[1], cursor[2](val, locale));
+    /**
+     * If spec does not exist in spec cache, create spec chain.
+     * 
+     * Why? In real-world scenarios most apps only apply a handful of specs (eg: 'YYYY-MM-DD'). As such it's going to be faster
+     * with continued issue to cache the chains that need to be executed for these specs.
+     */
+    let spec_chain:TokenTuple[] = [];
+    if (!spec_cache.has(spec)) {
+        spec_chain = [];
+        let cursor;
+        for (let i = 0; i < Tokens.length; i++) {
+            cursor = Tokens[i];
+            if (formatted_string.indexOf(cursor[0]) < 0) continue;
+            spec_chain.push(cursor);
+        }
+        if (spec_chain.length === 0) return '';
+        spec_cache.set(spec, spec_chain);
+    } else {
+        spec_chain = spec_cache.get(spec);
+    }
+
+    /* Run spec chain */
+    for (const el of spec_chain) {
+        formatted_string = formatted_string.replace(el[1], el[2](val, locale));
     }
 
     /* Re-insert escaped tokens */

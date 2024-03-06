@@ -4,12 +4,14 @@
 
 import isDate from './is';
 
-const EscapeRgx = /\[[\w\s]+]/g;
-
 type Formatter  = (d:Date, loc?:string) => string;
 type RawTuple   = [string, Formatter];
 type TokenTuple = [RegExp, Formatter];
 
+/* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
+const EscapeRgx = /\[[\w\s]+]/g;
+
+/* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
 const DTFormatters:Map<string, Intl.DateTimeFormat> = new Map();
 
 /**
@@ -35,7 +37,7 @@ function runIntl (
     /* Create new instance of Intl.DateTimeFormat and store it */
     const instance = new Intl.DateTimeFormat(loc, props);
     DTFormatters.set(hash, instance);
-    
+
     return instance.format(val);
 }
 

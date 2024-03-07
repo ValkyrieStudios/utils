@@ -123,19 +123,17 @@ const Tokens:TokenTuple[] = ([
  * @returns {TokenTuple[]|false} Returns either a token tuple array or false in case the spec does not contain tokens
  */
 function getSpecChain (spec:string):TokenTuple[]|false {
-    let spec_chain:TokenTuple[] = [];
-    if (!spec_cache.has(spec)) {
-        let cursor;
-        for (let i = 0; i < Tokens.length; i++) {
-            cursor = Tokens[i];
-            if (spec.indexOf(cursor[0]) < 0) continue;
-            spec_chain.push(cursor);
-        }
-        if (spec_chain.length === 0) return false;
-        spec_cache.set(spec, spec_chain);
-    } else {
-        spec_chain = spec_cache.get(spec);
+    if (spec_cache.has(spec)) return spec_cache.get(spec);
+    
+    const spec_chain:TokenTuple[] = [];
+    let cursor;
+    for (let i = 0; i < Tokens.length; i++) {
+        cursor = Tokens[i];
+        if (spec.indexOf(cursor[0]) < 0) continue;
+        spec_chain.push(cursor);
     }
+    if (spec_chain.length === 0) return false;
+    spec_cache.set(spec, spec_chain);
     return spec_chain;
 }
 

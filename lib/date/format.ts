@@ -8,6 +8,8 @@ type Formatter  = (d:Date, loc?:string) => string;
 type RawTuple   = [string, Formatter];
 type TokenTuple = [string, RegExp, Formatter];
 
+const DEFAULT_LOCALE = 'en-US';
+
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
 const escape_rgx = /\[[\w\s]+]/g;
 
@@ -30,22 +32,20 @@ const zone_offset_cache:Map<string, number> = new Map();
  * @returns {Date} Date in the zone
  */
 function toZone (date:Date, zone:string):Date {
-    let offset:number;
-    if (!zone_offset_cache.has(zone)) {
-        /* Get the current client's timezone offset in minutes */
-        const client_time:number = date.getTime();
+    if (zone_offset_cache.has(zone)) return new Date(date.getTime() + zone_offset_cache.get(zone));
 
-        /* Get the target timezone offset in minutes */
-        const zone_time:number = new Date(date.toLocaleString('en-US', {timeZone: zone})).getTime();
+    /* Get the current client's timezone offset in minutes */
+    const client_time:number = date.getTime();
 
-        /* Calculate the time difference in minutes */
-        offset = zone_time - client_time;
+    /* Get the target timezone offset in minutes */
+    const zone_time:number = new Date(date.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
+    if (!Number.isFinite(zone_time)) throw new Error('format: Invalid zone passed');
+
+    /* Calculate the time difference in minutes */
+    const offset = zone_time - client_time;
         
-        /* Store in offset cache so we don't need to do this again */
-        zone_offset_cache.set(zone, offset);
-    } else {
-        offset = zone_offset_cache.get(zone);
-    }
+    /* Store in offset cache so we don't need to do this again */
+    zone_offset_cache.set(zone, offset);
 
     /* Return new date and time */
     return new Date(date.getTime() + offset);
@@ -71,11 +71,15 @@ function runIntl (
     /* Use existing formatter if we already have a formatter for this */
     if (intl_formatters.has(hash)) return intl_formatters.get(hash).format(val);
 
-    /* Create new instance of Intl.DateTimeFormat and store it */
-    const instance = new Intl.DateTimeFormat(loc, props);
-    intl_formatters.set(hash, instance);
+    try {
+        /* Create new instance of Intl.DateTimeFormat and store it */
+        const instance = new Intl.DateTimeFormat(loc, props);
+        intl_formatters.set(hash, instance);
 
-    return instance.format(val);
+        return instance.format(val);
+    } catch (err) {
+        throw new Error(`format: Failed to run conversion for ${token} with locale ${loc}`);
+    }
 }
 
 /**
@@ -147,7 +151,7 @@ function getSpecChain (spec:string):TokenTuple[]|false {
  * @returns {string} Formatted date as string 
  * @throws {TypeError} When provided invalid payload
  */
-export default function format (val:Date, spec:string, locale:string = 'en-US', zone?:string):string {
+export default function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone?:string):string {
     /* Ensure val is a Date */
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 

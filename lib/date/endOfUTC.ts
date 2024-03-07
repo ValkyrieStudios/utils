@@ -64,9 +64,10 @@ export default function endOfUTC (
                 999
             ));
         case 'quarter': {
+            const UTC_MONTH = val.getUTCMonth();
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                (val.getUTCMonth() - (val.getUTCMonth() % 3)) + 3,
+                (UTC_MONTH - (UTC_MONTH % 3)) + 3,
                 0,
                 23,
                 59,

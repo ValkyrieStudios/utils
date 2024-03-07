@@ -60,9 +60,10 @@ export default function startOfUTC (
                 0
             ));
         case 'quarter': {
+            const UTC_MONTH = val.getUTCMonth();
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
-                val.getUTCMonth() - (val.getUTCMonth() % 3),
+                UTC_MONTH - (UTC_MONTH % 3),
                 1,
                 0,
                 0,
@@ -90,7 +91,6 @@ export default function startOfUTC (
         case 'week_sat': {
             const UTC_DAY = val.getUTCDay();
             const UTC_SOD = WEEK_START.get(key);
-
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
                 val.getUTCMonth(),

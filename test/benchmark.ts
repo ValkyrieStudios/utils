@@ -430,6 +430,10 @@ for (const el of [
         lbl: 'date/format: YYYY-MM-DD',
         fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD'),
     },
+    {
+        lbl: 'date/format with zone: YYYY-MM-DD',
+        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD', 'en', 'EST'),
+    },
     //  Date - is
     {
         lbl: 'date/is',

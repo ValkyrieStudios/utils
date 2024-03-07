@@ -17,6 +17,40 @@ const intl_formatters:Map<string, Intl.DateTimeFormat> = new Map();
 /* Memoize specs passed and their function chain */
 const spec_cache:Map<string, TokenTuple[]> = new Map();
 
+/* Memoize TZ offsets */
+const zone_offset_cache:Map<string, number> = new Map();
+
+/**
+ * Convert a particular date object to another timezone. We do this by first computing
+ * the offset between the client and the date in the new timezone. We then store that knowledge for future use
+ * and then return the date with the addition of the minutes (offset to the new zone)
+ * 
+ * @param {Date} date - Original date object
+ * @param {string} zone - Time Zone to convert to
+ * @returns {Date} Date in the zone
+ */
+function toZone (date:Date, zone:string):Date {
+    let offset:number;
+    if (!zone_offset_cache.has(zone)) {
+        /* Get the current client's timezone offset in minutes */
+        const client_time:number = date.getTime();
+
+        /* Get the target timezone offset in minutes */
+        const zone_time:number = new Date(date.toLocaleString('en-US', {timeZone: zone})).getTime();
+
+        /* Calculate the time difference in minutes */
+        offset = zone_time - client_time;
+        
+        /* Store in offset cache so we don't need to do this again */
+        zone_offset_cache.set(zone, offset);
+    } else {
+        offset = zone_offset_cache.get(zone);
+    }
+
+    /* Return new date and time */
+    return new Date(date.getTime() + offset);
+}
+
 /**
  * Creates an Intl DateTimeFormat instance, caches it and runs the specific date against it
  * 
@@ -75,16 +109,35 @@ const Tokens:TokenTuple[] = ([
     ['A', d => d.getUTCHours() < 12 ? 'AM' : 'PM'],                     /* Uppercase AM/PM */
     ['a', d => d.getUTCHours() < 12 ? 'am' : 'pm'],                     /* Lowercase AM/PM */
     ['G', d => d.getUTCFullYear() >= 0 ? 'AD' : 'BC'],                  /* AD or BC */
-    ['Z', d => {                                                        /* Timezone offset, eg: +00:00 */
-        const offset    = d.getTimezoneOffset();
-        const sign      = offset > 0 ? '-' : '+';
-        const hours     = `${Math.floor(Math.abs(offset)/60)}`.padStart(2, '0');
-        const minutes   = `${Math.abs(offset)%60}`.padStart(2, '0');
-        return `${sign}${hours}:${minutes}`;
-    }],
 ] as RawTuple[])
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1)
     .map((el:RawTuple):TokenTuple => [el[0], new RegExp(el[0], 'g'), el[1]]);
+
+/**
+ * Create and return spec chain if spec does not exist in spec cache, otherwise return cached spec plan
+ *  
+ * Why? In real-world scenarios most apps only apply a handful of specs (eg: 'YYYY-MM-DD'). As such it's going to be faster
+ * with continued issue to cache the chains that need to be executed for these specs.
+ * 
+ * @param {string} spec - Spec to be converted to spec chain
+ * @returns {TokenTuple[]|false} Returns either a token tuple array or false in case the spec does not contain tokens
+ */
+function getSpecChain (spec:string):TokenTuple[]|false {
+    let spec_chain:TokenTuple[] = [];
+    if (!spec_cache.has(spec)) {
+        let cursor;
+        for (let i = 0; i < Tokens.length; i++) {
+            cursor = Tokens[i];
+            if (spec.indexOf(cursor[0]) < 0) continue;
+            spec_chain.push(cursor);
+        }
+        if (spec_chain.length === 0) return false;
+        spec_cache.set(spec, spec_chain);
+    } else {
+        spec_chain = spec_cache.get(spec);
+    }
+    return spec_chain;
+}
 
 /**
  * Formats the provided date according to a specific spec
@@ -92,10 +145,11 @@ const Tokens:TokenTuple[] = ([
  * @param {Date} val - Date to format
  * @param {string} spec - Spec to format the date to
  * @param {string} locale - Locale to format the date in (only used in certain tokens such as dddd and MMMM)
+ * @param {string} zone - (optional) Pass the timezone to convert into. If not passed no conversion will happen
  * @returns {string} Formatted date as string 
  * @throws {TypeError} When provided invalid payload
  */
-export default function format (val:Date, spec:string, locale:string = 'en'):string {
+export default function format (val:Date, spec:string, locale:string = 'en-US', zone?:string):string {
     /* Ensure val is a Date */
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 
@@ -120,29 +174,16 @@ export default function format (val:Date, spec:string, locale:string = 'en'):str
         });
     }
 
-    /**
-     * If spec does not exist in spec cache, create spec chain.
-     * 
-     * Why? In real-world scenarios most apps only apply a handful of specs (eg: 'YYYY-MM-DD'). As such it's going to be faster
-     * with continued issue to cache the chains that need to be executed for these specs.
-     */
-    let spec_chain:TokenTuple[] = [];
-    if (!spec_cache.has(spec)) {
-        let cursor;
-        for (let i = 0; i < Tokens.length; i++) {
-            cursor = Tokens[i];
-            if (formatted_string.indexOf(cursor[0]) < 0) continue;
-            spec_chain.push(cursor);
-        }
-        if (spec_chain.length === 0) return '';
-        spec_cache.set(spec, spec_chain);
-    } else {
-        spec_chain = spec_cache.get(spec);
-    }
+    /* Get spec chain, this is the chain of token tuples that need to be executed for the spec */
+    const spec_chain:TokenTuple[]|false = getSpecChain(formatted_string);
+    if (!spec_chain) return '';
+
+    /* Convert date to zone if necessary */
+    const d:Date = typeof zone === 'string' && zone.trim().length ? toZone(val, zone) : val;
 
     /* Run spec chain */
     for (const el of spec_chain) {
-        formatted_string = formatted_string.replace(el[1], el[2](val, locale));
+        formatted_string = formatted_string.replace(el[1], el[2](d, locale));
     }
 
     /* Re-insert escaped tokens */

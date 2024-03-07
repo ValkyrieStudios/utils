@@ -641,6 +641,20 @@ describe('Date - format', () => {
             }
         });
 
+        it('Should take zone into account', () => {
+            // When converted to Europe/Brussels the day should be next day
+            assert.equal(format(new Date('2019-02-25T22:09:09-07:00'), 'ddd', 'en', 'Europe/Brussels'), 'Tue');
+
+            // When converted to CST (which is one hour ahead of MST) it should still be same day
+            assert.equal(format(new Date('2019-02-25T22:09:09-07:00'), 'ddd', 'en', 'CST'), 'Mon');
+
+            // When converted to EST (which is two hours ahead of MST) it should be next day
+            assert.equal(format(new Date('2019-02-25T22:09:09-07:00'), 'ddd', 'en', 'EST'), 'Tue');
+
+            // When converted to MST (which is the same as the offset in the date) it should be same day
+            assert.equal(format(new Date('2019-02-25T22:09:09-07:00'), 'ddd', 'en', 'MST'), 'Mon');
+        });
+
         it('Should take locale into account', () => {
             for (const el of [
                 [new Date('2019-02-01T05:20:19+02:00'), 'ven.'],

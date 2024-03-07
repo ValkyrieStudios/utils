@@ -296,6 +296,7 @@ diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02
 Format a date according to a spec/locale and zone
 
 Note: The locale is by default set to 'en-US'
+
 Note: The zone is by default detected as the zone of the client
 
 Available tokens for usage in spec:
@@ -329,6 +330,12 @@ format(new Date('2023-01-10T14:30:00Z'), '[Today is] dddd, MMMM D, YYYY [at] h:m
 
 format(new Date('2022-07-14T16:40:30Z'), 'dddd, [Year] Q Q M D [à] hh:mm A [string]', 'fr', 'Asia/Singapore');
 // 'vendredi, Year 3 3 7 15 à 12:40 AM string'
+
+format(new Date('2022-07-14T16:40:30Z'), 'YYYY-MM-DD', 'fr', 'Asia/Singapore');
+// 2022-07-15
+
+format(new Date('2022-07-14T16:40:30Z'), 'YYYY-MM-DD', 'fr', 'Europe/Brussels');
+// 2022-07-14
 ```
 
 - **toUTC(val:Date)**

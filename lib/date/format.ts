@@ -14,6 +14,8 @@ try {
     DEFAULT_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
 } catch (err) {
     //  NOOP: If this doesn't work we simply work with UTC as default
+} finally {
+    if (typeof DEFAULT_TZ !== 'string') DEFAULT_TZ = 'UTC';
 }
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
@@ -31,7 +33,10 @@ const zone_offset_cache:Map<string, number> = new Map();
 /**
  * Convert a particular date object to another timezone. We do this by first computing
  * the offset between the client and the date in the new timezone. We then store that knowledge for future use
- * and then return the date with the addition of the minutes (offset to the new zone)
+ * and then return the date with the addition of the minutes (offset to the new zone).
+ * 
+ * Why do we need the zone offset cache? Because toLocaleString with timeZone options is an incredibly
+ * expensive operation.
  * 
  * @param {Date} date - Original date object
  * @param {string} zone - Time Zone to convert to
@@ -166,6 +171,9 @@ export default function format (val:Date, spec:string, locale:string = DEFAULT_L
 
     /* Ensure locale is a non-empty string */
     if (typeof locale !== 'string' || !locale.trim().length) throw new TypeError('format: locale must be a non-empty string');
+
+    /* Ensure zone is a non-empty string */
+    if (typeof zone !== 'string' || !zone.trim().length) throw new TypeError('format: zone must be a non-empty string');
 
     let formatted_string = spec;
 

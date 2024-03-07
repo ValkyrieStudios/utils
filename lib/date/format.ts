@@ -31,6 +31,18 @@ const spec_cache:Map<string, TokenTuple[]> = new Map();
 const zone_offset_cache:Map<string, number> = new Map();
 
 /**
+ * Get the day of the year for a particular date
+ * 
+ * @param {Date} d - Date to get the day of the year for
+ * @returns {number} Day of the year
+ */
+function DOY (d:Date):number {
+    /* eslint-disable-next-line */
+    /* @ts-ignore */
+    return Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+}
+
+/**
  * Convert a particular date object to another timezone. We do this by first computing
  * the offset between the client and the date in the new timezone. We then store that knowledge for future use
  * and then return the date with the addition of the minutes (offset to the new zone).
@@ -43,7 +55,9 @@ const zone_offset_cache:Map<string, number> = new Map();
  * @returns {Date} Date in the zone
  */
 function toZone (date:Date, zone:string):Date {
-    if (zone_offset_cache.has(zone)) return new Date(date.getTime() + zone_offset_cache.get(zone));
+    /* We make use of a 'month' key as offsets might differ between months due to daylight saving time */
+    const ckey = `${zone}:${date.getUTCFullYear()}${DOY(date)}`;
+    if (zone_offset_cache.has(ckey)) return new Date(date.getTime() + zone_offset_cache.get(ckey));
 
     /* Get the current client's timezone offset in minutes */
     const client_time:number = date.getTime();
@@ -56,7 +70,7 @@ function toZone (date:Date, zone:string):Date {
     const offset = zone_time - client_time;
         
     /* Store in offset cache so we don't need to do this again */
-    zone_offset_cache.set(zone, offset);
+    zone_offset_cache.set(ckey, offset);
 
     /* Return new date and time */
     return new Date(date.getTime() + offset);

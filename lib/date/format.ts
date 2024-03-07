@@ -123,7 +123,6 @@ const Tokens:TokenTuple[] = ([
     ['x', d => Math.floor(d.valueOf())],                                /* Unix Millisecond Timestamp */
     ['A', d => d.getHours() < 12 ? 'AM' : 'PM'],                        /* Uppercase AM/PM */
     ['a', d => d.getHours() < 12 ? 'am' : 'pm'],                        /* Lowercase AM/PM */
-    ['G', d => d.getFullYear() >= 0 ? 'AD' : 'BC'],                     /* AD or BC */
 ] as RawTuple[])
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1)
     .map((el:RawTuple):TokenTuple => [el[0], new RegExp(el[0], 'g'), el[1]]);

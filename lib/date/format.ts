@@ -19,7 +19,7 @@ try {
 }
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
-const escape_rgx = /\[[\w\s]+]/g;
+const escape_rgx = /\[.+]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
 const intl_formatters:Map<string, Intl.DateTimeFormat> = new Map();

@@ -18,6 +18,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: Upgrade @types/node to 20.11.25
 - Dev Dep: Upgrade @typescript-eslint/eslint-plugin to 7.1.1
 - Dev Dep: Upgrade @typescript-eslint/parser to 7.1.1
+- Dev Dep: Upgrade typescript to 5.4.2
 
 ## [11.7.0] - 2024-02-27
 ### Improved

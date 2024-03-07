@@ -10,9 +10,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - Dev Dep: full-icu (used for format testing)
 
 ### Improved
+- equal: Significant performance improvements (~10% to 35%) due to adjusting in favor of early escape mechanics
 - date/addUTC: Medium performance improvement ~10% due to reduction of internal function calls
 - date/endOfUTC: Minor performance improvement ~3% when computing end of quarter due to reduction of internal function calls
 - date/startOfUTC: Minor performance improvement ~3% when computing start of quarter due to reduction of internal function calls
+- regexp/is: Medium performance improvement ~20% due to adjusting in favor of instanceof checks over prototypal checks
 - Dev Dep: Upgrade @types/node to 20.11.25
 - Dev Dep: Upgrade @typescript-eslint/eslint-plugin to 7.1.1
 - Dev Dep: Upgrade @typescript-eslint/parser to 7.1.1

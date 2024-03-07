@@ -8,5 +8,5 @@
  * @returns Whether or not the value is a RegExp
  */
 export default function isRegExp (val:unknown):boolean {
-    return Object.prototype.toString.call(val) === '[object RegExp]';
+    return val instanceof RegExp;
 }

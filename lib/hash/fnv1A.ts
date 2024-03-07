@@ -29,7 +29,7 @@ export default function fnv1A (data:unknown, offset:number = FNV_32):number {
         sanitized = String(data);
     } else if (Array.isArray(data) || Object.prototype.toString.call(data) === '[object Object]') {
         sanitized = JSON.stringify(data);
-    } else if (Object.prototype.toString.call(data) === '[object RegExp]') {
+    } else if (data instanceof RegExp) {
         sanitized = data.toString();
     } else if (data instanceof Date) {
         sanitized = String(data.getTime());

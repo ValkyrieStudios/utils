@@ -44,33 +44,21 @@ function isObjectEqual (
  */
 function equal (a:any, b:any):boolean {
     //  Date Check
-    if (
-        a instanceof Date &&
-        b instanceof Date
-    ) return a.valueOf() === b.valueOf();
+    if (a instanceof Date) return b instanceof Date && a.valueOf() === b.valueOf();
 
     //  RegExp Check
-    if (
-        Object.prototype.toString.call(a) === '[object RegExp]' &&
-        Object.prototype.toString.call(b) === '[object RegExp]'
-    ) return String(a) === String(b);
+    if (a instanceof RegExp) return b instanceof RegExp && String(a) === String(b);
 
     //  Array as root equal
-    if (
-        Array.isArray(a) &&
-        Array.isArray(b)
-    ) return isArrayEqual(a, b);
+    if (Array.isArray(a)) return Array.isArray(b) && isArrayEqual(a, b);
 
     //  Object as root equal
-    if (
-        Object.prototype.toString.call(a) === '[object Object]' &&
-        Object.prototype.toString.call(b) === '[object Object]'
-    ) return isObjectEqual(a, b);
+    if (Object.prototype.toString.call(a) === '[object Object]') {
+        return Object.prototype.toString.call(b) === '[object Object]' && isObjectEqual(a, b);
+    }
 
     //  NAN Check
-    if (isNumericalNaN(a)) {
-        return isNumericalNaN(b);
-    }
+    if (isNumericalNaN(a)) return isNumericalNaN(b);
 
     //  No special cases anymore, simply do strict equal
     return a === b;

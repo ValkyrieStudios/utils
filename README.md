@@ -155,7 +155,7 @@ shuffle(arr);
 // [4, 6, 3, 2, 5, 1]
 ```
 
-- **sort(val:Array[object], by:String|Function, dir:Enum(asc,desc), options:Object)**
+- **sort(val:Array[object], by:string|Function, dir:Enum(asc,desc), options:Object)**
 Sort an array of objects, uses an implementation of [Tony Hoare's quicksort](https://cs.stanford.edu/people/eroberts/courses/soco/projects/2008-09/tony-hoare/quicksort.html) 
 
 ```js
@@ -279,7 +279,7 @@ isDate(new Date('December 17, 1995 03:24:00'); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
-- **diff(val_a:Date, val_b:Date, key:String)**
+- **diff(val_a:Date, val_b:Date, key:string)**
 Take two incoming dates and return the difference between them in a certain unit. Possible key options(week,day,hour,minute,second,millisecond).
 
 Note: Does not touch the passed date objects, if no key is passed will default to millisecond
@@ -291,6 +291,44 @@ diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06
 diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'second'); // -1858.344
 diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'millisecond'); // -1858344
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00")); // 2663187102
+```
+- **format(val:Date, spec:string, locale?:string, zone?:string):string**
+Format a date according to a spec/locale and zone
+
+Note: The locale is by default set to 'en-US'
+Note: The zone is by default detected as the zone of the client
+
+Available tokens for usage in spec:
+| Token     | Description               | Example       |
+|:---------|:--------------------------|:---------------|
+| `YYYY` | Full Year | 2021 |
+| `Q` | Quarters of the year | 1 2 3 4 |
+| `MMMM` | Month in full | January February ... November December |
+| `MMM` | Month as 3 char | Jan Feb ... Nov Dec |
+| `MM` | Month as 2 char | 01 02 .. 11 12 |
+| `M` | Month as pure digit | 1 2 .. 11 12 |
+| `DD` | Day of month as 2 char | 01 02 .. 30 31 |
+| `D` | Day of month as 1 char | 1 2 .. 30 31 |
+| `dddd` | Day of week as 3 char | Sun Mon ... Fri Sat |
+| `ddd` | Day of week in full | Sunday Monday ... Saturday |
+| `HH` | Hours as 2-char | 00 01 .. 22 23 |
+| `H` | Hours as pure digit | 0 1 .. 22 23 |
+| `hh` | Hours in 12 hour time as 2 char | 01 02 ... 11 12 |
+| `h` | Hours in 12 hour time as pure digit | 1 2 ... 11 12 |
+| `mm` | Minutes as 2-char | 00 01 .. 58 59 |
+| `m` | Minutes as pure digit | 0 1 .. 58 59 |
+| `ss` | Seconds as 2-char | 00 01 .. 58 59 |
+| `s` | Seconds as pure digit | 0 1 .. 58 59 |
+| `SSS` | Milliseconds as 3-digit | 000 001 ... 998 999 |
+| `A` | Uppercase AM/PM | AM ... PM |
+| `a` | Lowercase AM/PM | am ... pm |
+
+```js
+format(new Date('2023-01-10T14:30:00Z'), '[Today is] dddd, MMMM D, YYYY [at] h:mm A', 'en', 'Europe/Brussels');
+//  'Today is Tuesday, January 10, 2023 at 2:30 PM'
+
+format(new Date('2022-07-14T16:40:30Z'), 'dddd, [Year] Q Q M D [à] hh:mm A [string]', 'fr', 'Asia/Singapore');
+// 'vendredi, Year 3 3 7 15 à 12:40 AM string'
 ```
 
 - **toUTC(val:Date)**
@@ -305,7 +343,7 @@ Returns the current unix timestamp in seconds
 - **nowUnixMs()**
 Returns the current unix timestamp in milliseconds
 
-- **startOfUTC(val:Date, key:String)**
+- **startOfUTC(val:Date, key:string)**
 Take the incoming date and return a date set to the start of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
@@ -325,7 +363,7 @@ startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'minute'); // new Date("2023-0
 startOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023-05-04T10:04:27.000Z")
 ```
 
-- **endOfUTC(val:Date, key:String)**
+- **endOfUTC(val:Date, key:string)**
 Take the incoming date and return a date set to the end of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
@@ -349,7 +387,7 @@ endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'minute'); // new Date("2023-05-
 endOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023-05-04T10:04:27.999Z")
 ```
 
-- **addUTC(val:Date, amount:integer, key:String)**
+- **addUTC(val:Date, amount:integer, key:string)**
 Take the incoming date and add a certain amount of the passed key. Possible key options(year,years,month,months,day,days,hour,hours,minute,minutes,second,seconds,millisecond,milliseconds).
 
 Note: Does not touch the date object passed

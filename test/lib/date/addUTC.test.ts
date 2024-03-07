@@ -45,6 +45,13 @@ describe('Date - addUTC', () => {
         );
     });
 
+    it('Should return original date in utc when passed no amt or key', () => {
+        assert.deepEqual(
+            addUTC(new Date('2022-10-05T13:12:11+02:00')),
+            new Date('2022-10-05T11:12:11.000Z')
+        );
+    });
+
     describe('year', () => {
         it('Should correctly add when passing a positive integer', () => {
             assert.deepEqual(

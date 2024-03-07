@@ -31,6 +31,10 @@ describe('Date - startOfUTC', () => {
         assert.deepEqual(startOfUTC(new Date('2022-10-05T13:12:11+02:00'), 'jedis'), new Date('2022-10-05T11:12:11.000Z'));
     });
 
+    it('Should return original date in utc when not passed a key', () => {
+        assert.deepEqual(startOfUTC(new Date('2022-10-05T13:12:11+02:00')), new Date('2022-10-05T11:12:11.000Z'));
+    });
+
     describe('year', () => {
         it('Set to start of year utc', () => {
             assert.deepEqual(startOfUTC(new Date('2023-05-04T12:04:27+02:00'), 'year'), new Date('2023-01-01T00:00:00.000Z'));

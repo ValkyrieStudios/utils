@@ -19,7 +19,7 @@ try {
 }
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
-const escape_rgx = /\[.+]/g;
+const escape_rgx = /\[[\s\S]+?]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
 const intl_formatters:Map<string, Intl.DateTimeFormat> = new Map();
@@ -63,11 +63,16 @@ function toZone (date:Date, zone:string):Date {
     const client_time:number = date.getTime();
 
     /* Get the target timezone offset in minutes */
-    const zone_time:number = new Date(date.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
-    if (!Number.isFinite(zone_time)) throw new Error('format: Invalid zone passed');
+    let zone_time:number|false = false;
+    try {
+        zone_time = new Date(date.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
+    } catch (err) {
+        //  noop
+    }
+    if (!Number.isInteger(zone_time)) throw new Error(`format: Invalid zone passed - ${zone}`);
 
     /* Calculate the time difference in minutes */
-    const offset = zone_time - client_time;
+    const offset = (zone_time as number) - client_time;
         
     /* Store in offset cache so we don't need to do this again */
     zone_offset_cache.set(ckey, offset);
@@ -203,7 +208,7 @@ export default function format (val:Date, spec:string, locale:string = DEFAULT_L
 
     /* Get spec chain, this is the chain of token tuples that need to be executed for the spec */
     const spec_chain:TokenTuple[]|false = getSpecChain(formatted_string);
-    if (!spec_chain) return '';
+    if (!spec_chain) return val.toISOString();
 
     /* Convert date to zone if necessary */
     const d:Date = toZone(val, zone);

@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint-disable max-lines */
+/* eslint-disable max-lines,max-statements */
 
 import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';
@@ -34,6 +34,263 @@ describe('Date - format', () => {
                 new TypeError('format: locale must be a non-empty string')
             );
         }
+    });
+
+    it('Throw when passed a non-string or empty string for zone', () => {
+        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+            if (el === undefined) continue;
+            assert.throws(
+                () => format(new Date(), 'YYYY-MM-DD', 'en', el),
+                new TypeError('format: zone must be a non-empty string')
+            );
+        }
+    });
+
+    it('Return the date as an iso string when passed a spec not containing any tokens', () => {
+        const d = new Date();
+        assert.equal(format(d, 'nope'), d.toISOString());
+    });
+
+    it('Throw when passed a zone that can not be formatted', () => {
+        assert.throws(
+            () => format(new Date(), 'YYYY-MM-DD', 'en', 'myfancyzone'),
+            new Error('format: Invalid zone passed - myfancyzone')
+        );
+    });
+
+    it('Throw when passed a locale that can not be formatted', () => {
+        assert.throws(
+            () => format(new Date(), 'YYYY dddd', 'The force is strong'),
+            new Error('format: Failed to run conversion for dddd with locale The force is strong')
+        );
+    });
+
+    it('Specific Cases: Default locale - UTC - Should format different combinations of tokens correctly', () => {
+        for (const el of [
+            {s: 'YYYY-MM-DD HH:mm:ss', i: '2022-03-06T08:30:45Z', o: '2022-03-06 08:30:45'},
+            {s: 'ddd, YYYY Q Q M D', i: '2021-12-01T18:20:30Z', o: 'Wed, 2021 4 4 12 1'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2023-08-22T09:15:30Z', o: '2023-08-22 9:15:30'},
+            {s: 'MMM D, YYYY [at] hh:mm A', i: '2022-07-10T03:30:45+02:00', o: 'Jul 10, 2022 at 01:30 AM'},
+            {s: 'dddd, YYYY Q Q M D', i: '2022-11-30T23:59:59Z', o: 'Wednesday, 2022 4 4 11 30'},
+            {s: 'YYYY/MM/DD HH:mm:ss', i: '2023-02-14T16:10:15Z', o: '2023/02/14 16:10:15'},
+            {s: 'ddd, YYYY Q Q M D', i: '2023-04-18T04:45:30Z', o: 'Tue, 2023 2 2 4 18'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2021-06-07T06:25:10Z', o: '2021-06-07 6:25:10'},
+            {s: 'MMMM D, YYYY [at] h:mm A', i: '2023-01-10T15:20:30Z', o: 'January 10, 2023 at 3:20 PM'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2022-08-17T08:55:15Z', o: '2022-08-17 8:55:15'},
+            {s: 'YYYY/MM/DD HH:mm:ss', i: '2023-05-29T19:15:30Z', o: '2023/05/29 19:15:30'},
+            {s: 'MMMM D, YYYY [at] h:mm A', i: '2022-02-28T04:25:00Z', o: 'February 28, 2022 at 4:25 AM'},
+            {s: 'ddd, YYYY Q Q M D', i: '2021-09-12T10:45:30Z', o: 'Sun, 2021 3 3 9 12'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2022-06-03T14:30:10Z', o: '2022-06-03 14:30:10'},
+            {s: 'MMMM D, YYYY [at] h:mm A', i: '2023-07-20T12:45:00Z', o: 'July 20, 2023 at 12:45 PM'},
+            {s: 'ddd, YYYY Q Q M D', i: '2022-11-05T08:30:15Z', o: 'Sat, 2022 4 4 11 5'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2021-03-08T23:55:30Z', o: '2021-03-08 23:55:30'},
+            {s: 'dddd, YYYY Q Q M D', i: '2023-04-01T18:10:00Z', o: 'Saturday, 2023 2 2 4 1'},
+            {s: 'YYYY/MM/DD HH:mm:ss', i: '2021-09-30T17:45:20Z', o: '2021/09/30 17:45:20'},
+            {s: 'ddd, YYYY Q Q M D', i: '2023-02-10T14:15:30Z', o: 'Fri, 2023 1 1 2 10'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2022-12-18T05:00:45Z', o: '2022-12-18 5:00:45'},
+            {s: 'MMM D, YYYY [at] hh:mm A', i: '2021-07-07T21:08:15-04:00', o: 'Jul 8, 2021 at 01:08 AM'},
+            {s: '[Today is] dddd, MMMM D, YYYY [at] h:mm A', i: '2023-01-10T14:30:00Z', o: 'Today is Tuesday, January 10, 2023 at 2:30 PM'},
+            {s: 'YYYY [esc] Q Q M D [chars]', i: '2022-05-25T12:15:45Z', o: '2022 esc 2 2 5 25 chars'},
+            {s: 'ddd, YYYY [random] Q Q M D [words]', i: '2023-09-05T08:45:30Z', o: 'Tue, 2023 random 3 3 9 5 words'},
+            {s: 'YYYY [esc] Q Q M D [words]', i: '2023-06-18T10:10:00Z', o: '2023 esc 2 2 6 18 words'},
+            {s: 'dddd, [Year] Q Q M D [at] hh:mm A', i: '2023-11-28T14:30:45Z', o: 'Tuesday, Year 4 4 11 28 at 02:30 PM'},
+            {s: 'YYYY [esc] Q Q M D [chars]', i: '2022-01-01T08:00:00Z', o: '2022 esc 1 1 1 1 chars'},
+        ]) assert.equal(format(new Date(el.i), el.s, 'en', 'UTC'), el.o);
+    });
+
+    it('Specific Cases: French locale - UTC Should format different combinations of tokens correctly', () => {
+        for (const el of [
+            {s: 'YYYY-MM-DD HH:mm:ss', i: '2022-03-06T08:30:45Z', o: '2022-03-06 08:30:45'},
+            {s: 'ddd, YYYY Q Q M D', i: '2021-12-01T18:20:30Z', o: 'mer., 2021 4 4 12 1'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2023-08-22T09:15:30Z', o: '2023-08-22 9:15:30'},
+            {s: 'MMM D, YYYY [à] hh:mm A', i: '2022-07-10T03:30:45+02:00', o: 'juil. 10, 2022 à 01:30 AM'},
+            {s: 'dddd, YYYY Q Q M D', i: '2022-11-30T23:59:59Z', o: 'mercredi, 2022 4 4 11 30'},
+            {s: 'YYYY/MM/DD HH:mm:ss', i: '2023-02-14T16:10:15Z', o: '2023/02/14 16:10:15'},
+            {s: 'ddd, YYYY Q Q M D', i: '2023-04-18T04:45:30Z', o: 'mar., 2023 2 2 4 18'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2021-06-07T06:25:10Z', o: '2021-06-07 6:25:10'},
+            {s: 'MMMM D, YYYY [à] h:mm A', i: '2023-01-10T15:20:30Z', o: 'janvier 10, 2023 à 3:20 PM'},
+            {s: 'ddd, YYYY Q Q M D', i: '2022-04-25T12:40:00Z', o: 'lun., 2022 2 2 4 25'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2022-08-17T08:55:15Z', o: '2022-08-17 8:55:15'},
+            {s: 'dddd, YYYY Q Q M D', i: '2021-11-15T05:30:00Z', o: 'lundi, 2021 4 4 11 15'},
+            {s: 'YYYY/MM/DD HH:mm:ss', i: '2023-05-29T19:15:30Z', o: '2023/05/29 19:15:30'},
+            {s: 'MMMM D, YYYY [à] h:mm A', i: '2022-02-28T04:25:00Z', o: 'février 28, 2022 à 4:25 AM'},
+            {s: 'ddd, YYYY Q Q M D', i: '2021-09-12T10:45:30Z', o: 'dim., 2021 3 3 9 12'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2022-06-03T14:30:10Z', o: '2022-06-03 14:30:10'},
+            {s: 'MMM D, YYYY [à] hh:mm A', i: '2023-04-05T18:40:45+03:00', o: 'avr. 5, 2023 à 03:40 PM'},
+            {s: 'MMMM D, YYYY [à] h:mm A', i: '2023-07-20T12:45:00Z', o: 'juillet 20, 2023 à 12:45 PM'},
+            {s: 'ddd, YYYY Q Q M D', i: '2022-11-05T08:30:15Z', o: 'sam., 2022 4 4 11 5'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2021-03-08T23:55:30Z', o: '2021-03-08 23:55:30'},
+            {s: 'dddd, YYYY Q Q M D', i: '2023-04-01T18:10:00Z', o: 'samedi, 2023 2 2 4 1'},
+            {s: 'YYYY/MM/DD HH:mm:ss', i: '2021-09-30T17:45:20Z', o: '2021/09/30 17:45:20'},
+            {s: 'MMMM D, YYYY [à] h:mm A', i: '2022-08-01T09:35:00Z', o: 'août 1, 2022 à 9:35 AM'},
+            {s: 'ddd, YYYY Q Q M D', i: '2023-02-10T14:15:30Z', o: 'ven., 2023 1 1 2 10'},
+            {s: 'YYYY-MM-DD H:mm:ss', i: '2022-12-18T05:00:45Z', o: '2022-12-18 5:00:45'},
+            {s: 'MMM D, YYYY [à] hh:mm A', i: '2021-07-07T21:08:15-04:00', o: 'juil. 8, 2021 à 01:08 AM'},
+            {s: 'YYYY [esc] Q Q M D [chars]', i: '2022-05-25T12:15:45Z', o: '2022 esc 2 2 5 25 chars'},
+            {s: 'ddd, YYYY [random] Q Q M D [words]', i: '2023-09-05T08:45:30Z', o: 'mar., 2023 random 3 3 9 5 words'},
+            {s: '[Test] MMM D, YYYY [string] h:mm A', i: '2022-08-15T18:20:00Z', o: 'Test août 15, 2022 string 6:20 PM'},
+            {s: 'YYYY [esc] Q Q M D [words]', i: '2023-06-18T10:10:00Z', o: '2023 esc 2 2 6 18 words'},
+            {s: '[Test] MMM D, YYYY [string] h:mm A', i: '2022-04-07T21:05:15Z', o: 'Test avr. 7, 2022 string 9:05 PM'},
+            {s: 'dddd, [Year] Q Q M D [à] hh:mm A [string]', i: '2022-07-14T16:40:30Z', o: 'jeudi, Year 3 3 7 14 à 04:40 PM string'},
+            {s: 'YYYY [esc] Q Q M D [chars]', i: '2022-01-01T08:00:00Z', o: '2022 esc 1 1 1 1 chars'},
+            {s: 'dddd, [Year] Q Q M D [à] hh:mm A [string]', i: '2022-07-14T16:40:30Z', o: 'jeudi, Year 3 3 7 14 à 04:40 PM string'},
+        ]) assert.equal(format(new Date(el.i), el.s, 'fr', 'UTC'), el.o);
+    });
+
+    it('Specific Cases: French locale - Different Timezones Should format different combinations of tokens correctly', () => {
+        for (const el of [
+            {
+                s: 'YYYY-MM-DD HH:mm:ss',
+                i: '2022-03-06T08:30:45Z',
+                o: '2022-03-06 09:30:45',
+                tz: 'Europe/Paris',
+            }, {
+                s: 'ddd, YYYY Q Q M D',
+                i: '2021-12-01T18:20:30Z',
+                o: 'mer., 2021 4 4 12 1',
+                tz: 'America/Montreal',
+            }, {
+                s: 'YYYY-MM-DD H:mm:ss',
+                i: '2023-08-22T09:15:30Z',
+                o: '2023-08-22 10:15:30',
+                tz: 'Africa/Casablanca',
+            }, {
+                s: 'MMM D, YYYY [à] hh:mm A',
+                i: '2022-07-10T03:30:45+02:00',
+                o: 'juil. 10, 2022 à 04:30 AM',
+                tz: 'Asia/Beirut',
+            }, {
+                s: 'dddd, YYYY Q Q M D',
+                i: '2022-11-30T23:59:59Z',
+                o: 'jeudi, 2022 4 4 12 1',
+                tz: 'Europe/Paris',
+            }, {
+                s: 'YYYY/MM/DD HH:mm:ss',
+                i: '2023-02-14T16:10:15Z',
+                o: '2023/02/15 05:10:15',
+                tz: 'Pacific/Auckland',
+            }, {
+                s: 'YYYY-MM-DD H:mm:ss',
+                i: '2022-08-17T08:55:15Z',
+                o: '2022-08-17 4:55:15',
+                tz: 'America/New_York',
+            }, {
+                s: 'dddd, YYYY Q Q M D',
+                i: '2021-11-15T05:30:00Z',
+                o: 'lundi, 2021 4 4 11 15',
+                tz: 'Europe/London',
+            }, {
+                s: 'YYYY/MM/DD HH:mm:ss',
+                i: '2023-05-29T19:15:30Z',
+                o: '2023/05/30 04:15:30',
+                tz: 'Asia/Tokyo',
+            }, {
+                s: 'MMMM D, YYYY [à] h:mm A',
+                i: '2022-02-28T04:25:00Z',
+                o: 'février 28, 2022 à 5:25 AM',
+                tz: 'Europe/Paris',
+            }, {
+                s: 'ddd, YYYY Q Q M D',
+                i: '2021-09-12T10:45:30Z',
+                o: 'dim., 2021 3 3 9 12',
+                tz: 'America/Los_Angeles',
+            }, {
+                s: 'YYYY-MM-DD H:mm:ss',
+                i: '2022-06-03T14:30:10Z',
+                o: '2022-06-04 0:30:10',
+                tz: 'Australia/Sydney',
+            }, {
+                s: 'MMM D, YYYY [à] hh:mm A',
+                i: '2023-04-05T18:40:45+03:00',
+                o: 'avr. 5, 2023 à 06:40 PM',
+                tz: 'Europe/Athens',
+            }, {
+                s: 'MMMM D, YYYY [à] h:mm A',
+                i: '2023-07-20T12:45:00Z',
+                o: 'juillet 20, 2023 à 7:45 AM',
+                tz: 'America/Chicago',
+            }, {
+                s: 'ddd, YYYY Q Q M D',
+                i: '2022-11-05T08:30:15Z',
+                o: 'sam., 2022 4 4 11 5',
+                tz: 'Asia/Shanghai',
+            }, {
+                s: 'YYYY-MM-DD H:mm:ss',
+                i: '2021-03-08T23:55:30Z',
+                o: '2021-03-09 0:55:30',
+                tz: 'Europe/Berlin',
+            }, {
+                s: 'dddd, YYYY Q Q M D',
+                i: '2023-04-01T18:10:00Z',
+                o: 'samedi, 2023 2 2 4 1',
+                tz: 'America/Denver',
+            }, {
+                s: 'YYYY/MM/DD HH:mm:ss',
+                i: '2021-09-30T17:45:20Z',
+                o: '2021/10/01 06:45:20',
+                tz: 'Pacific/Auckland',
+            }, {
+                s: 'MMMM D, YYYY [à] h:mm A',
+                i: '2022-08-01T09:35:00Z',
+                o: 'août 1, 2022 à 11:35 AM',
+                tz: 'Europe/Amsterdam',
+            }, {
+                s: 'ddd, YYYY Q Q M D',
+                i: '2023-02-10T14:15:30Z',
+                o: 'ven., 2023 1 1 2 10',
+                tz: 'America/Phoenix',
+            }, {
+                s: 'YYYY-MM-DD H:mm:ss',
+                i: '2022-12-18T05:00:45Z',
+                o: '2022-12-18 7:00:45',
+                tz: 'Africa/Cairo',
+            }, {
+                s: 'MMM D, YYYY [à] hh:mm A',
+                i: '2021-07-07T21:08:15-04:00',
+                o: 'juil. 7, 2021 à 09:08 PM',
+                tz: 'America/Toronto',
+            }, {
+                s: 'YYYY [esc] Q Q M D [chars]',
+                i: '2022-05-25T12:15:45Z',
+                o: '2022 esc 2 2 5 25 chars',
+                tz: 'Asia/Kolkata',
+            }, {
+                s: 'ddd, YYYY [random] Q Q M D [words]',
+                i: '2023-09-05T08:45:30Z',
+                o: 'mar., 2023 random 3 3 9 5 words',
+                tz: 'America/Vancouver',
+            }, {
+                s: '[Test] MMM D, YYYY [string] h:mm A',
+                i: '2022-08-15T18:20:00Z',
+                o: 'Test août 15, 2022 string 9:20 PM',
+                tz: 'Europe/Bucharest',
+            }, {
+                s: 'YYYY [esc] Q Q M D [words]',
+                i: '2023-06-18T10:10:00Z',
+                o: '2023 esc 2 2 6 18 words',
+                tz: 'America/Detroit',
+            }, {
+                s: '[Test] MMM D, YYYY [string] h:mm A',
+                i: '2022-04-07T21:05:15Z',
+                o: 'Test avr. 7, 2022 string 11:05 PM',
+                tz: 'Europe/Madrid',
+            }, {
+                s: 'dddd, [Year] Q Q M D [à] hh:mm A [string]',
+                i: '2022-07-14T16:40:30Z',
+                o: 'jeudi, Year 3 3 7 14 à 09:40 AM string',
+                tz: 'America/Phoenix',
+            }, {
+                s: 'YYYY [esc] Q Q M D [chars]',
+                i: '2022-01-01T08:00:00Z',
+                o: '2022 esc 1 1 1 1 chars',
+                tz: 'Africa/Lagos',
+            }, {
+                s: 'dddd, [Year] Q Q M D [à] hh:mm A [string]',
+                i: '2022-07-14T16:40:30Z',
+                o: 'vendredi, Year 3 3 7 15 à 12:40 AM string',
+                tz: 'Asia/Singapore',
+            },
+        ]) assert.equal(format(new Date(el.i), el.s, 'fr', el.tz), el.o);
     });
 
     describe('token:YYYY', () => {

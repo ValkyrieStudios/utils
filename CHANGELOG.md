@@ -7,6 +7,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
+- date/format: Formatting utility using spec-based formatting strings. Eg `format(new Date('2022-01-01T04:32:19.000Z'), 'YYYY-MM-DD') -> 2022-01-01`.
 - Dev Dep: full-icu (used for format testing)
 
 ### Improved

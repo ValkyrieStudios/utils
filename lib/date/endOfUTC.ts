@@ -144,7 +144,6 @@ export default function endOfUTC (
                 val.getUTCSeconds(),
                 999
             ));
-        case 'millisecond':
         default:
             return new Date(Date.UTC(
                 val.getUTCFullYear(),

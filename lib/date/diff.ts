@@ -61,8 +61,6 @@ export default function diff (
         case 'second':
         case 'seconds':
             return diff_in_ms/SECOND_IN_MILLISECONDS;
-        case 'millisecond':
-        case 'milliseconds':
         default:
             return diff_in_ms;
     }

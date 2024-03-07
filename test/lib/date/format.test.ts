@@ -95,6 +95,7 @@ describe('Date - format', () => {
             {s: 'YYYY [esc] Q Q M D [words]', i: '2023-06-18T10:10:00Z', o: '2023 esc 2 2 6 18 words'},
             {s: 'dddd, [Year] Q Q M D [at] hh:mm A', i: '2023-11-28T14:30:45Z', o: 'Tuesday, Year 4 4 11 28 at 02:30 PM'},
             {s: 'YYYY [esc] Q Q M D [chars]', i: '2022-01-01T08:00:00Z', o: '2022 esc 1 1 1 1 chars'},
+            {s: 'YYYY [esc:] Q Q M D [chars]', i: '2022-01-01T08:00:00Z', o: '2022 esc: 1 1 1 1 chars'},
         ]) assert.equal(format(new Date(el.i), el.s, 'en', 'UTC'), el.o);
     });
 

@@ -431,8 +431,16 @@ for (const el of [
         fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD'),
     },
     {
-        lbl: 'date/format with zone: YYYY-MM-DD',
+        lbl: 'date/format: YYYY-MM-DD and zone',
         fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD', 'en', 'EST'),
+    },
+    {
+        lbl: 'date/format: dddd, DD, MMMMM YYYY hh:mm a',
+        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'dddd, DD, MMMMM YYYY hh:mm a', 'fr', 'Australia/Sydney'),
+    },
+    {
+        lbl: 'date/format: [Now:] dddd, DD, MMMMM YYYY hh:mm a',
+        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), '[Now:] dddd, DD, MMMMM YYYY hh:mm a', 'fr', 'Australia/Sydney'),
     },
     //  Date - is
     {

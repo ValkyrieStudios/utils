@@ -177,7 +177,7 @@ export default function format (val:Date, spec:string, locale:string = DEFAULT_L
     if (formatted_string.indexOf('[') >= 0) {
         formatted_string = formatted_string.replace(escape_rgx, match => {
             const escape_token = `$R${escaped_acc.length}$`;
-            escaped_acc.push([escape_token, match]);
+            escaped_acc.push([escape_token, match.replace('[', '').replace(']', '')]);
             return escape_token;
         });
     }

@@ -119,8 +119,6 @@ const Tokens:TokenTuple[] = ([
     ['ss', d => `${d.getSeconds()}`.padStart(2, '0')],                  /* Seconds as 2-char: eg (00 01 .. 58 59) */
     ['s', d => d.getSeconds()],                                         /* Seconds as pure digit: eg (0 1 .. 58 59) */
     ['SSS', d => `${d.getMilliseconds()}`.padStart(3, '0')],            /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
-    ['X', d => Math.floor(d.valueOf()/1000)],                           /* Unix Timestamp */
-    ['x', d => Math.floor(d.valueOf())],                                /* Unix Millisecond Timestamp */
     ['A', d => d.getHours() < 12 ? 'AM' : 'PM'],                        /* Uppercase AM/PM */
     ['a', d => d.getHours() < 12 ? 'am' : 'pm'],                        /* Lowercase AM/PM */
 ] as RawTuple[])

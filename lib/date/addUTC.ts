@@ -13,7 +13,7 @@ import isDate from './is';
  */
 export default function addUTC (
     val:Date,
-    amount:number=0,
+    amt:number=0,
     key:'years'
         | 'year'
         | 'months'
@@ -34,60 +34,44 @@ export default function addUTC (
     ) throw new TypeError('addUTC requires a date object');
 
     if (
-        !Number.isInteger(amount)
+        !Number.isInteger(amt)
     ) throw new TypeError('Amount needs to be an integer');
 
     if (
         typeof key !== 'string'
     ) throw new TypeError('Key needs to be a string with content');
 
-    const copy = new Date(Date.UTC(
-        val.getUTCFullYear(),
-        val.getUTCMonth(),
-        val.getUTCDate(),
-        val.getUTCHours(),
-        val.getUTCMinutes(),
-        val.getUTCSeconds(),
-        val.getUTCMilliseconds()
-    ));
+    const year  = val.getUTCFullYear();
+    const month = val.getUTCMonth();
+    const date  = val.getUTCDate();
+    const hour  = val.getUTCHours();
+    const min   = val.getUTCMinutes();
+    const sec   = val.getUTCSeconds();
+    const ms    = val.getUTCMilliseconds();
 
     switch (key) {
         case 'years':
-        case 'year': {
-            copy.setUTCFullYear(copy.getUTCFullYear() + amount);
-            return copy;
-        }
+        case 'year':
+            return new Date(Date.UTC(year + amt, month, date, hour, min, sec, ms));
         case 'months':
-        case 'month': {
-            copy.setUTCMonth(copy.getUTCMonth() + amount);
-            return copy;
-        }
+        case 'month':
+            return new Date(Date.UTC(year, month + amt, date, hour, min, sec, ms));
         case 'days':
-        case 'day': {
-            copy.setUTCDate(copy.getUTCDate() + amount);
-            return copy;
-        }
+        case 'day':
+            return new Date(Date.UTC(year, month, date + amt, hour, min, sec, ms));
         case 'hours':
-        case 'hour': {
-            copy.setUTCHours(copy.getUTCHours() + amount);
-            return copy;
-        }
+        case 'hour':
+            return new Date(Date.UTC(year, month, date, hour + amt, min, sec, ms));
         case 'minutes':
-        case 'minute': {
-            copy.setUTCMinutes(copy.getUTCMinutes() + amount);
-            return copy;
-        }
+        case 'minute':
+            return new Date(Date.UTC(year, month, date, hour, min + amt, sec, ms));
         case 'seconds':
-        case 'second': {
-            copy.setUTCSeconds(copy.getUTCSeconds() + amount);
-            return copy;
-        }
+        case 'second':
+            return new Date(Date.UTC(year, month, date, hour, min, sec + amt, ms));
         case 'milliseconds':
-        case 'millisecond': {
-            copy.setUTCMilliseconds(copy.getUTCMilliseconds() + amount);
-            return copy;
-        }
+        case 'millisecond':
+            return new Date(Date.UTC(year, month, date, hour, min, sec, ms + amt));
         default:
-            return copy;
+            return new Date(Date.UTC(year, month, date, hour, min, sec, ms));
     }
 }

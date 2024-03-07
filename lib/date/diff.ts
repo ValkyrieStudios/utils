@@ -42,7 +42,7 @@ export default function diff (
         typeof key !== 'string'
     ) throw new TypeError('Key needs to be a string');
 
-    //  Get difference in milliseconds
+    /* Get difference in milliseconds */
     const diff_in_ms = val_a.valueOf() - val_b.valueOf();
 
     switch (key) {

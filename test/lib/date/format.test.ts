@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable max-lines */
+
 import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';
 import CONSTANTS        from '../../constants';
@@ -41,7 +43,7 @@ describe('Date - format', () => {
                 [new Date('2007-12-31T23:59:59+02:00'), '2007'],
                 [new Date('2007-12-31T23:59:59-02:00'), '2008'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'YYYY'), el[1]);
+                assert.equal(format(el[0], 'YYYY'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -61,7 +63,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), '3'],
                 [new Date('2023-11-05T23:23:34'), '4'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'Q'), el[1]);
+                assert.equal(format(el[0], 'Q'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -81,7 +83,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), 'September'],
                 [new Date('2023-11-05T23:23:34'), 'November'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'MMMM'), el[1]);
+                assert.equal(format(el[0], 'MMMM'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -135,7 +137,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), 'Sep'],
                 [new Date('2023-11-05T23:23:34'), 'Nov'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'MMM'), el[1]);
+                assert.equal(format(el[0], 'MMM'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -190,7 +192,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), '09'],
                 [new Date('2023-11-05T23:23:34'), '11'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'MM'), el[1]);
+                assert.equal(format(el[0], 'MM'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -222,7 +224,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), '9'],
                 [new Date('2023-11-05T23:23:34'), '11'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'M'), el[1]);
+                assert.equal(format(el[0], 'M'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -273,7 +275,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), '26'],
                 [new Date('2019-02-27T05:20:19+02:00'), '27'],
                 [new Date('2019-02-28T05:20:19+02:00'), '28'],
-                [new Date('2019-02-29T05:20:19+02:00'), '01'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), '01'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), '29'],
                 [new Date('2007-12-31T23:59:59+02:00'), '31'],
                 [new Date('2007-12-31T23:59:59-02:00'), '01'],
@@ -283,7 +285,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), '23'],
                 [new Date('2023-11-05T23:23:34'), '05'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'DD'), el[1]);
+                assert.equal(format(el[0], 'DD'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -317,7 +319,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), '26'],
                 [new Date('2019-02-27T05:20:19+02:00'), '27'],
                 [new Date('2019-02-28T05:20:19+02:00'), '28'],
-                [new Date('2019-02-29T05:20:19+02:00'), '01'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), '01'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), '29'],
                 [new Date('2007-12-31T23:59:59+02:00'), '31'],
                 [new Date('2007-12-31T23:59:59-02:00'), '01'],
@@ -363,7 +365,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), '26'],
                 [new Date('2019-02-27T05:20:19+02:00'), '27'],
                 [new Date('2019-02-28T05:20:19+02:00'), '28'],
-                [new Date('2019-02-29T05:20:19+02:00'), '1'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), '1'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), '29'],
                 [new Date('2007-12-31T23:59:59+02:00'), '31'],
                 [new Date('2007-12-31T23:59:59-02:00'), '1'],
@@ -373,7 +375,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), '23'],
                 [new Date('2023-11-05T23:23:34'), '5'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'D'), el[1]);
+                assert.equal(format(el[0], 'D'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -407,7 +409,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), '26'],
                 [new Date('2019-02-27T05:20:19+02:00'), '27'],
                 [new Date('2019-02-28T05:20:19+02:00'), '28'],
-                [new Date('2019-02-29T05:20:19+02:00'), '1'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), '1'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), '29'],
                 [new Date('2007-12-31T23:59:59+02:00'), '31'],
                 [new Date('2007-12-31T23:59:59-02:00'), '1'],
@@ -453,7 +455,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'Tuesday'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'Wednesday'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'Thursday'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'Friday'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'Friday'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'Thursday'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'Monday'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'Tuesday'],
@@ -463,7 +465,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), 'Saturday'],
                 [new Date('2023-11-05T23:23:34'), 'Sunday'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'dddd'), el[1]);
+                assert.equal(format(el[0], 'dddd'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -497,7 +499,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'mardi'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'mercredi'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'jeudi'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'vendredi'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'vendredi'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'jeudi'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'lundi'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'mardi'],
@@ -539,7 +541,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'dinsdag'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'woensdag'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'donderdag'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'vrijdag'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'vrijdag'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'donderdag'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'maandag'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'dinsdag'],
@@ -581,7 +583,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'terça-feira'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'quarta-feira'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'quinta-feira'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'sexta-feira'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'sexta-feira'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'quinta-feira'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'segunda-feira'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'terça-feira'],
@@ -627,7 +629,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'Tue'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'Wed'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'Thu'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'Fri'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'Fri'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'Thu'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'Mon'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'Tue'],
@@ -637,7 +639,7 @@ describe('Date - format', () => {
                 [new Date('2023-09-23T12:23:34'), 'Sat'],
                 [new Date('2023-11-05T23:23:34'), 'Sun'],
             ] as [Date, string][]) {
-                assert.equal(format(el[0], 'ddd'), el[1]);
+                assert.equal(format(el[0], 'ddd'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
 
@@ -685,7 +687,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'mar.'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'mer.'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'jeu.'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'ven.'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'ven.'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'jeu.'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'lun.'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'mar.'],
@@ -727,7 +729,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'di'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'wo'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'do'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'vr'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'vr'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'do'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'ma'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'di'],
@@ -769,7 +771,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-26T05:20:19+02:00'), 'ter.'],
                 [new Date('2019-02-27T05:20:19+02:00'), 'qua.'],
                 [new Date('2019-02-28T05:20:19+02:00'), 'qui.'],
-                [new Date('2019-02-29T05:20:19+02:00'), 'sex.'], // Not a leap year
+                [new Date('2019-02-29T05:20:19+02:00'), 'sex.'], /* Not a leap year */
                 [new Date('2024-02-29T05:20:19+02:00'), 'qui.'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'seg.'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'ter.'],
@@ -784,4 +786,234 @@ describe('Date - format', () => {
         });
     });
 
+    describe('token:HH', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '09'],
+                [new Date('2022-03-06T12:45:00Z'), '13'],
+                [new Date('2022-03-06T19:15:30Z'), '20'],
+                [new Date('2022-03-06T03:00:00Z'), '04'],
+                [new Date('2022-03-06T00:00:00Z'), '01'],
+                [new Date('2022-03-06T23:59:59Z'), '00'],
+                [new Date('2022-03-06T00:30:45+02:00'), '23'],
+                [new Date('2022-03-06T23:30:45-07:00'), '07'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'HH'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45+00:00'), 'HH', 'en', 'Europe/Paris'), '09');
+            assert.equal(format(new Date('2022-03-06T08:30:45+00:00'), 'HH', 'en', 'America/New_York'), '03');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'HH', 'en', 'UTC'), '22');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'HH', 'en', 'UTC'), '06');
+        });
+    });
+    
+    describe('token:H', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '9'],
+                [new Date('2022-03-06T12:45:00Z'), '13'],
+                [new Date('2022-03-06T19:15:30Z'), '20'],
+                [new Date('2022-03-06T03:00:00Z'), '4'],
+                [new Date('2022-03-06T00:00:00Z'), '1'],
+                [new Date('2022-03-06T23:59:59Z'), '0'],
+                [new Date('2022-03-06T00:30:45+02:00'), '23'],
+                [new Date('2022-03-06T23:30:45-07:00'), '7'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'H'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'H', 'en', 'Europe/Paris'), '9');
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'H', 'en', 'America/New_York'), '3');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'H', 'en', 'UTC'), '22');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'H', 'en', 'UTC'), '6');
+        });
+    });
+    
+    describe('token:hh', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '09'],
+                [new Date('2022-03-06T12:45:00Z'), '01'],
+                [new Date('2022-03-06T19:15:30Z'), '08'],
+                [new Date('2022-03-06T03:00:00Z'), '04'],
+                [new Date('2022-03-06T00:00:00Z'), '01'],
+                [new Date('2022-03-06T23:59:59Z'), '12'],
+                [new Date('2022-03-06T00:30:45+02:00'), '11'],
+                [new Date('2022-03-06T23:30:45-07:00'), '07'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'hh'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'hh', 'en', 'Europe/Paris'), '09');
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'hh', 'en', 'America/New_York'), '03');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'hh', 'en', 'UTC'), '10');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'hh', 'en', 'UTC'), '06');
+        });
+    
+        it('Should handle AM/PM properly', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'hh A'), '09 AM');
+            assert.equal(format(new Date('2022-03-06T15:45:00Z'), 'hh A'), '04 PM');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'hh A'), '11 PM');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'hh A'), '07 AM');
+        });
+    });
+    
+    describe('token:h', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '9'],
+                [new Date('2022-03-06T12:45:00Z'), '1'],
+                [new Date('2022-03-06T19:15:30Z'), '8'],
+                [new Date('2022-03-06T03:00:00Z'), '4'],
+                [new Date('2022-03-06T00:00:00Z'), '1'],
+                [new Date('2022-03-06T23:59:59Z'), '12'],
+                [new Date('2022-03-06T00:30:45+02:00'), '11'],
+                [new Date('2022-03-06T23:30:45-07:00'), '7'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'h'), el[1]);
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'h', 'en', 'Europe/Paris'), '9');
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'h', 'en', 'America/New_York'), '3');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'h', 'en', 'UTC'), '10');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'h', 'en', 'UTC'), '6');
+        });
+    
+        it('Should handle AM/PM properly', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'h A'), '9 AM');
+            assert.equal(format(new Date('2022-03-06T15:45:00Z'), 'h A'), '4 PM');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'h A'), '11 PM');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'h A'), '7 AM');
+        });
+    });
+
+    describe('token:mm', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '30'],
+                [new Date('2022-03-06T12:45:00Z'), '45'],
+                [new Date('2022-03-06T19:15:30Z'), '15'],
+                [new Date('2022-03-06T03:00:00Z'), '00'],
+                [new Date('2022-03-06T00:00:00Z'), '00'],
+                [new Date('2022-03-06T23:59:59Z'), '59'],
+                [new Date('2022-03-06T00:30:45+02:00'), '30'],
+                [new Date('2022-03-06T23:30:45-07:00'), '30'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'mm'), el[1]);
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'mm', 'en', 'Europe/Paris'), '30');
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'mm', 'en', 'America/New_York'), '30');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'mm', 'en', 'UTC'), '30');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'mm', 'en', 'UTC'), '30');
+            assert.equal(format(new Date('2022-03-06T00:30:45+05:30'), 'mm', 'en', 'Europe/Brussels'), '00'); /* Eg: India: UTC +5:30 */
+        });
+    });
+    
+    describe('token:m', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '30'],
+                [new Date('2022-03-06T12:45:00Z'), '45'],
+                [new Date('2022-03-06T19:15:30Z'), '15'],
+                [new Date('2022-03-06T03:00:00Z'), '0'],
+                [new Date('2022-03-06T00:00:00Z'), '0'],
+                [new Date('2022-03-06T23:59:59Z'), '59'],
+                [new Date('2022-03-06T00:30:45+02:00'), '30'],
+                [new Date('2022-03-06T23:30:45-07:00'), '30'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'm'), el[1]);
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'm', 'en', 'Europe/Paris'), '30');
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'm', 'en', 'America/New_York'), '30');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'm', 'en', 'UTC'), '30');
+            assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'm', 'en', 'UTC'), '30');
+        });
+    });
+    
+    describe('token:ss', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '45'],
+                [new Date('2022-03-06T12:45:30Z'), '30'],
+                [new Date('2022-03-06T19:15:00Z'), '00'],
+                [new Date('2022-03-06T03:00:15Z'), '15'],
+                [new Date('2022-03-06T00:00:59Z'), '59'],
+                [new Date('2022-03-06T23:59:00Z'), '00'],
+                [new Date('2022-03-06T00:30:45+02:00'), '45'],
+                [new Date('2022-03-06T23:30:15-07:00'), '15'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'ss'), el[1]);
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'ss', 'en', 'Europe/Paris'), '45');
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'ss', 'en', 'America/New_York'), '45');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'ss', 'en', 'UTC'), '45');
+            assert.equal(format(new Date('2022-03-06T23:30:15-07:00'), 'ss', 'en', 'UTC'), '15');
+        });
+    });
+    
+    describe('token:s', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '45'],
+                [new Date('2022-03-06T12:45:30Z'), '30'],
+                [new Date('2022-03-06T19:15:00Z'), '0'],
+                [new Date('2022-03-06T03:00:15Z'), '15'],
+                [new Date('2022-03-06T00:00:59Z'), '59'],
+                [new Date('2022-03-06T23:59:00Z'), '0'],
+                [new Date('2022-03-06T00:30:45+02:00'), '45'],
+                [new Date('2022-03-06T23:30:15-07:00'), '15'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 's'), el[1]);
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 's', 'en', 'Europe/Paris'), '45');
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 's', 'en', 'America/New_York'), '45');
+            assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 's', 'en', 'UTC'), '45');
+            assert.equal(format(new Date('2022-03-06T23:30:15-07:00'), 's', 'en', 'UTC'), '15');
+        });
+    });
+    
+    describe('token:SSS', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2022-03-06T08:30:45Z'), '000'],
+                [new Date('2022-03-06T12:45:30.123Z'), '123'],
+                [new Date('2022-03-06T19:15:00.999Z'), '999'],
+                [new Date('2022-03-06T03:00:15Z'), '000'],
+                [new Date('2022-03-06T00:00:59.456Z'), '456'],
+                [new Date('2022-03-06T23:59:00.789Z'), '789'],
+                [new Date('2022-03-06T00:30:45.987+02:00'), '987'],
+                [new Date('2022-03-06T23:30:15.001-07:00'), '001'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'SSS'), el[1]);
+            }
+        });
+    
+        it('Should take zone into account', () => {
+            assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'SSS', 'en', 'Europe/Paris'), '000');
+            assert.equal(format(new Date('2022-03-06T08:30:45.123Z'), 'SSS', 'en', 'America/New_York'), '123');
+            assert.equal(format(new Date('2022-03-06T00:30:45.987+02:00'), 'SSS', 'en', 'UTC'), '987');
+            assert.equal(format(new Date('2022-03-06T23:30:15.001-07:00'), 'SSS', 'en', 'UTC'), '001');
+        });
+    });
 });

@@ -8,7 +8,13 @@ type Formatter  = (d:Date, loc?:string) => string;
 type RawTuple   = [string, Formatter];
 type TokenTuple = [string, RegExp, Formatter];
 
-const DEFAULT_LOCALE = 'en-US';
+const DEFAULT_LOCALE    = 'en-US';
+let DEFAULT_TZ          = 'UTC';
+try {
+    DEFAULT_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+} catch (err) {
+    //  NOOP: If this doesn't work we simply work with UTC as default
+}
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
 const escape_rgx = /\[[\w\s]+]/g;
@@ -89,30 +95,30 @@ function runIntl (
  * Take Note: RegExp memoization is done ahead of time to ensure no regex compilation needs to happen during formatting
  */
 const Tokens:TokenTuple[] = ([
-    ['YYYY', d => d.getUTCFullYear()],                                  /* Full Year: eg (2021) */
-    ['Q', d => Math.floor((d.getUTCMonth() + 3) / 3)],                  /* Quarters of the year: eg (1 2 3 4) */
+    ['YYYY', d => d.getFullYear()],                                     /* Full Year: eg (2021) */
+    ['Q', d => Math.floor((d.getMonth() + 3) / 3)],                     /* Quarters of the year: eg (1 2 3 4) */
     ['MMMM', (d, loc) => runIntl(loc, 'MMMM', {month: 'long'}, d)],     /* Month in full: eg (January February ... November December) */
     ['MMM', (d, loc) => runIntl(loc, 'MMM', {month: 'short'}, d)],      /* Month as 3 char: eg (Jan Feb ... Nov Dec) */
-    ['MM', d => `${d.getUTCMonth() + 1}`.padStart(2, '0')],             /* Month as 2 char: eg (01 02 .. 11 12) */
-    ['M', d => d.getUTCMonth() + 1],                                    /* Month as pure digit: eg (1 2 .. 11 12) */
-    ['DD', d => `${d.getUTCDate()}`.padStart(2, '0')],                  /* Day of month as 2 char: eg (01 02 .. 30 31) */
-    ['D', d => d.getUTCDate()],                                         /* Day of month as 1 char: eg (1 2 .. 30 31) */
+    ['MM', d => `${d.getMonth() + 1}`.padStart(2, '0')],                /* Month as 2 char: eg (01 02 .. 11 12) */
+    ['M', d => d.getMonth() + 1],                                       /* Month as pure digit: eg (1 2 .. 11 12) */
+    ['DD', d => `${d.getDate()}`.padStart(2, '0')],                     /* Day of month as 2 char: eg (01 02 .. 30 31) */
+    ['D', d => d.getDate()],                                            /* Day of month as 1 char: eg (1 2 .. 30 31) */
     ['dddd', (d, loc) => runIntl(loc, 'dddd', {weekday: 'long'}, d)],   /* Day of week as 3 char: eg (Sun Mon ... Fri Sat) */
     ['ddd', (d, loc) => runIntl(loc, 'ddd', {weekday: 'short'}, d)],    /* Day of week in full: eg (Sunday Monday ... Saturday) */
-    ['HH', d => `${d.getUTCHours()}`.padStart(2, '0')],                 /* Hours as 2-char: eg (00 01 .. 22 23) */
-    ['H', d => d.getUTCHours()],                                        /* Hours as pure digit: eg (0 1 .. 22 23) */
-    ['hh', d => `${((d.getUTCHours()+11)%12)+1}`.padStart(2, '0')],     /* Hours in 12 hour time as 2 char: eg (01 02 ... 11 12) */
-    ['h', d => ((d.getUTCHours()+11)%12)+1],                            /* Hours in 12 hour time as pure digit: eg (1 2 ... 11 12) */
-    ['mm', d => `${d.getUTCMinutes()}`.padStart(2, '0')],               /* Minutes as 2-char: eg (00 01 .. 58 59) */
-    ['m', d => d.getUTCMinutes()],                                      /* Minutes as pure digit: eg (0 1 .. 58 59) */
-    ['ss', d => `${d.getUTCSeconds()}`.padStart(2, '0')],               /* Seconds as 2-char: eg (00 01 .. 58 59) */
-    ['s', d => d.getUTCSeconds()],                                      /* Seconds as pure digit: eg (0 1 .. 58 59) */
-    ['SSS', d => `${d.getUTCMilliseconds()}`.padStart(3, '0')],         /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
+    ['HH', d => `${d.getHours()}`.padStart(2, '0')],                    /* Hours as 2-char: eg (00 01 .. 22 23) */
+    ['H', d => d.getHours()],                                           /* Hours as pure digit: eg (0 1 .. 22 23) */
+    ['hh', d => `${((d.getHours()+11)%12)+1}`.padStart(2, '0')],        /* Hours in 12 hour time as 2 char: eg (01 02 ... 11 12) */
+    ['h', d => ((d.getHours()+11)%12)+1],                               /* Hours in 12 hour time as pure digit: eg (1 2 ... 11 12) */
+    ['mm', d => `${d.getMinutes()}`.padStart(2, '0')],                  /* Minutes as 2-char: eg (00 01 .. 58 59) */
+    ['m', d => d.getMinutes()],                                         /* Minutes as pure digit: eg (0 1 .. 58 59) */
+    ['ss', d => `${d.getSeconds()}`.padStart(2, '0')],                  /* Seconds as 2-char: eg (00 01 .. 58 59) */
+    ['s', d => d.getSeconds()],                                         /* Seconds as pure digit: eg (0 1 .. 58 59) */
+    ['SSS', d => `${d.getMilliseconds()}`.padStart(3, '0')],            /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
     ['X', d => Math.floor(d.valueOf()/1000)],                           /* Unix Timestamp */
     ['x', d => Math.floor(d.valueOf())],                                /* Unix Millisecond Timestamp */
-    ['A', d => d.getUTCHours() < 12 ? 'AM' : 'PM'],                     /* Uppercase AM/PM */
-    ['a', d => d.getUTCHours() < 12 ? 'am' : 'pm'],                     /* Lowercase AM/PM */
-    ['G', d => d.getUTCFullYear() >= 0 ? 'AD' : 'BC'],                  /* AD or BC */
+    ['A', d => d.getHours() < 12 ? 'AM' : 'PM'],                        /* Uppercase AM/PM */
+    ['a', d => d.getHours() < 12 ? 'am' : 'pm'],                        /* Lowercase AM/PM */
+    ['G', d => d.getFullYear() >= 0 ? 'AD' : 'BC'],                     /* AD or BC */
 ] as RawTuple[])
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1)
     .map((el:RawTuple):TokenTuple => [el[0], new RegExp(el[0], 'g'), el[1]]);
@@ -147,11 +153,11 @@ function getSpecChain (spec:string):TokenTuple[]|false {
  * @param {Date} val - Date to format
  * @param {string} spec - Spec to format the date to
  * @param {string} locale - Locale to format the date in (only used in certain tokens such as dddd and MMMM)
- * @param {string} zone - (optional) Pass the timezone to convert into. If not passed no conversion will happen
+ * @param {string} zone - (default=current timezone) Pass the timezone to convert into. If not passed no conversion will happen
  * @returns {string} Formatted date as string 
  * @throws {TypeError} When provided invalid payload
  */
-export default function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone?:string):string {
+export default function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ):string {
     /* Ensure val is a Date */
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 
@@ -181,7 +187,7 @@ export default function format (val:Date, spec:string, locale:string = DEFAULT_L
     if (!spec_chain) return '';
 
     /* Convert date to zone if necessary */
-    const d:Date = typeof zone === 'string' && zone.trim().length ? toZone(val, zone) : val;
+    const d:Date = toZone(val, zone);
 
     /* Run spec chain */
     for (const el of spec_chain) {

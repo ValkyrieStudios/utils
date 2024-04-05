@@ -1,8 +1,8 @@
 'use strict';
 
-import isBoolean    from '../boolean/is';
-import isString     from '../string/is';
-import round        from '../number/round';
+import round from '../number/round';
+
+const DEFAULT_UNITS = ['', 'k', 'm', 'b', 't', 'q'];
 
 interface humanizeNumberOptions {
     /**
@@ -55,70 +55,66 @@ interface humanizeNumberOptions {
  *
  * @returns Humanized number as string
  */
-export default function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):string {
-    const has_opts = Object.prototype.toString.call(options) === '[object Object]';
-    const OPTS:humanizeNumberOptions = {
-        delim: has_opts && typeof options.delim === 'string'
-            ? options.delim
-            : ',',
-        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length
-            ? options.separator
-            : '.',
-        precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0
-            ? options.precision
-            : 2,
-        units: has_opts && ((Array.isArray(options.units) && options.units.length) || options.units === false)
-            ? options.units ? options.units.filter(isString) : false
-            : ['', 'k', 'm', 'b', 't', 'q'],
-        //  Have to have at least bigger than 1 to not end in infinite loop
-        divider: has_opts && Number.isInteger(options.divider) && options.divider > 1
-            ? options.divider
-            : 1000,
-        //  Should we auto parse as integer (true) or not (false)
-        real: has_opts && isBoolean(options.real)
-            ? options.real
-            : false,
-    };
+export default function humanizeNumber (val:number|string, options:humanizeNumberOptions|false = false):string {
+    let DELIM:string            = ',';
+    let SEPARATOR:string        = '.';
+    let PRECISION:number        = 2;
+    let UNITS:string[]|false    = DEFAULT_UNITS;
+    let DIVIDER:number          = 1000;
+    let REAL:boolean            = false;
+
+    /* Process options */
+    if (options && Object.prototype.toString.call(options) === '[object Object]') {
+        if (typeof options.delim === 'string') DELIM = options.delim;
+        if (typeof options.separator === 'string' && options.separator.trim().length) SEPARATOR = options.separator;
+        if (Number.isInteger(options.precision) && options.precision >= 0) PRECISION = options.precision;
+        if (Array.isArray(options.units) && options.units.length) {
+            UNITS = options.units;
+        } else if (options.units === false) {
+            UNITS = false;
+        }
+        if (Number.isInteger(options.divider) && options.divider > 1) {
+            DIVIDER = options.divider;
+        }
+
+        if (options.real === true) REAL = true;
+    }
 
     //  Normalize to a numerical value
-    let normalized:number;
-    if (OPTS.real) {
-        normalized = typeof val === 'string' ? parseInt(val.trim(), 10) : Number.isFinite(val) ? Math.round(val) : 0;
-    } else {
-        normalized = typeof val === 'string' ? parseFloat(val) : Number.isFinite(val) ? val : 0;
+    let normalized:number = 0;
+    if (typeof val === 'string') {
+        normalized = REAL ? parseInt(val.trim(), 10) : parseFloat(val);
+    } else if (Number.isFinite(val)) {
+        normalized = REAL ? Math.round(val) : val;
     }
 
-    //  If not a valid value or 0, return
-    if (!Number.isFinite(normalized) || normalized === 0) {
-        return `0${Array.isArray(OPTS.units) && OPTS.units.length ? OPTS.units[0] : ''}`;
-    }
+    /* If not a valid value or 0, return */
+    if (!Number.isFinite(normalized) || normalized === 0) return `0${UNITS ? UNITS[0] : ''}`;
 
-    //  Determine sign
+    /* Determine original sign and normalize */
     const sign = normalized < 0 ? '-' : '';
-
-    //  Ensure val here is absolute
     normalized = Math.abs(normalized);
 
-    //  At each step, divide by divider, based on that we get the unit size
+    /* At each step, divide by divider, based on that we get the unit size */
     let postfix = '';
-    if (Array.isArray(OPTS.units) && OPTS.units.length) {
+    if (UNITS) {
         let unit_ix = 0;
-        for (unit_ix; normalized >= OPTS.divider && unit_ix < OPTS.units.length - 1; unit_ix++) {
-            normalized /= OPTS.divider;
+        for (unit_ix; normalized >= DIVIDER && unit_ix < UNITS.length - 1; unit_ix++) {
+            normalized /= DIVIDER;
         }
-        postfix = OPTS.units[unit_ix];
+        postfix = UNITS[unit_ix];
     }
 
-    //  Round with precision
-    normalized = round(normalized, OPTS.precision);
+    /* Round with precision */
+    normalized = round(normalized, PRECISION);
 
-    //  Humanize from eg: 10023 to 10,023
+    /* Humanize from eg: 10023 to 10,023 */
     const humanized:string[]= `${normalized}`.split('.');
     humanized[0] = humanized[0].split('').reverse().map((char, ix, original) => {
-        if (ix > 0 && ix < original.length && ix % 3 === 0) return char + OPTS.delim;
+        if (ix > 0 && ix < original.length && ix % 3 === 0) return char + DELIM;
         return char;
     }).reverse().join('');
 
-    //  Include a decimal point and a tenths-place digit if presenting less than then of KB or greater units
-    return `${sign}${humanized.join(OPTS.separator)}${postfix}`;
+    /* Include a decimal point and a tenths-place digit if presenting less than then of KB or greater units */
+    return `${sign}${humanized.join(SEPARATOR)}${postfix}`;
 }

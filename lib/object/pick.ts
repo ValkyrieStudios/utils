@@ -3,6 +3,8 @@
 import deepGet from '../deep/get';
 import deepSet from '../deep/set';
 
+const RGX_DEEP = /(\.|\[)/;
+
 /**
  * Returns a new object with the keys picked from the passed object
  *
@@ -30,7 +32,7 @@ export default function pick (
         sanitized = key.trim();
         if (!sanitized.length) continue;
 
-        if (/(\.|\[)/g.test(sanitized)) {
+        if (RGX_DEEP.test(sanitized)) {
             val = deepGet(obj, sanitized);
             if (val === undefined) continue;
             deepSet(map, sanitized, val);

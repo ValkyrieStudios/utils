@@ -7,6 +7,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **perf**: array/shuffle: Remove unnecessary length check
+- **perf**: deep/set - Minor performance improvement thanks to using precompiled regex and caching internal length checks
+- **perf**: object/pick - Minor ~4% performance improvement thanks to using a precompiled regex and dropping the global flag
 - **deps**: Upgrade @types/node to 20.12.4
 - **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.5.0
 - **deps**: Upgrade @typescript-eslint/parser to 7.5.0
@@ -156,8 +159,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [8.1.0] - 2023-11-29
 ### Improved
-- Reverted module type change that caused breakage due to esm vs cjs compatibility
-- Adjusted src files and test files to work with .mjs extension
+- **sys** Reverted module type change that caused breakage due to esm vs cjs compatibility
+- **sys** Adjusted src files and test files to work with .mjs extension
 
 ## [8.0.0] - 2023-11-29
 ### Added

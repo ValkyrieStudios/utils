@@ -32,7 +32,7 @@ const zone_offset_cache:Map<string, number> = new Map();
 
 /**
  * Get the day of the year for a particular date
- * 
+ *
  * @param {Date} d - Date to get the day of the year for
  * @returns {number} Day of the year
  */
@@ -46,10 +46,10 @@ function DOY (d:Date):number {
  * Convert a particular date object to another timezone. We do this by first computing
  * the offset between the client and the date in the new timezone. We then store that knowledge for future use
  * and then return the date with the addition of the minutes (offset to the new zone).
- * 
+ *
  * Why do we need the zone offset cache? Because toLocaleString with timeZone options is an incredibly
  * expensive operation.
- * 
+ *
  * @param {Date} date - Original date object
  * @param {string} zone - Time Zone to convert to
  * @returns {Date} Date in the zone
@@ -120,7 +120,7 @@ function runIntl (
  */
 const Tokens:TokenTuple[] = ([
     ['YYYY', d => d.getFullYear()],                                     /* Full Year: eg (2021) */
-    ['Q', d => Math.floor((d.getMonth() + 3) / 3)],                     /* Quarters of the year: eg (1 2 3 4) */
+    ['Q', d => ((d.getMonth() + 3) / 3) | 0],                           /* Quarters of the year: eg (1 2 3 4) */
     ['MMMM', (d, loc) => runIntl(loc, 'MMMM', {month: 'long'}, d)],     /* Month in full: eg (January February ... November December) */
     ['MMM', (d, loc) => runIntl(loc, 'MMM', {month: 'short'}, d)],      /* Month as 3 char: eg (Jan Feb ... Nov Dec) */
     ['MM', d => `${d.getMonth() + 1}`.padStart(2, '0')],                /* Month as 2 char: eg (01 02 .. 11 12) */
@@ -195,7 +195,7 @@ export default function format (val:Date, spec:string, locale:string = DEFAULT_L
 
     /**
      * Replacement of escaped characters
-     * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$R0$YYYY $R0$Q $R1$M $R2$D' -> 2021 Q1 M2 D7
+     * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$R0$YYYY $R1$Q $R2$M $R3$D' -> 2021 Q1 M2 D7
      */
     const escaped_acc:[string, string][] = [];
     if (formatted_string.indexOf('[') >= 0) {

@@ -1,5 +1,7 @@
 'use strict';
 
+const RGX_MALICIOUS = /__proto__|constructor|prototype/;
+
 /**
  * Sets a property and its value deep in the structure of an object
  *
@@ -52,7 +54,7 @@ export default function deepSet (
     if (typeof path !== 'string') throw new TypeError('No path was given');
 
     //  Check if path contains rejected keys
-    if (/__proto__|constructor|prototype/.test(path)) throw new TypeError('Malicious path provided');
+    if (RGX_MALICIOUS.test(path)) throw new TypeError('Malicious path provided');
 
     //  Check if path contains content
     const path_s = path.trim();
@@ -64,9 +66,10 @@ export default function deepSet (
         .replace(/(\.){2,}/g, '.')
         .replace(/(^\.|\.$|\])/g, '')
         .split('.');
+    const last_part_ix = parts.length - 1;
 
     //  Build any unknown paths and set cursor
-    for (let i = 0; i < parts.length - 1; i++) {
+    for (let i = 0; i < last_part_ix; i++) {
         //  If this part is an empty string, just continue
         if (parts[i] === '') continue;
 
@@ -87,13 +90,13 @@ export default function deepSet (
 
     //  Set the actual value on the cursor
     if (define) {
-        Object.defineProperty(obj, parts[parts.length - 1], value);
+        Object.defineProperty(obj, parts[last_part_ix], value);
     } else if (Array.isArray(obj)) {
-        const idx = parseInt(parts[parts.length - 1]);
+        const idx = parseInt(parts[last_part_ix]);
         if (!Number.isInteger(idx) || idx < 0) throw new TypeError('Invalid path provided');
         obj[idx] = value;
     } else {
-        obj[parts[parts.length - 1]] = value;
+        obj[parts[last_part_ix]] = value;
     }
 
     return true;

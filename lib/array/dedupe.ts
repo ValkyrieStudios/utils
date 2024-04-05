@@ -10,11 +10,14 @@
 export default function dedupe <T> (val:T[]):T[] {
     if (!Array.isArray(val))  return [];
 
-    const set = new Set<any>();
+    const set = new Set<T>();
+    const acc:T[] = [];
     for (const item of val) {
-        if (set.has(item)) continue;
-        set.add(item);
+        if (!set.has(item)) {
+            set.add(item);
+            acc.push(item);
+        }
     }
 
-    return [...set];
+    return acc;
 }

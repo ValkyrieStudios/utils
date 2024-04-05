@@ -12,7 +12,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: deep/set - Minor performance improvement thanks to using precompiled regex and caching internal length checks
 - **perf**: object/pick - Minor ~4% performance improvement thanks to using a precompiled regex and dropping the global flag
 - **perf**: string/humanizeBytes - ~15-25% performance improvement thanks to reducing internal operations and simplifying logic in humanizeNumber
-- **perf**: string/humanizeNumber - ~15-25% performance improvement thanks to reducing internal operations and simplifying logic in humanizeNumber
+- **perf**: string/humanizeNumber - ~5-10% performance improvement thanks to reducing internal operations and simplifying logic in humanizeNumber
 - **deps**: Upgrade @types/node to 20.12.4
 - **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.5.0
 - **deps**: Upgrade @typescript-eslint/parser to 7.5.0

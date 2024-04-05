@@ -89,32 +89,27 @@ export default function humanizeNumber (val:number|string, options:humanizeNumbe
     }
 
     /* If not a valid value or 0, return */
-    if (!Number.isFinite(normalized) || normalized === 0) return `0${UNITS ? UNITS[0] : ''}`;
+    if (!Number.isFinite(normalized) || normalized === 0) return UNITS ? `0${UNITS[0]}` : '0';
 
     /* Determine original sign and normalize */
     const sign = normalized < 0 ? '-' : '';
     normalized = Math.abs(normalized);
 
     /* At each step, divide by divider, based on that we get the unit size */
-    let postfix = '';
+    let unit_ix: number = 0;
     if (UNITS) {
-        let unit_ix = 0;
         for (unit_ix; normalized >= DIVIDER && unit_ix < UNITS.length - 1; unit_ix++) {
             normalized /= DIVIDER;
         }
-        postfix = UNITS[unit_ix];
     }
 
-    /* Round with precision */
-    normalized = round(normalized, PRECISION);
-
     /* Humanize from eg: 10023 to 10,023 */
-    const humanized:string[]= `${normalized}`.split('.');
+    const humanized:string[]= `${round(normalized, PRECISION)}`.split('.', 2);
     humanized[0] = humanized[0].split('').reverse().map((char, ix, original) => {
         if (ix > 0 && ix < original.length && ix % 3 === 0) return char + DELIM;
         return char;
     }).reverse().join('');
 
     /* Include a decimal point and a tenths-place digit if presenting less than then of KB or greater units */
-    return `${sign}${humanized.join(SEPARATOR)}${postfix}`;
+    return `${sign}${humanized.join(SEPARATOR)}${UNITS ? UNITS[unit_ix] : ''}`;
 }

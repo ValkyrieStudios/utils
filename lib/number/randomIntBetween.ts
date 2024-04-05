@@ -6,7 +6,7 @@
  *
  * @param min - (default=0) Lower bound
  * @param max - (default=10) Upper bound
- * 
+ *
  * @returns Random integer between min and max
  */
 export default function randomIntBetween (

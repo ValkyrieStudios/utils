@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-disable no-bitwise */
-
 const FNV_32        = 2166136261;
 const REPL_NAN      = 'nan';
 const REPL_TRUE     = 'true';

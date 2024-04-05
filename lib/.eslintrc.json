@@ -46,7 +46,6 @@
         "max-statements": ["warn", 30],
         "no-alert": "error",
         "no-array-constructor": "error",
-        "no-bitwise": "error",
         "no-caller": "error",
         "no-confusing-arrow": "error",
         "no-console": ["error", {"allow": ["warn", "error"]}],

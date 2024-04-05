@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint-disable no-bitwise, prefer-template */
+/* eslint-disable prefer-template */
 
 //  Prebuilt hexmap from 0 to 255
 const HEXMAP:string[] = [];

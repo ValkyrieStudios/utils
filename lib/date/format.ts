@@ -73,7 +73,7 @@ function toZone (date:Date, zone:string):Date {
 
     /* Calculate the time difference in minutes */
     const offset = (zone_time as number) - client_time;
-        
+
     /* Store in offset cache so we don't need to do this again */
     zone_offset_cache.set(ckey, offset);
 
@@ -83,9 +83,9 @@ function toZone (date:Date, zone:string):Date {
 
 /**
  * Creates an Intl DateTimeFormat instance, caches it and runs the specific date against it
- * 
+ *
  * @param {string} loc - Locale to use for the formatter
- * @param {string} token - Token key this formatter is for 
+ * @param {string} token - Token key this formatter is for
  * @param {Intl.DateTimeFormatOptions} props - Options to pass to the formatter
  * @param {Date} val - Value to format
  * @returns {string} Formatted value
@@ -114,7 +114,7 @@ function runIntl (
 
 /**
  * Token Tuple array, this is a sorted array of tuples containing a RegEx and a formatting function.
- * 
+ *
  * Take Note: They are sorted by length initially to ensure shorter tokens don't replace what could have been a longer token (eg: DD vs D)
  * Take Note: RegExp memoization is done ahead of time to ensure no regex compilation needs to happen during formatting
  */
@@ -146,16 +146,16 @@ const Tokens:TokenTuple[] = ([
 
 /**
  * Create and return spec chain if spec does not exist in spec cache, otherwise return cached spec plan
- *  
+ *
  * Why? In real-world scenarios most apps only apply a handful of specs (eg: 'YYYY-MM-DD'). As such it's going to be faster
  * with continued issue to cache the chains that need to be executed for these specs.
- * 
+ *
  * @param {string} spec - Spec to be converted to spec chain
  * @returns {TokenTuple[]|false} Returns either a token tuple array or false in case the spec does not contain tokens
  */
 function getSpecChain (spec:string):TokenTuple[]|false {
     if (spec_cache.has(spec)) return spec_cache.get(spec);
-    
+
     const spec_chain:TokenTuple[] = [];
     let cursor;
     for (let i = 0; i < Tokens.length; i++) {
@@ -175,7 +175,7 @@ function getSpecChain (spec:string):TokenTuple[]|false {
  * @param {string} spec - Spec to format the date to
  * @param {string} locale - Locale to format the date in (only used in certain tokens such as dddd and MMMM)
  * @param {string} zone - (default=current timezone) Pass the timezone to convert into. If not passed no conversion will happen
- * @returns {string} Formatted date as string 
+ * @returns {string} Formatted date as string
  * @throws {TypeError} When provided invalid payload
  */
 export default function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ):string {

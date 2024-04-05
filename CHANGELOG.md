@@ -7,6 +7,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **perf**: array/dedupe - Significant performance improvement by moving away from fnv hashing to using native Sets
 - **perf**: array/shuffle: Remove unnecessary length check
 - **perf**: deep/set - Minor performance improvement thanks to using precompiled regex and caching internal length checks
 - **perf**: object/pick - Minor ~4% performance improvement thanks to using a precompiled regex and dropping the global flag

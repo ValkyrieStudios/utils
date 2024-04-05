@@ -24,9 +24,7 @@ interface mapOptions {
     keyround?:boolean;
 }
 
-interface mapReturn {
-    [key:string]: string|number;
-}
+type mapReturn = Record<string, string|number>;
 
 /**
  * Map an array of primitive values (numbers/strings) into a kv-object
@@ -37,34 +35,38 @@ interface mapReturn {
  * Output:
  *  {hello: 'hello', foo: 'foo', bar: 'bar'}
  *
- * @param val - Array to map
- * @param opts - Options object to override built-in defaults
+ * @param {unknown[]} val - Array to map
+ * @param {mapOptions?} opts - Options object to override built-in defaults
  *
- * @returns KV-Map object
+ * @returns {mapReturn} KV-Map object
  */
-export default function mapPrimitive (
-    arr:unknown[],
-    opts:mapOptions = {}
-):mapReturn {
+export default function mapPrimitive (arr:unknown[], opts?:mapOptions):mapReturn {
     if (!Array.isArray(arr) || !arr.length) return {};
 
-    const OPTS:mapOptions = {
-        valtrim: false,
-        valround: false,
-        keyround: false,
-        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
-    };
+    let VALTRIM:boolean = false;
+    let VALROUND:number|boolean = false;
+    let KEYROUND:number|boolean = false;
+    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
+        if (opts.valtrim === true) VALTRIM = true;
+        if (
+            opts.valround === true ||
+            (Number.isInteger(opts.valround) && (opts.valround as number) >= 0)
+        ) VALROUND = opts.valround;
+        if (opts.keyround === true) KEYROUND = true;
+    }
 
     const map:mapReturn = {};
     for (const el of arr) {
-        if (typeof el === 'string' && el.trim().length) {
-            map[el.trim()] = OPTS.valtrim ? el.trim() : el;
+        if (typeof el === 'string') {
+            const trimmed = el.trim();
+            if (!trimmed.length) continue;
+            map[trimmed] = VALTRIM ? trimmed : el;
         } else if (typeof el === 'number' && Number.isFinite(el)) {
-            map[`${OPTS.keyround === true ? Math.round(el) : el}`] = OPTS.valround === false
+            map[`${KEYROUND ? Math.round(el) : el}`] = VALROUND === false
                 ? el
-                : OPTS.valround === true
+                : VALROUND === true
                     ? Math.round(el)
-                    : round(el, OPTS.valround);
+                    : round(el, VALROUND);
         }
     }
 

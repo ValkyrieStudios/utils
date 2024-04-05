@@ -1,6 +1,5 @@
 'use strict';
 
-import isBoolean        from '../boolean/is';
 import isNotEmptyObject from '../object/isNotEmpty';
 
 interface sortOptions {
@@ -110,22 +109,24 @@ export default function sort (
     arr:sortObject[],
     by:string|sortByFunction,
     dir:'asc'|'desc' = 'asc',
-    opts:sortOptions = {}
+    opts?:sortOptions
 ) {
     if (!Array.isArray(arr) || !arr.length) return [];
 
     //  Check dir
     if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
 
-    const has_opts = Object.prototype.toString.call(opts) === '[object Object]';
-
-    const OPTS:sortOptions = {
-        filter_fn   : has_opts && typeof opts.filter_fn === 'function'
-            ? el => isNotEmptyObject(el) && opts.filter_fn(el)
-            : isNotEmptyObject,
-        nokey_hide  : has_opts && isBoolean(opts.nokey_hide) ? opts.nokey_hide : false,
-        nokey_atend : has_opts && isBoolean(opts.nokey_atend) ? opts.nokey_atend : true,
-    };
+    let NOKEY_HIDE = false;
+    let NOKEY_AT_END = true;
+    let FILTER_FN = isNotEmptyObject;
+    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
+        if (opts.nokey_hide === true) NOKEY_HIDE = true;
+        if (opts.nokey_atend === false) NOKEY_AT_END = false;
+        if (typeof opts.filter_fn === 'function') {
+            const fn = opts.filter_fn;
+            FILTER_FN = el => isNotEmptyObject(el) && fn(el);
+        }
+    }
 
     //  Prepare for sort
     const prepared_arr  = [];
@@ -135,7 +136,7 @@ export default function sort (
         if (!by_s.length) throw new Error('Sort by as string should contain content');
 
         for (const el of arr) {
-            if (!OPTS.filter_fn(el)) continue;
+            if (!FILTER_FN(el)) continue;
 
             if (!Object.prototype.hasOwnProperty.call(el, by_s) || el[by_s] === undefined) {
                 nokey_arr.push(el);
@@ -146,7 +147,7 @@ export default function sort (
     } else if (typeof by === 'function') {
         let key;
         for (const el of arr) {
-            if (!OPTS.filter_fn(el)) continue;
+            if (!FILTER_FN(el)) continue;
 
             key = by(el);
             if (key === undefined) {
@@ -164,9 +165,9 @@ export default function sort (
     if (dir === 'desc') prepared_arr.reverse();
 
     const result = [];
-    if (OPTS.nokey_hide) {
+    if (NOKEY_HIDE) {
         for (const obj of prepared_arr) result.push(obj.el);
-    } else if (OPTS.nokey_atend) {
+    } else if (NOKEY_AT_END) {
         for (const obj of prepared_arr) result.push(obj.el);
         for (const el of nokey_arr) result.push(el);
     } else {

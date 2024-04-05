@@ -15,9 +15,8 @@ interface mapOptions {
     merge?:boolean;
 }
 
-interface kvMap {
-    [key:string]:{[key:string]:any};
-}
+type mapFn = (entry:{[key:string]:any}) => (string|number|boolean);
+type mapReturn = Record<string, Record<string, any>>;
 
 /**
  * Map an object array into a kv-object through a function that generates a key. Returning a non-string,
@@ -28,30 +27,24 @@ interface kvMap {
  * Output:
  *  {12: {uid: 12, name: 'Peter'}, 15: {uid: 15, name: 'Jonas'}}
  *
- * @param val - Array to map
- * @param fn - Handler function which is run for each of the objects and should return a string or number
- * @param opts - Options object to override built-in defaults
+ * @param {Record<string, any>[]} val - Array to map
+ * @param {mapFn} fn - Handler function which is run for each of the objects and should return a string or number
+ * @param {mapOptions?} opts - Options object to override built-in defaults
  *
- * @returns KV-Map object
+ * @returns {mapReturn} KV-Map object
  */
-export default function mapFn (
-    arr:{[key:string]:any}[],
-    fn:(entry:{[key:string]:any}) => (string|number|boolean),
-    opts:mapOptions={}
-):kvMap {
+export default function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOptions):mapReturn {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof fn !== 'function'
     ) return {};
 
-    const OPTS:mapOptions= {
-        merge: false,
-        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
-    };
+    let MERGE:boolean = false;
+    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
+        if (opts.merge === true) MERGE = true;
+    }
 
-    const map:{
-        [key:string]:{[key:string]:any}
-    } = {};
+    const map:mapReturn = {};
     let hash:(string|number|boolean) = false;
     for (const el of arr) {
         if (Object.prototype.toString.call(el) !== '[object Object]') continue;
@@ -63,11 +56,7 @@ export default function mapFn (
         //  Normalize hash to string
         hash = `${hash}`;
 
-        if (OPTS.merge === true && map.hasOwnProperty(hash)) {
-            map[hash] = {...map[hash], ...el};
-        } else {
-            map[hash] = el;
-        }
+        map[hash] = MERGE && map.hasOwnProperty(hash) ? {...map[hash], ...el} : el;
     }
 
     return map;

@@ -7,14 +7,20 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **feat**: string/shorten - Will now only accept integers for length
 - **perf**: array/dedupe - Significant performance improvement by moving away from fnv hashing to using native Sets
-- **perf**: array/shuffle: Remove unnecessary length check
+- **perf**: array/join - ~20% performance improvement thanks to reducing internal operations 
+- **perf**: array/shuffle - Remove unnecessary length check
+- **perf**: array/mapFn - Minor performance improvement thanks to reducing internal operations regarding key lookups
+- **perf**: array/mapPrimitive - Minor performance improvement thanks to reducing internal operations regarding key lookups
+- **perf**: array/mapPrimitive - ~15% performance improvement when mapping strings thanks to reducing internal operations regarding trimming
+- **perf**: array/mapKey - Minor performance improvement thanks to reducing internal operations regarding key lookups
+- **perf**: array/sort - Minor performance improvement thanks to reducing internal operations regarding key lookups
 - **perf**: deep/set - Minor performance improvement thanks to using precompiled regex and caching internal length checks
 - **perf**: object/pick - Minor ~4% performance improvement thanks to using a precompiled regex and dropping the global flag
 - **perf**: string/humanizeBytes - ~15-25% performance improvement thanks to reducing internal operations and simplifying logic in humanizeNumber
 - **perf**: string/humanizeNumber - ~5-10% performance improvement thanks to reducing internal operations and simplifying logic in humanizeNumber
 - **perf**: string/shorten - Minor performance improvement due to swapping Number.isFinite for Number.isInteger
-- **feat**: string/shorten - Will now only accept integers for length
 - **deps**: Upgrade @types/node to 20.12.4
 - **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.5.0
 - **deps**: Upgrade @typescript-eslint/parser to 7.5.0

@@ -32,32 +32,33 @@ interface joinOptions {
 /**
  * Join an array of values while autofiltering any non-string/non-number elements
  *
- * @param val - Array of values to join
- * @param opts - Join options
+ * @param {unknown[]} val - Array of values to join
+ * @param {joinOptions?} opts - Join options
  *
  * @returns Joined array as string
  */
-export default function join (
-    val:unknown[],
-    opts:joinOptions={}
-):string {
+export default function join (val:unknown[], opts?:joinOptions):string {
     if (!Array.isArray(val) || !val.length) return '';
 
-    const OPTS:joinOptions = {
-        delim   : ' ',
-        trim    : true,
-        valtrim : true,
-        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
-    };
+    let DELIM:string = ' ';
+    let TRIM:boolean = true;
+    let VALTRIM:boolean = true;
+    let VALROUND:number|false = false;
+    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
+        if (typeof opts.delim === 'string') DELIM = opts.delim;
+        if (opts.trim === false) TRIM = opts.trim;
+        if (opts.valtrim === false) VALTRIM = opts.valtrim;
+        if (Number.isInteger(opts.valround) && opts.valround >= 0) VALROUND = opts.valround;
+    }
 
     const filtered = [];
     for (const el of val) {
         if (typeof el === 'string' && el.trim().length) {
-            filtered.push(OPTS.valtrim === true ? el.trim() : el);
+            filtered.push(VALTRIM ? el.trim() : el);
         } else if (Number.isFinite(el)) {
-            filtered.push(Number.isFinite(OPTS.valround) ? round(el as number, OPTS.valround) : el);
+            filtered.push(VALROUND !== false ? round(el as number, VALROUND) : el);
         }
     }
 
-    return OPTS.trim === true ? filtered.join(OPTS.delim).trim() : filtered.join(OPTS.delim);
+    return TRIM ? filtered.join(DELIM).trim() : filtered.join(DELIM);
 }

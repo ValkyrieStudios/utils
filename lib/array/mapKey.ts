@@ -15,9 +15,7 @@ interface mapOptions {
     merge?:boolean;
 }
 
-interface kvMap {
-    [key:string]:{[key:string]:any};
-}
+type kvMap = Record<string, Record<string, any>>;
 
 /**
  * Map an object array into a kv-object by passing a common key that exists on the objects. Objects for
@@ -28,17 +26,13 @@ interface kvMap {
  * Output:
  *  {12: {uid: 12, name: 'Peter'}, 15: {uid: 15, name: 'Jonas'}}
  *
- * @param val - Array to map
- * @param key - Key to map by
- * @param opts - Options object to override built-in defaults
+ * @param {Record<string,any>[]} val - Array to map
+ * @param {string} key - Key to map by
+ * @param {mapOptions?} opts - Options object to override built-in defaults
  *
- * @returns KV-Map object
+ * @returns {kvMap} KV-Map object
  */
-export default function mapKey (
-    arr:{[key:string]:any}[],
-    key:string,
-    opts:mapOptions={}
-):kvMap {
+export default function mapKey (arr:Record<string,any>[], key:string, opts?:mapOptions):kvMap {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof key !== 'string'
@@ -47,10 +41,10 @@ export default function mapKey (
     const key_s = key.trim();
     if (!key_s.length) return {};
 
-    const OPTS:mapOptions = {
-        merge: false,
-        ...Object.prototype.toString.call(opts) === '[object Object]' ? opts : {},
-    };
+    let MERGE:boolean = false;
+    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
+        if (opts.merge === true) MERGE = true;
+    }
 
     const map:kvMap = {};
     for (const el of arr) {
@@ -59,11 +53,7 @@ export default function mapKey (
             !Object.prototype.hasOwnProperty.call(el, key_s)
         ) continue;
 
-        if (OPTS.merge === true && map.hasOwnProperty(el[key_s])) {
-            map[el[key_s]] = {...map[el[key_s]], ...el};
-        } else {
-            map[el[key_s]] = el;
-        }
+        map[el[key_s]] = MERGE && map.hasOwnProperty(el[key_s]) ? {...map[el[key_s]], ...el} : el;
     }
 
     return map;

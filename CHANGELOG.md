@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **deps**: Upgrade @types/node to 20.12.4
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.5.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.5.0
+- **deps**: Upgrade typescript to 5.4.4
+
 ## [12.0.0] - 2024-03-07
 ### Added
 - date/format: Formatting utility using spec-based formatting strings. Eg `format(new Date('2022-01-01T04:32:19.000Z'), 'YYYY-MM-DD') -> 2022-01-01`.

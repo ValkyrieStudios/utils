@@ -2,10 +2,10 @@
 
 /* eslint-disable prefer-template */
 
-//  Prebuilt hexmap from 0 to 255
-const HEXMAP:string[] = [];
+/* Prebuilt hexmap from 0 to 255 */
+const HEX:string[] = [];
 for (let i = 0; i < 256; i++) {
-    HEXMAP[i] = (i < 16 ? '0' : '') + i.toString(16);
+    HEX[i] = (i < 16 ? '0' : '') + i.toString(16);
 }
 
 /**
@@ -18,24 +18,24 @@ export default function guid ():string {
     const d1 = (Math.random()*0xffffffff) | 0;
     const d2 = (Math.random()*0xffffffff) | 0;
     const d3 = (Math.random()*0xffffffff) | 0;
-    return HEXMAP[d0 & 0xff] +
-        HEXMAP[(d0 >> 8) & 0xff] +
-        HEXMAP[(d0 >> 16) & 0xff] +
-        HEXMAP[(d0 >> 24) & 0xff] +
+    return HEX[d0 & 0xff] +
+        HEX[(d0 >> 8) & 0xff] +
+        HEX[(d0 >> 16) & 0xff] +
+        HEX[(d0 >> 24) & 0xff] +
         '-' +
-        HEXMAP[d1 & 0xff] +
-        HEXMAP[(d1 >> 8) & 0xff] +
+        HEX[d1 & 0xff] +
+        HEX[(d1 >> 8) & 0xff] +
         '-' +
-        HEXMAP[((d1>>16) & 0x0f) | 0x40] +
-        HEXMAP[(d1>>24) & 0xff] +
+        HEX[((d1>>16) & 0x0f) | 0x40] +
+        HEX[(d1>>24) & 0xff] +
         '-' +
-        HEXMAP[(d2 & 0x3f) | 0x80] +
-        HEXMAP[(d2 >> 8) & 0xff] +
+        HEX[(d2 & 0x3f) | 0x80] +
+        HEX[(d2 >> 8) & 0xff] +
         '-' +
-        HEXMAP[(d2 >> 16) & 0xff] +
-        HEXMAP[(d2 >> 24) & 0xff] +
-        HEXMAP[d3 & 0xff] +
-        HEXMAP[(d3 >> 8) & 0xff] +
-        HEXMAP[(d3 >> 16) & 0xff] +
-        HEXMAP[(d3 >> 24) & 0xff];
+        HEX[(d2 >> 16) & 0xff] +
+        HEX[(d2 >> 24) & 0xff] +
+        HEX[d3 & 0xff] +
+        HEX[(d3 >> 8) & 0xff] +
+        HEX[(d3 >> 16) & 0xff] +
+        HEX[(d3 >> 24) & 0xff];
 }

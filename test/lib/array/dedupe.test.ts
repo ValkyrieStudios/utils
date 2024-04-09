@@ -53,6 +53,11 @@ describe('Array - dedupe', () => {
             dedupe([test_a, test_b, test_b, test_a]),
             [test_a, test_b]
         );
+
+        assert.deepEqual(
+            dedupe([[0], [0], [0, 1], [1, 0]]),
+            [[0], [0, 1], [1, 0]]
+        );
     });
 
     it('Correctly remove duplicate objects from an array', () => {
@@ -72,5 +77,7 @@ describe('Array - dedupe', () => {
             dedupe([test_a, test_b, test_a, test_b]),
             [test_a, test_b]
         );
+
+        assert.deepEqual(dedupe([{b: 2}, {b: 2}, {b: 2}]), [{b: 2}]);
     });
 });

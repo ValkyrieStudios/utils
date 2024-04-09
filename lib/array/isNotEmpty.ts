@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is an array with content
  */
-export default function isNotEmptyArray (val:unknown):boolean {
+export default function isNotEmptyArray (val:unknown):val is unknown[] {
     return Array.isArray(val) && val.length !== 0;
 }

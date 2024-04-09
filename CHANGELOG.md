@@ -8,6 +8,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - **dx**: array/is and Is.Array now use a type guard
+- **dx**: array/isNotEmpty, Is.NeArray, Is.NotEmptyArray now use a type guard
+
 ## [12.1.0] - 2024-04-05
 ### Improved
 - **feat**: string/shorten - Will now only accept integers for length

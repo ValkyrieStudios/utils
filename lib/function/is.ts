@@ -1,7 +1,5 @@
 'use strict';
 
-/* eslint-disable @typescript-eslint/ban-types */
-
 /**
  * Check whether or not a provided value is a Function
  *
@@ -9,6 +7,6 @@
  *
  * @returns Whether or not the value is a Function
  */
-export default function isFunction (val:unknown):val is Function {
+export default function isFunction (val:unknown):val is (...args:unknown[]) => unknown {
     return typeof val === 'function';
 }

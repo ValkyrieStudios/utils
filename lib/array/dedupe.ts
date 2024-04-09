@@ -1,5 +1,7 @@
 'use strict';
 
+import fnv1A from '../hash/fnv1A';
+
 /**
  * Dedupes the provided array
  *
@@ -10,10 +12,14 @@
 export default function dedupe <T> (val:T[]):T[] {
     if (!Array.isArray(val))  return [];
 
-    const set = new Set<T>();
+    const set = new Set<number>();
+    const acc:T[] = [];
     for (const item of val) {
-        if (!set.has(item)) set.add(item);
+        const hash = fnv1A(item);
+        if (set.has(hash)) continue;
+        set.add(hash);
+        acc.push(item);
     }
 
-    return [...set] as T[];
+    return acc;
 }

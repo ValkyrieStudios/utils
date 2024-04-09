@@ -124,7 +124,7 @@ export default function sort (
         if (opts.nokey_atend === false) NOKEY_AT_END = false;
         if (typeof opts.filter_fn === 'function') {
             const fn = opts.filter_fn;
-            FILTER_FN = el => isNotEmptyObject(el) && fn(el);
+            FILTER_FN = (el => isNotEmptyObject(el) && fn(el)) as (val:unknown) => val is {[key:string]:any};
         }
     }
 

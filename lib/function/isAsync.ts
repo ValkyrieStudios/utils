@@ -1,5 +1,7 @@
 'use strict';
 
+/* eslint-disable @typescript-eslint/ban-types */
+
 /**
  * Chceck whether or not a provided value is an async function
  *

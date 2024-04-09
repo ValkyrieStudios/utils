@@ -11,6 +11,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **dx**: array/isNotEmpty, Is.NeArray, Is.NotEmptyArray now use a type guard
 - **dx**: boolean/is and Is.Boolean now use a type guard
 - **dx**: date/is and Is.Date now use a type guard
+- **dx**: function/is and Is.Function now use a type guard
+- **dx**: function/isAsync and Is.AsyncFunction now use a type guard
 
 ## [12.1.0] - 2024-04-05
 ### Improved

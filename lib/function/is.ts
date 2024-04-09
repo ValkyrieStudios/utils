@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is a Function
  */
-export default function isFunction (val:unknown):boolean {
+export default function isFunction (val:unknown):val is Function {
     return typeof val === 'function';
 }

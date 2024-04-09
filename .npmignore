@@ -9,6 +9,7 @@
 .eslintrc.json
 .travis.yml
 .git
+.github
 tsconfig.json
 tsconfig.build.json
 tsconfig.types.json

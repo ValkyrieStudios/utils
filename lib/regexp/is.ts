@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is a RegExp
  */
-export default function isRegExp (val:unknown):boolean {
+export default function isRegExp (val:unknown):val is RegExp {
     return val instanceof RegExp;
 }

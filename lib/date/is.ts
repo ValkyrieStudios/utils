@@ -7,7 +7,7 @@
  *
  * @returns Whether or not the value is a Date
  */
-export default function isDate (val:unknown):boolean {
+export default function isDate (val:unknown):val is Date {
     /* eslint-disable-next-line */
     /* @ts-ignore */
     return val instanceof Date && !isNaN(val as number);

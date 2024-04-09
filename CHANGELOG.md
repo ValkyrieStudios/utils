@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Improved
+- **deps**: Upgrade @types/node to 20.12.6
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.6.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.6.0
+
 ### Fixed
 - **bug**: Revert changes to dedupe introduced in 12.1.0 as doesn't work correctly for non-primitive values
 

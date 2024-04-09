@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is an array
  */
-export default function isArray (val:unknown):boolean {
+export default function isArray (val:unknown):val is unknown[] {
     return Array.isArray(val);
 }

@@ -105,6 +105,26 @@ describe('String - humanizeNumber', () => {
         }
     });
 
+    it('Should default to 2 decimals precision', () => {
+        for (const el of [
+            {val: 1024, out: '1.02k'},
+            {val: 1500, out: '1.5k'},
+            {val: 3584, out: '3.58k'},
+            {val: 9799, out: '9.8k'},
+            {val: 58432, out: '58.43k'},
+            {val: 4893290423489, out: '4.89t'},
+        ]) {
+            assert.equal(
+                humanizeNumber(`${el.val}`, {}),
+                el.out
+            );
+            assert.equal(
+                humanizeNumber(el.val, {}),
+                el.out
+            );
+        }
+    });
+
     it('Should allow overriding precision', () => {
         for (const el of [
             {val: 1024, precision: 10, out: '1.024k'},

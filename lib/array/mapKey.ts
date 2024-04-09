@@ -43,7 +43,7 @@ export default function mapKey (arr:Record<string,any>[], key:string, opts?:mapO
 
     let MERGE:boolean = false;
     if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
-        if (opts.merge === true) MERGE = true;
+        MERGE = opts.merge === true ? true : false;
     }
 
     const map:kvMap = {};

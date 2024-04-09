@@ -129,6 +129,17 @@ describe('Array - mapPrimitive', () => {
         );
     });
 
+    it('Should correctly map a string primitive array and remove strings that would be empty or empty after trimming', () => {
+        assert.deepEqual(
+            mapPrimitive(['hello', 'foo', ' ', '', 'bar', '    ']),
+            {
+                hello: 'hello',
+                foo: 'foo',
+                bar: 'bar',
+            }
+        );
+    });
+
     it('Should automatically trim strings for key storage when mapping a string primitive array', () => {
         assert.deepEqual(
             mapPrimitive(['  hello   ', ' foo', 'bar']),
@@ -158,6 +169,18 @@ describe('Array - mapPrimitive', () => {
                 hello: 'hello',
                 foo: 'foo',
                 bar: 'bar',
+            }
+        );
+    });
+
+    it('Should automatically remove anything that isn\'t a string or number', () => {
+        assert.deepEqual(
+            mapPrimitive(['  hello   ', 'hello  ', {a: 1}, new Date(), new RegExp('\w'), 10, ' foo', 'bar'], {valtrim: true}),
+            {
+                hello: 'hello',
+                foo: 'foo',
+                bar: 'bar',
+                10: 10,
             }
         );
     });

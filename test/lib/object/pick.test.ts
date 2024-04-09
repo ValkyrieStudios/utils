@@ -100,6 +100,28 @@ describe('Object - pick', () => {
         );
     });
 
+    it('Correctly filters out keys that are empty after trimming and for which deep retrieval cant find them', () => {
+        const subject = {
+            a: 100,
+            b: 200,
+            c: {
+                j: 5,
+                bar: true,
+                f: [0, 1, 2],
+            },
+        };
+
+        assert.deepEqual(
+            pick(subject, [
+                'a',
+                '  ',
+                '  c.d     ',
+                'b    ',
+            ]),
+            {a: 100, b: 200}
+        );
+    });
+
     it('Throws a type error when passed something else than an object to pick from', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             assert.throws(

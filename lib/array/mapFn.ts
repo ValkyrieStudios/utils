@@ -41,7 +41,7 @@ export default function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOpt
 
     let MERGE:boolean = false;
     if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
-        if (opts.merge === true) MERGE = true;
+        MERGE = opts.merge === true ? true : false;
     }
 
     const map:mapReturn = {};

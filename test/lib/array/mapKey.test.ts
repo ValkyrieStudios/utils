@@ -133,6 +133,34 @@ describe('Array - mapKey', () => {
         );
     });
 
+    it('Should default to merge false when passed empty opts', () => {
+        assert.deepEqual(
+            mapKey([
+                //  @ts-ignore
+                0,
+                {uid: 12, name: 'Peter'},
+                //  @ts-ignore
+                false,
+                //  @ts-ignore
+                'foobar',
+                {uid: 15, name: 'Jonas'},
+                [{hi: 'there'}],
+                {uid: 15, name: 'Bob'},
+                null,
+                undefined,
+                {name: 'Alana'},
+                new Date(),
+                {uid: 87, name: 'Josh'},
+                {uid: 12, name: 'Farah'},
+            ], 'uid', {}),
+            {
+                12: {uid: 12, name: 'Farah'},
+                15: {uid: 15, name: 'Bob'},
+                87: {uid: 87, name: 'Josh'},
+            }
+        );
+    });
+
     it('Should ensure objects are assigned on top of each other for key-match with array containing duplicates and merge true', () => {
         assert.deepEqual(
             mapKey([

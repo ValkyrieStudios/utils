@@ -28,17 +28,17 @@ describe('Array - shuffle', () => {
     });
 
     it('Should shuffle an array of primitives (numbers) in a unique way (benchmark 100 shuffles with a 10 number array)', () => {
-        const map = new Map();
+        const set = new Set();
         for (let i = 0; i < 100; i++) {
             const el = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
             shuffle(el);
-            map.set(el, el);
+            set.add(el);
         }
-        assert.ok(map.size > 90);
+        assert.ok(set.size > 90);
     });
 
     it('Should shuffle an array of primitives (strings) in a unique way (benchmark 100 shuffles with a 10 number array)', () => {
-        const map = new Map();
+        const set = new Set();
         for (let i = 0; i < 100; i++) {
             const el = [
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent molestie nisi interdum dui facilisis vestibulum. Cras et velit sodales, consectetur sem vitae, imperdiet tellus. Vivamus vulputate aliquam nunc non faucibus. Nunc eget enim sollicitudin, semper magna et, congue odio. Nullam sagittis condimentum sollicitudin. Vestibulum venenatis ullamcorper ligula, eu dapibus arcu aliquet a. Fusce eleifend non nulla vitae tempus. Integer varius libero vitae tincidunt volutpat. Praesent vitae velit mollis, tincidunt magna in, maximus ligula. Phasellus feugiat leo dolor, eget mattis justo condimentum luctus. Sed varius massa eget sagittis ultricies. Pellentesque maximus enim ultricies porta pellentesque. Quisque varius magna magna, quis accumsan odio venenatis in. Sed fringilla dapibus metus. Proin non feugiat metus. Nulla non neque tristique, pulvinar orci in, fermentum lacus.',
@@ -53,13 +53,13 @@ describe('Array - shuffle', () => {
                 'Cras sit amet nisl non libero pellentesque maximus. Sed sed lacus quam. Maecenas ultricies dui nulla, sed tempor magna viverra at. Morbi a risus egestas, congue mi eu, vestibulum sem. Vestibulum viverra elit libero, eu faucibus lectus hendrerit ac. Praesent auctor ullamcorper massa, sed aliquam metus fermentum non. Morbi lacinia finibus lorem quis suscipit. Aliquam erat volutpat. Morbi tincidunt nec nunc at consequat. Nulla porta et tellus id ornare.',
             ];
             shuffle(el);
-            map.set(el, el);
+            set.add(el);
         }
-        assert.ok(map.size > 90);
+        assert.ok(set.size > 90);
     });
 
     it('Should shuffle an array of mixed values in a unique way (benchmark 100 shuffles with a 10 number array)', () => {
-        const map = new Map();
+        const set = new Set();
         for (let i = 0; i < 100; i++) {
             const el = [
                 {a: 1, b: 2, c: 3, d: 4},
@@ -74,8 +74,8 @@ describe('Array - shuffle', () => {
                 [[0, 2, 4], [1, 2, 3]],
             ];
             shuffle(el);
-            map.set(el, el);
+            set.add(el);
         }
-        assert.ok(map.size > 90);
+        assert.ok(set.size > 90);
     });
 });

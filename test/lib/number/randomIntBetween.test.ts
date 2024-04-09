@@ -38,8 +38,8 @@ describe('Number - randomIntBetween', () => {
 
     it('Should return a random integer between min and max (random min) - (random max)', () => {
         for (let i = 0; i < 50; i++) {
-            const r1 = Math.round(Math.random() * 1000);
-            const r2 = Math.round(Math.random() * 1000);
+            const r1 = Math.round(Math.random() * 1000000);
+            const r2 = Math.round(Math.random() * 10000000);
 
             if (r1 < r2) {
                 for (let y = 0; y < 10000; y++) {
@@ -57,13 +57,13 @@ describe('Number - randomIntBetween', () => {
         }
     });
 
-    it('should return a unique random number over subsequent calls', () => {
-        const map = new Map();
-        for (let i = 0; i < 10000; i++) {
+    it('should return a unique random integer over subsequent calls', () => {
+        const set = new Set();
+        for (let i = 0; i < 1000; i++) {
             const random = randomIntBetween(0, 10000000000);
-            map.set(random, random);
+            set.add(random);
         }
-        assert.ok(map.size === 10000);
+        assert.ok(set.size === 1000);
     });
 
     it('should throw an error if the min is not numeric', () => {

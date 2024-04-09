@@ -18,32 +18,32 @@ describe('Hash - guid', () => {
     });
 
     it('Be unique (50.000 benchmark)', () => {
-        const map = new Map();
+        const set = new Set();
         let cursor = 0;
         while (cursor < 50000) {
-            map.set(guid(), true);
+            set.add(guid());
             cursor++;
         }
-        assert.ok(map.size === cursor);
+        assert.ok(set.size === cursor);
     });
 
     it('Be unique (100.000 benchmark)', () => {
-        const map = new Map();
+        const set = new Set();
         let cursor = 0;
         while (cursor < 100000) {
-            map.set(guid(), true);
+            set.add(guid());
             cursor++;
         }
-        assert.ok(map.size === cursor);
+        assert.ok(set.size === cursor);
     });
 
     it('Be unique (200.000 benchmark)', () => {
-        const map = new Map();
+        const set = new Set();
         let cursor = 0;
         while (cursor < 200000) {
-            map.set(guid(), true);
+            set.add(guid());
             cursor++;
         }
-        assert.ok(map.size === cursor);
+        assert.ok(set.size === cursor);
     });
 });

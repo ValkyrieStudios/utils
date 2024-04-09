@@ -28,6 +28,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **dx**: object/is, Is.Object now use a type guard
 - **dx**: object/isNotEmpty, Is.NeObject, Is.NotEmptyObject now use a type guard
 - **dx**: regexp/is, Is.RegExp now use a type guard
+- **dx**: string/is, Is.String now use a type guard
+- **dx**: string/isBetween, Is.StringBetween now use a type guard
+- **dx**: string/isNotEmpty, Is.NeString, Is.NotEmptyString now use a type guard
 
 ## [12.1.0] - 2024-04-05
 ### Improved

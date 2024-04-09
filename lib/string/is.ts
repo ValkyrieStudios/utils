@@ -7,6 +7,6 @@
  *
  * @returns Whether or not the value is a string
  */
-export default function isString (val:unknown):boolean {
+export default function isString (val:unknown):val is string {
     return typeof val === 'string';
 }

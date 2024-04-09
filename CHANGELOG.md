@@ -13,6 +13,18 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **dx**: date/is and Is.Date now use a type guard
 - **dx**: function/is and Is.Function now use a type guard
 - **dx**: function/isAsync and Is.AsyncFunction now use a type guard
+- **dx**: number/is, Is.Num, Is.Number now use a type guard
+- **dx**: number/isAbove, Is.NumGt, Is.NumAbove, Is.NumberAbove now use a type guard
+- **dx**: number/isAboveOrEqual, Is.NumGte, Is.NumAboveOrEqual, Is.NumberAboveOrEqual now use a type guard
+- **dx**: number/isBelow, Is.NumLt, Is.NumBelow, Is.NumberBelow now use a type guard
+- **dx**: number/isBelowOrEqual, Is.NumLte, Is.NumBelowOrEqual, Is.NumberBelowOrEqual now use a type guard
+- **dx**: number/isBetween, Is.NumBetween, Is.NumberBetween now use a type guard
+- **dx**: number/isInteger, Is.Int, Is.Integer now use a type guard
+- **dx**: number/isIntegerAbove, Is.IntGt, Is.IntAbove, Is.IntegerAbove now use a type guard
+- **dx**: number/isIntegerAboveOrEqual, Is.IntGte, Is.IntAboveOrEqual, Is.IntegerAboveOrEqual now use a type guard
+- **dx**: number/isIntegerBelow, Is.IntLt, Is.IntBelow, Is.IntegerBelow now use a type guard
+- **dx**: number/isIntegerBelowOrEqual, Is.IntLte, Is.IntBelowOrEqual, Is.IntegerBelowOrEqual now use a type guard
+- **dx**: number/isIntegerBetween, Is.IntBetween, Is.IntegerBetween now use a type guard
 
 ## [12.1.0] - 2024-04-05
 ### Improved

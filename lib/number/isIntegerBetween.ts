@@ -15,7 +15,7 @@ export default function isIntegerBetween (
     val:unknown,
     min:number,
     max:number
-):boolean {
+):val is number {
     if (
         !Number.isInteger(val) ||
         !Number.isFinite(min) ||

@@ -9,6 +9,6 @@
  *
  * @returns Whether or not the value is below or equal to the reference
  */
-export default function isNumberBelowOrEqual (val:unknown, ref:number):boolean {
+export default function isNumberBelowOrEqual (val:unknown, ref:number):val is number {
     return !Number.isFinite(val) || !Number.isFinite(ref) ? false : (val as number) <= ref;
 }

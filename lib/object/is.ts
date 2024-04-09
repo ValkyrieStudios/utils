@@ -9,6 +9,6 @@ const PROTO_OBJ = '[object Object]';
  *
  * @returns Whether or not the value is an object
  */
-export default function isObject (val:unknown):boolean {
+export default function isObject (val:unknown):val is {[key:string]:any} {
     return Object.prototype.toString.call(val) === PROTO_OBJ;
 }

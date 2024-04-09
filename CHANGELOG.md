@@ -25,6 +25,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **dx**: number/isIntegerBelow, Is.IntLt, Is.IntBelow, Is.IntegerBelow now use a type guard
 - **dx**: number/isIntegerBelowOrEqual, Is.IntLte, Is.IntBelowOrEqual, Is.IntegerBelowOrEqual now use a type guard
 - **dx**: number/isIntegerBetween, Is.IntBetween, Is.IntegerBetween now use a type guard
+- **dx**: object/is, Is.Object now use a type guard
+- **dx**: object/isNotEmpty, Is.NeObject, Is.NotEmptyObject now use a type guard
 
 ## [12.1.0] - 2024-04-05
 ### Improved

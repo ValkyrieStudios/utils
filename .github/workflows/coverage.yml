@@ -16,7 +16,7 @@ jobs:
     - run: npm ci
     - uses: szenius/set-timezone@v2
       with:
-      timezoneLinux: "Europe/Brussels"
+        timezoneLinux: "Europe/Brussels"
     - name: Generate coverage report
       run: npm run test:coverage
     - name: Upload coverage to Codecov

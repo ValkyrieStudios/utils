@@ -39,10 +39,7 @@ export default function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOpt
         typeof fn !== 'function'
     ) return {};
 
-    let MERGE:boolean = false;
-    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
-        MERGE = opts.merge === true ? true : false;
-    }
+    const MERGE:boolean = opts && Object.prototype.toString.call(opts) === '[object Object]' && opts.merge === true;
 
     const map:mapReturn = {};
     let hash:(string|number|boolean) = false;

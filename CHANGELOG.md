@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.3.0] - 2024-04-09
+### Improved
+- **dx**: function/is and Is.Function now work with a cleaner type guard than 'Function' and instead work with (...args:unknown[]) => unknown
+- **dx**: function/isAsync and Is.AsyncFunction now work with a cleaner type guard than 'Function' and instead work with (...args:unknown[]) => Promise<unknown>
+
 ## [12.2.1] - 2024-04-09
 ### Improved
 - **deps**: Upgrade @types/node to 20.12.6

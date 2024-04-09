@@ -175,7 +175,7 @@ describe('Array - mapPrimitive', () => {
 
     it('Should automatically remove anything that isn\'t a string or number', () => {
         assert.deepEqual(
-            mapPrimitive(['  hello   ', 'hello  ', {a: 1}, new Date(), new RegExp('\w'), 10, ' foo', 'bar'], {valtrim: true}),
+            mapPrimitive(['  hello   ', 'hello  ', {a: 1}, new Date(), new RegExp('w'), 10, ' foo', 'bar'], {valtrim: true}),
             {
                 hello: 'hello',
                 foo: 'foo',

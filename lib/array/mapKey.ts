@@ -41,10 +41,7 @@ export default function mapKey (arr:Record<string,any>[], key:string, opts?:mapO
     const key_s = key.trim();
     if (!key_s.length) return {};
 
-    let MERGE:boolean = false;
-    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
-        MERGE = opts.merge === true ? true : false;
-    }
+    const MERGE:boolean = opts && Object.prototype.toString.call(opts) === '[object Object]' && opts.merge === true;
 
     const map:kvMap = {};
     for (const el of arr) {

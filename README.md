@@ -1,12 +1,15 @@
 # @valkyriestudios/utils
 
-[![codecov](https://codecov.io/gh/ValkyrieStudios/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
-[![codeql](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql)
+[![CodeCov](https://codecov.io/gh/ValkyrieStudios/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
+[![Test](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml)
+[![Lint](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml)
+[![CodeQL](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql/badge.svg?branch=master)](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql)
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 
 Zero-dependency collection of single-function utilities for common tasks
 
+## Installation
 `npm install @valkyriestudios/utils`
 
 ## Available Functions

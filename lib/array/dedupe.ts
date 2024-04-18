@@ -1,6 +1,6 @@
 'use strict';
 
-import fnv1A from '../hash/fnv1A';
+import {fnv1A} from '../hash/fnv1A';
 
 /**
  * Dedupes the provided array

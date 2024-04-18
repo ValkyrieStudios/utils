@@ -2,7 +2,7 @@
 
 /* eslint-disable no-use-before-define */
 
-import isNumericalNaN from './number/isNumericalNaN';
+import {isNumericalNaN} from './number/isNumericalNaN';
 
 function isArrayEqual (
     a:any[],

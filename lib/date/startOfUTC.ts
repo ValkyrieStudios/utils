@@ -1,6 +1,6 @@
 'use strict';
 
-import isDate from './is';
+import {isDate} from './is';
 
 const WEEK_START = new Map([
     ['week', 1], /* Original lib cases only contained week and historical was monday */

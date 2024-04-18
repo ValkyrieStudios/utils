@@ -1,6 +1,6 @@
 'use strict';
 
-import isDate from './is';
+import {isDate} from './is';
 
 /**
  * Take note: this is the end of week key for weeks starting on key,

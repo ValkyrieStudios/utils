@@ -1,6 +1,6 @@
 'use strict';
 
-import round from '../number/round';
+import {round} from '../number/round';
 
 const DEFAULT_UNITS = ['', 'k', 'm', 'b', 't', 'q'];
 

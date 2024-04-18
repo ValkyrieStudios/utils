@@ -1,7 +1,6 @@
 'use strict';
 
-import humanizeNumber   from './humanizeNumber';
-import isNotEmptyString from '../string/isNotEmpty';
+import {humanizeNumber} from './humanizeNumber';
 
 interface humanizeBytesOptions {
     /**
@@ -55,7 +54,7 @@ function humanizeBytes (val:number|string, options:humanizeBytesOptions = {}):st
             ? options.precision
             : 2,
         units: has_opts && Array.isArray(options.units) && options.units.length
-            ? options.units.filter(el => isNotEmptyString(el))
+            ? options.units
             : [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'],
         divider: 1024,
         real: true,

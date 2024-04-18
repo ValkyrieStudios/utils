@@ -1,6 +1,6 @@
 'use strict';
 
-import round from '../number/round';
+import {round} from '../number/round';
 
 interface joinOptions {
     /**

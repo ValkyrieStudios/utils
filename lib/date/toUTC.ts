@@ -1,6 +1,6 @@
 'use strict';
 
-import isDate from './is';
+import {isDate} from './is';
 
 /**
  * Sets a passed date to UTC

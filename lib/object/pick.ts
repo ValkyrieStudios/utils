@@ -1,7 +1,7 @@
 'use strict';
 
-import deepGet from '../deep/get';
-import deepSet from '../deep/set';
+import {deepGet} from '../deep/get';
+import {deepSet} from '../deep/set';
 
 const RGX_DEEP = /(\.|\[)/;
 

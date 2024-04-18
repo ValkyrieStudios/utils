@@ -7,6 +7,14 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **sys**: All methods now offer both named and default exports to allow for working with non-modularized setups, for example:
+```typescript
+/* Only available way previously */
+import guid from '@valkyriestudios/utils/hash/guid' 
+
+/* Now also possible */
+import {guid} from '@valkyriestudios/utils/hash/guid';
+```
 - **deps**: Upgrade @types/node to 20.12.7
 - **deps**: Upgrade typescript to 5.4.5
 

@@ -2,7 +2,7 @@
 
 /* eslint-disable no-confusing-arrow */
 
-import isDate from './is';
+import {isDate} from './is';
 
 type Formatter  = (d:Date, loc?:string) => string;
 type RawTuple   = [string, Formatter];

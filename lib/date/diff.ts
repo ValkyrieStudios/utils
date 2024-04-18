@@ -1,6 +1,6 @@
 'use strict';
 
-import isDate from './is';
+import {isDate} from './is';
 
 const SECOND_IN_MILLISECONDS    = 1000;
 const MINUTE_IN_MILLISECONDS    = SECOND_IN_MILLISECONDS * 60;

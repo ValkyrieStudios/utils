@@ -1,6 +1,6 @@
 'use strict';
 
-import isNotEmptyObject from '../object/isNotEmpty';
+import {isNotEmptyObject} from '../object/isNotEmpty';
 
 interface sortOptions {
     /**

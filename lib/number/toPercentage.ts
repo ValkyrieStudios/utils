@@ -1,6 +1,6 @@
 'use strict';
 
-import round from './round';
+import {round} from './round';
 
 /**
  * Converts a number into a percentage respective to a provided range

@@ -1,6 +1,6 @@
 'use strict';
 
-import isDate from './is';
+import {isDate} from './is';
 
 /**
  * Returns the unix time in seconds of the passed date

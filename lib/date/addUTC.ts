@@ -1,6 +1,6 @@
 'use strict';
 
-import isDate from './is';
+import {isDate} from './is';
 
 /**
  * Adds the provided amount of a specific key to the provided date

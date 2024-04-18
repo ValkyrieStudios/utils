@@ -16,6 +16,8 @@ import guid from '@valkyriestudios/utils/hash/guid'
 import {guid} from '@valkyriestudios/utils/hash/guid';
 ```
 - **deps**: Upgrade @types/node to 20.12.7
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.7.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.7.0
 - **deps**: Upgrade typescript to 5.4.5
 
 ## [12.3.0] - 2024-04-09

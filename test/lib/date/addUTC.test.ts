@@ -26,13 +26,12 @@ describe('Date - addUTC', () => {
         }
     });
 
-    it('Throw when passed a non-string for key', () => {
+    it('Should return original date in utc when passed a non-string key', () => {
         for (const el of CONSTANTS.NOT_STRING) {
             if (el === undefined) continue;
-
-            assert.throws(
-                () => addUTC(new Date(), 10, el),
-                new TypeError('Key needs to be a string with content')
+            assert.deepEqual(
+                addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, el),
+                new Date('2022-10-05T11:12:11.000Z')
             );
         }
     });

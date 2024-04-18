@@ -29,17 +29,8 @@ function addUTC (
         | 'milliseconds'
         | 'millisecond' = 'millisecond'
 ):Date {
-    if (
-        !isDate(val)
-    ) throw new TypeError('addUTC requires a date object');
-
-    if (
-        !Number.isInteger(amt)
-    ) throw new TypeError('Amount needs to be an integer');
-
-    if (
-        typeof key !== 'string'
-    ) throw new TypeError('Key needs to be a string with content');
+    if (!isDate(val)) throw new TypeError('addUTC requires a date object');
+    if (!Number.isInteger(amt)) throw new TypeError('Amount needs to be an integer');
 
     const year  = val.getUTCFullYear();
     const month = val.getUTCMonth();

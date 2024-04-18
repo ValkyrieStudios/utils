@@ -44,13 +44,7 @@ function endOfUTC (
 		| 'second'
 		| 'millisecond' = 'millisecond'
 ):Date {
-    if (
-        !isDate(val)
-    ) throw new TypeError('endOfUTC requires a date object');
-
-    if (
-        typeof key !== 'string'
-    ) throw new TypeError('Key needs to be a string with content');
+    if (!isDate(val)) throw new TypeError('endOfUTC requires a date object');
 
     switch (key) {
         case 'year':

@@ -7,6 +7,26 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **dx**: array/mapFn will now infer the return type of the map and allows passing a generic
+```typescript
+type User = {first_name:string};
+const users:User[] = [{first_name: 'Peter'}, {first_name: 'Jack'}];
+
+/**
+ * At this point the type of map will be Record<string, User>
+ * Take note: the key function function also knows that it is receiving an instance of User
+ */
+const map = mapFn(users, el => el.first_name); 
+```
+
+- **dx**: array/mapKey will now infer the return type of the map and allows passing a generic
+```typescript
+type User = {first_name:string};
+const users:User[] = [{first_name: 'Peter'}, {first_name: 'Jack'}];
+
+/* At this point the type of map will be Record<string, User> */
+const map = mapKey(users, 'first_name'); 
+```
 - **sys**: All methods now offer both named and default exports to allow for working with non-modularized setups, for example:
 ```typescript
 /* Only available way previously */

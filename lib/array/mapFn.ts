@@ -15,8 +15,7 @@ interface mapOptions {
     merge?:boolean;
 }
 
-type mapFn = (entry:{[key:string]:any}) => (string|number|boolean);
-type mapReturn = Record<string, Record<string, any>>;
+type mapFn<T extends Record<string, any>>= (entry:T) => (string|number|boolean);
 
 /**
  * Map an object array into a kv-object through a function that generates a key. Returning a non-string,
@@ -31,9 +30,9 @@ type mapReturn = Record<string, Record<string, any>>;
  * @param {mapFn} fn - Handler function which is run for each of the objects and should return a string or number
  * @param {mapOptions?} opts - Options object to override built-in defaults
  *
- * @returns {mapReturn} KV-Map object
+ * @returns {Record<string, T>} KV-Map object
  */
-function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOptions):mapReturn {
+function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapOptions):Record<string, T> {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof fn !== 'function'
@@ -41,7 +40,7 @@ function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOptions):mapReturn
 
     const MERGE:boolean = opts && Object.prototype.toString.call(opts) === '[object Object]' && opts.merge === true;
 
-    const map:mapReturn = {};
+    const map:Record<string, T> = {};
     let hash:(string|number|boolean) = false;
     for (const el of arr) {
         if (Object.prototype.toString.call(el) !== '[object Object]') continue;

@@ -15,8 +15,6 @@ interface mapOptions {
     merge?:boolean;
 }
 
-type kvMap = Record<string, Record<string, any>>;
-
 /**
  * Map an object array into a kv-object by passing a common key that exists on the objects. Objects for
  * which the key doesn't exist will be filtered out automatically
@@ -30,9 +28,9 @@ type kvMap = Record<string, Record<string, any>>;
  * @param {string} key - Key to map by
  * @param {mapOptions?} opts - Options object to override built-in defaults
  *
- * @returns {kvMap} KV-Map object
+ * @returns {Record<string, T>} KV-Map object
  */
-function mapKey (arr:Record<string,any>[], key:string, opts?:mapOptions):kvMap {
+function mapKey <T extends Record<string, any>> (arr:T[], key:string, opts?:mapOptions):Record<string, T> {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof key !== 'string'
@@ -43,7 +41,7 @@ function mapKey (arr:Record<string,any>[], key:string, opts?:mapOptions):kvMap {
 
     const MERGE:boolean = opts && Object.prototype.toString.call(opts) === '[object Object]' && opts.merge === true;
 
-    const map:kvMap = {};
+    const map:Record<string, T> = {};
     for (const el of arr) {
         if (
             Object.prototype.toString.call(el) !== '[object Object]' ||

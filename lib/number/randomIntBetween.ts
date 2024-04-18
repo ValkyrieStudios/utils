@@ -9,7 +9,7 @@
  *
  * @returns Random integer between min and max
  */
-export default function randomIntBetween (
+function randomIntBetween (
     min:number = 0,
     max:number = 10
 ):number {
@@ -20,3 +20,5 @@ export default function randomIntBetween (
 
     return Math.floor((Math.random() * (max - min)) + min);
 }
+
+export {randomIntBetween, randomIntBetween as default};

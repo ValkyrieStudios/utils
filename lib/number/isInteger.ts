@@ -7,6 +7,8 @@
  *
  * @returns Whether or not the value is an integer
  */
-export default function isInteger (val:unknown):val is number {
+function isInteger (val:unknown):val is number {
     return Number.isInteger(val);
 }
+
+export {isInteger, isInteger as default};

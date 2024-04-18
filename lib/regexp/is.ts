@@ -7,6 +7,8 @@
  *
  * @returns Whether or not the value is a RegExp
  */
-export default function isRegExp (val:unknown):val is RegExp {
+function isRegExp (val:unknown):val is RegExp {
     return val instanceof RegExp;
 }
+
+export {isRegExp, isRegExp as default};

@@ -8,8 +8,10 @@
  *
  * @returns Promise that resolves after X milliseconds
  */
-export default function sleep (ms:number=1000):Promise<void> {
+function sleep (ms:number=1000):Promise<void> {
     return new Promise(resolve => {
         setTimeout(() => resolve(), Number.isFinite(ms) && ms > 0 ? Math.round(ms) : 0);
     });
 }
+
+export {sleep, sleep as default};

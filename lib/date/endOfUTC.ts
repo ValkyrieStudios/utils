@@ -25,7 +25,7 @@ const WEEK_END = new Map([
  *
  * @returns New date set to end of key
  */
-export default function endOfUTC (
+function endOfUTC (
     val:Date,
     key:'year'
 		| 'quarter'
@@ -157,3 +157,5 @@ export default function endOfUTC (
             ));
     }
 }
+
+export {endOfUTC, endOfUTC as default};

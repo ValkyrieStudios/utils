@@ -32,7 +32,7 @@ type kvMap = Record<string, Record<string, any>>;
  *
  * @returns {kvMap} KV-Map object
  */
-export default function mapKey (arr:Record<string,any>[], key:string, opts?:mapOptions):kvMap {
+function mapKey (arr:Record<string,any>[], key:string, opts?:mapOptions):kvMap {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof key !== 'string'
@@ -55,3 +55,5 @@ export default function mapKey (arr:Record<string,any>[], key:string, opts?:mapO
 
     return map;
 }
+
+export {mapKey, mapKey as default};

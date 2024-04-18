@@ -5,6 +5,8 @@
  *
  * @returns Void
  */
-export default function noop ():void {
+function noop ():void {
     //  Nothing to execute here ... this is a noop ( no-operation )
 }
+
+export {noop, noop as default};

@@ -21,7 +21,7 @@ const WEEK_START = new Map([
  *
  * @returns New date set to start of key
  */
-export default function startOfUTC (
+function startOfUTC (
     val:Date,
     key:'year'
         | 'quarter'
@@ -153,3 +153,5 @@ export default function startOfUTC (
             ));
     }
 }
+
+export {startOfUTC, startOfUTC as default};

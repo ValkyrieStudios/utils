@@ -42,7 +42,7 @@ interface humanizeBytesOptions {
  *
  * @returns Humanized byte value as string
  */
-export default function humanizeBytes (val:number|string, options:humanizeBytesOptions = {}):string {
+function humanizeBytes (val:number|string, options:humanizeBytesOptions = {}):string {
     const has_opts = Object.prototype.toString.call(options) === '[object Object]';
     return humanizeNumber(val, {
         delim: has_opts && typeof options.delim === 'string'
@@ -61,3 +61,5 @@ export default function humanizeBytes (val:number|string, options:humanizeBytesO
         real: true,
     });
 }
+
+export {humanizeBytes, humanizeBytes as default};

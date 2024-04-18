@@ -7,6 +7,8 @@
  *
  * @returns Whether or not the value is a number
  */
-export default function isNumber (val:unknown):val is number {
+function isNumber (val:unknown):val is number {
     return Number.isFinite(val);
 }
+
+export {isNumber, isNumber as default};

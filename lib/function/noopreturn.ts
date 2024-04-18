@@ -7,6 +7,8 @@
  *
  * @returns Passed value
  */
-export default function noopreturn <T> (val?:T):T {
+function noopreturn <T> (val?:T):T {
     return val;
 }
+
+export {noopreturn, noopreturn as default};

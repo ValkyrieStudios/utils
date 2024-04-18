@@ -37,7 +37,7 @@ interface joinOptions {
  *
  * @returns Joined array as string
  */
-export default function join (val:unknown[], opts?:joinOptions):string {
+function join (val:unknown[], opts?:joinOptions):string {
     if (!Array.isArray(val) || !val.length) return '';
 
     let DELIM:string = ' ';
@@ -62,3 +62,5 @@ export default function join (val:unknown[], opts?:joinOptions):string {
 
     return TRIM ? filtered.join(DELIM).trim() : filtered.join(DELIM);
 }
+
+export {join, join as default};

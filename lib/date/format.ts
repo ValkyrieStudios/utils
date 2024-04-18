@@ -178,7 +178,7 @@ function getSpecChain (spec:string):TokenTuple[]|false {
  * @returns {string} Formatted date as string
  * @throws {TypeError} When provided invalid payload
  */
-export default function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ):string {
+function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ):string {
     /* Ensure val is a Date */
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 
@@ -227,3 +227,5 @@ export default function format (val:Date, spec:string, locale:string = DEFAULT_L
 
     return formatted_string;
 }
+
+export {format, format as default};

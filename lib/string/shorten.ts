@@ -9,7 +9,7 @@
  *
  * @returns Shortened string
  */
-export default function shorten (val:string, length:number, postfix:string='...'):string {
+function shorten (val:string, length:number, postfix:string='...'):string {
     //  Return empty string if value passed is not a string
     if (typeof val !== 'string') return '';
 
@@ -21,3 +21,5 @@ export default function shorten (val:string, length:number, postfix:string='...'
 
     return sanitized.length <= length ? sanitized : `${sanitized.substring(0, length)}${postfix}`;
 }
+
+export {shorten, shorten as default};

@@ -7,6 +7,8 @@
  *
  * @returns Whether or not the value is a boolean
  */
-export default function isBoolean (val:unknown):val is boolean {
+function isBoolean (val:unknown):val is boolean {
     return val === true || val === false;
 }
+
+export {isBoolean, isBoolean as default};

@@ -88,4 +88,4 @@ const Is = Object.freeze({
     Eq                  : equal,
 });
 
-export default Is;
+export {Is, Is as default};

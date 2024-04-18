@@ -27,10 +27,12 @@ function deep (obj:deepInput) {
  *
  * @returns Deeply sealed object
  */
-export default function deepSeal <T extends deepInput> (obj:T):Sealed<T> {
+function deepSeal <T extends deepInput> (obj:T):Sealed<T> {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
     ) throw new TypeError('Only objects/arrays can be sealed');
     return deep(obj) as Sealed<T>;
 }
+
+export {deepSeal, deepSeal as default};

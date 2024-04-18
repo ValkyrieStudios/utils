@@ -8,6 +8,8 @@
  *
  * @returns Whether or not the value is above the reference
  */
-export default function isIntegerAbove (val:unknown, ref:number):val is number {
+function isIntegerAbove (val:unknown, ref:number):val is number {
     return !Number.isInteger(val) || !Number.isFinite(ref) ? false : (val as number) > ref;
 }
+
+export {isIntegerAbove, isIntegerAbove as default};

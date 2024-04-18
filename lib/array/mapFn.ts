@@ -33,7 +33,7 @@ type mapReturn = Record<string, Record<string, any>>;
  *
  * @returns {mapReturn} KV-Map object
  */
-export default function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOptions):mapReturn {
+function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOptions):mapReturn {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof fn !== 'function'
@@ -58,3 +58,5 @@ export default function mapFn (arr:Record<string, any>[], fn:mapFn, opts?:mapOpt
 
     return map;
 }
+
+export {mapFn, mapFn as default};

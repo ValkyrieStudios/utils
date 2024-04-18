@@ -8,10 +8,12 @@
  *
  * @returns Rounded value according to decimal precision provided
  */
-export default function round (val:number, precision:number = 0):number {
+function round (val:number, precision:number = 0):number {
     if (!Number.isFinite(val)) throw new TypeError('Value should be numeric');
 
     const exp = Math.pow(10, Number.isInteger(precision) && precision > 0 ? precision : 0);
     const num = (val * exp) * (1 + Number.EPSILON);
     return Math.round(num)/exp;
 }
+
+export {round, round as default};

@@ -11,7 +11,7 @@
  *
  * @returns Whether or not the value is an integer between min and max inclusive
  */
-export default function isIntegerBetween (
+function isIntegerBetween (
     val:unknown,
     min:number,
     max:number
@@ -25,3 +25,5 @@ export default function isIntegerBetween (
 
     return (val as number) >= min && (val as number) <= max;
 }
+
+export {isIntegerBetween, isIntegerBetween as default};

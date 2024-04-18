@@ -7,6 +7,8 @@
  *
  * @returns Whether or not the value is a Function
  */
-export default function isFunction (val:unknown):val is (...args:unknown[]) => unknown {
+function isFunction (val:unknown):val is (...args:unknown[]) => unknown {
     return typeof val === 'function';
 }
+
+export {isFunction, isFunction as default};

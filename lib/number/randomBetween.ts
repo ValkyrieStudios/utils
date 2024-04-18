@@ -5,10 +5,10 @@
  *
  * @param min - (default=0) Lower bound
  * @param max - (default=10) Upper bound
- * 
+ *
  * @returns Random number between min and max
  */
-export default function randomBetween (
+function randomBetween (
     min:number = 0,
     max:number = 10
 ):number {
@@ -19,3 +19,5 @@ export default function randomBetween (
 
     return (Math.random() * (max - min)) + min;
 }
+
+export {randomBetween, randomBetween as default};

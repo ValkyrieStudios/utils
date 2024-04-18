@@ -11,7 +11,7 @@ import isDate from './is';
  *
  * @returns New date with provided amount of key added
  */
-export default function addUTC (
+function addUTC (
     val:Date,
     amt:number=0,
     key:'years'
@@ -75,3 +75,5 @@ export default function addUTC (
             return new Date(Date.UTC(year, month, date, hour, min, sec, ms));
     }
 }
+
+export {addUTC, addUTC as default};

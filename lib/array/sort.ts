@@ -105,7 +105,7 @@ function quickSort (
  * @returns Sorted array
  * @throws {Error}
  */
-export default function sort (
+function sort (
     arr:sortObject[],
     by:string|sortByFunction,
     dir:'asc'|'desc' = 'asc',
@@ -176,3 +176,5 @@ export default function sort (
     }
     return result;
 }
+
+export {sort, sort as default};

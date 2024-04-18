@@ -5,6 +5,8 @@
  *
  * @returns Current unix timestamp in seconds
  */
-export default function nowUnix ():number {
+function nowUnix ():number {
     return Math.floor(Date.now()/1000);
 }
+
+export {nowUnix, nowUnix as default};

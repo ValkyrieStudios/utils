@@ -38,4 +38,4 @@ function merge (
     return acc;
 }
 
-export default merge;
+export {merge, merge as default};

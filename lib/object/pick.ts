@@ -13,7 +13,7 @@ const RGX_DEEP = /(\.|\[)/;
  *
  * @returns Object containing the picked keys from source object
  */
-export default function pick (
+function pick (
     obj:{[key:string]:any},
     keys:string[]
 ):{[key:string]:any} {
@@ -42,3 +42,5 @@ export default function pick (
     }
     return map;
 }
+
+export {pick, pick as default};

@@ -8,6 +8,8 @@
  *
  * @returns Whether or not the value is above or equal to the reference
  */
-export default function isNumberAboveOrEqual (val:unknown, ref:number):val is number {
+function isNumberAboveOrEqual (val:unknown, ref:number):val is number {
     return !Number.isFinite(val) || !Number.isFinite(ref) ? false : (val as number) >= ref;
 }
+
+export {isNumberAboveOrEqual, isNumberAboveOrEqual as default};

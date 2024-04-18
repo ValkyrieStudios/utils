@@ -64,4 +64,4 @@ function equal (a:any, b:any):boolean {
     return a === b;
 }
 
-export default equal;
+export {equal, equal as default};

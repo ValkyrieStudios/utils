@@ -8,6 +8,8 @@
  *
  * @returns Promise that resolves with passed value
  */
-export default function noopresolve <T> (val?:T):Promise<T> {
+function noopresolve <T> (val?:T):Promise<T> {
     return new Promise(resolve => resolve(val));
 }
+
+export {noopresolve, noopresolve as default};

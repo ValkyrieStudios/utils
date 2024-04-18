@@ -55,7 +55,7 @@ interface humanizeNumberOptions {
  *
  * @returns Humanized number as string
  */
-export default function humanizeNumber (val:number|string, options:humanizeNumberOptions|false = false):string {
+function humanizeNumber (val:number|string, options:humanizeNumberOptions|false = false):string {
     let DELIM:string            = ',';
     let SEPARATOR:string        = '.';
     let PRECISION:number        = 2;
@@ -113,3 +113,5 @@ export default function humanizeNumber (val:number|string, options:humanizeNumbe
     /* Include a decimal point and a tenths-place digit if presenting less than then of KB or greater units */
     return `${sign}${humanized.join(SEPARATOR)}${UNITS ? UNITS[unit_ix] : ''}`;
 }
+
+export {humanizeNumber, humanizeNumber as default};

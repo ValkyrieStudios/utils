@@ -17,7 +17,7 @@ const WEEK_IN_MILLISECONDS      = DAY_IN_MILLISECONDS * 7;
  *
  * @returns Numerical diff between two dates
  */
-export default function diff (
+function diff (
     val_a:Date,
     val_b:Date,
     key:'week'
@@ -65,3 +65,5 @@ export default function diff (
             return diff_in_ms;
     }
 }
+
+export {diff, diff as default};

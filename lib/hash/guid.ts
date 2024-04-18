@@ -13,7 +13,7 @@ for (let i = 0; i < 256; i++) {
  *
  * @returns Generated guid string
  */
-export default function guid ():string {
+function guid ():string {
     const d0 = (Math.random()*0xffffffff) | 0;
     const d1 = (Math.random()*0xffffffff) | 0;
     const d2 = (Math.random()*0xffffffff) | 0;
@@ -39,3 +39,5 @@ export default function guid ():string {
         HEX[(d3 >> 16) & 0xff] +
         HEX[(d3 >> 24) & 0xff];
 }
+
+export {guid, guid as default};

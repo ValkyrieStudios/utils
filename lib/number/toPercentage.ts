@@ -12,7 +12,7 @@ import round from './round';
  *
  * @returns Percentage value respective to the provided range
  */
-export default function toPercentage (
+function toPercentage (
     val:number,
     precision:number = 0,
     min:number = 0,
@@ -26,3 +26,5 @@ export default function toPercentage (
 
     return round(((val - min)/ (max - min)) * 100, precision);
 }
+
+export {toPercentage, toPercentage as default};

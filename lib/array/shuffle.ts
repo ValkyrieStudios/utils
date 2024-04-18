@@ -8,7 +8,7 @@
  *
  * @param val - Array to shuffle
  */
-export default function shuffle (arr:unknown[]):void {
+function shuffle (arr:unknown[]):void {
     if (!Array.isArray(arr)) return;
 
     for (let i = arr.length - 1; i > 0; i--) {
@@ -16,3 +16,5 @@ export default function shuffle (arr:unknown[]):void {
         [arr[i], arr[j]] = [arr[j], arr[i]];            //  Swap elements
     }
 }
+
+export {shuffle, shuffle as default};

@@ -27,10 +27,12 @@ function deep (obj:deepInput) {
  *
  * @returns Deeply frozen object
  */
-export default function deepFreeze <T extends deepInput> (obj:T):Frozen<T> {
+function deepFreeze <T extends deepInput> (obj:T):Frozen<T> {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
     ) throw new TypeError('Only objects/arrays can be frozen');
     return deep(obj) as Frozen<T>;
 }
+
+export {deepFreeze, deepFreeze as default};

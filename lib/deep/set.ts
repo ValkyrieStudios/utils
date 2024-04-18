@@ -39,7 +39,7 @@ const RGX_MALICIOUS = /__proto__|constructor|prototype/;
  * @returns True or false depending on whether or not the property was set correctly
  * @throws {TypeError}
  */
-export default function deepSet (
+function deepSet (
     obj:{[key:string]:any}|{[key:string]:any}[]|any[],
     path:string,
     value:any,
@@ -101,3 +101,5 @@ export default function deepSet (
 
     return true;
 }
+
+export {deepSet, deepSet as default};

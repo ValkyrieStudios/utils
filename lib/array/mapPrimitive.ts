@@ -40,7 +40,7 @@ type mapReturn = Record<string, string|number>;
  *
  * @returns {mapReturn} KV-Map object
  */
-export default function mapPrimitive (arr:unknown[], opts?:mapOptions):mapReturn {
+function mapPrimitive (arr:unknown[], opts?:mapOptions):mapReturn {
     if (!Array.isArray(arr) || !arr.length) return {};
 
     let VALTRIM:boolean = false;
@@ -72,3 +72,5 @@ export default function mapPrimitive (arr:unknown[], opts?:mapOptions):mapReturn
 
     return map;
 }
+
+export {mapPrimitive, mapPrimitive as default};

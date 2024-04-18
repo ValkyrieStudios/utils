@@ -8,7 +8,7 @@
  *
  * @returns Object with the defined properties
  */
-export default function define (
+function define (
     props:{[key:string]:any},
     obj:{[key:string]:any} = {}
 ):{[key:string]:any} {
@@ -19,3 +19,5 @@ export default function define (
 
     return Object.defineProperties(obj, props);
 }
+
+export {define, define as default};

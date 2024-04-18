@@ -11,7 +11,7 @@
  * @param fn - Function to memoize
  * @param resolver - Optional resolver function to generate cache key. If not passed the first argument is used as map key
  */
-export default function memoize (fn:Function, resolver?:Function):Function {
+function memoize (fn:Function, resolver?:Function):Function {
     const memoized = function () {
         const key = typeof resolver === 'function' ? resolver.apply(this, arguments) : arguments[0]; // eslint-disable-line
         if (memoized.cache.has(key)) return memoized.cache.get(key);
@@ -23,3 +23,5 @@ export default function memoize (fn:Function, resolver?:Function):Function {
     memoized.cache = new Map();
     return memoized;
 }
+
+export {memoize, memoize as default};

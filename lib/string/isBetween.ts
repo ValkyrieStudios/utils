@@ -12,7 +12,7 @@
  *
  * @returns Whether or not the value is a string of length between min and max inclusive
  */
-export default function isStringBetween (val:unknown, min:number, max:number, trimmed:boolean=true):val is string {
+function isStringBetween (val:unknown, min:number, max:number, trimmed:boolean=true):val is string {
     if (
         typeof val !== 'string' ||
         !Number.isFinite(min) ||
@@ -25,3 +25,5 @@ export default function isStringBetween (val:unknown, min:number, max:number, tr
     const length = (trimmed === true ? val.trim() : val).length;
     return length >= min && length <= max;
 }
+
+export {isStringBetween, isStringBetween as default};

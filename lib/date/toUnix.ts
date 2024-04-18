@@ -9,10 +9,12 @@ import isDate from './is';
  *
  * @returns Unix time in seconds
  */
-export default function toUnix (val:Date):number {
+function toUnix (val:Date):number {
     if (
         !isDate(val)
     ) throw new TypeError('toUnix requires a date object');
 
     return Math.floor(val.valueOf()/1000);
 }
+
+export {toUnix, toUnix as default};

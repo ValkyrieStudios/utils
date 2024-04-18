@@ -22,7 +22,7 @@
  * @returns Value stored at property or undefined
  * @throws {TypeError}
  */
-export default function deepGet (
+function deepGet (
     obj:{[key:string]:any}|{[key:string]:any}[]|any[],
     path:string,
     get_parent:boolean=false
@@ -77,3 +77,5 @@ export default function deepGet (
      */
     return cursor;
 }
+
+export {deepGet, deepGet as default};

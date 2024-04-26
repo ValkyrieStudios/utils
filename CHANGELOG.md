@@ -19,6 +19,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **feat**: function/* namespace export
 - **feat**: function namespace export has the following shorthand aliases: `is`, `isFn`, `isAsync`, `isAsyncFn`
 - **feat**: hash/* namespace export
+- **feat**: number/* namespace export
+- **feat**: number namespace export has the following shorthand aliases: `is`, `isGt`, `isGte`, `isLt`, `isLte`, `isNum`, `isNumGt`, `isNumGte`, `isNumLt`, `isNumLte`, `isInt`, `isIntGt`, `isIntGte`, `isIntLt`, `isIntLte`, `isIntBetween`, `randBetween`, `randIntBetween`, `toPct`
 - **feat**: formdata/is - Utility to verify whether or not a passed value is an instance of FormData, also acts as a typeguard
 - **feat**: formdata/* namespace export
 - **feat**: formdata namespace export has the following shorthand aliases: `is`

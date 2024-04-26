@@ -11,6 +11,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **feat**: array namespace export has the following shorthand alias: `is`, `isNe`, `isNotEmpty`, `isNeArray`
 - **feat**: boolean/* namespace export
 - **feat**: boolean namespace export has the following shorthand alias: `is`
+- **feat**: caching/* namespace export
 - **feat**: formdata/is - Utility to verify whether or not a passed value is an instance of FormData, also acts as a typeguard
 - **feat**: formdata/* namespace export
 - **feat**: formdata namespace export has the following shorthand aliases: `is`

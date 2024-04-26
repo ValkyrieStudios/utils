@@ -16,6 +16,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **feat**: date namespace export has the following shorthand alias: `is`
 - **feat**: deep/* namespace export
 - **feat**: deep namespace export has the following shorthand alias: `seal`, `freeze`, `get`, `set`
+- **feat**: function/* namespace export
+- **feat**: function namespace export has the following shorthand aliases: `is`, `isFn`, `isAsync`, `isAsyncFn`
 - **feat**: hash/* namespace export
 - **feat**: formdata/is - Utility to verify whether or not a passed value is an instance of FormData, also acts as a typeguard
 - **feat**: formdata/* namespace export

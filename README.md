@@ -278,7 +278,7 @@ const memoized_function = memoize((a) => {
 - **isDate(val:any)**
 Check if a variable is of type Date
 ```js
-isDate(new Date('December 17, 1995 03:24:00'); // TRUE
+isDate(new Date('December 17, 1995 03:24:00')); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
@@ -544,6 +544,14 @@ An empty function that returns a promise that will immediately resolve itself an
 - **sleep(val:int)**
 An empty function that returns a promise that will resolve after X milliseconds, default is set to 1000ms.
 **
+
+### formdata
+- **isFormData(val:any)**
+Check if a variable is of type FormData
+```js
+isFormData(new FormData()); // TRUE
+isFormData({hi: 'there'}); // FALSE
+```
 
 ### hash
 - **guid()**

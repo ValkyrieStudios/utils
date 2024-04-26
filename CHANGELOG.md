@@ -23,6 +23,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **feat**: number namespace export has the following shorthand aliases: `is`, `isGt`, `isGte`, `isLt`, `isLte`, `isNum`, `isNumGt`, `isNumGte`, `isNumLt`, `isNumLte`, `isInt`, `isIntGt`, `isIntGte`, `isIntLt`, `isIntLte`, `isIntBetween`, `randBetween`, `randIntBetween`, `toPct`
 - **feat**: object/* namespace export
 - **feat**: object namespace export has the following shorthand aliases: `is`, `isNeObject`, `isNotEmpty`, `isNe`
+- **feat**: regexp/* namespace export
+- **feat**: regexp namespace export has the following shorthand aliases: `is`, `sanitize`
 - **feat**: formdata/is - Utility to verify whether or not a passed value is an instance of FormData, also acts as a typeguard
 - **feat**: formdata/* namespace export
 - **feat**: formdata namespace export has the following shorthand aliases: `is`

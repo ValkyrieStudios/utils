@@ -25,9 +25,17 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **feat**: object namespace export has the following shorthand aliases: `is`, `isNeObject`, `isNotEmpty`, `isNe`
 - **feat**: regexp/* namespace export
 - **feat**: regexp namespace export has the following shorthand aliases: `is`, `sanitize`
+- **feat**: string/* namespace export
+- **feat**: string namespace export has the following shorthand aliases: `is`, `isNeString`, `isNotEmpty`, `isNe`, `isBetween`
 - **feat**: formdata/is - Utility to verify whether or not a passed value is an instance of FormData, also acts as a typeguard
 - **feat**: formdata/* namespace export
 - **feat**: formdata namespace export has the following shorthand aliases: `is`
+- **feat**: Is.Formdata (links to new formdata/is util), eg:
+```typescript
+import Is from '@valkyriestudios/utils/is';
+
+if (Is.Formdata(...)) { ... }
+```
 
 ## [12.4.0] - 2024-04-18
 ### Improved

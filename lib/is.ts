@@ -25,7 +25,7 @@ import {
 import {
     isString,
     isStringBetween,
-    isNeString
+    isNeString,
 } from './string';
 
 const Is = Object.freeze({

@@ -13,5 +13,5 @@ export {
     deepSeal as seal,
     deepSeal,
     deepSet as set,
-    deepSet,
+    deepSet
 };

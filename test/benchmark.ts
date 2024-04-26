@@ -19,6 +19,7 @@ import diff                     from '../dist/date/diff';
 import endOfUTC                 from '../dist/date/endOfUTC';
 import format                   from '../dist/date/format';
 import isDate                   from '../dist/date/is';
+import isFormData               from '../dist/formdata/is';
 import nowUnix                  from '../dist/date/nowUnix';
 import nowUnixMs                from '../dist/date/nowUnixMs';
 import startOfUTC               from '../dist/date/startOfUTC';
@@ -629,6 +630,11 @@ for (const el of [
     {
         lbl: 'deep/set - 5 levels',
         fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c.d.another', {more: 'treasure'}),
+    },
+    //  FormData - is
+    {
+        lbl: 'formdata/is',
+        fn: () => isFormData({hi: 'there'}),
     },
     //  Function - is
     {

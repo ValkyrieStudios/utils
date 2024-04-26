@@ -15,5 +15,5 @@ export {
     isNotEmptyObject as isNeObject,
     isNotEmptyObject as isNe,
     merge,
-    pick,
+    pick
 };

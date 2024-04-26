@@ -4,5 +4,5 @@ import {isFormData} from './is';
 
 export {
     isFormData,
-    isFormData as is,
+    isFormData as is
 };

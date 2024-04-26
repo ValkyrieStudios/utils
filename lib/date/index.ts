@@ -22,5 +22,5 @@ export {
     nowUnixMs,
     startOfUTC,
     toUnix,
-    toUTC,
+    toUTC
 };

@@ -7,5 +7,5 @@ export {
     isRegExp,
     isRegExp as is,
     sanitizeRegExp,
-    sanitizeRegExp as sanitize,
+    sanitizeRegExp as sanitize
 };

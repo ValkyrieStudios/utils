@@ -18,5 +18,5 @@ export {
     isNotEmptyString as isNe,
     isStringBetween,
     isStringBetween as isBetween,
-    shorten,
+    shorten
 };

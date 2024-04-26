@@ -17,5 +17,5 @@ export {
     noop,
     noopresolve,
     noopreturn,
-    sleep,
+    sleep
 };

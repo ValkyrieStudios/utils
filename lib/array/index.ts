@@ -23,5 +23,5 @@ export {
     mapKey,
     mapPrimitive,
     shuffle,
-    sort,
+    sort
 };

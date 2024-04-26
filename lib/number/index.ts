@@ -55,5 +55,5 @@ export {
     randomIntBetween as randIntBetween,
     round,
     toPercentage,
-    toPercentage as toPct,
+    toPercentage as toPct
 };

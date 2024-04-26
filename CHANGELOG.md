@@ -37,6 +37,20 @@ import Is from '@valkyriestudios/utils/is';
 if (Is.Formdata(...)) { ... }
 ```
 
+Example usage of new namespace exports: 
+```typescript
+/* old */
+import isString from '@valkyriestudios/utils/string/is';
+import isNotEmptyString from '@valkyriestudios/utils/string/isNotEmpty';
+
+/* New pt1 */
+import {isString, isNeString} from '@valkyriestudios/utils/string';
+
+/* New pt2 */
+import * as LibString from '@valkyriestudios/utils/string';
+LibString.is(...);
+```
+
 ## [12.4.0] - 2024-04-18
 ### Improved
 - **dx**: array/mapFn will now infer the return type of the map and allows passing a generic

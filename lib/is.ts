@@ -1,81 +1,82 @@
 'use strict';
 
-import {equal}                    from './equal';
-import {isNotEmptyArray}          from './array/isNotEmpty';
-import {isArray}                  from './array/is';
-import {isBoolean}                from './boolean/is';
-import {isDate}                   from './date/is';
-import {isFunction}               from './function/is';
-import {isAsyncFunction}          from './function/isAsync';
-import {isNumber}                 from './number/is';
-import {isNumberBetween}          from './number/isBetween';
-import {isNumberBelow}            from './number/isBelow';
-import {isNumberBelowOrEqual}     from './number/isBelowOrEqual';
-import {isNumberAbove}            from './number/isAbove';
-import {isNumberAboveOrEqual}     from './number/isAboveOrEqual';
-import {isInteger}                from './number/isInteger';
-import {isIntegerBetween}         from './number/isIntegerBetween';
-import {isIntegerBelow}           from './number/isIntegerBelow';
-import {isIntegerBelowOrEqual}    from './number/isIntegerBelowOrEqual';
-import {isIntegerAbove}           from './number/isIntegerAbove';
-import {isIntegerAboveOrEqual}    from './number/isIntegerAboveOrEqual';
-import {isRegExp}                 from './regexp/is';
-import {isObject}                 from './object/is';
-import {isNotEmptyObject}         from './object/isNotEmpty';
-import {isString}                 from './string/is';
-import {isStringBetween}          from './string/isBetween';
-import {isNotEmptyString}         from './string/isNotEmpty';
+import {equal}                      from './equal';
+import {isArray, isNeArray}         from './array';
+import {isBoolean}                  from './boolean';
+import {isDate}                     from './date';
 import {isFormData}                 from './formdata';
+import {isFn, isAsyncFn}            from './function';
+import {isRegExp}                   from './regexp';
+import {isObject, isNeObject}       from './object';
+import {
+    isNum,
+    isNumBetween,
+    isNumLt,
+    isNumLte,
+    isNumGt,
+    isNumGte,
+    isInt,
+    isIntBetween,
+    isIntLt,
+    isIntLte,
+    isIntGt,
+    isIntGte,
+} from './number';
+import {
+    isString,
+    isStringBetween,
+    isNeString
+} from './string';
 
 const Is = Object.freeze({
     Array               : isArray,
-    NeArray             : isNotEmptyArray,
-    NotEmptyArray       : isNotEmptyArray,
+    NeArray             : isNeArray,
+    NotEmptyArray       : isNeArray,
     Boolean             : isBoolean,
     Date                : isDate,
-    Function            : isFunction,
-    AsyncFunction       : isAsyncFunction,
-    Num                 : isNumber,
-    NumBetween          : isNumberBetween,
-    NumAbove            : isNumberAbove,
-    NumAboveOrEqual     : isNumberAboveOrEqual,
-    NumBelow            : isNumberBelow,
-    NumBelowOrEqual     : isNumberBelowOrEqual,
-    NumGt               : isNumberAbove,
-    NumGte              : isNumberAboveOrEqual,
-    NumLt               : isNumberBelow,
-    NumLte              : isNumberBelowOrEqual,
-    Number              : isNumber,
-    NumberBetween       : isNumberBetween,
-    NumberAbove         : isNumberAbove,
-    NumberAboveOrEqual  : isNumberAboveOrEqual,
-    NumberBelow         : isNumberBelow,
-    NumberBelowOrEqual  : isNumberBelowOrEqual,
-    Int                 : isInteger,
-    IntBetween          : isIntegerBetween,
-    IntAbove            : isIntegerAbove,
-    IntAboveOrEqual     : isIntegerAboveOrEqual,
-    IntBelow            : isIntegerBelow,
-    IntBelowOrEqual     : isIntegerBelowOrEqual,
-    IntGt               : isIntegerAbove,
-    IntGte              : isIntegerAboveOrEqual,
-    IntLt               : isIntegerBelow,
-    IntLte              : isIntegerBelowOrEqual,
-    Integer             : isInteger,
-    IntegerBetween      : isIntegerBetween,
-    IntegerBelow        : isIntegerBelow,
-    IntegerBelowOrEqual : isIntegerBelowOrEqual,
-    IntegerAbove        : isIntegerAbove,
-    IntegerAboveOrEqual : isIntegerAboveOrEqual,
     Formdata            : isFormData,
+    Function            : isFn,
+    AsyncFunction       : isAsyncFn,
+    Num                 : isNum,
+    NumBetween          : isNumBetween,
+    NumAbove            : isNumGt,
+    NumAboveOrEqual     : isNumGte,
+    NumBelow            : isNumLt,
+    NumBelowOrEqual     : isNumLte,
+    NumGt               : isNumGt,
+    NumGte              : isNumGte,
+    NumLt               : isNumLt,
+    NumLte              : isNumLte,
+    Number              : isNum,
+    NumberBetween       : isNumBetween,
+    NumberAbove         : isNumGt,
+    NumberAboveOrEqual  : isNumGte,
+    NumberBelow         : isNumLt,
+    NumberBelowOrEqual  : isNumLte,
+    Int                 : isInt,
+    IntBetween          : isIntBetween,
+    IntAbove            : isIntGt,
+    IntAboveOrEqual     : isIntGte,
+    IntBelow            : isIntLt,
+    IntBelowOrEqual     : isIntLte,
+    IntGt               : isIntGt,
+    IntGte              : isIntGte,
+    IntLt               : isIntLt,
+    IntLte              : isIntLte,
+    Integer             : isInt,
+    IntegerBetween      : isIntBetween,
+    IntegerBelow        : isIntLt,
+    IntegerBelowOrEqual : isIntLte,
+    IntegerAbove        : isIntGt,
+    IntegerAboveOrEqual : isIntGte,
     RegExp              : isRegExp,
     Object              : isObject,
-    NeObject            : isNotEmptyObject,
-    NotEmptyObject      : isNotEmptyObject,
+    NeObject            : isNeObject,
+    NotEmptyObject      : isNeObject,
     String              : isString,
     StringBetween       : isStringBetween,
-    NeString            : isNotEmptyString,
-    NotEmptyString      : isNotEmptyString,
+    NeString            : isNeString,
+    NotEmptyString      : isNeString,
     Equal               : equal,
     Eq                  : equal,
 });

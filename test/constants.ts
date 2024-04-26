@@ -13,6 +13,7 @@ const IS_BOOLEAN:boolean[]              = [true, false, Boolean(true), Boolean(f
 const IS_STRING:string[]                = ['foo', String('foo')];
 const IS_REGEXP:RegExp[]                = [/abcdefg/i, new RegExp('\\w+')];
 const IS_DATE:Date[]                    = [new Date()];
+const IS_FORM_DATA:FormData[]           = [new FormData()];
 const IS_ARRAY:number[][]               = [[0, 1, 2], new Array(1, 2, 3), new Array(5)];
 const IS_OBJECT:{[key:string]:any}[]    = [{bar:'foo'}, new Object(), Object.create(null), Object.create([])];
 const IS_FUNCTION:any[]                 = [testFunction, testArrowFunction];
@@ -26,6 +27,7 @@ const NOT_ARRAY:any[] = [
     ...IS_STRING,
     ...IS_REGEXP,
     ...IS_DATE,
+    ...IS_FORM_DATA,
     ...IS_OBJECT,
     ...IS_FUNCTION,
     ...IS_ASYNC_FUNCTION,
@@ -37,6 +39,7 @@ const NOT_NUMERIC:any[] = [
     ...IS_REGEXP,
     ...IS_DATE,
     ...IS_ARRAY,
+    ...IS_FORM_DATA,
     ...IS_OBJECT,
     ...IS_FUNCTION,
     ...IS_ASYNC_FUNCTION,
@@ -51,6 +54,7 @@ const NOT_STRING:any[] = [
     ...IS_REGEXP,
     ...IS_DATE,
     ...IS_ARRAY,
+    ...IS_FORM_DATA,
     ...IS_OBJECT,
     ...IS_FUNCTION,
     ...IS_ASYNC_FUNCTION,
@@ -64,6 +68,7 @@ const NOT_OBJECT:any[] = [
     ...IS_REGEXP,
     ...IS_DATE,
     ...IS_ARRAY,
+    ...IS_FORM_DATA,
     ...IS_FUNCTION,
     ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
@@ -76,6 +81,20 @@ const NOT_DATE:any[] = [
     ...IS_REGEXP,
     ...IS_ARRAY,
     ...IS_OBJECT,
+    ...IS_FORM_DATA,
+    ...IS_FUNCTION,
+    ...IS_ASYNC_FUNCTION,
+    ...IS_NULLABLE,
+];
+const NOT_FORM_DATA:any[] = [
+    ...IS_NUMERIC,
+    ...IS_INTEGER,
+    ...IS_BOOLEAN,
+    ...IS_STRING,
+    ...IS_REGEXP,
+    ...IS_ARRAY,
+    ...IS_OBJECT,
+    ...IS_DATE,
     ...IS_FUNCTION,
     ...IS_ASYNC_FUNCTION,
     ...IS_NULLABLE,
@@ -88,6 +107,7 @@ const NOT_FUNCTION:any[] = [
     ...IS_REGEXP,
     ...IS_DATE,
     ...IS_ARRAY,
+    ...IS_FORM_DATA,
     ...IS_OBJECT,
     ...IS_NULLABLE,
 ];
@@ -98,6 +118,7 @@ const NOT_BOOLEAN:any[] = [
     ...IS_REGEXP,
     ...IS_DATE,
     ...IS_ARRAY,
+    ...IS_FORM_DATA,
     ...IS_OBJECT,
     ...IS_FUNCTION,
     ...IS_ASYNC_FUNCTION,
@@ -110,6 +131,7 @@ const NOT_REGEXP:any[] = [
     ...IS_STRING,
     ...IS_DATE,
     ...IS_ARRAY,
+    ...IS_FORM_DATA,
     ...IS_OBJECT,
     ...IS_FUNCTION,
     ...IS_ASYNC_FUNCTION,
@@ -218,6 +240,7 @@ const CONSTANTS = {
     NOT_BOOLEAN,
     NOT_DATE,
     NOT_DATE_STRING,
+    NOT_FORM_DATA,
     NOT_EMAIL,
     NOT_FUNCTION,
     NOT_GUID: [...NOT_STRING, '', ' ', '  ', 'foo', '448932784723', 'peter', '8644c000|917c|4238|8a6b|9adf413c0ef6'],
@@ -235,6 +258,7 @@ const CONSTANTS = {
     IS_STRING,
     IS_REGEXP,
     IS_DATE,
+    IS_FORM_DATA,
     IS_ARRAY,
     IS_OBJECT,
     IS_FUNCTION,

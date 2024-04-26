@@ -10,6 +10,7 @@ import isArray                  from '../../lib/array/is';
 import isNotEmptyArray          from '../../lib/array/isNotEmpty';
 import isBoolean                from '../../lib/boolean/is';
 import isDate                   from '../../lib/date/is';
+import isFormdata               from '../../lib/formdata/is';
 import isFunction               from '../../lib/function/is';
 import isAsyncFunction          from '../../lib/function/isAsync';
 import isNumber                 from '../../lib/number/is';
@@ -87,6 +88,16 @@ describe('Is', () => {
 
         it('Should link to isDate', () => {
             assert.equal(Is.Date, isDate);
+        });
+    });
+
+    describe('Formdata', () => {
+        it('Should have a Function Formdata', () => {
+            assert.equal(typeof Is.Formdata, 'function');
+        });
+
+        it('Should link to isFormdata', () => {
+            assert.equal(Is.Formdata, isFormdata);
         });
     });
 

@@ -25,6 +25,7 @@ import {isNotEmptyObject}         from './object/isNotEmpty';
 import {isString}                 from './string/is';
 import {isStringBetween}          from './string/isBetween';
 import {isNotEmptyString}         from './string/isNotEmpty';
+import {isFormData}                 from './formdata';
 
 const Is = Object.freeze({
     Array               : isArray,
@@ -66,6 +67,7 @@ const Is = Object.freeze({
     IntegerBelowOrEqual : isIntegerBelowOrEqual,
     IntegerAbove        : isIntegerAbove,
     IntegerAboveOrEqual : isIntegerAboveOrEqual,
+    Formdata            : isFormData,
     RegExp              : isRegExp,
     Object              : isObject,
     NeObject            : isNotEmptyObject,

@@ -51,6 +51,10 @@ import * as LibString from '@valkyriestudios/utils/string';
 LibString.is(...);
 ```
 
+### Improved
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.7.1
+- **deps**: Upgrade @typescript-eslint/parser to 7.7.1
+
 ## [12.4.0] - 2024-04-18
 ### Improved
 - **dx**: array/mapFn will now infer the return type of the map and allows passing a generic

@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- **feat**: formdata/is - Utility to verify whether or not a passed value is an instance of FormData, also acts as a typeguard
+- **feat**: formdata/* namespace export
+- **feat**: formdata namespace export has the following shorthand aliases: `is`
+
 ## [12.4.0] - 2024-04-18
 ### Improved
 - **dx**: array/mapFn will now infer the return type of the map and allows passing a generic

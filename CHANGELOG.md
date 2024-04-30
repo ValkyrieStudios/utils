@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- **feat**: array/groupBy, eg:
+```typescript
+/* Can use a function, the output of the function will be what the key is on the map  */
+const group = groupBy([
+    {tally: 20, name: 'Peter'},
+    {tally: 40, name: 'Jake'},
+    {tally: 5, name: 'Bob'},
+], el => el.tally > 15);
+
+/* Expected output: */
+{
+    false: [{tally: 5, name: 'Bob'}],
+    true: [{tally: 20, name: 'Peter'}, {tally: 40, name: 'Jake'}],
+}
+
+/* Can also use a function and work with a property return  */
+const group = groupBy([
+    {role: 'user', name: 'Peter'},
+    {role: 'user', name: 'Jake'},
+    {role: 'guest', name: 'Bob'},
+    {name: 'Alice'},
+], el => el.role || 'other');
+
+/* Expected output: */
+{
+    user: [{role: 'user', name: 'Peter'}, {role: 'user', name: 'Jake'}],
+    guest: [{role: 'guest', name: 'Bob'}],
+    other: [{name: 'Alice'}],
+}
+
+/* Can also provide a key as string instead of a function, in case the key doesnt exist a fallback property '_' is used*/
+const group = groupBy([
+    {role: 'user', name: 'Peter'},
+    {role: 'user', name: 'Jake'},
+    {role: 'guest', name: 'Bob'},
+    {name: 'Alice'},
+], 'role');
+
+/* Expected output: */
+{
+    user: [{role: 'user', name: 'Peter'}, {role: 'user', name: 'Jake'}],
+    guest: [{role: 'guest', name: 'Bob'}],
+    _: [{name: 'Alice'}],
+}
+```
+
 ## [12.5.0] - 2024-04-26
 ### Added
 - **feat**: array/* namespace export

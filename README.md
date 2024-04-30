@@ -30,7 +30,7 @@ isNotEmptyArray([]); // FALSE
 isNotEmptyArray([0, 1, 2]); // TRUE
 ```
 
-- **mapKey(val:array[Object], key:string, opts:object={})**
+- **mapKey(val:Record[], key:string, opts:object={})**
 Map a non-primitive object array into an object map by key
 ```js
 mapKey([
@@ -99,7 +99,7 @@ output:
 }
 ```
 
-- **mapFn(val:array[Object], key:Function, opts:object={})**
+- **mapFn(val:Record[], key:Function, opts:object={})**
 Same behavior as mapKey but instead of a key, a function is passed to generate your own key. Eg:
 
 ```js
@@ -120,13 +120,69 @@ output:
 
 options are the same as the mapKey function
 
-- **mapPrimitive(val:any, opts:object={valtrim:false,keyround:false,valround:false})**
+- **mapPrimitive(val:any[], opts:object={valtrim:false,keyround:false,valround:false})**
 Map an array of primitives (number/string)
 ```js
 mapPrimitive([1,2,3]); // {1: 1, 2: 2, 3: 3}
 mapPrimitive(['hello', 'hello', 'foo', 'bar']); // {hello: 'hello', foo: 'foo', bar: 'bar'}
 mapPrimitive(['hello', ' hello', 'foo', '  foo'], {valtrim: true}); // {hello: 'hello', foo: 'foo'}
 ```
+
+- **groupBy(val:Record[], handler:Function|string)**
+Return a grouped object from an array. This function **will automatically filter out any non/empty objects**.
+
+Example usage when using a **function** as the handler
+```typescript
+/* The output of the function will be what the key is on the map  */
+const group = groupBy([
+    {tally: 20, name: 'Peter'},
+    {tally: 40, name: 'Jake'},
+    {tally: 5, name: 'Bob'},
+], el => el.tally > 15);
+
+/* Expected output: */
+{
+    false: [{tally: 5, name: 'Bob'}],
+    true: [{tally: 20, name: 'Peter'}, {tally: 40, name: 'Jake'}],
+}
+
+/* Can also work with a property return  */
+const group = groupBy([
+    {role: 'user', name: 'Peter'},
+    {role: 'user', name: 'Jake'},
+    {role: 'guest', name: 'Bob'},
+    {name: 'Alice'},
+], el => el.role || 'other');
+
+/* Expected output: */
+{
+    user: [{role: 'user', name: 'Peter'}, {role: 'user', name: 'Jake'}],
+    guest: [{role: 'guest', name: 'Bob'}],
+    other: [{name: 'Alice'}],
+}
+```
+**Take note**: If the function returns an undefined or empty string the object will be added to a fallback group called '_'
+
+
+Example usage when using a **string** as the handler to denote a grouping by a certain property name
+```typescript
+const group = groupBy([
+    {role: 'user', name: 'Peter'},
+    {role: 'user', name: 'Jake'},
+    {role: 'guest', name: 'Bob'},
+    {name: 'Alice'},
+], 'role');
+
+/* Expected output: */
+{
+    user: [{role: 'user', name: 'Peter'}, {role: 'user', name: 'Jake'}],
+    guest: [{role: 'guest', name: 'Bob'}],
+    _: [{name: 'Alice'}],
+}
+```
+
+**Take note**: any object without the key will be added to a fallback group called '_'
+
 
 - **dedupe(val:Array)**
 Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.

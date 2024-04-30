@@ -23,7 +23,6 @@ function isObjectEqual (
     b:{[key:string]:any}
 ):boolean {
     const keys_a = Object.keys(a);
-
     if (keys_a.length !== Object.keys(b).length) return false;
 
     for (let i = keys_a.length - 1; i >= 0; i--) {

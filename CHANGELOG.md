@@ -7,7 +7,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
-- **feat**: array/groupBy, eg:
+- **feat**: array/groupBy, (suggested by [Xander Berkein](https://github.com/xanderberkein) eg:
 ```typescript
 /* Can use a function, the output of the function will be what the key is on the map  */
 const group = groupBy([
@@ -55,6 +55,8 @@ const group = groupBy([
 
 ### Improved
 - **feat**: array/* namespace export now also includes the new groupBy utility
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.8.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.8.0
 
 ## [12.5.0] - 2024-04-26
 ### Added

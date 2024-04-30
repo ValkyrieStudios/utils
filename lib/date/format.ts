@@ -13,7 +13,7 @@ let DEFAULT_TZ          = 'UTC';
 try {
     DEFAULT_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
 } catch (err) {
-    //  NOOP: If this doesn't work we simply work with UTC as default
+    /* NOOP: If this doesn't work we simply work with UTC as default */
 } finally {
     if (typeof DEFAULT_TZ !== 'string') DEFAULT_TZ = 'UTC';
 }
@@ -67,7 +67,7 @@ function toZone (date:Date, zone:string):Date {
     try {
         zone_time = new Date(date.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
     } catch (err) {
-        //  noop
+        /* noop */
     }
     if (!Number.isInteger(zone_time)) throw new Error(`format: Invalid zone passed - ${zone}`);
 

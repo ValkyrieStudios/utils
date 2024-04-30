@@ -38,7 +38,7 @@ describe('Date - addUTC', () => {
 
     it('Should return original date in utc when passed a non-recognized key', () => {
         assert.deepEqual(
-            //  @ts-ignore
+            /* @ts-ignore */
             addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'jedis'),
             new Date('2022-10-05T11:12:11.000Z')
         );

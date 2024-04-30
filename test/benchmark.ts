@@ -81,13 +81,13 @@ function bench (el, iterations) {
     console.info([el.lbl.padEnd(ROW_TEST_WIDTH, ' '), `${ops}`.padEnd(ROW_OPS_WIDTH, ' ')].join('| '));
 }
 
-//  Header
+/* Header */
 console.info(`${'Test'.padEnd(ROW_TEST_WIDTH, ' ')}| ${'ops/sec'.padEnd(ROW_OPS_WIDTH, ' ')}`);
 separator();
 
-//  Run benchmarks
+/* Run benchmarks */
 for (const el of [
-    //  Array - dedupe
+    /* Array - dedupe */
     {
         lbl: 'array/dedupe: numeric - 10 elements',
         fn: () => dedupe([0, 1, 1, 2, 99, 100, 99, 2, 3, 3]),
@@ -104,17 +104,17 @@ for (const el of [
         lbl: 'array/dedupe: string - 20 elements',
         fn: () => dedupe(['a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b', 'a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b']),
     },
-    //  Array - is
+    /* Array - is */
     {
         lbl: 'array/is',
         fn: () => isArray([0, 1, 2]),
     },
-    //  Array - isNotEmpty
+    /* Array - isNotEmpty */
     {
         lbl: 'array/isNotEmpty',
         fn: () => isNotEmptyArray([0, 1, 2]),
     },
-    //  Array - join
+    /* Array - join */
     {
         lbl: 'array/join - valround 1',
         fn: () => join(['   valkyrie ', 569.45, '   studios  '], {delim: '@', valround: 1}),
@@ -123,7 +123,7 @@ for (const el of [
         lbl: 'array/join - valtrim: false,valround 1',
         fn: () => join(['   valkyrie ', 569.45, '   studios  '], {delim: '@', valround: 1, valtrim: false}),
     },
-    //  Array - mapFn
+    /* Array - mapFn */
     {
         lbl: 'array/mapFn',
         fn: () => mapFn([
@@ -137,7 +137,7 @@ for (const el of [
             {uid: 87, name: 'Josh'},
         ], val => val.uid),
     },
-    //  Array - mapKey
+    /* Array - mapKey */
     {
         lbl: 'array/mapKey',
         fn: () => mapKey([
@@ -151,7 +151,7 @@ for (const el of [
             {uid: 87, name: 'Josh'},
         ], 'uid'),
     },
-    //  Array - mapPrimitive
+    /* Array - mapPrimitive */
     {
         lbl: 'array/mapPrimitive - numeric - 10 elements',
         fn: () => mapPrimitive([0, 1, 1, 2, 99, 100, 99, 2, 3, 3]),
@@ -168,7 +168,7 @@ for (const el of [
         lbl: 'array/mapPrimitive - string - 20 elements',
         fn: () => mapPrimitive(['a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b', 'a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b']),
     },
-    //  Array - shuffle
+    /* Array - shuffle */
     {
         lbl: 'array/shuffle - numeric - 10 elements',
         fn: () => shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
@@ -257,7 +257,7 @@ for (const el of [
             [[0, 2, 4], [1, 2, 3]],
         ]),
     },
-    //  Array - sort
+    /* Array - sort */
     {
         lbl: 'array/sort - key string - ascending',
         fn: () => sort([
@@ -306,12 +306,12 @@ for (const el of [
             {test: 'Alice'},
         ], val => val.test.toLowerCase(), 'desc'),
     },
-    //  Boolean - is
+    /* Boolean - is */
     {
         lbl: 'boolean/is',
         fn: () => isBoolean(true),
     },
-    //  Date - addUTC
+    /* Date - addUTC */
     {
         lbl: 'date/addUTC: milliseconds',
         fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'milliseconds'),
@@ -340,7 +340,7 @@ for (const el of [
         lbl: 'date/addUTC: years',
         fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'years'),
     },
-    //  Date - diff
+    /* Date - diff */
     {
         lbl: 'date/diff: milliseconds',
         fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'milliseconds'),
@@ -365,7 +365,7 @@ for (const el of [
         lbl: 'date/diff: weeks',
         fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'weeks'),
     },
-    //  Date - endOfUTC
+    /* Date - endOfUTC */
     {
         lbl: 'date/endOfUTC: second',
         fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'second'),
@@ -426,7 +426,7 @@ for (const el of [
         lbl: 'date/endOfUTC: year',
         fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'year'),
     },
-    //  Date - format
+    /* Date - format */
     {
         lbl: 'date/format: YYYY-MM-DD',
         fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD'),
@@ -443,22 +443,22 @@ for (const el of [
         lbl: 'date/format: [Now:] dddd, DD, MMMMM YYYY hh:mm a',
         fn: () => format(new Date('2023-10-05T11:12:11.000Z'), '[Now:] dddd, DD, MMMMM YYYY hh:mm a', 'fr', 'Australia/Sydney'),
     },
-    //  Date - is
+    /* Date - is */
     {
         lbl: 'date/is',
         fn: () => isDate(new Date('2032-10-05T11:12:11.000Z')),
     },
-    //  Date - nowUnix
+    /* Date - nowUnix */
     {
         lbl: 'date/nowUnix',
         fn: () => nowUnix(),
     },
-    //  Date - nowUnixMs
+    /* Date - nowUnixMs */
     {
         lbl: 'date/nowUnixMs',
         fn: () => nowUnixMs(),
     },
-    //  Date - startOfUTC
+    /* Date - startOfUTC */
     {
         lbl: 'date/startOfUTC: second',
         fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'second'),
@@ -519,17 +519,17 @@ for (const el of [
         lbl: 'date/startOfUTC: year',
         fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'year'),
     },
-    //  Date - toUnix
+    /* Date - toUnix */
     {
         lbl: 'date/toUnix',
         fn: () => toUnix(new Date('2032-10-05T11:12:11.000Z')),
     },
-    //  Date - toUTC
+    /* Date - toUTC */
     {
         lbl: 'date/toUTC',
         fn: () => toUTC(new Date('2032-10-05T11:12:11.000Z')),
     },
-    //  Deep - freeze
+    /* Deep - freeze */
     {
         lbl: 'deep/freeze - small object',
         fn: () => deepFreeze({bla: true, a: {hello: true}}),
@@ -559,7 +559,7 @@ for (const el of [
             },
         }),
     },
-    //  Deep - get
+    /* Deep - get */
     {
         lbl: 'deep/get - 1 level',
         fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g'),
@@ -580,7 +580,7 @@ for (const el of [
         lbl: 'deep/get - 5 levels',
         fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c.d'),
     },
-    //  Deep - seal
+    /* Deep - seal */
     {
         lbl: 'deep/seal - small object',
         fn: () => deepSeal({bla: true, a: {hello: true}}),
@@ -610,7 +610,7 @@ for (const el of [
             },
         }),
     },
-    //  Deep - set
+    /* Deep - set */
     {
         lbl: 'deep/set - 1 level',
         fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.another', {more: 'treasure'}),
@@ -631,22 +631,22 @@ for (const el of [
         lbl: 'deep/set - 5 levels',
         fn: () => deepSet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c.d.another', {more: 'treasure'}),
     },
-    //  FormData - is
+    /* FormData - is */
     {
         lbl: 'formdata/is',
         fn: () => isFormData({hi: 'there'}),
     },
-    //  Function - is
+    /* Function - is */
     {
         lbl: 'function/is',
         fn: () => isFunction(() => 'hello'),
     },
-    //  Function - isAsync
+    /* Function - isAsync */
     {
         lbl: 'function/isAsync',
         fn: () => isAsyncFunction(async () => 'hello'),
     },
-    //  Hash - fnv1A
+    /* Hash - fnv1A */
     {
         lbl: 'hash/fnv1A - 10 chars',
         fn: () => fnv1A('0123456789'),
@@ -655,87 +655,87 @@ for (const el of [
         lbl: 'hash/fnv1A - 20 chars',
         fn: () => fnv1A('01234567890123456789'),
     },
-    //  Hash - guid
+    /* Hash - guid */
     {
         lbl: 'hash/guid',
         fn: () => guid(),
     },
-    //  Number - is
+    /* Number - is */
     {
         lbl: 'number/is',
         fn: () => isNumber(42),
     },
-    //  Number - isAbove
+    /* Number - isAbove */
     {
         lbl: 'number/isAbove',
         fn: () => isNumberAbove(42, 10),
     },
-    //  Number - isAboveOrEqual
+    /* Number - isAboveOrEqual */
     {
         lbl: 'number/isAboveOrEqual',
         fn: () => isNumberAboveOrEqual(42, 10),
     },
-    //  Number - isBelow
+    /* Number - isBelow */
     {
         lbl: 'number/isBelow',
         fn: () => isNumberBelow(42, 10),
     },
-    //  Number - isBelowOrEqual
+    /* Number - isBelowOrEqual */
     {
         lbl: 'number/isBelowOrEqual',
         fn: () => isNumberBelowOrEqual(42, 10),
     },
-    //  Number - isBetween
+    /* Number - isBetween */
     {
         lbl: 'number/isBetween',
         fn: () => isNumberBetween(42, 10, 100),
     },
-    //  Number - isInteger
+    /* Number - isInteger */
     {
         lbl: 'number/isInteger',
         fn: () => isInteger(42),
     },
-    //  Number - isIntegerAbove
+    /* Number - isIntegerAbove */
     {
         lbl: 'number/isIntegerAbove',
         fn: () => isIntegerAbove(42, 10),
     },
-    //  Number - isIntegerAboveOrEqual
+    /* Number - isIntegerAboveOrEqual */
     {
         lbl: 'number/isIntegerAboveOrEqual',
         fn: () => isIntegerAboveOrEqual(42, 10),
     },
-    //  Number - isIntegerBelow
+    /* Number - isIntegerBelow */
     {
         lbl: 'number/isIntegerBelow',
         fn: () => isIntegerBelow(42, 10),
     },
-    //  Number - isIntegerBelowOrEqual
+    /* Number - isIntegerBelowOrEqual */
     {
         lbl: 'number/isIntegerBelowOrEqual',
         fn: () => isIntegerBelowOrEqual(42, 10),
     },
-    //  Number - isIntegerBetween
+    /* Number - isIntegerBetween */
     {
         lbl: 'number/isIntegerBetween',
         fn: () => isIntegerBetween(42, 10, 100),
     },
-    //  Number - isNumericalNaN
+    /* Number - isNumericalNaN */
     {
         lbl: 'number/isNumericalNaN',
         fn: () => isNumericalNaN(42),
     },
-    //  Number - randomBetween
+    /* Number - randomBetween */
     {
         lbl: 'number/randomBetween',
         fn: () => randomBetween(0, 1000),
     },
-    //  Number - randomIntBetween
+    /* Number - randomIntBetween */
     {
         lbl: 'number/randomIntBetween',
         fn: () => randomIntBetween(0, 1000),
     },
-    //  Number - round
+    /* Number - round */
     {
         lbl: 'number/round - 0 precision',
         fn: () => round(Math.PI),
@@ -760,7 +760,7 @@ for (const el of [
         lbl: 'number/round - 5 precision',
         fn: () => round(Math.PI, 5),
     },
-    //  Number - toPercentage
+    /* Number - toPercentage */
     {
         lbl: 'number/toPercentage - 0 precision',
         fn: () => toPercentage(39, 0, -100, 100),
@@ -785,37 +785,37 @@ for (const el of [
         lbl: 'number/toPercentage - 5 precision',
         fn: () => toPercentage(39, 5, -100, 100),
     },
-    //  Object - is
+    /* Object - is */
     {
         lbl: 'object/is',
         fn: () => isObject({bla: true}),
     },
-    //  Object - isNotEmpty
+    /* Object - isNotEmpty */
     {
         lbl: 'object/isNotEmpty',
         fn: () => isNotEmptyObject({bla: true}),
     },
-    //  Object - merge
+    /* Object - merge */
     {
         lbl: 'object/merge',
         fn: () => merge({a: true}, {b: true}),
     },
-    //  Object - pick
+    /* Object - pick */
     {
         lbl: 'object/pick',
         fn: () => pick({a: true, b: true}, ['a', 'b']),
     },
-    //  RegExp - is
+    /* RegExp - is */
     {
         lbl: 'regexp/is',
         fn: () => isRegExp(/abc/i),
     },
-    //  RegExp - sanitize
+    /* RegExp - sanitize */
     {
         lbl: 'regexp/sanitize',
         fn: () => sanitize(' contact@valkyriestudios.be '),
     },
-    //  String - humanizeBytes
+    /* String - humanizeBytes */
     {
         lbl: 'string/humanizeBytes - short w/ 0 precision',
         fn: () => humanizeBytes(58432, {precision: 0}),
@@ -856,7 +856,7 @@ for (const el of [
         lbl: 'string/humanizeBytes - long w/ 4 precision',
         fn: () => humanizeBytes(4328904892322, {precision: 4}),
     },
-    //  String - humanizeNumber
+    /* String - humanizeNumber */
     {
         lbl: 'string/humanizeNumber - short w/ 0 precision',
         fn: () => humanizeNumber(58432, {precision: 0}),
@@ -897,22 +897,22 @@ for (const el of [
         lbl: 'string/humanizeNumber - long w/ 4 precision',
         fn: () => humanizeNumber(4328904892322, {precision: 4}),
     },
-    //  String - is
+    /* String - is */
     {
         lbl: 'string/is',
         fn: () => isString('foobar'),
     },
-    //  String - isBetween
+    /* String - isBetween */
     {
         lbl: 'string/isBetween',
         fn: () => isStringBetween('foobar', 1, 10),
     },
-    //  String - isNotEmpty
+    /* String - isNotEmpty */
     {
         lbl: 'string/isNotEmpty',
         fn: () => isNotEmptyString('foobar'),
     },
-    //  String - shorten
+    /* String - shorten */
     {
         lbl: 'string/shorten - 10 chars w/ 3 char shorten',
         fn: () => shorten('0123456789', 3, '...'),
@@ -929,7 +929,7 @@ for (const el of [
         lbl: 'string/shorten - 20 chars w/ 6 char shorten',
         fn: () => shorten('01234567890123456789', 6, '...'),
     },
-    //  Equal
+    /* Equal */
     {
         lbl: 'equal - numbers - unequal',
         fn: () => equal(5, 'foo'),

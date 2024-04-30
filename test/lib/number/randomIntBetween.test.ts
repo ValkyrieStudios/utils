@@ -79,7 +79,7 @@ describe('Number - randomIntBetween', () => {
             new Number(Number.EPSILON),
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => randomIntBetween(el, 2),
                 new TypeError('Min/Max should be numeric')
             );
@@ -99,7 +99,7 @@ describe('Number - randomIntBetween', () => {
             new Number(Number.EPSILON),
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => randomIntBetween(2, el),
                 new TypeError('Min/Max should be numeric')
             );
@@ -119,7 +119,7 @@ describe('Number - randomIntBetween', () => {
             new Number(Number.EPSILON),
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => randomIntBetween(el, el),
                 new TypeError('Min/Max should be numeric')
             );

@@ -7,7 +7,7 @@ import isDate           from '../../../lib/date/is';
 
 describe('Date - is', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isDate(), false);
     });
 

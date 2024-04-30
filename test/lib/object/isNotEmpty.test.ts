@@ -7,7 +7,7 @@ import isNotEmptyObject from '../../../lib/object/isNotEmpty';
 
 describe('Object - isNotEmpty', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isNotEmptyObject(), false);
     });
 

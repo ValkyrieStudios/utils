@@ -9,7 +9,7 @@ import isBetween        from '../../../lib/number/isBetween';
 
 describe('Number - isBetween', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isBetween(), false);
     });
 

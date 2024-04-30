@@ -52,7 +52,7 @@ describe('Hash - fnv1A', () => {
         );
     });
 
-    //  Based on some tests available at : http://isthe.com/chongo/src/fnv/test_fnv.c
+    /* Based on some tests available at : http://isthe.com/chongo/src/fnv/test_fnv.c */
     it('should output values that equal the official spec (32 bit)', () => {
         assert.ok(fnv1A('') === 0x811c9dc5);
         assert.ok(fnv1A('a') === 0xe40c292c);

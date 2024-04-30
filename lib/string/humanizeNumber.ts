@@ -80,7 +80,7 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions|false 
         if (options.real === true) REAL = true;
     }
 
-    //  Normalize to a numerical value
+    /* Normalize to a numerical value */
     let normalized:number = 0;
     if (typeof val === 'string') {
         normalized = REAL ? parseInt(val.trim(), 10) : parseFloat(val);

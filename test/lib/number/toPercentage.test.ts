@@ -10,7 +10,7 @@ import toPercentage     from '../../../lib/number/toPercentage';
 describe('Number - toPercentage', () => {
     it('Should throw if not passed anything', () => {
         assert.throws(
-            //  @ts-ignore
+            /* @ts-ignore */
             () => toPercentage(),
             new TypeError('value/min/max should be numeric')
         );
@@ -39,7 +39,7 @@ describe('Number - toPercentage', () => {
             new Number(Number.EPSILON),
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => toPercentage(20, 0, el, 100),
                 new TypeError('value/min/max should be numeric')
             );
@@ -60,7 +60,7 @@ describe('Number - toPercentage', () => {
             new Number(Number.EPSILON),
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => toPercentage(20, 0, 0, el),
                 new TypeError('value/min/max should be numeric')
             );

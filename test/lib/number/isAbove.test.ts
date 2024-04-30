@@ -9,7 +9,7 @@ import isAbove          from '../../../lib/number/isAbove';
 
 describe('Number - isAbove', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isAbove(), false);
     });
 

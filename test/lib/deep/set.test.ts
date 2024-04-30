@@ -194,7 +194,7 @@ describe('Deep - set', () => {
             ...CONSTANTS.IS_NULLABLE,
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => deepSet({a: '2'}, el, 5),
                 new TypeError('No path was given')
             );

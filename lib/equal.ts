@@ -43,24 +43,24 @@ function isObjectEqual (
  * @returns Whether or not they are equal
  */
 function equal (a:any, b:any):boolean {
-    //  Date Check
+    /* Date Check */
     if (a instanceof Date) return b instanceof Date && a.valueOf() === b.valueOf();
 
-    //  RegExp Check
+    /* RegExp Check */
     if (a instanceof RegExp) return b instanceof RegExp && String(a) === String(b);
 
-    //  Array as root equal
+    /* Array as root equal */
     if (Array.isArray(a)) return Array.isArray(b) && isArrayEqual(a, b);
 
-    //  Object as root equal
+    /* Object as root equal */
     if (Object.prototype.toString.call(a) === '[object Object]') {
         return Object.prototype.toString.call(b) === '[object Object]' && isObjectEqual(a, b);
     }
 
-    //  NAN Check
+    /* NAN Check */
     if (isNumericalNaN(a)) return isNumericalNaN(b);
 
-    //  No special cases anymore, simply do strict equal
+    /* No special cases anymore, simply do strict equal */
     return a === b;
 }
 

@@ -7,7 +7,7 @@ import mapFn            from '../../../lib/array/mapFn';
 
 describe('Array - mapFn', () => {
     it('Returns an empty object when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.deepEqual(mapFn(), {});
     });
 
@@ -44,7 +44,7 @@ describe('Array - mapFn', () => {
                 {uid: 12, name: 'Peter'},
                 {uid: 15, name: 'Jonas'},
                 {uid: 87, name: 'Josh'},
-                //  @ts-ignore
+                /* @ts-ignore */
             ], el => el.uid, 'foo'),
             {
                 12: {uid: 12, name: 'Peter'},
@@ -57,12 +57,12 @@ describe('Array - mapFn', () => {
     it('Should correctly remove non-objects from the array when mapping an array of objects', () => {
         assert.deepEqual(
             mapFn([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -82,12 +82,12 @@ describe('Array - mapFn', () => {
     it('Should correctly remove objects without the provided key from the array when mapping an array of objects', () => {
         assert.deepEqual(
             mapFn([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -108,12 +108,12 @@ describe('Array - mapFn', () => {
     it('Should correctly take the last object for a key-match when passed an array where there are duplicates', () => {
         assert.deepEqual(
             mapFn([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -136,12 +136,12 @@ describe('Array - mapFn', () => {
     it('Should default to merge false when passed empty opts', () => {
         assert.deepEqual(
             mapFn([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -164,12 +164,12 @@ describe('Array - mapFn', () => {
     it('Should ensure objects are assigned on top of each other for key-match with array containing duplicates and merge true', () => {
         assert.deepEqual(
             mapFn([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas', dob: '2022-02-07'},
                 [{hi: 'there'}],
@@ -192,12 +192,12 @@ describe('Array - mapFn', () => {
     it('Should not do anything when passed a function that returns nothing', () => {
         assert.deepEqual(
             mapFn([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas', dob: '2022-02-07'},
                 [{hi: 'there'}],
@@ -216,12 +216,12 @@ describe('Array - mapFn', () => {
     it('Should not do anything when passed a function that returns an empty string', () => {
         assert.deepEqual(
             mapFn([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas', dob: '2022-02-07'},
                 [{hi: 'there'}],

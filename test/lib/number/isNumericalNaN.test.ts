@@ -9,7 +9,7 @@ import isNumericalNaN   from '../../../lib/number/isNumericalNaN';
 
 describe('Number - isNumericalNaN', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isNumericalNaN(), false);
     });
 

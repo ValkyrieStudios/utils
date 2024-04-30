@@ -12,13 +12,13 @@ import isNotEmptyString from '../../../lib/string/isNotEmpty';
 
 describe('Array - sort', () => {
     it('Returns an empty array when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.deepEqual(sort(), []);
     });
 
     it('Return an empty array if passed a non-array or empty array as value', () => {
         for (const el of CONSTANTS.NOT_ARRAY_WITH_EMPTY) {
-            //  @ts-ignore
+            /* @ts-ignore */
             assert.deepEqual(sort(el), []);
         }
     });
@@ -35,7 +35,7 @@ describe('Array - sort', () => {
             ...CONSTANTS.IS_NULLABLE,
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => sort([{test: 'hello'}], el),
                 new Error('Sort by should either be a string with content or a function')
             );
@@ -60,7 +60,7 @@ describe('Array - sort', () => {
             'asca',
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => sort([{test: 'hello'}], val => val.test, el),
                 new Error('Direction should be either asc or desc')
             );

@@ -7,7 +7,7 @@ import mapKey           from '../../../lib/array/mapKey';
 
 describe('Array - mapKey', () => {
     it('Returns an empty object when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.deepEqual(mapKey(), {});
     });
 
@@ -44,7 +44,7 @@ describe('Array - mapKey', () => {
                 {uid: 12, name: 'Peter'},
                 {uid: 15, name: 'Jonas'},
                 {uid: 87, name: 'Josh'},
-                //  @ts-ignore
+                /* @ts-ignore */
             ], 'uid', 'foo'),
             {
                 12: {uid: 12, name: 'Peter'},
@@ -57,12 +57,12 @@ describe('Array - mapKey', () => {
     it('Should correctly remove non-objects from the array when mapping an array of objects by key', () => {
         assert.deepEqual(
             mapKey([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -82,12 +82,12 @@ describe('Array - mapKey', () => {
     it('Should correctly remove objects without the provided key from the array when mapping an array of objects by key', () => {
         assert.deepEqual(
             mapKey([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -108,12 +108,12 @@ describe('Array - mapKey', () => {
     it('Should correctly take the last object for a key-match when passed an array where there are duplicates', () => {
         assert.deepEqual(
             mapKey([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -136,12 +136,12 @@ describe('Array - mapKey', () => {
     it('Should default to merge false when passed empty opts', () => {
         assert.deepEqual(
             mapKey([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
@@ -164,12 +164,12 @@ describe('Array - mapKey', () => {
     it('Should ensure objects are assigned on top of each other for key-match with array containing duplicates and merge true', () => {
         assert.deepEqual(
             mapKey([
-                //  @ts-ignore
+                /* @ts-ignore */
                 0,
                 {uid: 12, name: 'Peter'},
-                //  @ts-ignore
+                /* @ts-ignore */
                 false,
-                //  @ts-ignore
+                /* @ts-ignore */
                 'foobar',
                 {uid: 15, name: 'Jonas', dob: '2022-02-07'},
                 [{hi: 'there'}],

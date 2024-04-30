@@ -7,7 +7,7 @@ import isFunction       from '../../../lib/function/is';
 
 describe('Function - is', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isFunction(), false);
     });
 

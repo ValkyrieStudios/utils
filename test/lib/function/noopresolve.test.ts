@@ -6,7 +6,7 @@ import noopresolve      from '../../../lib/function/noopresolve';
 
 describe('Function - noopresolve', () => {
     it('Return new Promise', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         const prom = noopresolve();
         assert.ok(prom instanceof Promise);
     });

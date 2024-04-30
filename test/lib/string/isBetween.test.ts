@@ -38,9 +38,9 @@ describe('String - isStringBetween', () => {
             {v: '', min: 0, max: 1},
             {v: 'Hello world!', min: 1, max: 13},
         ]) {
-            //  @ts-ignore
+            /* @ts-ignore */
             assert.equal(isStringBetween(el.v, `${el.min}`, el.max), false);
-            //  @ts-ignore
+            /* @ts-ignore */
             assert.equal(isStringBetween(el.v, el.min, `${el.max}`), false);
         }
     });

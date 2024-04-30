@@ -9,7 +9,7 @@ import is               from '../../../lib/number/is';
 
 describe('Number - is', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(is(), false);
     });
 

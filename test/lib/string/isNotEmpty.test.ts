@@ -7,7 +7,7 @@ import isNotEmptyString from '../../../lib/string/isNotEmpty';
 
 describe('String - isNotEmpty', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isNotEmptyString(), false);
     });
 

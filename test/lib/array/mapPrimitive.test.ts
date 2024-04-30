@@ -7,13 +7,13 @@ import mapPrimitive     from '../../../lib/array/mapPrimitive';
 
 describe('Array - mapPrimitive', () => {
     it('Returns an empty object when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.deepEqual(mapPrimitive(), {});
     });
 
     it('Return an empty object if passed a non-array or empty array as value', () => {
         for (const el of CONSTANTS.NOT_ARRAY_WITH_EMPTY) {
-            //  @ts-ignore
+            /* @ts-ignore */
             assert.deepEqual(mapPrimitive(el, 'uid'), {});
         }
     });

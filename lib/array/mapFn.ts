@@ -45,11 +45,11 @@ function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapO
     for (const el of arr) {
         if (Object.prototype.toString.call(el) !== '[object Object]') continue;
 
-        //  Get hash
+        /* Get hash */
         hash = fn(el);
         if (!Number.isFinite(hash) && !(typeof hash === 'string' && hash.trim().length)) continue;
 
-        //  Normalize hash to string
+        /* Normalize hash to string */
         hash = `${hash}`;
 
         map[hash] = MERGE && map.hasOwnProperty(hash) ? {...map[hash], ...el} : el;

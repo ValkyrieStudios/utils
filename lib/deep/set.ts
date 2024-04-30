@@ -50,17 +50,17 @@ function deepSet (
         !Array.isArray(obj)
     ) throw new TypeError('Deepset is only supported for objects');
 
-    //  If no path is provided, do nothing
+    /* If no path is provided, do nothing */
     if (typeof path !== 'string') throw new TypeError('No path was given');
 
-    //  Check if path contains rejected keys
+    /* Check if path contains rejected keys */
     if (RGX_MALICIOUS.test(path)) throw new TypeError('Malicious path provided');
 
-    //  Check if path contains content
+    /* Check if path contains content */
     const path_s = path.trim();
     if (!path_s.length) throw new TypeError('No path was given');
 
-    //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
+    /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
     const parts = path_s
         .replace(/\[/g, '.')
         .replace(/(\.){2,}/g, '.')
@@ -68,9 +68,9 @@ function deepSet (
         .split('.');
     const last_part_ix = parts.length - 1;
 
-    //  Build any unknown paths and set cursor
+    /* Build any unknown paths and set cursor */
     for (let i = 0; i < last_part_ix; i++) {
-        //  If this part is an empty string, just continue
+        /* If this part is an empty string, just continue */
         if (parts[i] === '') continue;
 
         if (Array.isArray(obj)) {
@@ -85,10 +85,10 @@ function deepSet (
         }
     }
 
-    //  Prevent overriding of properties, eg: {d: 'hello'} -> deepSet('d.a.b', 'should not work')
+    /* Prevent overriding of properties, eg: {d: 'hello'} -> deepSet('d.a.b', 'should not work') */
     if (!Array.isArray(obj) && Object.prototype.toString.call(obj) !== '[object Object]') return false;
 
-    //  Set the actual value on the cursor
+    /* Set the actual value on the cursor */
     if (define) {
         Object.defineProperty(obj, parts[last_part_ix], value);
     } else if (Array.isArray(obj)) {

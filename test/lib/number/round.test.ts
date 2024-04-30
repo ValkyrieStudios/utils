@@ -10,7 +10,7 @@ import round            from '../../../lib/number/round';
 describe('Number - round', () => {
     it('Should throw if not passed anything', () => {
         assert.throws(
-            //  @ts-ignore
+            /* @ts-ignore */
             () => round(),
             new TypeError('Value should be numeric')
         );

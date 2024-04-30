@@ -7,7 +7,7 @@ import dedupe           from '../../../lib/array/dedupe';
 
 describe('Array - dedupe', () => {
     it('Returns empty array when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.deepEqual(dedupe(), []);
     });
 

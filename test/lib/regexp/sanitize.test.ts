@@ -7,7 +7,7 @@ import sanitize         from '../../../lib/regexp/sanitize';
 
 describe('RegExp - sanitize', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(sanitize(), false);
     });
 

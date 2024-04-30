@@ -9,7 +9,7 @@ import isIntegerBelow   from '../../../lib/number/isIntegerBelow';
 
 describe('Number - isIntegerBelow', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isIntegerBelow(), false);
     });
 

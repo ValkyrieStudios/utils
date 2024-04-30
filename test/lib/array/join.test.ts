@@ -9,7 +9,7 @@ import join             from '../../../lib/array/join';
 
 describe('Array - join', () => {
     it('Returns an empty string when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(join(), '');
     });
 

@@ -7,7 +7,7 @@ import isNotEmptyArray  from '../../../lib/array/isNotEmpty';
 
 describe('Array - isNotEmptyArray', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isNotEmptyArray(), false);
     });
 

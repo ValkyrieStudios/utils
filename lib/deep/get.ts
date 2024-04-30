@@ -32,24 +32,24 @@ function deepGet (
         !Array.isArray(obj)
     ) throw new TypeError('Deepget is only supported for objects');
 
-    //  If no path is provided, do nothing
+    /* If no path is provided, do nothing */
     if (typeof path !== 'string') throw new TypeError('No path was given');
 
-    //  Check if path contains content
+    /* Check if path contains content */
     const path_s = path.trim();
     if (!path_s.length) throw new TypeError('No path was given');
 
-    //  Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing)
+    /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
     const parts = path_s
         .replace(/\[/g, '.')
         .replace(/(\.){2,}/g, '.')
         .replace(/(^\.|\.$|\])/g, '')
         .split('.');
 
-    //  Return obj if no parts were passed or if only 1 part and get_parent is true
+    /* Return obj if no parts were passed or if only 1 part and get_parent is true */
     if (!parts.length || (parts.length === 1 && get_parent)) return obj;
 
-    //  Cut last part if get_parent
+    /* Cut last part if get_parent */
     if (get_parent) parts.pop();
 
     let cursor = obj;
@@ -64,7 +64,7 @@ function deepGet (
             cursor = cursor[key];
         }
 
-        //  If we have more parts and cursor is not an array or object -> immediately return undefined
+        /* If we have more parts and cursor is not an array or object -> immediately return undefined */
         if (
             (!Array.isArray(cursor) && Object.prototype.toString.call(cursor) !== '[object Object]') &&
             parts.length

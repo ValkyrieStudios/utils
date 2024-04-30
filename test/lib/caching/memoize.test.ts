@@ -53,46 +53,46 @@ describe('Caching - memoize', () => {
             memoized_fn(cases[Math.floor(Math.random() * (6 - 0 + 1)) + 0]);
         }
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.ok(memoized_fn.cache.has(0));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(memoized_fn.cache.get(0), fnv1A(cases[0]));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.ok(memoized_fn.cache.has(1));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(memoized_fn.cache.get(1), fnv1A(cases[1]));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.ok(memoized_fn.cache.has(2));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(memoized_fn.cache.get(2), fnv1A(cases[2]));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.ok(memoized_fn.cache.has(3));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(memoized_fn.cache.get(3), fnv1A(cases[3]));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.ok(memoized_fn.cache.has(4));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(memoized_fn.cache.get(4), fnv1A(cases[4]));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.ok(memoized_fn.cache.has(5));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(memoized_fn.cache.get(5), fnv1A(cases[5]));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.ok(memoized_fn.cache.has(6));
 
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(memoized_fn.cache.get(6), fnv1A(cases[6]));
     });
 });

@@ -113,7 +113,7 @@ function sort (
 ) {
     if (!Array.isArray(arr) || !arr.length) return [];
 
-    //  Check dir
+    /* Check direction */
     if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
 
     let NOKEY_HIDE = false;
@@ -128,7 +128,7 @@ function sort (
         }
     }
 
-    //  Prepare for sort
+    /* Prepare for sort */
     const prepared_arr  = [];
     const nokey_arr     = [];
     if (typeof by === 'string') {
@@ -160,7 +160,7 @@ function sort (
         throw new Error('Sort by should either be a string with content or a function');
     }
 
-    //  Sort
+    /* Sort */
     quickSort(prepared_arr);
     if (dir === 'desc') prepared_arr.reverse();
 

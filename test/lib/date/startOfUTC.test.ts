@@ -22,7 +22,7 @@ describe('Date - startOfUTC', () => {
     });
 
     it('Should return original date in utc when passed a non-recognized key', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.deepEqual(startOfUTC(new Date('2022-10-05T13:12:11+02:00'), 'jedis'), new Date('2022-10-05T11:12:11.000Z'));
     });
 

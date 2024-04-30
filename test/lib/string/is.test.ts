@@ -7,7 +7,7 @@ import isString         from '../../../lib/string/is';
 
 describe('String - is', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isString(), false);
     });
 

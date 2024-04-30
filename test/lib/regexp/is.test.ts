@@ -7,7 +7,7 @@ import isRegExp         from '../../../lib/regexp/is';
 
 describe('RegExp - is', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isRegExp(), false);
     });
 

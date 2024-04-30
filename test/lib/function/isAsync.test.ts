@@ -7,7 +7,7 @@ import isAsyncFunction  from '../../../lib/function/isAsync';
 
 describe('Function - isAsync', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isAsyncFunction(), false);
     });
 

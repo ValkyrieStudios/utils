@@ -114,7 +114,7 @@ describe('Deep - get', () => {
             ...CONSTANTS.IS_NULLABLE,
         ]) {
             assert.throws(
-                //  @ts-ignore
+                /* @ts-ignore */
                 () => deepGet({a: '2'}, el),
                 new TypeError('No path was given')
             );

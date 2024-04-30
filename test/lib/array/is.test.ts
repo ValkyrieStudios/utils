@@ -7,7 +7,7 @@ import isArray          from '../../../lib/array/is';
 
 describe('Array - is', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isArray(), false);
     });
 

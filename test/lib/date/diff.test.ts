@@ -47,7 +47,7 @@ describe('Date - diff', () => {
     it('Should correctly calculate difference in milliseconds when passing a var_a after var_b and a random key', () => {
         for (const el of ['foo', 'bar', 'hello world']) {
             assert.equal(
-                //  @ts-ignore
+                /* @ts-ignore */
                 diff(new Date('2022-10-05T13:12:11+02:00'), new Date('2032-10-05T11:12:11.000Z'), el),
                 -315619200000
             );

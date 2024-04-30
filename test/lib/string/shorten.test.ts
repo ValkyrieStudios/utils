@@ -7,13 +7,13 @@ import shorten          from '../../../lib/string/shorten';
 
 describe('String - shorten', () => {
     it('Return empty string when passed nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(shorten(), '');
     });
 
     it('Return empty string when passed a non string value', () => {
         for (const el of CONSTANTS.NOT_STRING) {
-            //  @ts-ignore
+            /* @ts-ignore */
             assert.equal(shorten(el), '');
         }
     });

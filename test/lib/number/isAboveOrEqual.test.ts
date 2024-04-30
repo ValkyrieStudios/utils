@@ -9,7 +9,7 @@ import isAboveOrEqual   from '../../../lib/number/isAboveOrEqual';
 
 describe('Number - isAboveOrEqual', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isAboveOrEqual(), false);
     });
 

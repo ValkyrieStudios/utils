@@ -7,7 +7,7 @@ import isObject         from '../../../lib/object/is';
 
 describe('Object - is', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isObject(), false);
     });
 

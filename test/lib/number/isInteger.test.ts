@@ -9,7 +9,7 @@ import isInteger        from '../../../lib/number/isInteger';
 
 describe('Number - isInteger', () => {
     it('Returns false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isInteger(), false);
     });
 

@@ -7,7 +7,7 @@ import isFormData       from '../../../lib/formdata/is';
 
 describe('FormData - is', () => {
     it('Return false when passing nothing', () => {
-        //  @ts-ignore
+        /* @ts-ignore */
         assert.equal(isFormData(), false);
     });
 

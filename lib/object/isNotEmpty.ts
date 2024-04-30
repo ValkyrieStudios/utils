@@ -8,11 +8,7 @@
  * @returns Whether or not the value is an object with content
  */
 function isNotEmptyObject (val:unknown):val is {[key:string]:any} {
-    if (Object.prototype.toString.call(val) !== '[object Object]') return false;
-    /* eslint-disable-next-line */
-    /* @ts-ignore */
-    for (const prop in val as Record<string, any>) return true;
-    return false;
+    return Object.prototype.toString.call(val) === '[object Object]' && Object.keys(val).length !== 0;
 }
 
 export {isNotEmptyObject, isNotEmptyObject as default};

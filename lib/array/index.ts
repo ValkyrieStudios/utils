@@ -7,6 +7,7 @@ import {join}               from './join';
 import {mapFn}              from './mapFn';
 import {mapKey}             from './mapKey';
 import {mapPrimitive}       from './mapPrimitive';
+import {groupBy}            from './groupBy';
 import {shuffle}            from './shuffle';
 import {sort}               from './sort';
 
@@ -22,6 +23,7 @@ export {
     mapFn,
     mapKey,
     mapPrimitive,
+    groupBy,
     shuffle,
     sort
 };

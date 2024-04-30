@@ -10,6 +10,7 @@ import join             from '../../../lib/array/join';
 import mapFn            from '../../../lib/array/mapFn';
 import mapKey           from '../../../lib/array/mapKey';
 import mapPrimitive     from '../../../lib/array/mapPrimitive';
+import groupBy          from '../../../lib/array/groupBy';
 import shuffle          from '../../../lib/array/shuffle';
 import sort             from '../../../lib/array/sort';
 
@@ -27,6 +28,7 @@ describe('Array - *', () => {
             mapFn,
             mapKey,
             mapPrimitive,
+            groupBy,
             shuffle,
             sort,
         });

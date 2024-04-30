@@ -53,6 +53,9 @@ const group = groupBy([
 }
 ```
 
+### Improved
+- **feat**: array/* namespace export now also includes the new groupBy utility
+
 ## [12.5.0] - 2024-04-26
 ### Added
 - **feat**: array/* namespace export

@@ -20,7 +20,9 @@ function groupBy <T extends Record<string, any>> (arr:T[], handler:Handler<T>|st
             : defaultHandler;
 
     let key;
-    for (const el of arr) {
+    let el;
+    for (let i = 0; i < arr.length; i++) {
+        el = arr[i];
         if (!isNotEmptyObject(el)) continue;
 
         /* Fetch key, if doesnt exist use fallback */

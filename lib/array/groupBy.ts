@@ -20,7 +20,6 @@ function groupBy <T extends Record<string, any>> (arr:T[], handler:Handler<T>|st
             : defaultHandler;
 
     let key;
-    const set = new Set();
     for (const el of arr) {
         if (!isNotEmptyObject(el)) continue;
 
@@ -29,13 +28,12 @@ function groupBy <T extends Record<string, any>> (arr:T[], handler:Handler<T>|st
         if (key === undefined || (typeof key === 'string' && !key.length)) key = FALLBACK;
 
         /* If we don't know our key yet, add to set and create new accumulator for key */
-        if (set.has(key)) {
+        if (Array.isArray(acc[key as string])) {
             acc[key as string].push(el);
             continue;
         }
 
         acc[key as string] = [el];
-        set.add(key);
     }
     return acc;
 }

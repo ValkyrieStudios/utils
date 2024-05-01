@@ -9,7 +9,30 @@ type Handler <T> = (val:T) => string|number|boolean;
 const FALLBACK = '_';
 const defaultHandler = () => FALLBACK;
 
-function groupBy <T extends Record<string, any>> (arr:T[], handler:Handler<T>|string):Record<string, T[]> {
+/**
+ * Return a grouped object from an array.
+ * Take Note: This function will automatically filter out any non/empty objects from the array
+ *
+ * Example:
+ *  const group = groupBy([
+ *      {tally: 20, name: 'Peter'},
+ *      {tally: 40, name: 'Jake'},
+ *      {tally: 5, name: 'Bob'},
+ *  ], el => el.tally > 15);
+ * Output:
+ *  {
+ *      false: [{tally: 5, name: 'Bob'}],
+ *      true: [{tally: 20, name: 'Peter'}, {tally: 40, name: 'Jake'}],
+ *  }
+ *
+ * @param {T[]} arr - Array to group
+ * @param {Handler<T>|string} handler - String or a function, determines what to group by
+ * @returns {Record<string, T[]>}
+ */
+function groupBy <T extends Record<string, any>> (
+    arr:T[],
+    handler:Handler<T>|string
+):Record<string, T[]> {
     if (!Array.isArray(arr)) return {};
 
     const acc:Record<string, T[]> = {};

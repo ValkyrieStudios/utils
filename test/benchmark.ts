@@ -183,21 +183,21 @@ for (const el of [
         lbl: 'array/mapPrimitive - string - 20 elements',
         fn: () => mapPrimitive(['a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b', 'a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b']),
     },
-    /* Array - groupBy(key) - 10 elements */
+    /* Array - groupBy */
     {
-        lbl: 'Array - groupBy(key) - 10 elements',
+        lbl: 'array/groupBy(key) - 10 elements',
         fn: () => groupBy(GROUP_EXAMPLE_10, 'role'),
     },
     {
-        lbl: 'Array - groupBy(key) - 50 elements',
+        lbl: 'array/groupBy(key) - 50 elements',
         fn: () => groupBy(GROUP_EXAMPLE_50, 'role'),
     },
     {
-        lbl: 'Array - groupBy(fn) - 10 elements',
+        lbl: 'array/groupBy(fn) - 10 elements',
         fn: () => groupBy(GROUP_EXAMPLE_10, val => val.role || 'other'),
     },
     {
-        lbl: 'Array - groupBy(fn) - 50 elements',
+        lbl: 'array/groupBy(fn) - 50 elements',
         fn: () => groupBy(GROUP_EXAMPLE_50, val => val.role || 'other'),
     },
     /* Array - shuffle */

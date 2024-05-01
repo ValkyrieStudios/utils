@@ -15,8 +15,8 @@ function groupBy <T extends Record<string, any>> (arr:T[], handler:Handler<T>|st
     const acc:Record<string, T[]> = {};
     const n_handler:Handler<T> = typeof handler === 'function'
         ? handler
-        : typeof handler === 'string' && handler.length
-            ? ((el:T) => el[handler] ?? FALLBACK) as Handler<T>
+        : typeof handler === 'string'
+            ? ((el:T) => el[handler]) as Handler<T>
             : defaultHandler;
 
     let key;

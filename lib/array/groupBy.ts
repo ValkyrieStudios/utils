@@ -26,12 +26,12 @@ const defaultHandler = () => FALLBACK;
  *  }
  *
  * @param {T[]} arr - Array to group
- * @param {Handler<T>|string} handler - String or a function, determines what to group by
+ * @param {Handler<T>|keyof T} handler - String or a function, determines what to group by
  * @returns {Record<string, T[]>}
  */
 function groupBy <T extends Record<string, any>> (
     arr:T[],
-    handler:Handler<T>|string
+    handler:Handler<T>|keyof T
 ):Record<string, T[]> {
     if (!Array.isArray(arr)) return {};
 

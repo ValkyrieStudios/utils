@@ -5,10 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **feat**: array/groupBy - Add type hint for groupBy as being keyof T when using string param variant (thanks [Xander Berkein](https://github.com/xanderberkein))
+- **deps**: Upgrade @types/node to 20.12.12
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.9.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.9.0
+
 ## [12.7.0] - 2024-05-01
 ### Improved
 - **dx**: Add jsdoc annotations for array/groupBy
-- **perf**: Minor performance improvements (~5-10%) in array/groupBy (thanks [Xander Berkein](https://github.com/xanderberkein)) 
+- **perf**: Minor performance improvements (~5-10%) in array/groupBy (thanks [Xander Berkein](https://github.com/xanderberkein))
 
 ## [12.6.1] - 2024-04-30
 ### Fixed
@@ -99,7 +106,7 @@ import Is from '@valkyriestudios/utils/is';
 if (Is.Formdata(...)) { ... }
 ```
 
-Example usage of new namespace exports: 
+Example usage of new namespace exports:
 ```typescript
 /* old */
 import isString from '@valkyriestudios/utils/string/is';
@@ -128,7 +135,7 @@ const users:User[] = [{first_name: 'Peter'}, {first_name: 'Jack'}];
  * At this point the type of map will be Record<string, User>
  * Take note: the key function function also knows that it is receiving an instance of User
  */
-const map = mapFn(users, el => el.first_name); 
+const map = mapFn(users, el => el.first_name);
 ```
 
 - **dx**: array/mapKey will now infer the return type of the map and allows passing a generic
@@ -137,12 +144,12 @@ type User = {first_name:string};
 const users:User[] = [{first_name: 'Peter'}, {first_name: 'Jack'}];
 
 /* At this point the type of map will be Record<string, User> */
-const map = mapKey(users, 'first_name'); 
+const map = mapKey(users, 'first_name');
 ```
 - **sys**: All methods now offer both named and default exports to allow for working with non-modularized setups, for example:
 ```typescript
 /* Only available way previously */
-import guid from '@valkyriestudios/utils/hash/guid' 
+import guid from '@valkyriestudios/utils/hash/guid'
 
 /* Now also possible */
 import {guid} from '@valkyriestudios/utils/hash/guid';
@@ -197,7 +204,7 @@ import {guid} from '@valkyriestudios/utils/hash/guid';
 ### Improved
 - **feat**: string/shorten - Will now only accept integers for length
 - **perf**: array/dedupe - Significant performance improvement by moving away from fnv hashing to using native Sets
-- **perf**: array/join - ~20% performance improvement thanks to reducing internal operations 
+- **perf**: array/join - ~20% performance improvement thanks to reducing internal operations
 - **perf**: array/shuffle - Remove unnecessary length check
 - **perf**: array/mapFn - Minor performance improvement thanks to reducing internal operations regarding key lookups
 - **perf**: array/mapPrimitive - Minor performance improvement thanks to reducing internal operations regarding key lookups
@@ -247,7 +254,7 @@ import {guid} from '@valkyriestudios/utils/hash/guid';
 - **perf**: array/dedupe - Reduce memory footprint of dedupe when working on larger arrays by using a set over a map
 - **perf**: array/mapFn - Slight performance improvement (~1%) due to spread vs Object.assign (in favor of spread)
 - **perf**: array/mapKey - Slight performance improvement (~5%) due to spread vs Object.assign (in favor of spread)
-- **perf**: array/sort - Slight performance improvement (~5%) due to push vs spread (in favor of push) as well as removing one internal operation 
+- **perf**: array/sort - Slight performance improvement (~5%) due to push vs spread (in favor of push) as well as removing one internal operation
 - **perf**: object/merge - Decent performance improvement (~20%) due to simplication of code in favor of 'for ... in' over Object.keys reducer
 - **deps**: Upgrade @types/node to 20.11.20
 - **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.0.2
@@ -552,7 +559,7 @@ import {guid} from '@valkyriestudios/utils/hash/guid';
 - **feat**: number/round - Will only accept integers for precision variable from now on
 - **feat**: string/humanizeBytes - Now humanizes the real number part and allows passing a custom delimiter for natural numbers (eg: 1024 -> 1,024, 1024 {delim:'.'} -> 1.024)
 - **feat**: string/humanizeBytes - Now allows passing a custom separator (eg: 10.024 {separator: ','} -> 10,024)
-- **feat**: string/humanizeBytes - Now allows passing a precision variable (default:2) 
+- **feat**: string/humanizeBytes - Now allows passing a precision variable (default:2)
 - **feat**: string/humanizeBytes -Now allows passing a custom units array (eg: humanizeBytes(1024, {units: [' Jedi', ' Darth']}) -> 1 Darth, humanizeBytes(20, {units: [' Jedi', 'Darth']}) -> 20 Jedi)
 - **perf**: number/round - Performance improvement due to usage of scientific notation not requiring math.pow
 - **perf**: hash/guid - Is now 4x faster than previous implementation thanks to usage of bitwise operators and a precalculated hexmap (0-255), able to generate 50.000 guids in ~65ms and also no longer relying on high-performance timers
@@ -646,7 +653,7 @@ import {guid} from '@valkyriestudios/utils/hash/guid';
 - **deps**: Upgrade gulp-babel to 8.0.0
 - **sys**: Switched to using mocha/nyc instead of karma for unit testing and coverage
 - **sys**: Npm build will now also lint code according to eslint spec
-- **feat**: Improve on validation for path handling on deepGet and deepSet 
+- **feat**: Improve on validation for path handling on deepGet and deepSet
 
 ### Removed
 - **feat**: formdata/is

@@ -64,6 +64,7 @@ import isStringBetween          from '../dist/string/isBetween';
 import isNotEmptyString         from '../dist/string/isNotEmpty';
 import shorten                  from '../dist/string/shorten';
 import equal                    from '../dist/equal';
+import {RANDOM_OBJECT}          from './benchmarkObject';
 
 const ROW_TEST_WIDTH    = 50;
 const ROW_OPS_WIDTH     = 15;
@@ -820,12 +821,12 @@ for (const el of [
     /* Object - is */
     {
         lbl: 'object/is',
-        fn: () => isObject({bla: true}),
+        fn: () => isObject(RANDOM_OBJECT),
     },
     /* Object - isNotEmpty */
     {
         lbl: 'object/isNotEmpty',
-        fn: () => isNotEmptyObject({bla: true}),
+        fn: () => isNotEmptyObject(RANDOM_OBJECT),
     },
     /* Object - merge */
     {

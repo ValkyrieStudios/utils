@@ -36,7 +36,7 @@ function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapO
         typeof fn !== 'function'
     ) return {};
 
-    const MERGE:boolean = opts && Object.prototype.toString.call(opts) === '[object Object]' && opts.merge === true;
+    const MERGE:boolean = opts?.merge === true;
 
     const map:Record<string, T> = {};
     let hash:(string|number|boolean) = false;

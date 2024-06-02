@@ -7,8 +7,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
-- **perf**: Improved performance of array/mapFn by ~10% by working with ? chaining instead of object prototypal checks
-- **perf**: Improved performance of array/mapKey by ~10% by working with ? chaining instead of object prototypal checks
+- **perf**: Improved performance of array/mapFn by working with ? chaining instead of object prototypal checks
+- **perf**: Improved performance of array/mapKey by working with ? chaining instead of object prototypal checks
+- **perf**: Improved performance of array/mapPrimitive by working with ? chaining instead of object prototypal checks
 
 ## [12.9.0] - 2024-05-27
 ### Improved

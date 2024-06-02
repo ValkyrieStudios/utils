@@ -1,4 +1,5 @@
 import {round} from '../number/round';
+import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
 interface mapOptions {
     /**
@@ -38,20 +39,14 @@ type mapReturn = Record<string, string|number>;
  *
  * @returns {mapReturn} KV-Map object
  */
-function mapPrimitive (arr:unknown[], opts?:mapOptions):mapReturn {
+function mapPrimitive (arr:unknown[], opts:mapOptions = {}):mapReturn {
     if (!Array.isArray(arr) || !arr.length) return {};
 
-    let VALTRIM:boolean = false;
-    let VALROUND:number|boolean = false;
-    let KEYROUND:number|boolean = false;
-    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
-        if (opts.valtrim === true) VALTRIM = true;
-        if (
-            opts.valround === true ||
-            (Number.isInteger(opts.valround) && (opts.valround as number) >= 0)
-        ) VALROUND = opts.valround;
-        if (opts.keyround === true) KEYROUND = true;
-    }
+    const VALTRIM:boolean = opts?.valtrim === true;
+    const VALROUND:number|boolean = isIntegerAboveOrEqual(opts?.valround, 0)
+        ? opts?.valround
+        : opts?.valround === true;
+    const KEYROUND:number|boolean = opts?.keyround === true;
 
     const map:mapReturn = {};
     for (const el of arr) {

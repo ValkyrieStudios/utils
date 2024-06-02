@@ -39,7 +39,7 @@ mapKey([
     {uid: 87, name: 'Josh'},
 ], 'uid');
 
-output: 
+output:
 
 {
     12: {uid: 12, name: 'Peter'},
@@ -72,7 +72,7 @@ output:
 }
 ```
 
-allows merging objects onto existing keys: 
+allows merging objects onto existing keys:
 ```js
 mapKey([
     0,
@@ -215,7 +215,7 @@ shuffle(arr);
 ```
 
 - **sort(val:Array[object], by:string|Function, dir:Enum(asc,desc), options:Object)**
-Sort an array of objects, uses an implementation of [Tony Hoare's quicksort](https://cs.stanford.edu/people/eroberts/courses/soco/projects/2008-09/tony-hoare/quicksort.html) 
+Sort an array of objects, uses an implementation of [Tony Hoare's quicksort](https://cs.stanford.edu/people/eroberts/courses/soco/projects/2008-09/tony-hoare/quicksort.html)
 
 ```js
 const out = sort([
@@ -226,7 +226,7 @@ const out = sort([
     {test: 'Joe'},
     {test: 'Bob'},
     {test: 'Alice'},
-], 'test', 'desc'); 
+], 'test', 'desc');
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'John'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
 ```
 
@@ -239,7 +239,7 @@ const out = sort([
     {test: 'Joe'},
     {test: 'Bob'},
     {test: 'Alice'},
-], 'test', 'asc'); 
+], 'test', 'asc');
 // [{test: 'Alice'}, {test: 'Bob'}, {test: 'Jack'}, {test: 'Joe'}, {test: 'John'}, {test: 'Peter'}, {test: 'Pony'}]
 ```
 
@@ -254,7 +254,7 @@ const out = sort([
     {test: 'Joe'},
     {test: 'Bob'},
     {test: 'Alice'},
-], el => el.test.toLowerCase(), 'desc'); 
+], el => el.test.toLowerCase(), 'desc');
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
 ```
 
@@ -272,7 +272,7 @@ const out = sort([
     {test: 'Bob'},
     undefined,
     {test: 'Alice'},
-], el => el.test.toLowerCase(), 'desc'); 
+], el => el.test.toLowerCase(), 'desc');
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
 ```
 
@@ -293,7 +293,7 @@ const out = sort([
     {test: 'Bob'},
     undefined,
     {test: 'Alice'},
-], el => el.test.toLowerCase(), 'desc', {filter_fn: el => isNotEmptyString(el.test)}); 
+], el => el.test.toLowerCase(), 'desc', {filter_fn: el => isNotEmptyString(el.test)});
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
 ```
 
@@ -301,13 +301,13 @@ allows passing custom options to position elements without a proper key (nokey_a
 
 ```js
 const arr = [{test: 'Peter'}, {test: undefined}, {test: 'Jack'}, {test: 'Pony'}, {uid: 100}, {test: 'JOHn'}];
-const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: false}); 
+const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: false});
 // [{test: undefined}, {uid: 100}, {test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
 
-const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: true}); 
+const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: true});
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}, {test: undefined}, {uid: 100}]
 
-const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_hide: true}); 
+const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_hide: true});
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
 ```
 
@@ -321,13 +321,34 @@ isBoolean(true); // TRUE
 ```
 
 ### caching
-- **memoize(fn:Function, resolver:Function=false)**
-memoize the output of a specific function. An optional resolver function can be passed which allows custom cache key generation.
+- **memoize(fn:Function, resolver:Function=false, memoize_for:number|false)**
+memoize the output of a function. An optional resolver function can be passed which allows custom cache key generation.
 
 ```js
 const memoized_function = memoize((a) => {
     return fnv1A(a);
 });
+```
+
+Take Note: Also supports async functions and cache busting, eg:
+```js
+async function retrieveUser (userId:string) {
+    ...
+}
+
+/* Async but with no cache busting */
+const memoized = memoize(retrieveUser);
+await memoized('123456'); /* Original function will be called */
+await memoized('123456'); /* Original function will not be called and memoized cache will be returned */
+
+/* Async with cache busting after 5 seconds */
+const memoized = memoize(retrieveUser, null, 5000);
+await memoized('123456'); /* Original function will be called */
+await memoized('123456'); /* Original function will not be called and memoized cache will be returned */
+
+... (some time longer than 5 seconds passes)
+
+await memoized('123456'); /* Original function will be called and re-cached */
 ```
 
 ### date
@@ -807,7 +828,7 @@ merge({a: 1, b: false}, {a: 900, c: 50}); // {a: 900, b: false, c: 50}
 Creates an object with the passed accessors set on it
 ```js
 define(
-	{ 
+	{
 		a: {
 			enumerable: false,
 			value : function () { ... }

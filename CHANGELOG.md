@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: caching/memoize now supports memoizing async functions
+- **feat**: caching/memoize now supports passing a `memoize_for` prop to automatically clear cache after X milliseconds
+
 ### Improved
 - **dx**: caching/memoize will now be correctly typed as returning a function that is typed as the provided function
 - **perf**: Improved performance of array/mapFn by working with ? chaining instead of object prototypal checks

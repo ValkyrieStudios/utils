@@ -6,7 +6,7 @@
  *
  * @returns Promise that resolves with passed value
  */
-function noopresolve <T> (val?:T):Promise<T> {
+function noopresolve <T> (val?:T):Promise<T|undefined> {
     return new Promise(resolve => resolve(val));
 }
 

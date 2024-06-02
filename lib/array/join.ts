@@ -1,4 +1,5 @@
 import {round} from '../number/round';
+import {isInteger} from '../number/isInteger';
 
 interface joinOptions {
     /**
@@ -46,7 +47,7 @@ function join (val:unknown[], opts?:joinOptions):string {
         if (typeof opts.delim === 'string') DELIM = opts.delim;
         if (opts.trim === false) TRIM = opts.trim;
         if (opts.valtrim === false) VALTRIM = opts.valtrim;
-        if (Number.isInteger(opts.valround) && opts.valround >= 0) VALROUND = opts.valround;
+        if (isInteger(opts.valround) && opts.valround >= 0) VALROUND = opts.valround;
     }
 
     const filtered = [];

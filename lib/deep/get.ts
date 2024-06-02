@@ -38,7 +38,7 @@ function deepGet (
     if (!path_s.length) throw new TypeError('No path was given');
 
     /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
-    const parts = path_s
+    const parts:string[] = path_s
         .replace(/\[/g, '.')
         .replace(/(\.){2,}/g, '.')
         .replace(/(^\.|\.$|\])/g, '')
@@ -53,11 +53,11 @@ function deepGet (
     let cursor = obj;
     while (parts.length) {
         if (Array.isArray(cursor)) {
-            const ix = parseInt(parts.shift());
+            const ix = parseInt(parts.shift() as string);
             if (!Number.isInteger(ix) || ix < 0 || ix > (cursor.length - 1)) return undefined;
             cursor = cursor[ix];
         } else if (Object.prototype.toString.call(cursor) === '[object Object]') {
-            const key = parts.shift();
+            const key = parts.shift() as string;
             if (!Object.prototype.hasOwnProperty.call(cursor, key)) return undefined;
             cursor = cursor[key];
         }

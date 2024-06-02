@@ -5,7 +5,7 @@
  *
  * @returns Passed value
  */
-function noopreturn <T> (val?:T):T {
+function noopreturn <T> (val?:T):T|undefined {
     return val;
 }
 

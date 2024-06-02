@@ -37,7 +37,7 @@ function mapKey <T extends Record<string, any>> (arr:T[], key:string, opts?:mapO
     const key_s = key.trim();
     if (!key_s.length) return {};
 
-    const MERGE:boolean = opts && Object.prototype.toString.call(opts) === '[object Object]' && opts.merge === true;
+    const MERGE:boolean = opts?.merge === true;
 
     const map:Record<string, T> = {};
     for (const el of arr) {

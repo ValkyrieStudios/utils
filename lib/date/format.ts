@@ -2,7 +2,7 @@
 
 import {isDate} from './is';
 
-type Formatter  = (d:Date, loc?:string) => string;
+type Formatter  = (d:Date, loc:string) => string;
 type RawTuple   = [string, Formatter];
 type TokenTuple = [string, RegExp, Formatter];
 
@@ -55,7 +55,7 @@ function DOY (d:Date):number {
 function toZone (date:Date, zone:string):Date {
     /* We make use of a 'month' key as offsets might differ between months due to daylight saving time */
     const ckey = `${zone}:${date.getUTCFullYear()}${DOY(date)}`;
-    if (zone_offset_cache.has(ckey)) return new Date(date.getTime() + zone_offset_cache.get(ckey));
+    if (zone_offset_cache.has(ckey)) return new Date(date.getTime() + (zone_offset_cache.get(ckey) as number));
 
     /* Get the current client's timezone offset in minutes */
     const client_time:number = date.getTime();
@@ -96,15 +96,17 @@ function runIntl (
 ):string {
     const hash = `${loc}:${token}`;
 
+    let formatter = intl_formatters.get(hash);
+
     /* Use existing formatter if we already have a formatter for this */
-    if (intl_formatters.has(hash)) return intl_formatters.get(hash).format(val);
+    if (formatter) return formatter.format(val);
 
     try {
         /* Create new instance of Intl.DateTimeFormat and store it */
-        const instance = new Intl.DateTimeFormat(loc, props);
-        intl_formatters.set(hash, instance);
+        formatter = new Intl.DateTimeFormat(loc, props);
+        intl_formatters.set(hash, formatter);
 
-        return instance.format(val);
+        return formatter.format(val);
     } catch (err) {
         throw new Error(`format: Failed to run conversion for ${token} with locale ${loc}`);
     }
@@ -152,9 +154,10 @@ const Tokens:TokenTuple[] = ([
  * @returns {TokenTuple[]|false} Returns either a token tuple array or false in case the spec does not contain tokens
  */
 function getSpecChain (spec:string):TokenTuple[]|false {
-    if (spec_cache.has(spec)) return spec_cache.get(spec);
+    let spec_chain = spec_cache.get(spec);
+    if (spec_chain) return spec_chain;
 
-    const spec_chain:TokenTuple[] = [];
+    spec_chain = [];
     let cursor;
     for (let i = 0; i < Tokens.length; i++) {
         cursor = Tokens[i];

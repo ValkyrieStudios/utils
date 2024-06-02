@@ -12,10 +12,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Improved
 - **dx**: caching/memoize will now be correctly typed as returning a function that is typed as the provided function
-- **perf**: Improved performance of array/mapFn by working with ? chaining instead of object prototypal checks
-- **perf**: Improved performance of array/mapKey by working with ? chaining instead of object prototypal checks
-- **perf**: Improved performance of array/mapPrimitive by working with ? chaining instead of object prototypal checks
-- **feat**: Removed internal typeof check on key, favoring falling back to millisecond diff if not provided correctly, this aligns with other date functions such as startOfUTC and also improves performance slightly
+- **perf**: array/mapFn - Improved performance by working with ? chaining instead of object prototypal checks
+- **perf**: array/mapKey - Improved performance by working with ? chaining instead of object prototypal checks
+- **perf**: array/mapPrimitive - Improved performance by working with ? chaining instead of object prototypal checks
+- **perf**: date/format - Minor performance improvement by reducing map operations
+- **feat**: date/diff - Removed internal typeof check on key, favoring falling back to millisecond diff if not provided correctly, this aligns with other date functions such as startOfUTC and also improves performance slightly
 
 ## [12.9.0] - 2024-05-27
 ### Improved

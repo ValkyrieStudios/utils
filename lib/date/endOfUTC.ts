@@ -86,7 +86,7 @@ function endOfUTC (
         case 'week_fri':
         case 'week_sat': {
             const UTC_DAY = val.getUTCDay();
-            const UTC_EOD = WEEK_END.get(key);
+            const UTC_EOD = WEEK_END.get(key) as number;
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
                 val.getUTCMonth(),

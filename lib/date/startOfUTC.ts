@@ -82,7 +82,7 @@ function startOfUTC (
         case 'week_fri':
         case 'week_sat': {
             const UTC_DAY = val.getUTCDay();
-            const UTC_SOD = WEEK_START.get(key);
+            const UTC_SOD = WEEK_START.get(key) as number;
             return new Date(Date.UTC(
                 val.getUTCFullYear(),
                 val.getUTCMonth(),

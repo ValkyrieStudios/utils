@@ -7,6 +7,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **dx**: caching/memoize will now be correctly typed as returning a function that is typed as the provided function
 - **perf**: Improved performance of array/mapFn by working with ? chaining instead of object prototypal checks
 - **perf**: Improved performance of array/mapKey by working with ? chaining instead of object prototypal checks
 - **perf**: Improved performance of array/mapPrimitive by working with ? chaining instead of object prototypal checks

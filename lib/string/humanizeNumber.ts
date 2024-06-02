@@ -1,4 +1,5 @@
 import {round} from '../number/round';
+import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
 const DEFAULT_UNITS = ['', 'k', 'm', 'b', 't', 'q'];
 
@@ -53,30 +54,17 @@ interface humanizeNumberOptions {
  *
  * @returns Humanized number as string
  */
-function humanizeNumber (val:number|string, options:humanizeNumberOptions|false = false):string {
-    let DELIM:string            = ',';
-    let SEPARATOR:string        = '.';
-    let PRECISION:number        = 2;
-    let UNITS:string[]|false    = DEFAULT_UNITS;
-    let DIVIDER:number          = 1000;
-    let REAL:boolean            = false;
-
-    /* Process options */
-    if (options && Object.prototype.toString.call(options) === '[object Object]') {
-        if (typeof options.delim === 'string') DELIM = options.delim;
-        if (typeof options.separator === 'string' && options.separator.trim().length) SEPARATOR = options.separator;
-        if (Number.isInteger(options.precision) && options.precision >= 0) PRECISION = options.precision;
-        if (Array.isArray(options.units) && options.units.length) {
-            UNITS = options.units;
-        } else if (options.units === false) {
-            UNITS = false;
-        }
-        if (Number.isInteger(options.divider) && options.divider > 1) {
-            DIVIDER = options.divider;
-        }
-
-        if (options.real === true) REAL = true;
-    }
+function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):string {
+    const DELIM:string = typeof options?.delim === 'string' ? options.delim : ',';
+    const SEPARATOR:string = typeof options?.separator === 'string' && options.separator.trim().length ? options.separator : '.';
+    const PRECISION:number = isIntegerAboveOrEqual(options?.precision, 0) ? options.precision : 2;
+    const DIVIDER:number = isIntegerAboveOrEqual(options?.divider, 2) ? options.divider : 1000;
+    const REAL:boolean = options?.real === true;
+    const UNITS:string[]|false = Array.isArray(options?.units) && options.units.length
+        ? options.units
+        : options?.units === false
+            ? false
+            : DEFAULT_UNITS;
 
     /* Normalize to a numerical value */
     let normalized:number = 0;

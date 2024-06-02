@@ -1,4 +1,5 @@
 import {humanizeNumber} from './humanizeNumber';
+import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
 interface humanizeBytesOptions {
     /**
@@ -34,24 +35,23 @@ interface humanizeBytesOptions {
  * 	humanizeBytes(23); // '23 bytes'
  * 	humanizeBytes(-374237489237); // '-348.5 GB'
  *
- * @param val - Number or string byte value to humanize (string should be convertible to a number)
- * @param opts - (default={}) Pass to override options.
+ * @param {number|string} val - Number or string byte value to humanize (string should be convertible to a number)
+ * @param {humanizeBytesOptions?} opts - Humanization options
  *
  * @returns Humanized byte value as string
  */
 function humanizeBytes (val:number|string, options:humanizeBytesOptions = {}):string {
-    const has_opts = Object.prototype.toString.call(options) === '[object Object]';
     return humanizeNumber(val, {
-        delim: has_opts && typeof options.delim === 'string'
+        delim: typeof options?.delim === 'string'
             ? options.delim
             : ',',
-        separator: has_opts && typeof options.separator === 'string' && options.separator.trim().length
+        separator: typeof options?.separator === 'string' && options.separator.trim().length
             ? options.separator
             : '.',
-        precision: has_opts && Number.isInteger(options.precision) && options.precision >= 0
+        precision: isIntegerAboveOrEqual(options?.precision, 0)
             ? options.precision
             : 2,
-        units: has_opts && Array.isArray(options.units) && options.units.length
+        units: Array.isArray(options?.units) && options.units.length
             ? options.units
             : [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'],
         divider: 1024,

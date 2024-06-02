@@ -1,5 +1,3 @@
-'use strict';
-
 const PROTO_OBJ = '[object Object]';
 
 /**

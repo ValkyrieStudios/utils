@@ -1,5 +1,3 @@
-'use strict';
-
 import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';
 import noop             from '../../../lib/function/noop';

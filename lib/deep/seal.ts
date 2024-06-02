@@ -1,5 +1,3 @@
-'use strict';
-
 type deepInput = {[key:string]:any}|{[key:string]:any}[]|any[];
 
 type Sealed<T> = {

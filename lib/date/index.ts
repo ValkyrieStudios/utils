@@ -1,5 +1,3 @@
-'use strict';
-
 import {addUTC}     from './addUTC';
 import {diff}       from './diff';
 import {endOfUTC}   from './endOfUTC';

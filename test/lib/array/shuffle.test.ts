@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable max-len */
 
 import {describe, it}   from 'node:test';

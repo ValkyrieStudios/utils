@@ -1,5 +1,3 @@
-'use strict';
-
 const RGX_MALICIOUS = /__proto__|constructor|prototype/;
 
 /**

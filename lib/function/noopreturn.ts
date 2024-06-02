@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * No-Operation (noop) function that returns the value passed to it when called.
  *

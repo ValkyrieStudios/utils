@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable no-loss-of-precision,@typescript-eslint/no-loss-of-precision */
 
 import {describe, it}   from 'node:test';

@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable @typescript-eslint/ban-types */
 
 /**

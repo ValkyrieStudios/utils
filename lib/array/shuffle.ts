@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Shuffle an array using a Fisher-Yates shuffle O(n)
  * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle

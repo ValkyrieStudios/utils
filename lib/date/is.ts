@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Check whether or not a provided value is a Date
  *

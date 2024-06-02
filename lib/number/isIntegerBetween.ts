@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Check whether or not the provided value is an integer between a min and max
  * inclusive of min and max

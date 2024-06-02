@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable no-confusing-arrow */
 
 import {isDate} from './is';

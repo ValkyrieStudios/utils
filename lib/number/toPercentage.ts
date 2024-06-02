@@ -1,5 +1,3 @@
-'use strict';
-
 import {round} from './round';
 
 /**

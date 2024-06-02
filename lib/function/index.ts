@@ -1,5 +1,3 @@
-'use strict';
-
 import {isFunction}         from './is';
 import {isAsyncFunction}    from './isAsync';
 import {noop}               from './noop';

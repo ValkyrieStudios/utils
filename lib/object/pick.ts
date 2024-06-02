@@ -1,5 +1,3 @@
-'use strict';
-
 import {deepGet} from '../deep/get';
 import {deepSet} from '../deep/set';
 

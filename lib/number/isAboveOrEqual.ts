@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Check whether or not the provided value is a number above or equal to another value
  *

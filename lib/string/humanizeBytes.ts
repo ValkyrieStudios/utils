@@ -1,5 +1,3 @@
-'use strict';
-
 import {humanizeNumber} from './humanizeNumber';
 
 interface humanizeBytesOptions {

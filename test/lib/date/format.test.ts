@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable max-lines,max-statements */
 
 import {describe, it}   from 'node:test';
@@ -1059,7 +1057,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'HH'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45+00:00'), 'HH', 'en', 'Europe/Paris'), '09');
             assert.equal(format(new Date('2022-03-06T08:30:45+00:00'), 'HH', 'en', 'America/New_York'), '03');
@@ -1067,7 +1065,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'HH', 'en', 'UTC'), '06');
         });
     });
-    
+
     describe('token:H', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1083,7 +1081,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'H'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'H', 'en', 'Europe/Paris'), '9');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'H', 'en', 'America/New_York'), '3');
@@ -1091,7 +1089,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'H', 'en', 'UTC'), '6');
         });
     });
-    
+
     describe('token:hh', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1107,14 +1105,14 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'hh'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'hh', 'en', 'Europe/Paris'), '09');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'hh', 'en', 'America/New_York'), '03');
             assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'hh', 'en', 'UTC'), '10');
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'hh', 'en', 'UTC'), '06');
         });
-    
+
         it('Should handle AM/PM properly', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'hh A'), '09 AM');
             assert.equal(format(new Date('2022-03-06T15:45:00Z'), 'hh A'), '04 PM');
@@ -1122,7 +1120,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'hh A'), '07 AM');
         });
     });
-    
+
     describe('token:h', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1138,14 +1136,14 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'h'), el[1]);
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'h', 'en', 'Europe/Paris'), '9');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'h', 'en', 'America/New_York'), '3');
             assert.equal(format(new Date('2022-03-06T00:30:45+02:00'), 'h', 'en', 'UTC'), '10');
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'h', 'en', 'UTC'), '6');
         });
-    
+
         it('Should handle AM/PM properly', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'h A'), '9 AM');
             assert.equal(format(new Date('2022-03-06T15:45:00Z'), 'h A'), '4 PM');
@@ -1169,7 +1167,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'mm'), el[1]);
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'mm', 'en', 'Europe/Paris'), '30');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'mm', 'en', 'America/New_York'), '30');
@@ -1178,7 +1176,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T00:30:45+05:30'), 'mm', 'en', 'Europe/Brussels'), '00'); /* Eg: India: UTC +5:30 */
         });
     });
-    
+
     describe('token:m', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1194,7 +1192,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'm'), el[1]);
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'm', 'en', 'Europe/Paris'), '30');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'm', 'en', 'America/New_York'), '30');
@@ -1202,7 +1200,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'm', 'en', 'UTC'), '30');
         });
     });
-    
+
     describe('token:ss', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1218,7 +1216,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'ss'), el[1]);
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'ss', 'en', 'Europe/Paris'), '45');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'ss', 'en', 'America/New_York'), '45');
@@ -1226,7 +1224,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:15-07:00'), 'ss', 'en', 'UTC'), '15');
         });
     });
-    
+
     describe('token:s', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1242,7 +1240,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 's'), el[1]);
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 's', 'en', 'Europe/Paris'), '45');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 's', 'en', 'America/New_York'), '45');
@@ -1250,7 +1248,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:15-07:00'), 's', 'en', 'UTC'), '15');
         });
     });
-    
+
     describe('token:SSS', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1266,7 +1264,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'SSS'), el[1]);
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'SSS', 'en', 'Europe/Paris'), '000');
             assert.equal(format(new Date('2022-03-06T08:30:45.123Z'), 'SSS', 'en', 'America/New_York'), '123');
@@ -1289,7 +1287,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'A'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'A', 'en', 'Europe/Paris'), 'AM');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'A', 'en', 'America/New_York'), 'AM');
@@ -1297,7 +1295,7 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'A', 'en', 'UTC'), 'AM');
         });
     });
-    
+
     describe('token:a', () => {
         it('Should be correct', () => {
             for (const el of [
@@ -1313,7 +1311,7 @@ describe('Date - format', () => {
                 assert.equal(format(el[0], 'a'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
         });
-    
+
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'a', 'en', 'Europe/Paris'), 'am');
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'a', 'en', 'America/New_York'), 'am');

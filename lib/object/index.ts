@@ -1,5 +1,3 @@
-'use strict';
-
 import {define}             from './define';
 import {isObject}           from './is';
 import {isNotEmptyObject}   from './isNotEmpty';

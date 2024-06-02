@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable max-len,max-lines,no-console */
 
 import * as fs from 'node:fs';

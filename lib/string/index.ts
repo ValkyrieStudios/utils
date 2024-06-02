@@ -1,5 +1,3 @@
-'use strict';
-
 import {humanizeBytes}      from './humanizeBytes';
 import {humanizeNumber}     from './humanizeNumber';
 import {isString}           from './is';

@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable max-statements,no-new-wrappers */
 
 import {describe, it}   from 'node:test';

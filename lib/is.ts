@@ -1,5 +1,3 @@
-'use strict';
-
 import {equal}                      from './equal';
 import {isArray, isNeArray}         from './array';
 import {isBoolean}                  from './boolean';

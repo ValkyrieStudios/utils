@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable no-new-wrappers */
 
 import {describe, it}   from 'node:test';

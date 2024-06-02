@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Rounds the provided value to a certain precision
  *

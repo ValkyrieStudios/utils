@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable id-denylist */
 
 import {describe, it, beforeEach}   from 'node:test';

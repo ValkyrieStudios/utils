@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable no-use-before-define */
 
 import {isNumericalNaN} from './number/isNumericalNaN';

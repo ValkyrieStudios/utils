@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Defines each of the provided properties in props on top of the passed object
  *

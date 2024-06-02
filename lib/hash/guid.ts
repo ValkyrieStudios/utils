@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable prefer-template */
 
 /* Prebuilt hexmap from 0 to 255 */

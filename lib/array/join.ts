@@ -1,5 +1,3 @@
-'use strict';
-
 import {round} from '../number/round';
 
 interface joinOptions {

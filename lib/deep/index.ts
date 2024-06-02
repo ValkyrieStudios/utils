@@ -1,5 +1,3 @@
-'use strict';
-
 import {deepFreeze} from './freeze';
 import {deepGet}    from './get';
 import {deepSeal}   from './seal';

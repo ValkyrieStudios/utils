@@ -1,5 +1,3 @@
-'use strict';
-
 import {isBoolean} from './is';
 
 export {

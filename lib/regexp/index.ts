@@ -1,5 +1,3 @@
-'use strict';
-
 import {isRegExp} from './is';
 import {sanitizeRegExp} from './sanitize';
 

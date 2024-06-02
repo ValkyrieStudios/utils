@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Returns a promise that resolves after X milliseconds, useful in
  * async scenarios where we wish to wait for a specific periodic of time

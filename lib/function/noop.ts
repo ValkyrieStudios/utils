@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * No-Operation (noop) function that does nothing and simply returns.
  *

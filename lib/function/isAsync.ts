@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Chceck whether or not a provided value is an async function
  *

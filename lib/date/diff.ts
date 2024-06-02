@@ -1,5 +1,3 @@
-'use strict';
-
 import {isDate} from './is';
 
 const SECOND_IN_MILLISECONDS    = 1000;

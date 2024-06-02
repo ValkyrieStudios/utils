@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Shorten a string and add a postfix if it goes over a specific length, will autotrim value.
  *

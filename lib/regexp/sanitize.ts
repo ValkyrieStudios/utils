@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Sanitize the provided string input for safe usage within a RegExp, this
  * ensures automatic escaping of characters that have special meaning in regexp.

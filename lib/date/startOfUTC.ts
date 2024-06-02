@@ -1,5 +1,3 @@
-'use strict';
-
 import {isDate} from './is';
 
 const WEEK_START = new Map([

@@ -1,5 +1,3 @@
-'use strict';
-
 import {isNumber}               from './is';
 import {isNumberAbove}          from './isAbove';
 import {isNumberAboveOrEqual}   from './isAboveOrEqual';

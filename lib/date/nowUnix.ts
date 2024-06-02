@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Compute the current unix timestamp in seconds
  *

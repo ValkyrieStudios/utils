@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Get a property's value deep inside the structure of an array/object
  *

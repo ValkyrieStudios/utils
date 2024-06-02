@@ -33,7 +33,7 @@
             "as-needed"
         ],
         "class-methods-use-this": "error",
-        "complexity": ["warn", 15],
+        "complexity": ["warn", 20],
         "default-case": "error",
         "default-case-last": "error",
         "dot-notation": ["error", {"allowKeywords": true}],

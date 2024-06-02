@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Generates a random integer between the provided lower and upper bound,
  * not inclusive of the upper bound

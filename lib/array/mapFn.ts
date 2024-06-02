@@ -1,5 +1,3 @@
-'use strict';
-
 interface mapOptions {
     /**
      * Allow merging existing keys or not, if not keys will be overriden if they exist

@@ -1,5 +1,3 @@
-'use strict';
-
 /* eslint-disable max-len,no-new-wrappers,no-array-constructor,no-new-object,@typescript-eslint/no-array-constructor */
 
 function testFunction ():void {}

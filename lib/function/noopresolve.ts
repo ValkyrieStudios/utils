@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * No-Operation (noop) resolver that simply returns a promise
  * that resolves with the value that was passed to it

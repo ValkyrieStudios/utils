@@ -1,5 +1,3 @@
-'use strict';
-
 import {fnv1A}  from './fnv1A';
 import {guid}   from './guid';
 

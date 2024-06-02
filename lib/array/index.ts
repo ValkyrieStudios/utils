@@ -1,5 +1,3 @@
-'use strict';
-
 import {dedupe}             from './dedupe';
 import {isArray}            from './is';
 import {isNotEmptyArray}    from './isNotEmpty';

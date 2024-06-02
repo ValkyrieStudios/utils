@@ -19,6 +19,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: date/format - Minor performance improvement by reducing map operations
 - **perf**: string/humanizeBytes - Minor performance improvement (~3-5%) by working with ? chaining instead of object prototypal checks
 - **perf**: string/humanizeNumber - Minor performance improvement (~3-5%) by working with ? chaining instead of object prototypal checks
+- **deps**: Upgrade @types/node to 20.13.0
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.11.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.11.0
 
 ## [12.9.0] - 2024-05-27
 ### Improved

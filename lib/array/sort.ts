@@ -18,14 +18,10 @@ interface sortOptions {
     nokey_atend?:boolean;
 }
 
-interface sortObject {
-    [key:string]:any;
-}
-
-type sortByFunction = (el:sortObject) => string;
+type sortByFunction = (el:Record<string, any>) => string;
 
 function partition (
-    arr:sortObject[],
+    arr:Record<string,any>[],
     start_ix:number,
     end_ix:number
 ) {
@@ -54,7 +50,7 @@ function partition (
 }
 
 function quickSort (
-    arr:sortObject[],
+    arr:Record<string,any>[],
     start_ix:number = 0,
     end_ix:number = arr.length - 1
 ) {
@@ -103,13 +99,13 @@ function quickSort (
  * @returns Sorted array
  * @throws {Error}
  */
-function sort (
-    arr:sortObject[],
+function sort <T extends {[key:string]:any}[]> (
+    arr:T,
     by:string|sortByFunction,
     dir:'asc'|'desc' = 'asc',
     opts?:sortOptions
 ) {
-    if (!Array.isArray(arr) || !arr.length) return [];
+    if (!Array.isArray(arr) || !arr.length) return [] as unknown as T;
 
     /* Check direction */
     if (dir !== 'asc' && dir !== 'desc') throw new Error('Direction should be either asc or desc');
@@ -175,7 +171,7 @@ function sort (
         for (let i = 0; i < nokey_arr.length; i++) rslt.push(nokey_arr[i]);
     }
 
-    return rslt;
+    return rslt as unknown as T;
 }
 
 export {sort, sort as default};

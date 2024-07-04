@@ -17,14 +17,14 @@ Zero-dependency collection of single-function utilities for common tasks
 ### array
 - **isArray(val:any)**
 Check if a variable is of type Array
-```js
+```typescript
 isArray({a:1}); // FALSE
 isArray([]); // TRUE
 ```
 
 - **isNotEmptyArray(val:any)**
 Check if a variable a non-empty array
-```js
+```typescript
 isNotEmptyArray({a:1}); // FALSE
 isNotEmptyArray([]); // FALSE
 isNotEmptyArray([0, 1, 2]); // TRUE
@@ -32,7 +32,7 @@ isNotEmptyArray([0, 1, 2]); // TRUE
 
 - **mapKey(val:Record[], key:string, opts:object={})**
 Map a non-primitive object array into an object map by key
-```js
+```typescript
 mapKey([
     {uid: 12, name: 'Peter'},
     {uid: 15, name: 'Jonas'},
@@ -49,7 +49,7 @@ output:
 ```
 
 Autofilters anything not meeting the spec:
-```js
+```typescript
 mapKey([
     0,
     {uid: 12, name: 'Peter'},
@@ -73,7 +73,7 @@ output:
 ```
 
 allows merging objects onto existing keys:
-```js
+```typescript
 mapKey([
     0,
     {uid: 12, name: 'Peter'},
@@ -102,7 +102,7 @@ output:
 - **mapFn(val:Record[], key:Function, opts:object={})**
 Same behavior as mapKey but instead of a key, a function is passed to generate your own key. Eg:
 
-```js
+```typescript
 mapFn([
     {uid: 12, name: 'Peter'},
     {uid: 15, name: 'Jonas'},
@@ -122,7 +122,7 @@ options are the same as the mapKey function
 
 - **mapPrimitive(val:any[], opts:object={valtrim:false,keyround:false,valround:false})**
 Map an array of primitives (number/string)
-```js
+```typescript
 mapPrimitive([1,2,3]); // {1: 1, 2: 2, 3: 3}
 mapPrimitive(['hello', 'hello', 'foo', 'bar']); // {hello: 'hello', foo: 'foo', bar: 'bar'}
 mapPrimitive(['hello', ' hello', 'foo', '  foo'], {valtrim: true}); // {hello: 'hello', foo: 'foo'}
@@ -186,7 +186,7 @@ const group = groupBy([
 
 - **dedupe(val:Array)**
 Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.
-```js
+```typescript
 dedupe(['a','a','b','c','c']); // ['a', 'b', 'c']
 dedupe(['1',1,'2',2]); // ['1','2']
 dedupe([new RegExp(/ab+c/, 'i'), new RegExp(/ab+c/, 'i')]); // [new RegExp(/ab+c/, 'i')]
@@ -194,21 +194,22 @@ dedupe([new Date('2012-02-02'), new Date('2012-02-02')]); // [new Date('2012-02-
 dedupe(['hello', 'hello', 'world']); // ['hello', 'world']
 ```
 
-- **join(val:Array, opts:object={delim:' ',trim:true,valtrim:true,valround:false})**
+- **join(val:Array, opts:object={delim:' ',trim:true,valtrim:true,innertrim:true,valround:false})**
 Concatenate the values within an array into a string, behind the scenes this will automatically filter out any value that is not a string or numerical value. For strings it will automatically trim (and remove if empty after trimming) before joining.
 
-```js
+```typescript
 join(['Valkyrie', 'Studios']); // 'Valkyrie Studios'
 join([5.1, '  years ', 'ago'], {valround: 0}); // '5 years ago'
 join(['peter   ', '  valkyrie  '], {delim: '@'}); // 'peter@valkyrie'
 join([user.first_name, user.last_name]); // 'John' (where user is {first_name: 'John', last_name: false})
 join(['  a', 1], {delim: '', valtrim: false, trim: false}); // '  a1'
+join(['  hello  world  ', 'this   is    peter   '], {valtrim:true, innertrim: true, delim: ' '}); // 'hello world this is peter'
 ```
 
 - **shuffle(val:Array)**
 Shuffle an array (Fisher-Yates) in O(n), take note this changes the passed value
 
-```js
+```typescript
 const arr = [1, 2, 3, 4, 5, 6];
 shuffle(arr);
 // [4, 6, 3, 2, 5, 1]
@@ -217,7 +218,7 @@ shuffle(arr);
 - **sort(val:Array[object], by:string|Function, dir:Enum(asc,desc), options:Object)**
 Sort an array of objects, uses an implementation of [Tony Hoare's quicksort](https://cs.stanford.edu/people/eroberts/courses/soco/projects/2008-09/tony-hoare/quicksort.html)
 
-```js
+```typescript
 const out = sort([
     {test: 'Peter'},
     {test: 'Jack'},
@@ -230,7 +231,7 @@ const out = sort([
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'John'}, {test: 'Joe'}, {test: 'Jack'}, {test: 'Bob'}, {test: 'Alice'}]
 ```
 
-```js
+```typescript
 const out = sort([
     {test: 'Peter'},
     {test: 'Jack'},
@@ -245,7 +246,7 @@ const out = sort([
 
 allows passing a function to determine the key to sort by
 
-```js
+```typescript
 const out = sort([
     {test: 'Peter'},
     {test: 'Jack'},
@@ -260,7 +261,7 @@ const out = sort([
 
 auto-cleans input to only contains non-empty objects
 
-```js
+```typescript
 const out = sort([
     {test: 'Peter'},
     {},
@@ -279,7 +280,7 @@ const out = sort([
 allows passing custom filter function to clean input
 Take note: Sort will still verify that the object is not an empty object, even when passing a custom filter function.
 
-```js
+```typescript
 const out = sort([
     {test: 'Peter'},
     {},
@@ -299,7 +300,7 @@ const out = sort([
 
 allows passing custom options to position elements without a proper key (nokey_atend, defaults to true), or hide them (nokey_hide, defaults to false)
 
-```js
+```typescript
 const arr = [{test: 'Peter'}, {test: undefined}, {test: 'Jack'}, {test: 'Pony'}, {uid: 100}, {test: 'JOHn'}];
 const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: false});
 // [{test: undefined}, {uid: 100}, {test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
@@ -314,7 +315,7 @@ const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_hide: true});
 ### boolean
 - **isBoolean(val:any)**
 Check if a variable is of type Boolean
-```js
+```typescript
 isBoolean(null); // FALSE
 isBoolean(false); // TRUE
 isBoolean(true); // TRUE
@@ -324,14 +325,14 @@ isBoolean(true); // TRUE
 - **memoize(fn:Function, resolver:Function=false, memoize_for:number|false)**
 memoize the output of a function. An optional resolver function can be passed which allows custom cache key generation.
 
-```js
+```typescript
 const memoized_function = memoize((a) => {
     return fnv1A(a);
 });
 ```
 
 Take Note: Also supports async functions and cache busting, eg:
-```js
+```typescript
 async function retrieveUser (userId:string) {
     ...
 }
@@ -354,7 +355,7 @@ await memoized('123456'); /* Original function will be called and re-cached */
 ### date
 - **isDate(val:any)**
 Check if a variable is of type Date
-```js
+```typescript
 isDate(new Date('December 17, 1995 03:24:00')); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
@@ -363,7 +364,7 @@ isDate('December 17, 1995 03:24:00'); // FALSE
 Take two incoming dates and return the difference between them in a certain unit. Possible key options(week,day,hour,minute,second,millisecond).
 
 Note: Does not touch the passed date objects, if no key is passed will default to millisecond
-```js
+```typescript
 diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'week'); // -4.404761904761905
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'day'); // 30.83333333333333332
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'hour'); // 740
@@ -404,7 +405,7 @@ Available tokens for usage in spec:
 | `A` | Uppercase AM/PM | AM ... PM |
 | `a` | Lowercase AM/PM | am ... pm |
 
-```js
+```typescript
 format(new Date('2023-01-10T14:30:00Z'), '[Today is] dddd, MMMM D, YYYY [at] h:mm A', 'en', 'Europe/Brussels');
 //  'Today is Tuesday, January 10, 2023 at 2:30 PM'
 
@@ -434,7 +435,7 @@ Returns the current unix timestamp in milliseconds
 Take the incoming date and return a date set to the start of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
-```js
+```typescript
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'year'); // new Date("2023-01-01T00:00:00.000Z")
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'quarter'); // new Date("2023-04-01T00:00:00.000Z")
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month'); // new Date("2023-05-01T00:00:00.000Z")
@@ -454,7 +455,7 @@ startOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("20
 Take the incoming date and return a date set to the end of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
-```js
+```typescript
 endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'year'); // new Date("2023-12-31T23:59:59.999Z")
 endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'quarter'); // new Date("2023-06-30T23:59:59.999Z")
 endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month'); // new Date("2023-05-31T23:59:59.999Z")
@@ -478,7 +479,7 @@ endOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023
 Take the incoming date and add a certain amount of the passed key. Possible key options(year,years,month,months,day,days,hour,hours,minute,minutes,second,seconds,millisecond,milliseconds).
 
 Note: Does not touch the date object passed
-```js
+```typescript
 addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'year'); // new Date("2032-10-05T11:12:11.000Z")
 addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'year'); // new Date("2012-10-05T11:12:11.000Z")
 addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'month'); // new Date("2023-08-05T11:12:11.000Z")
@@ -500,7 +501,7 @@ addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'second'); // new Date("2022-
 ### deep
 - **deepFreeze(val:Object)**
 Recursively freezes all properties of an object
-```js
+```typescript
 const myObj = deepFreeze({
 	a: 2,
 	b: {
@@ -517,7 +518,7 @@ Object.isFrozen(myObj.b.d); // TRUE
 
 - **deepSeal(val:Object)**
 Recursively freezes all properties of an object
-```js
+```typescript
 const myObj = deepSeal({
 	a: 2,
 	b: {
@@ -535,7 +536,7 @@ Object.isFrozen(myObj.b.d); // FALSE
 
 - **deepSet(obj:Object, path:string, value:any=null, define:boolean=false)**
 Sets a property and its value deep in the structure of an object
-```js
+```typescript
 const myObj = {
 	a: 2,
 };
@@ -543,7 +544,7 @@ deepSet(myObj, 'b.c.d.e', 4);
 myObj.b.c.d.e; // 4
 ```
 
-```js
+```typescript
 const myObj = {
 	a: 2,
 	b: [
@@ -557,7 +558,7 @@ myObj.b[0].price; // 100
 myObj.b[1].price; // 500
 ```
 
-```js
+```typescript
 const myObj = {
 	a: 2,
 };
@@ -567,7 +568,7 @@ myObj.b.c; // Function
 
 - **deepGet(obj:Object, path:string, get_parent:boolean=false)**
 Retrieves a value based on a path in a deeply nested object
-```js
+```typescript
 const myObj = {
 	a: 2,
 	b: [
@@ -578,7 +579,7 @@ const myObj = {
 deepGet(myObj, 'b[0].price', true); // [{price: 2}, {price: 4}]
 ```
 
-```js
+```typescript
 const myObj = {
 	a: 2,
 	b: [
@@ -592,7 +593,7 @@ deepGet(myObj, 'b[0].price'); // 2
 ### equal
 - **equal(a:any, b:any)**
 Check if a variable is equal to another one
-```js
+```typescript
 equal(5, 6); // FALSE
 equal(1, 1); // TRUE
 equal([0, 1, 2], [1, 2]); // FALSE
@@ -625,7 +626,7 @@ An empty function that returns a promise that will resolve after X milliseconds,
 ### formdata
 - **isFormData(val:any)**
 Check if a variable is of type FormData
-```js
+```typescript
 isFormData(new FormData()); // TRUE
 isFormData({hi: 'there'}); // FALSE
 ```
@@ -633,13 +634,13 @@ isFormData({hi: 'there'}); // FALSE
 ### hash
 - **guid()**
 Generate a unique identifier (guid) according to RFC4122
-```js
+```typescript
 guid(); // 245caf1a-86af-11e7-bb31-be2e44b06b34
 ```
 
 - **fnv1A(val:any)**
 Generate a fnv1A hash from an object, using a 32-bit prime/offset
-```js
+```typescript
 fnv1A('hello world'); // -2023343616
 fnv1A({a:1,b:2}); // 361168128
 fnv1A(4); // 1630425728
@@ -650,7 +651,7 @@ fnv1A(new Date('2012-02-02')); // 1655579136
 ### number
 - **isNumber(val:any)**
 Check if a variable is a number
-```js
+```typescript
 isNumber('foo'); // FALSE
 isNumber(4); // TRUE
 isNumber(0.5); // TRUE
@@ -658,7 +659,7 @@ isNumber(0.5); // TRUE
 
 - **isNumberAbove(val:number, comp:number)**
 Check if a variable is a number above a certain bound
-```js
+```typescript
 isNumberAbove(5, 0); // TRUE
 isNumberAbove(.1, 0); // TRUE
 isNumberAbove(-1, -1); // FALSE
@@ -667,7 +668,7 @@ isNumberAbove(-10, -9); // FALSE
 
 - **isNumberAboveOrEqual(val:number, comp:number)**
 Check if a variable is a number above or equal to a certain bound
-```js
+```typescript
 isNumberAboveOrEqual(5, 0); // TRUE
 isNumberAboveOrEqual(.1, 0); // TRUE
 isNumberAboveOrEqual(-1, -1); // TRUE
@@ -676,7 +677,7 @@ isNumberAboveOrEqual(-10, -9); // FALSE
 
 - **isNumberBelow(val:number, comp:number)**
 Check if a variable is a number below a certain bound
-```js
+```typescript
 isNumberBelow(0, 5); // TRUE
 isNumberBelow(0, .1); // TRUE
 isNumberBelow(-1, -1); // FALSE
@@ -685,7 +686,7 @@ isNumberBelow(-9, -10); // FALSE
 
 - **isNumberBelowOrEqual(val:number, comp:number)**
 Check if a variable is a number below or equal a certain bound
-```js
+```typescript
 isNumberBelowOrEqual(0, 5); // TRUE
 isNumberBelowOrEqual(0, .1); // TRUE
 isNumberBelowOrEqual(-1, -1); // TRUE
@@ -694,7 +695,7 @@ isNumberBelowOrEqual(-9, -10); // FALSE
 
 - **isNumberBetween(val:number, min:number, max:number)**
 Check if a variable is a number between a range of numbers
-```js
+```typescript
 isNumberBetween(5, 0, 10); // TRUE
 isNumberBetween(.1, 0, 1); // TRUE
 isNumberBetween(-.1, -1, 0); // TRUE
@@ -704,7 +705,7 @@ isNumberBetween(-1, 0, 1); // FALSE
 
 - **isInteger(val:any)**
 Check if a variable is an integer
-```js
+```typescript
 isInteger('foo'); // FALSE
 isInteger(4); // TRUE
 isInteger(0.5); // FALSE
@@ -712,7 +713,7 @@ isInteger(0.5); // FALSE
 
 - **isIntegerAbove(val:number, comp:number)**
 Check if a variable is an integer above a certain bound
-```js
+```typescript
 isIntegerAbove(5, 0); // TRUE
 isIntegerAbove(.1, 0); // FALSE
 isIntegerAbove(-1, -1); // FALSE
@@ -721,7 +722,7 @@ isIntegerAbove(-10, -9); // FALSE
 
 - **isIntegerAboveOrEqual(val:number, comp:number)**
 Check if a variable is an integer above or equal to a certain bound
-```js
+```typescript
 isIntegerAboveOrEqual(5, 0); // TRUE
 isIntegerAboveOrEqual(.1, 0); // FALSE
 isIntegerAboveOrEqual(-1, -1); // TRUE
@@ -730,7 +731,7 @@ isIntegerAboveOrEqual(-10, -9); // FALSE
 
 - **isIntegerBelow(val:number, comp:number)**
 Check if a variable is an integer below a certain bound
-```js
+```typescript
 isIntegerBelow(0, 5); // TRUE
 isIntegerBelow(0, .1); // TRUE
 isIntegerBelow(.4, 5); // FALSE
@@ -740,7 +741,7 @@ isIntegerBelow(-9, -10); // FALSE
 
 - **isIntegerBelowOrEqual(val:number, comp:number)**
 Check if a variable is an integer below or equal to a certain bound
-```js
+```typescript
 isIntegerBelowOrEqual(0, 5); // TRUE
 isIntegerBelowOrEqual(0, .1); // TRUE
 isIntegerBelowOrEqual(.4, 5); // FALSE
@@ -750,7 +751,7 @@ isIntegerBelowOrEqual(-9, -10); // FALSE
 
 - **isIntegerBetween(val:number, min:number, max:number)**
 Check if a variable is an integer between a range of numbers
-```js
+```typescript
 isIntegerBetween(5, 0, 10); // TRUE
 isIntegerBetween(.1, 0, 1); // FALSE
 isIntegerBetween(-.1, -1, 0); // FALSE
@@ -760,14 +761,14 @@ isIntegerBetween(-1, 0, 1); // FALSE
 
 - **isNumericalNaN(val:any)**
 Check if a variable is a numerical nan ( a number that is a NaN, this distinguishment is made since both a string or a number can be NaN)
-```js
+```typescript
 isNumericalNaN('foo'); // FALSE
 isNumericalNaN(NaN); // TRUE
 ```
 
 - **toPercentage(val:Number,precision:Number=0,min:Number=0,max:Number=1)**
 Calculate the percentage of a specific value in a range
-```js
+```typescript
 toPercentage(0.50106579, 5); // 50.11658
 toPercentage(-356, 0, -1000, 1000); // 32
 toPercentage(0.5); // 50
@@ -775,7 +776,7 @@ toPercentage(0.5); // 50
 
 - **round(val:Number,precision:Number=0)**
 Round a numeric value to a specific amount of decimals
-```js
+```typescript
 round(5.123456789, 0); // 5
 round(5.123456789, 2); // 5.12
 round(5.123456789, 5); // 5.12346
@@ -783,14 +784,14 @@ round(5.123456789, 5); // 5.12346
 
 - **randomBetween(min:Number=0,max:Number=10)**
 Generate a random numeric value between a min and max range
-```js
+```typescript
 randomBetween(); // Will generate a random between 0 and 10
 randomBetween(25, 100); // Will generate a random between 25 and 100
 ```
 
 - **randomIntBetween(min:Number=0,max:Number=10)**
 Generate a random numeric value between a min and max range (max not inclusive)
-```js
+```typescript
 randomIntBetween(); // Will generate a random between 0 and 10 (10 not inclusive)
 randomIntBetween(25, 100); // Will generate a random between 25 and 100 (100 not inclusive)
 ```
@@ -798,14 +799,14 @@ randomIntBetween(25, 100); // Will generate a random between 25 and 100 (100 not
 ### object
 - **isObject(val:any)**
 Check if a variable is of type Object
-```js
+```typescript
 isObject({a: 1}); // TRUE
 isObject(1); // FALSE
 ```
 
 - **isNotEmptyObject(val:any)**
 Check if a variable a non-empty object
-```js
+```typescript
 isNotEmptyObject({a:1}); // TRUE
 isNotEmptyObject({}); // FALSE
 isNotEmptyObject('Hi'); // FALSE
@@ -814,19 +815,19 @@ isNotEmptyObject('Hi'); // FALSE
 - **pick(obj:Object={}, keys:Array[string]=[])**
 Copies the keys passed in the 'keys' array from the passed object to a new object and returns that object.**
 <small>If a key wasn't found it will be set as undefined</small>
-```js
+```typescript
 pick({a: 1, b: 2, c: 3}, ['a','b']); // {a: 1, b: 2}
 ```
 
 - **merge(target:Object={},obj:Object={})**
 Merges two objects together, with the preference over the second object.
-```js
+```typescript
 merge({a: 1, b: false}, {a: 900, c: 50}); // {a: 900, b: false, c: 50}
 ```
 
 - **define(props:Object, obj:Object={})**
 Creates an object with the passed accessors set on it
-```js
+```typescript
 define(
 	{
 		a: {
@@ -839,7 +840,7 @@ define(
 // { a : () => ..., b: 2 }
 ```
 
-```js
+```typescript
 define({
 	a : {
 		enumerable: false,
@@ -851,7 +852,7 @@ define({
 ### regexp
 - **isRegExp(val:any)**
 Check if a variable is an instance of RegExp
-```js
+```typescript
 isRegExp('foo'); // FALSE
 isRegExp(new RegExp('ab+c', 'i')); // TRUE
 isRegExp(new RegExp(/ab+c/, 'i')); // TRUE
@@ -860,21 +861,21 @@ isRegExp(/ab+c/i); // FALSE
 
 - **sanitize(val:string)**
 Escapes special characters in a string and returns a sanitized version safe for usage in RegExp instances
-```js
+```typescript
 sanitizeRegExp('contact@valkyriestudios.be'); // contact@valkyriestudios\\.be
 ```
 
 ### string
 - **isString(val:any)**
 Check if a variable is a string
-```js
+```typescript
 isString('foo'); // TRUE
 isString(4); // FALSE
 ```
 
 - **isStringBetween(val:string, min:number, max:number, trimmed:boolean=true)**
 Check if a variable is between a range of numbers
-```js
+```typescript
 isStringBetween('Peter', 4, 10); // TRUE
 isStringBetween('Jeff', 4, 10); // TRUE
 isStringBetween('Moe', 4, 10); // FALSE
@@ -885,7 +886,7 @@ isStringBetween('    Joe', 1, 3, false); // FALSE
 
 - **isNotEmptyString(val:any, trimmed:boolean=true)**
 Check if a variable a non-empty string
-```js
+```typescript
 isNotEmptyString({a:1}); // FALSE
 isNotEmptyString(''); // FALSE
 isNotEmptyString(' '); // FALSE
@@ -895,7 +896,7 @@ isNotEmptyString('Hi'); // TRUE
 
 - **shorten(val:any, length:integer, postfix:string=...)**
 Shorten a string and add a postfix if string went over length
-```js
+```typescript
 shorten('To the moon and beyond', 11, '..'); // 'To the moon..'
 shorten('Hi', 250); // 'Hi'
 shorten('To the moon and beyond'); // 'To the moon...'
@@ -908,7 +909,7 @@ Humanize an amount of bytes
 -- option:separator (default:'.'): Override the separator used for floats, eg: '20.034' -> '20,034'
 -- option:precision (default:2):  Override decimal precision for floats: eg: '20.0344233' with precision 2 -> '20.03'
 -- option:units (default:[' byes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB']): Override units used, eg: `4893290423489 with units [' Jedi', ' Darth', ' Vader', ' Force'] and precision of 0` -> `'4,893 Force'`
-```js
+```typescript
 humanizeBytes(1504230); // '1.4 MB'
 humanizeBytes(23); // '23 bytes'
 humanizeBytes(-374237489237); // '-348.5 GB'
@@ -924,7 +925,7 @@ Humanize a number
 -- option:real (default:false): Set to true to automatically round input numbers
 -- option:divider (default:1000): Override default divider used for units (used internally for humanizeBytes with 1024 as divider)
 
-```js
+```typescript
 humanizeNumber(4327963279469432); // '4.33q'
 humanizeNumber(1504230); // '1.5m'
 humanizeNumber(-432443); // '-432.44k'

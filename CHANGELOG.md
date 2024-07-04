@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.11.0] - 2024-07-04
+### Added
+- **feat**: array/join: innertrim option, example usage:
+```typescript
+join(['    hello  world', '    this   is    peter   '], {innertrim: true, delim: ' '}); // 'hello world this is peter'
+```
+
+### Improved
+- **dx**: array/sort now contains a generic ensuring the return is correctly typed
+- **perf**: array/dedupe - ~5% performance improvement by swapping for...of for for()
+- **perf**: array/join - ~20% performance improvement by swapping for...of for for() and dropping native join in favor of working with concatenation
+- **perf**: array/mapKey - ~15% performance improvement by swapping for...of for for() and dropping prototypal checks for optional chaining
+- **perf**: array/mapPrimitive - ~3-5% performance improvement by swapping for...of for for()
+- **perf**: deep/freeze - ~25% performance improvement by swapping Object.keys usage for for...in
+- **perf**: deep/get - ~4% performance improvement by swapping prototypal check
+- **perf**: deep/seal - ~20% performance improvement by swapping Object.keys usage for for...in
+- **perf**: object/merge - ~15% performance improvement by swapping prototypal check
+- **deps**: Upgrade @types/node to 20.14.9
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.15.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.15.0
+- **deps**: Upgrade nyc to 17.0.0
+- **deps**: Upgrade typescript to 5.5.3
+
 ## [12.10.0] - 2024-06-02
 ### Added
 - **feat**: caching/memoize now supports memoizing async functions

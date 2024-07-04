@@ -1,5 +1,3 @@
-/* eslint-disable complexity */
-
 import {round} from '../number/round';
 import {isInteger} from '../number/isInteger';
 

@@ -49,7 +49,8 @@ function mapPrimitive (arr:unknown[], opts:mapOptions = {}):mapReturn {
     const KEYROUND:number|boolean = opts?.keyround === true;
 
     const map:mapReturn = {};
-    for (const el of arr) {
+    for (let i = 0; i < arr.length; i++) {
+        const el = arr[i];
         if (typeof el === 'string') {
             const trimmed = el.trim();
             if (!trimmed.length) continue;

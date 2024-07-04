@@ -27,9 +27,7 @@ function merge (
         ) {
             acc[key] = merge(target[key], source[key]);
         } else {
-            acc[key] = Object.prototype.hasOwnProperty.call(source, key)
-                ? source[key]
-                : target[key];
+            acc[key] = source[key] !== undefined ? source[key] : target[key];
         }
     }
 

@@ -133,10 +133,11 @@ function sort (
         const by_s = by.trim();
         if (!by_s.length) throw new Error('Sort by as string should contain content');
 
-        for (const el of arr) {
+        for (let i = 0; i < arr.length; i++) {
+            const el = arr[i];
             if (!FILTER_FN(el)) continue;
 
-            if (!Object.prototype.hasOwnProperty.call(el, by_s) || el[by_s] === undefined) {
+            if (el?.[by_s] === undefined) {
                 nokey_arr.push(el);
             } else {
                 prepared_arr.push({t: el[by_s], el});
@@ -144,7 +145,8 @@ function sort (
         }
     } else if (typeof by === 'function') {
         let key;
-        for (const el of arr) {
+        for (let i = 0; i < arr.length; i++) {
+            const el = arr[i];
             if (!FILTER_FN(el)) continue;
 
             key = by(el);
@@ -162,17 +164,18 @@ function sort (
     quickSort(prepared_arr);
     if (dir === 'desc') prepared_arr.reverse();
 
-    const result = [];
-    if (NOKEY_HIDE) {
-        for (const obj of prepared_arr) result.push(obj.el);
-    } else if (NOKEY_AT_END) {
-        for (const obj of prepared_arr) result.push(obj.el);
-        for (const el of nokey_arr) result.push(el);
-    } else {
-        for (const el of nokey_arr) result.push(el);
-        for (const obj of prepared_arr) result.push(obj.el);
+    const rslt = [];
+    if (!NOKEY_HIDE && !NOKEY_AT_END) {
+        for (let i = 0; i < nokey_arr.length; i++) rslt.push(nokey_arr[i]);
     }
-    return result;
+
+    for (let i = 0; i < prepared_arr.length; i++) rslt.push(prepared_arr[i].el);
+
+    if (!NOKEY_HIDE && NOKEY_AT_END) {
+        for (let i = 0; i < nokey_arr.length; i++) rslt.push(nokey_arr[i]);
+    }
+
+    return rslt;
 }
 
 export {sort, sort as default};

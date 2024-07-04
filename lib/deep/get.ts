@@ -58,7 +58,7 @@ function deepGet (
             cursor = cursor[ix];
         } else if (Object.prototype.toString.call(cursor) === '[object Object]') {
             const key = parts.shift() as string;
-            if (!Object.prototype.hasOwnProperty.call(cursor, key)) return undefined;
+            if (cursor[key] === undefined) return undefined;
             cursor = cursor[key];
         }
 

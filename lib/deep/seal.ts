@@ -8,7 +8,7 @@ function deep (obj:deepInput) {
     if (Array.isArray(obj)) {
         for (const el of obj) deep(el);
     } else {
-        for (const key of Object.keys(obj)) {
+        for (const key in obj) {
             if (
                 Object.prototype.toString.call(obj[key]) === '[object Object]' ||
                 Array.isArray(obj[key])

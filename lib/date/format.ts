@@ -215,13 +215,15 @@ function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:str
     const d:Date = toZone(val, zone);
 
     /* Run spec chain */
-    for (const el of spec_chain) {
+    for (let i = 0; i < spec_chain.length; i++) {
+        const el = spec_chain[i];
         formatted_string = formatted_string.replace(el[1], el[2](d, locale));
     }
 
     /* Re-insert escaped tokens */
     if (escaped_acc.length) {
-        for (const escape_token of escaped_acc) {
+        for (let i = 0; i < escaped_acc.length; i++) {
+            const escape_token = escaped_acc[i];
             formatted_string = formatted_string.replace(escape_token[0], escape_token[1]);
         }
     }

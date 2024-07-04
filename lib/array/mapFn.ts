@@ -40,7 +40,8 @@ function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapO
 
     const map:Record<string, T> = {};
     let hash:(string|number|boolean) = false;
-    for (const el of arr) {
+    for (let i = 0; i < arr.length; i++) {
+        const el = arr[i];
         if (Object.prototype.toString.call(el) !== '[object Object]') continue;
 
         /* Get hash */
@@ -50,7 +51,7 @@ function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapO
         /* Normalize hash to string */
         hash = `${hash}`;
 
-        map[hash] = MERGE && map.hasOwnProperty(hash) ? {...map[hash], ...el} : el;
+        map[hash] = MERGE && map[hash] !== undefined ? {...map[hash], ...el} : el;
     }
 
     return map;

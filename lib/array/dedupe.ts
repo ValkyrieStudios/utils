@@ -12,14 +12,16 @@ function dedupe <T> (val:T[]):T[] {
 
     const set:Set<number> = new Set();
     const acc:T[] = [];
-    for (const item of val) {
+    for (let i = 0; i < val.length; i++) {
+        const el = val[i];
+
         /* Calculate hash for item and continue if already seen */
-        const hash = fnv1A(item);
+        const hash = fnv1A(el);
         if (set.has(hash)) continue;
 
         /* Add hash to set and accumulator */
         set.add(hash);
-        acc.push(item);
+        acc.push(el);
     }
 
     return acc;

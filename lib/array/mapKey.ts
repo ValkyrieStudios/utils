@@ -40,12 +40,9 @@ function mapKey <T extends Record<string, any>> (arr:T[], key:string, opts?:mapO
     const MERGE:boolean = opts?.merge === true;
 
     const map:Record<string, T> = {};
-    for (const el of arr) {
-        if (
-            Object.prototype.toString.call(el) !== '[object Object]' ||
-            !Object.prototype.hasOwnProperty.call(el, key_s)
-        ) continue;
-
+    for (let i = 0; i < arr.length; i++) {
+        const el = arr[i];
+        if (el?.[key_s] === undefined) continue;
         map[el[key_s]] = MERGE && map.hasOwnProperty(el[key_s]) ? {...map[el[key_s]], ...el} : el;
     }
 

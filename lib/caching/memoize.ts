@@ -11,7 +11,7 @@ import diff from '../date/diff';
  *
  * @param fn - Function to memoize
  * @param resolver - Optional resolver function to generate cache key. If not passed the first argument is used as map key
- * @param {false|number?} memoize_for - Memoize for X milliseconds, if passed false will indefinitely memoize (default = false) 
+ * @param {false|number?} memoize_for - Memoize for X milliseconds, if passed false will indefinitely memoize (default = false)
  */
 function memoize <
     T extends (...args:any[]) => unknown,

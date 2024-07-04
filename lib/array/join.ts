@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+
 import {round} from '../number/round';
 import {isInteger} from '../number/isInteger';
 
@@ -14,6 +16,12 @@ interface joinOptions {
      * eg: join(['  hello', 'world  '], {trim: true}) -> 'hello world'
      */
     trim?:boolean;
+    /**
+     * Trim internals of values or not
+     * (default=false)
+     * eg: join(['   hello    world', 'this   is ', 'Peter'], {trimBetween: true, trim: true}) -> 'hello world this is peter'
+     */
+    innertrim?:boolean;
     /**
      * Automatically trim all string values
      * (default=true)
@@ -43,23 +51,27 @@ function join (val:unknown[], opts?:joinOptions):string {
     let TRIM:boolean = true;
     let VALTRIM:boolean = true;
     let VALROUND:number|false = false;
+    let INNERTRIM:boolean = false;
     if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
         if (typeof opts.delim === 'string') DELIM = opts.delim;
         if (opts.trim === false) TRIM = opts.trim;
-        if (opts.valtrim === false) VALTRIM = opts.valtrim;
+        if (opts.valtrim === false) VALTRIM = false;
+        if (opts.innertrim === true) INNERTRIM = true;
         if (isInteger(opts.valround) && opts.valround >= 0) VALROUND = opts.valround;
     }
 
-    const filtered = [];
-    for (const el of val) {
+    let result = '';
+    for (let i = 0; i < val.length; i++) {
+        const el = val[i];
         if (typeof el === 'string' && el.trim().length) {
-            filtered.push(VALTRIM ? el.trim() : el);
+            const trimmed = VALTRIM ? el.trim() : el;
+            result = `${result}${i !== 0 ? DELIM : ''}${INNERTRIM ? trimmed.replace(/(\s){2,}/g, ' ') : trimmed}`;
         } else if (Number.isFinite(el)) {
-            filtered.push(VALROUND !== false ? round(el as number, VALROUND) : el);
+            result = `${result}${i !== 0 ? DELIM : ''}${VALROUND !== false ? round(el as number, VALROUND) : el}`;
         }
     }
 
-    return TRIM ? filtered.join(DELIM).trim() : filtered.join(DELIM);
+    return TRIM ? result.trim() : result;
 }
 
 export {join, join as default};

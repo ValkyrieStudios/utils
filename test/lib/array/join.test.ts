@@ -85,6 +85,14 @@ describe('Array - join', () => {
         );
     });
 
+    it('allows you to turn on innertrim to trim inside of the strings as well', () => {
+        const vals = ['   hello     world    ', ' this    is', '   peter   from    valkyrie'];
+        assert.equal(
+            join(vals, {delim: ' ', innertrim: true}),
+            'hello world this is peter from valkyrie'
+        );
+    });
+
     it('allows you to join a mix of numbers and strings and autoround to a certain precision', () => {
         const vals = ['   valkyrie ', 569.45, '   studios  '];
         assert.equal(join(vals, {delim: '@', valround: 0}), 'valkyrie@569@studios');

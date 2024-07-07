@@ -12,6 +12,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30}); // new Date("2023-05-04T05:30:27.432Z")
 ```
 
+### Improved
+- **deps**: Upgrade @types/node to 20.14.10
+
 ## [12.11.0] - 2024-07-04
 ### Added
 - **feat**: array/join: innertrim option, example usage:

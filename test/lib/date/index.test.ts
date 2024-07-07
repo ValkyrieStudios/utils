@@ -8,6 +8,7 @@ import endOfUTC         from '../../../lib/date/endOfUTC';
 import format           from '../../../lib/date/format';
 import nowUnix          from '../../../lib/date/nowUnix';
 import nowUnixMs        from '../../../lib/date/nowUnixMs';
+import setTimeUTC       from '../../../lib/date/setTimeUTC';
 import startOfUTC       from '../../../lib/date/startOfUTC';
 import toUnix           from '../../../lib/date/toUnix';
 import toUTC            from '../../../lib/date/toUTC';
@@ -23,6 +24,7 @@ describe('Date - *', () => {
             format,
             nowUnix,
             nowUnixMs,
+            setTimeUTC,
             startOfUTC,
             toUnix,
             toUTC,

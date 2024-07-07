@@ -5,6 +5,7 @@ import {format}     from './format';
 import {isDate}     from './is';
 import {nowUnix}    from './nowUnix';
 import {nowUnixMs}  from './nowUnixMs';
+import {setTimeUTC} from './setTimeUTC';
 import {startOfUTC} from './startOfUTC';
 import {toUnix}     from './toUnix';
 import {toUTC}      from './toUTC';
@@ -18,6 +19,7 @@ export {
     isDate as is,
     nowUnix,
     nowUnixMs,
+    setTimeUTC,
     startOfUTC,
     toUnix,
     toUTC

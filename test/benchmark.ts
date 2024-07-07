@@ -21,6 +21,7 @@ import isDate                   from '../dist/date/is';
 import isFormData               from '../dist/formdata/is';
 import nowUnix                  from '../dist/date/nowUnix';
 import nowUnixMs                from '../dist/date/nowUnixMs';
+import setTimeUTC               from '../dist/date/setTimeUTC';
 import startOfUTC               from '../dist/date/startOfUTC';
 import toUnix                   from '../dist/date/toUnix';
 import toUTC                    from '../dist/date/toUTC';
@@ -98,6 +99,8 @@ const GROUP_EXAMPLE_10 = [
     {role: 'god', name: 'Felicia'},
 ];
 const GROUP_EXAMPLE_50 = [...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10];
+const DATE_EXAMPLE = new Date('2022-10-05T13:12:11+02:00');
+const DATE_EXAMPLE_2 = new Date('2032-10-05T11:12:11.000Z');
 
 /* Run benchmarks */
 for (const el of [
@@ -345,139 +348,139 @@ for (const el of [
     /* Date - addUTC */
     {
         lbl: 'date/addUTC: milliseconds',
-        fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'milliseconds'),
+        fn: () => addUTC(DATE_EXAMPLE, -38970000 * 60, 'milliseconds'),
     },
     {
         lbl: 'date/addUTC: seconds',
-        fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'seconds'),
+        fn: () => addUTC(DATE_EXAMPLE, -38970000 * 60, 'seconds'),
     },
     {
         lbl: 'date/addUTC: minutes',
-        fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'minutes'),
+        fn: () => addUTC(DATE_EXAMPLE, -38970000 * 60, 'minutes'),
     },
     {
         lbl: 'date/addUTC: hours',
-        fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'hours'),
+        fn: () => addUTC(DATE_EXAMPLE, -38970000 * 60, 'hours'),
     },
     {
         lbl: 'date/addUTC: days',
-        fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'days'),
+        fn: () => addUTC(DATE_EXAMPLE, -38970000 * 60, 'days'),
     },
     {
         lbl: 'date/addUTC: months',
-        fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'months'),
+        fn: () => addUTC(DATE_EXAMPLE, -38970000 * 60, 'months'),
     },
     {
         lbl: 'date/addUTC: years',
-        fn: () => addUTC(new Date('2022-10-05T13:12:11+02:00'), -38970000 * 60, 'years'),
+        fn: () => addUTC(DATE_EXAMPLE, -38970000 * 60, 'years'),
     },
     /* Date - diff */
     {
         lbl: 'date/diff: milliseconds',
-        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'milliseconds'),
+        fn: () => diff(DATE_EXAMPLE_2, DATE_EXAMPLE, 'milliseconds'),
     },
     {
         lbl: 'date/diff: seconds',
-        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'seconds'),
+        fn: () => diff(DATE_EXAMPLE_2, DATE_EXAMPLE, 'seconds'),
     },
     {
         lbl: 'date/diff: minutes',
-        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'minutes'),
+        fn: () => diff(DATE_EXAMPLE_2, DATE_EXAMPLE, 'minutes'),
     },
     {
         lbl: 'date/diff: hours',
-        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'hours'),
+        fn: () => diff(DATE_EXAMPLE_2, DATE_EXAMPLE, 'hours'),
     },
     {
         lbl: 'date/diff: days',
-        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'days'),
+        fn: () => diff(DATE_EXAMPLE_2, DATE_EXAMPLE, 'days'),
     },
     {
         lbl: 'date/diff: weeks',
-        fn: () => diff(new Date('2032-10-05T11:12:11.000Z'), new Date('2022-10-05T13:12:11+02:00'), 'weeks'),
+        fn: () => diff(DATE_EXAMPLE_2, DATE_EXAMPLE, 'weeks'),
     },
     /* Date - endOfUTC */
     {
         lbl: 'date/endOfUTC: second',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'second'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'second'),
     },
     {
         lbl: 'date/endOfUTC: minute',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'minute'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'minute'),
     },
     {
         lbl: 'date/endOfUTC: hour',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'hour'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'hour'),
     },
     {
         lbl: 'date/endOfUTC: day',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'day'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'day'),
     },
     {
         lbl: 'date/endOfUTC: week',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week'),
     },
     {
         lbl: 'date/endOfUTC: week_sun',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sun'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week_sun'),
     },
     {
         lbl: 'date/endOfUTC: week_mon',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_mon'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week_mon'),
     },
     {
         lbl: 'date/endOfUTC: week_tue',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_tue'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week_tue'),
     },
     {
         lbl: 'date/endOfUTC: week_wed',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_wed'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week_wed'),
     },
     {
         lbl: 'date/endOfUTC: week_thu',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_thu'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week_thu'),
     },
     {
         lbl: 'date/endOfUTC: week_fri',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_fri'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week_fri'),
     },
     {
         lbl: 'date/endOfUTC: week_sat',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sat'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'week_sat'),
     },
     {
         lbl: 'date/endOfUTC: month',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'month'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'month'),
     },
     {
         lbl: 'date/endOfUTC: quarter',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'quarter'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'quarter'),
     },
     {
         lbl: 'date/endOfUTC: year',
-        fn: () => endOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'year'),
+        fn: () => endOfUTC(DATE_EXAMPLE, 'year'),
     },
     /* Date - format */
     {
         lbl: 'date/format: YYYY-MM-DD',
-        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD'),
+        fn: () => format(DATE_EXAMPLE, 'YYYY-MM-DD'),
     },
     {
         lbl: 'date/format: YYYY-MM-DD and zone',
-        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'YYYY-MM-DD', 'en', 'EST'),
+        fn: () => format(DATE_EXAMPLE, 'YYYY-MM-DD', 'en', 'EST'),
     },
     {
         lbl: 'date/format: dddd, DD, MMMMM YYYY hh:mm a',
-        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), 'dddd, DD, MMMMM YYYY hh:mm a', 'fr', 'Australia/Sydney'),
+        fn: () => format(DATE_EXAMPLE, 'dddd, DD, MMMMM YYYY hh:mm a', 'fr', 'Australia/Sydney'),
     },
     {
         lbl: 'date/format: [Now:] dddd, DD, MMMMM YYYY hh:mm a',
-        fn: () => format(new Date('2023-10-05T11:12:11.000Z'), '[Now:] dddd, DD, MMMMM YYYY hh:mm a', 'fr', 'Australia/Sydney'),
+        fn: () => format(DATE_EXAMPLE, '[Now:] dddd, DD, MMMMM YYYY hh:mm a', 'fr', 'Australia/Sydney'),
     },
     /* Date - is */
     {
         lbl: 'date/is',
-        fn: () => isDate(new Date('2032-10-05T11:12:11.000Z')),
+        fn: () => isDate(DATE_EXAMPLE),
     },
     /* Date - nowUnix */
     {
@@ -489,76 +492,97 @@ for (const el of [
         lbl: 'date/nowUnixMs',
         fn: () => nowUnixMs(),
     },
+    /* Date - setTimeUTC */
+    {
+        lbl: 'date/setTimeUTC: combined',
+        fn: () => setTimeUTC(DATE_EXAMPLE, {hour: 12, minute: 42, second: 42, millisecond: 42}),
+    },
+    {
+        lbl: 'date/setTimeUTC: millisecond',
+        fn: () => setTimeUTC(DATE_EXAMPLE, {millisecond: 42}),
+    },
+    {
+        lbl: 'date/setTimeUTC: second',
+        fn: () => setTimeUTC(DATE_EXAMPLE, {second: 42}),
+    },
+    {
+        lbl: 'date/setTimeUTC: minute',
+        fn: () => setTimeUTC(DATE_EXAMPLE, {minute: 42}),
+    },
+    {
+        lbl: 'date/setTimeUTC: hour',
+        fn: () => setTimeUTC(DATE_EXAMPLE, {hour: 12}),
+    },
     /* Date - startOfUTC */
     {
         lbl: 'date/startOfUTC: second',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'second'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'second'),
     },
     {
         lbl: 'date/startOfUTC: minute',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'minute'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'minute'),
     },
     {
         lbl: 'date/startOfUTC: hour',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'hour'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'hour'),
     },
     {
         lbl: 'date/startOfUTC: day',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'day'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'day'),
     },
     {
         lbl: 'date/startOfUTC: week',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week'),
     },
     {
         lbl: 'date/startOfUTC: week_sun',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sun'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week_sun'),
     },
     {
         lbl: 'date/startOfUTC: week_mon',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_mon'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week_mon'),
     },
     {
         lbl: 'date/startOfUTC: week_tue',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_tue'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week_tue'),
     },
     {
         lbl: 'date/startOfUTC: week_wed',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_wed'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week_wed'),
     },
     {
         lbl: 'date/startOfUTC: week_thu',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_thu'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week_thu'),
     },
     {
         lbl: 'date/startOfUTC: week_fri',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_fri'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week_fri'),
     },
     {
         lbl: 'date/startOfUTC: week_sat',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'week_sat'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'week_sat'),
     },
     {
         lbl: 'date/startOfUTC: month',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'month'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'month'),
     },
     {
         lbl: 'date/startOfUTC: quarter',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'quarter'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'quarter'),
     },
     {
         lbl: 'date/startOfUTC: year',
-        fn: () => startOfUTC(new Date('2032-10-05T11:12:11.000Z'), 'year'),
+        fn: () => startOfUTC(DATE_EXAMPLE, 'year'),
     },
     /* Date - toUnix */
     {
         lbl: 'date/toUnix',
-        fn: () => toUnix(new Date('2032-10-05T11:12:11.000Z')),
+        fn: () => toUnix(DATE_EXAMPLE),
     },
     /* Date - toUTC */
     {
         lbl: 'date/toUTC',
-        fn: () => toUTC(new Date('2032-10-05T11:12:11.000Z')),
+        fn: () => toUTC(DATE_EXAMPLE),
     },
     /* Deep - freeze */
     {

@@ -431,6 +431,19 @@ Returns the current unix timestamp in seconds
 - **nowUnixMs()**
 Returns the current unix timestamp in milliseconds
 
+- **setTimeUTC(val:Date, props:{hour?:number;minute?:number;second?:number;millisecond?:number})**
+Take the incoming date and return a date where the time portion is set to the values in the provided props
+
+Note: Does not touch the date object passed
+```typescript
+setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5}); // new Date("2023-05-04T05:04:27.432Z")
+setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30}); // new Date("2023-05-04T05:30:27.432Z")
+setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30, second: 0}); // new Date("2023-05-04T05:30:00.432Z")
+setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30, second: 0, millisecond: 0}); // new Date("2023-05-04T05:30:00.000Z")
+setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {minute: 30, second: 0, millisecond: 0}); // new Date("2023-05-04T12:30:00.000Z")
+setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {second: 9, millisecond: 0}); // new Date("2023-05-04T12:04:09.000Z")
+```
+
 - **startOfUTC(val:Date, key:string)**
 Take the incoming date and return a date set to the start of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 

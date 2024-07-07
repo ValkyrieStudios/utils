@@ -334,10 +334,11 @@ describe('Date - format', () => {
                 [new Date('2019-02-01T05:20:19+02:00'), 'February'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'December'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'January'],
-                [new Date('2023-04-23T12:23:34'), 'April'],
-                [new Date('2023-08-23T12:23:34'), 'August'],
-                [new Date('2023-09-23T12:23:34'), 'September'],
-                [new Date('2023-11-05T23:23:34'), 'November'],
+                [new Date('2023-05-23T12:23:34.000Z'), 'May'],
+                [new Date('2023-04-23T12:23:34.000Z'), 'April'],
+                [new Date('2023-08-23T12:23:34.000Z'), 'August'],
+                [new Date('2023-09-23T12:23:34.000Z'), 'September'],
+                [new Date('2023-11-05T23:23:34.000Z'), 'November'],
             ] as [Date, string][]) {
                 assert.equal(format(el[0], 'MMMM'), el[1]); /* Note: the client where these tests are run is on the Europe/Brussels zone */
             }
@@ -348,6 +349,7 @@ describe('Date - format', () => {
                 [new Date('2019-02-01T05:20:19+02:00'), 'février'],
                 [new Date('2007-12-31T23:59:59+02:00'), 'décembre'],
                 [new Date('2007-12-31T23:59:59-02:00'), 'janvier'],
+                [new Date('2023-05-23T12:23:34'), 'mai'],
                 [new Date('2023-04-23T12:23:34'), 'avril'],
                 [new Date('2023-08-23T12:23:34'), 'août'],
                 [new Date('2023-09-23T12:23:34'), 'septembre'],

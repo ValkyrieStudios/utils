@@ -96,20 +96,18 @@ function runIntl (
 ):string {
     const hash = `${loc}:${token}`;
 
-    let formatter = intl_formatters.get(hash);
-
     /* Use existing formatter if we already have a formatter for this */
-    if (formatter) return formatter.format(val);
-
-    try {
-        /* Create new instance of Intl.DateTimeFormat and store it */
-        formatter = new Intl.DateTimeFormat(loc, props);
-        intl_formatters.set(hash, formatter);
-
-        return formatter.format(val);
-    } catch (err) {
-        throw new Error(`format: Failed to run conversion for ${token} with locale ${loc}`);
+    let formatter = intl_formatters.get(hash);
+    if (!formatter) {
+        try {
+            /* Create new instance of Intl.DateTimeFormat and store it */
+            formatter = new Intl.DateTimeFormat(loc, props);
+            intl_formatters.set(hash, formatter);
+        } catch (err) {
+            throw new Error(`format: Failed to run conversion for ${token} with locale ${loc}`);
+        }
     }
+    return formatter.format(val);
 }
 
 /**
@@ -159,10 +157,12 @@ function getSpecChain (spec:string):TokenTuple[]|false {
 
     spec_chain = [];
     let cursor;
+    let spec_cursor = spec;
     for (let i = 0; i < Tokens.length; i++) {
         cursor = Tokens[i];
-        if (spec.indexOf(cursor[0]) < 0) continue;
+        if (spec_cursor.indexOf(cursor[0]) < 0) continue;
         spec_chain.push(cursor);
+        spec_cursor = spec_cursor.replace(cursor[1], '');
     }
     if (spec_chain.length === 0) return false;
     spec_cache.set(spec, spec_chain);

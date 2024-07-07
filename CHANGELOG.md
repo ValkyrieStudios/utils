@@ -15,6 +15,9 @@ setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30}); // new 
 ### Improved
 - **deps**: Upgrade @types/node to 20.14.10
 
+### Fixed
+- **date/format**: Fix an edge case issue where spec chain tokens such as MMMM which have smaller sibling tokens such as MM and MMM would incorrectly replace values if the resulting month would match a spec chain token (eg: **M**ay)
+
 ## [12.11.0] - 2024-07-04
 ### Added
 - **feat**: array/join: innertrim option, example usage:

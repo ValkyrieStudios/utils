@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [12.12.0] - 2024-07-07
 ### Added
 - **feat**: date/setTimeUTC: Function which allows setting the time for a date object
 ```typescript
@@ -17,6 +17,10 @@ setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30}); // new 
 
 ### Fixed
 - **date/format**: Fix an edge case issue where spec chain tokens such as MMMM which have smaller sibling tokens such as MM and MMM would incorrectly replace values if the resulting month would match a spec chain token (eg: **M**ay)
+```typescript
+format(new Date('2023-05-07T12:30:00.000Z'), 'MMMM'); (previously: '5ay')
+format(new Date('2023-05-07T12:30:00.000Z'), 'MMMM'); (now: 'May')
+```
 
 ## [12.11.0] - 2024-07-04
 ### Added

@@ -5,6 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.13.0] - 2024-07-15
+### Improved
+- **perf**: array/sort - ~5-10% performance improvement by changing internal behavior and applying a hybrid sorting strategy which switches between insertion and quicksort
+- **feat**: date/format now supports a `l` token to render locale-specific short date formats such as `15/07/2024`
+```
+format(new Date('2024-07-15T00:00:00Z'), 'l', 'nl-BE'); // '15/07/2024'
+format(new Date('2024-07-15T00:00:00Z'), 'l', 'en-US'); // '7/15/24'
+```
+- **feat**: date/format now supports a `L` token to render locale-specific date such as `15 jul 2024`
+```
+format(new Date('2024-07-15T00:00:00Z'), 'L', 'nl-BE'); // '15 jul 2024'
+format(new Date('2024-07-15T00:00:00Z'), 'L', 'en-US'); // 'Jul 15, 2024'
+```
+- **feat**: date/format now supports a `t` token to render locale-specific short time such as `10:28 AM`
+```
+format(new Date('2024-07-15T22:28:30Z'), 't', 'nl-BE'); // '22:28'
+format(new Date('2024-07-15T22:28:30Z'), 't', 'en-US'); // '10:28 PM'
+```
+- **feat**: date/format now supports a `t` token to render locale-specific time such as `10:28:30 AM`
+```
+format(new Date('2024-07-15T22:28:30Z'), 'T', 'nl-BE'); // '22:28:30'
+format(new Date('2024-07-15T22:28:30Z'), 'T', 'en-US'); // '10:28:30 PM'
+```
+
 ## [12.12.0] - 2024-07-07
 ### Added
 - **feat**: date/setTimeUTC: Function which allows setting the time for a date object

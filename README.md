@@ -404,6 +404,10 @@ Available tokens for usage in spec:
 | `SSS` | Milliseconds as 3-digit | 000 001 ... 998 999 |
 | `A` | Uppercase AM/PM | AM ... PM |
 | `a` | Lowercase AM/PM | am ... pm |
+| `l` | Locale-specific short Date | 15/07/2024 |
+| `L` | Locale-Specific date | 15 jul 2024 |
+| `t` | Locale-specific short time | 10:28 AM |
+| `T` | Locale-specific time with seconds | 10:28:30 AM |
 
 ```typescript
 format(new Date('2023-01-10T14:30:00Z'), '[Today is] dddd, MMMM D, YYYY [at] h:mm A', 'en', 'Europe/Brussels');

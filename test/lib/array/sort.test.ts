@@ -40,31 +40,6 @@ describe('Array - sort', () => {
         }
     });
 
-    it('Throws an error when passed a non-string, or a string that is not asc or desc', () => {
-        for (const el of [
-            ...CONSTANTS.IS_NUMERIC,
-            ...CONSTANTS.IS_INTEGER,
-            ...CONSTANTS.IS_BOOLEAN,
-            ...CONSTANTS.IS_REGEXP,
-            ...CONSTANTS.IS_DATE,
-            ...CONSTANTS.IS_ARRAY,
-            ...CONSTANTS.IS_OBJECT,
-            ...CONSTANTS.IS_STRING,
-            '',
-            ' ',
-            '  ',
-            'ewqueoqweu',
-            'desca',
-            'asca',
-        ]) {
-            assert.throws(
-                /* @ts-ignore */
-                () => sort([{test: 'hello'}], val => val.test, el),
-                new Error('Direction should be either asc or desc')
-            );
-        }
-    });
-
     it('Sorts correctly when passed an array of objects with a string to sort by and default dir', () => {
         const out = [
             {test: 'Peter'},

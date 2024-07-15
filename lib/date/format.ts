@@ -76,7 +76,7 @@ function toZone (date:Date, zone:string):Date {
     zone_offset_cache.set(ckey, offset);
 
     /* Return new date and time */
-    return new Date(date.getTime() + offset);
+    return new Date(client_time + offset);
 }
 
 /**
@@ -138,6 +138,10 @@ const Tokens:TokenTuple[] = ([
     ['SSS', d => `${d.getMilliseconds()}`.padStart(3, '0')],            /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
     ['A', d => d.getHours() < 12 ? 'AM' : 'PM'],                        /* Uppercase AM/PM */
     ['a', d => d.getHours() < 12 ? 'am' : 'pm'],                        /* Lowercase AM/PM */
+    ['l', (d, loc) => runIntl(loc, 'l', {dateStyle: 'short'}, d)],      /* Locale-specific date mark: eg (15/07/2024 vs 7/15/24) */
+    ['L', (d, loc) => runIntl(loc, 'L', {dateStyle: 'medium'}, d)],     /* Locale-specific date: eg (Jul 15, 2024 vs 15 jul 2024) */
+    ['t', (d, loc) => runIntl(loc, 't', {timeStyle: 'short'}, d)],      /* Locale-specific time: eg(10:28 PM vs 22:28) */
+    ['T', (d, loc) => runIntl(loc, 'T', {timeStyle: 'medium'}, d)],     /* Locale-specific time+sec: eg(10:28:30 PM vs 22:28:30) */
 ] as RawTuple[])
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1)
     .map((el:RawTuple):TokenTuple => [el[0], new RegExp(el[0], 'g'), el[1]]);

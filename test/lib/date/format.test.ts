@@ -1321,4 +1321,73 @@ describe('Date - format', () => {
             assert.equal(format(new Date('2022-03-06T23:30:45-07:00'), 'a', 'en', 'UTC'), 'am');
         });
     });
+
+    describe('token:l', () => {
+        it('Should format the date correctly in different locales', () => {
+            for (const el of [
+                {d: new Date('2024-07-15T10:28:00Z'), o: '15/07/2024', locale: 'nl-BE'},
+                {d: new Date('2024-07-15T10:28:00Z'), o: '7/15/24', locale: 'en-US'},
+                {d: new Date('2023-12-25T00:00:00Z'), o: '25.12.23', locale: 'de-DE'},
+                {d: new Date('2023-12-25T00:00:00Z'), o: '25/12/2023', locale: 'fr-FR'},
+                {d: new Date('2022-01-01T12:00:00Z'), o: '1/1/22', locale: 'es-ES'},
+                {d: new Date('2023-03-17T17:30:00Z'), o: '17/03/23', locale: 'it-IT'},
+                {d: new Date('2024-11-23T08:45:00Z'), o: '23/11/2024', locale: 'pt-BR'},
+                {d: new Date('2022-06-30T20:15:00Z'), o: '30-06-2022', locale: 'nl-NL'},
+            ]) {
+                assert.equal(format(el.d, 'l', el.locale), el.o);
+            }
+        });
+    });
+
+    describe('token:L', () => {
+        it('Should format the date correctly in different locales', () => {
+            for (const el of [
+                {d: new Date('2024-07-15T00:00:00Z'), o: '15 jul 2024', locale: 'nl-BE'},
+                {d: new Date('2024-07-15T00:00:00Z'), o: 'Jul 15, 2024', locale: 'en-US'},
+                {d: new Date('2023-12-25T00:00:00Z'), o: '25 déc. 2023', locale: 'fr-BE'},
+                {d: new Date('2022-01-01T00:00:00Z'), o: '1 ene 2022', locale: 'es-ES'},
+                {d: new Date('2023-03-17T00:00:00Z'), o: '17 mar 2023', locale: 'it-IT'},
+                {d: new Date('2024-11-23T00:00:00Z'), o: '23 de nov. de 2024', locale: 'pt-BR'},
+                {d: new Date('2022-06-30T00:00:00Z'), o: '30 jun 2022', locale: 'nl-NL'},
+                {d: new Date('2024-04-05T00:00:00Z'), o: '5 Apr 2024', locale: 'en-GB'},
+                {d: new Date('2023-11-11T00:00:00Z'), o: '11 nov 2023', locale: 'it-CH'},
+            ]) {
+                assert.equal(format(el.d, 'L', el.locale), el.o);
+            }
+        });
+    });
+
+    describe('token:t', () => {
+        it('Should format the time correctly in different locales', () => {
+            for (const el of [
+                {d: new Date('2024-07-15T10:28:00Z'), o: '10:28', locale: 'nl-BE'},
+                {d: new Date('2024-07-15T10:28:00Z'), o: '10:28 AM', locale: 'en-US'},
+                {d: new Date('2023-12-25T14:45:00Z'), o: '14:45', locale: 'de-DE'},
+                {d: new Date('2023-12-25T22:10:00Z'), o: '22:10', locale: 'fr-FR'},
+                {d: new Date('2022-01-01T06:30:00Z'), o: '6:30', locale: 'es-ES'},
+                {d: new Date('2023-03-17T23:59:00Z'), o: '23:59', locale: 'it-IT'},
+                {d: new Date('2024-11-23T16:20:00Z'), o: '16:20', locale: 'pt-BR'},
+                {d: new Date('2022-06-30T11:05:00Z'), o: '11:05', locale: 'nl-NL'},
+            ]) {
+                assert.equal(format(el.d, 't', el.locale, 'UTC'), el.o);
+            }
+        });
+    });
+
+    describe('token:T', () => {
+        it('Should format the time with seconds correctly in different locales', () => {
+            for (const el of [
+                {d: new Date('2024-07-15T10:28:30Z'), o: '10:28:30', locale: 'nl-BE'},
+                {d: new Date('2024-07-15T10:28:30Z'), o: '10:28:30 AM', locale: 'en-US'},
+                {d: new Date('2023-12-25T14:45:59Z'), o: '14:45:59', locale: 'de-DE'},
+                {d: new Date('2023-12-25T22:10:15Z'), o: '22:10:15', locale: 'fr-FR'},
+                {d: new Date('2022-01-01T06:30:45Z'), o: '6:30:45', locale: 'es-ES'},
+                {d: new Date('2023-03-17T23:59:59Z'), o: '23:59:59', locale: 'it-IT'},
+                {d: new Date('2024-11-23T16:20:20Z'), o: '16:20:20', locale: 'pt-BR'},
+                {d: new Date('2022-06-30T11:05:10Z'), o: '11:05:10', locale: 'nl-NL'},
+            ]) {
+                assert.equal(format(el.d, 'T', el.locale, 'UTC'), el.o);
+            }
+        });
+    });
 });

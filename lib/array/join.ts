@@ -1,5 +1,5 @@
 import {round} from '../number/round';
-import {isInteger} from '../number/isInteger';
+import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
 interface joinOptions {
     /**
@@ -45,18 +45,11 @@ interface joinOptions {
 function join (val:unknown[], opts?:joinOptions):string {
     if (!Array.isArray(val) || !val.length) return '';
 
-    let DELIM:string = ' ';
-    let TRIM:boolean = true;
-    let VALTRIM:boolean = true;
-    let VALROUND:number|false = false;
-    let INNERTRIM:boolean = false;
-    if (opts && Object.prototype.toString.call(opts) === '[object Object]') {
-        if (typeof opts.delim === 'string') DELIM = opts.delim;
-        if (opts.trim === false) TRIM = opts.trim;
-        if (opts.valtrim === false) VALTRIM = false;
-        if (opts.innertrim === true) INNERTRIM = true;
-        if (isInteger(opts.valround) && opts.valround >= 0) VALROUND = opts.valround;
-    }
+    const DELIM:string = typeof opts?.delim === 'string' ? opts.delim : ' ';
+    const TRIM: boolean = opts?.trim ?? true;
+    const VALTRIM: boolean = opts?.valtrim ?? true;
+    const INNERTRIM: boolean = opts?.innertrim ?? false;
+    const VALROUND: number | false = isIntegerAboveOrEqual(opts?.valround, 0) ? opts!.valround! : false;
 
     let result = '';
     for (let i = 0; i < val.length; i++) {

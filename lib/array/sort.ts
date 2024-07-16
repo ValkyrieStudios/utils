@@ -123,31 +123,35 @@ function sort <T extends {[key:string]:any}[]> (
         FILTER_FN = (el => isNotEmptyObject(el) && fn(el)) as (val:unknown) => val is {[key:string]:any};
     }
 
-    /* Pre-create key extraction function */
-    let getKey: (el: Record<string, any>) => any;
-    if (typeof by === 'string') {
-        const by_s = by.trim();
-        if (!by_s.length) throw new Error('Sort by as string should contain content');
-        getKey = (el: Record<string, any>) => el[by_s];
-    } else if (typeof by === 'function') {
-        getKey = by;
-    } else {
-        throw new Error('Sort by should either be a string with content or a function');
-    }
-
     /* Prepare for sort */
     const prepared_arr:[any,Record<string,any>][] = [];
     const nokey_arr     = [];
-    for (let i = 0; i < arr.length; i++) {
-        const el = arr[i];
-        if (!FILTER_FN(el)) continue;
+    if (typeof by === 'string') {
+        const by_s = by.trim();
+        if (!by_s.length) throw new Error('Sort by as string should contain content');
 
-        const key = getKey(el);
-        if (key === undefined) {
-            nokey_arr.push(el);
-        } else {
-            prepared_arr.push([key, el]);
+        for (const el of arr) {
+            if (!FILTER_FN(el)) continue;
+
+            if (el?.[by_s] === undefined) {
+                nokey_arr.push(el);
+            } else {
+                prepared_arr.push([el[by_s], el]);
+            }
         }
+    } else if (typeof by === 'function') {
+        for (const el of arr) {
+            if (!FILTER_FN(el)) continue;
+
+            const key = by(el);
+            if (key === undefined) {
+                nokey_arr.push(el);
+            } else {
+                prepared_arr.push([key, el]);
+            }
+        }
+    } else {
+        throw new Error('Sort by should either be a string with content or a function');
     }
 
     /* Sort */

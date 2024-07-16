@@ -1,11 +1,11 @@
 import {isNotEmptyObject} from '../object/isNotEmpty';
 
-interface sortOptions {
+type sortOptions <T> = {
     /**
      * Filter function to apply to the array before sorting
      * (default=isNotEmptyObject)
      */
-    filter_fn?:(el:any) => boolean;
+    filter_fn?:(el:T) => boolean;
     /**
      * Remove objects that don't have the key or where the key is falsy
      * (default=false)
@@ -111,7 +111,7 @@ function sort <T extends {[key:string]:any}[]> (
     arr:T,
     by:string|sortByFunction,
     dir:'asc'|'desc' = 'asc',
-    opts?:sortOptions
+    opts?:sortOptions<T>
 ) {
     if (!Array.isArray(arr) || !arr.length) return [] as unknown as T;
 

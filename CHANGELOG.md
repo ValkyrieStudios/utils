@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.14.0] - 2024-07-16
+### Improved
+- **perf**: array/join - further minor performance bump thanks to simplifying options parsing
+- **perf**: array/sort - additional ~5% performance improvement specifically with focus on key-based sorting thanks to internal iterator improvement
+- **perf**: string/humanizeBytes - major ~60% performance improvement thanks to significant reduction of tail operations related to formatting of processed output
+- **perf**: string/humanizeNumber - major ~60% performance improvement thanks to significant reduction of tail operations related to formatting of processed output
+
 ## [12.13.0] - 2024-07-15
 ### Improved
 - **perf**: array/sort - ~5-10% performance improvement by changing internal behavior and applying a hybrid sorting strategy which switches between insertion and quicksort

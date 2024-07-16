@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.15.0] - 2024-07-16
+### Improved
+- **dx**: array/sort - filter_fn option now makes use of a generic, ensuring that the provided filter function is correctly typed
+```
+const arr = [{name: "Peter", isOwner: true}, {name: "Bob", isOwner: true}, {name: "Joe", isOwner: false}];
+sort(arr, "name", "asc", {filter_fn: el => el.isOwner}); // el here is typed as {name:string;isOwner:boolean}
+```
+
 ## [12.14.0] - 2024-07-16
 ### Improved
 - **perf**: array/join - further minor performance bump thanks to simplifying options parsing

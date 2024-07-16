@@ -90,14 +90,19 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):
     }
 
     /* Humanize from eg: 10023 to 10,023 */
-    const humanized:string[]= `${round(normalized, PRECISION)}`.split('.', 2);
-    humanized[0] = humanized[0].split('').reverse().map((char, ix, original) => {
-        if (ix > 0 && ix < original.length && ix % 3 === 0) return char + DELIM;
-        return char;
-    }).reverse().join('');
+    const humanized: string[] = `${round(normalized, PRECISION)}`.split('.', 2);
+    const integerPart: string = humanized[0];
+    let formattedIntegerPart: string = '';
+
+    for (let i = 0; i < integerPart.length; i++) {
+        if (i > 0 && (integerPart.length - i) % 3 === 0) {
+            formattedIntegerPart += DELIM;
+        }
+        formattedIntegerPart += integerPart[i];
+    }
 
     /* Include a decimal point and a tenths-place digit if presenting less than then of KB or greater units */
-    return `${sign}${humanized.join(SEPARATOR)}${UNITS ? UNITS[unit_ix] : ''}`;
+    return `${sign}${formattedIntegerPart}${humanized[1] ? SEPARATOR + humanized[1] : ''}${UNITS ? UNITS[unit_ix] : ''}`;
 }
 
 export {humanizeNumber, humanizeNumber as default};

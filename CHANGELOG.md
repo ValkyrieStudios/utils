@@ -8,9 +8,16 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - **feat**: array/split utility function which can be used to split an array into batches of a particular size
+```typescript
+split([1,2,3,4,5], 2); // [[1,2],[3,4],[5]]
+split([1, 2, false, 4, 5], 2, {filter_fn: isInteger}); // [[1,2],[4,5]]
+```
 
 ### Improved
 - **feat**: array/dedupe now allows passing a filter_fn option to filter the array while deduping
+```typescript
+dedupe(['hello', 'hello', 'world', false, 'world'], {filter_fn: el => isNotEmptyString(el)}); // ['hello', 'world']
+```
 - **perf**: Minor performance bump in array/sort thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in array/shuffle thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in date/nowUnix thanks to swapping Math.floor in favor of bitwise `| 0`

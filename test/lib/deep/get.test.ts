@@ -46,6 +46,15 @@ describe('Deep - get', () => {
         assert.deepEqual(deepGet(subject, 'l'), []);
     });
 
+    it('Correctly returns the passed object if passed a single part key with get parent true', () => {
+        assert.equal(deepGet(subject, 'd', true), subject);
+    });
+
+    it('Correctly retrieves the parent of a value on an existing key', () => {
+        assert.equal(deepGet(subject, 'd[0]', true), subject.d);
+        assert.equal(deepGet(subject, 'd.4.f[2]', true), subject.d[4].f);
+    });
+
     it('Correctly retrieves a value on a deeply nested multi-array structure setup', () => {
         const matrix = [
             [

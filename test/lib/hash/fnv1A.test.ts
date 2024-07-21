@@ -48,6 +48,11 @@ describe('Hash - fnv1A', () => {
             () => fnv1A(() => {}),
             new TypeError('An FNV1A Hash could not be calculated for this datatype')
         );
+
+        assert.throws(
+            () => fnv1A(new FormData()),
+            new TypeError('An FNV1A Hash could not be calculated for this datatype')
+        );
     });
 
     /* Based on some tests available at : http://isthe.com/chongo/src/fnv/test_fnv.c */

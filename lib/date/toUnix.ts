@@ -12,7 +12,7 @@ function toUnix (val:Date):number {
         !isDate(val)
     ) throw new TypeError('toUnix requires a date object');
 
-    return Math.floor(val.valueOf()/1000);
+    return (val.valueOf()/1000) | 0;
 }
 
 export {toUnix, toUnix as default};

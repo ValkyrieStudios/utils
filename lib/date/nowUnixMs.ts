@@ -4,7 +4,7 @@
  * @returns Current unix timestamp in milliseconds
  */
 function nowUnixMs ():number {
-    return Math.floor(Date.now());
+    return Date.now();
 }
 
 export {nowUnixMs, nowUnixMs as default};

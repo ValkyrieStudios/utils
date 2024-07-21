@@ -9,9 +9,10 @@
 function shuffle (arr:unknown[]):void {
     if (!Array.isArray(arr)) return;
 
+    let j;
     for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));  //  Random index from 0 to i
-        [arr[i], arr[j]] = [arr[j], arr[i]];            //  Swap elements
+        j = (Math.random() * (i + 1)) | 0;    //  Random index from 0 to i
+        [arr[i], arr[j]] = [arr[j], arr[i]];        //  Swap elements
     }
 }
 

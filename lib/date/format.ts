@@ -37,7 +37,7 @@ const zone_offset_cache:Map<string, number> = new Map();
 function DOY (d:Date):number {
     /* eslint-disable-next-line */
     /* @ts-ignore */
-    return Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 86400000);
+    return ((d - new Date(d.getFullYear(), 0, 0)) / 86400000) | 0;
 }
 
 /**

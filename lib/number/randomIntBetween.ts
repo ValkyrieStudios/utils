@@ -16,7 +16,7 @@ function randomIntBetween (
         !Number.isFinite(max)
     ) throw new TypeError('Min/Max should be numeric');
 
-    return Math.floor((Math.random() * (max - min)) + min);
+    return ((Math.random() * (max - min)) + min) | 0;
 }
 
 export {randomIntBetween, randomIntBetween as default};

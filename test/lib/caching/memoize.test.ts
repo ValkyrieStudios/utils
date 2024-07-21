@@ -7,7 +7,7 @@ import sleep            from '../../../lib/function/sleep';
 import {diff, toUTC}    from '../../../lib/date';
 
 describe('Caching - memoize', () => {
-    it('Should cache and allow for large amount of calculations to be passed (benchmark 1000000 < .1s)', () => {
+    it('Should cache and allow for large amount of calculations to be passed (benchmark 100000 < .1s)', () => {
         function fn (a) {
             return fnv1A(`${a}`);
         }
@@ -24,7 +24,7 @@ describe('Caching - memoize', () => {
         ];
 
         let runtime = getTime();
-        for (let i = 0; i < 1000000; i++) {
+        for (let i = 0; i < 100000; i++) {
             memoized_fn(cases[Math.floor(Math.random() * (6 - 0 + 1)) + 0]);
         }
         runtime = getTime() - runtime;

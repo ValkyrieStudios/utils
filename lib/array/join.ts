@@ -52,13 +52,16 @@ function join (val:unknown[], opts?:joinOptions):string {
     const VALROUND: number | false = isIntegerAboveOrEqual(opts?.valround, 0) ? opts!.valround! : false;
 
     let result = '';
+    let hasVal:boolean = false;
     for (let i = 0; i < val.length; i++) {
         const el = val[i];
         if (typeof el === 'string' && el.trim().length) {
             const trimmed = VALTRIM ? el.trim() : el;
-            result = `${result}${i !== 0 ? DELIM : ''}${INNERTRIM ? trimmed.replace(/(\s){2,}/g, ' ') : trimmed}`;
+            result = `${result}${hasVal ? DELIM : ''}${INNERTRIM ? trimmed.replace(/(\s){2,}/g, ' ') : trimmed}`;
+            hasVal = true;
         } else if (Number.isFinite(el)) {
-            result = `${result}${i !== 0 ? DELIM : ''}${VALROUND !== false ? round(el as number, VALROUND) : el}`;
+            result = `${result}${hasVal ? DELIM : ''}${VALROUND !== false ? round(el as number, VALROUND) : el}`;
+            hasVal = true;
         }
     }
 

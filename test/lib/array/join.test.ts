@@ -100,4 +100,8 @@ describe('Array - join', () => {
         assert.equal(join(vals, {delim: '@', valround: 2}), 'valkyrie@569.45@studios');
         assert.equal(join(vals, {delim: '@', valround: 3}), 'valkyrie@569.45@studios');
     });
+
+    it('removes multiple invalid values while joining', () => {
+        assert.equal(join([false, false, 'hi', false, false, 'there'], {delim: '|'}), 'hi|there');
+    });
 });

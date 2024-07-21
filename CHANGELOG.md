@@ -19,6 +19,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: Minor performance bump in date/format thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in number/randomIntBetween thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in hash/fnv1A thanks to swapping if/else chain for grouped switch/case
+- **deps**: Upgrade @types/node to 20.14.11
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.16.1
+- **deps**: Upgrade @typescript-eslint/parser to 7.16.1
 
 ## [12.15.0] - 2024-07-16
 ### Improved

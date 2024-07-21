@@ -23,7 +23,7 @@ type sortByFunction = (el:Record<string, any>) => string;
 const INSERTION_SORT_THRESHOLD = 10;
 
 function partition (arr: [any, Record<string, any>][], low: number, high: number) {
-    const pivot = arr[Math.floor((low + high) / 2)][0];
+    const pivot = arr[(low + high) >> 1][0];
     let i = low;
     let j = high;
     while (i <= j) {

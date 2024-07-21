@@ -184,7 +184,7 @@ const group = groupBy([
 **Take note**: any object without the key will be added to a fallback group called '_'
 
 
-- **dedupe(val:Array)**
+- **dedupe(val:Array, opts?:{filter_fn})**
 Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.
 ```typescript
 dedupe(['a','a','b','c','c']); // ['a', 'b', 'c']
@@ -192,7 +192,10 @@ dedupe(['1',1,'2',2]); // ['1','2']
 dedupe([new RegExp(/ab+c/, 'i'), new RegExp(/ab+c/, 'i')]); // [new RegExp(/ab+c/, 'i')]
 dedupe([new Date('2012-02-02'), new Date('2012-02-02')]); // [new Date('2012-02-02')]
 dedupe(['hello', 'hello', 'world']); // ['hello', 'world']
+dedupe(['hello', 'hello', 'world', false, 'world'], {filter_fn: el => isNotEmptyString(el)}); // ['hello', 'world']
 ```
+
+Take Note: The filtering is applied while deduping, ensuring O(n) performance, as such this is faster than dedupe(arr.filter(...))
 
 - **join(val:Array, opts:object={delim:' ',trim:true,valtrim:true,innertrim:true,valround:false})**
 Concatenate the values within an array into a string, behind the scenes this will automatically filter out any value that is not a string or numerical value. For strings it will automatically trim (and remove if empty after trimming) before joining.
@@ -311,6 +314,15 @@ const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: true});
 const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_hide: true});
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
 ```
+
+- **split(val:any[], size:number, opts?:{filter_fn})**
+Splits an array into subarray of provided size with optional filter
+```typescript
+split([1,2,3,4,5], 2); // [[1,2],[3,4],[5]]
+split([1, 2, false, 4, 5], 2, {filter_fn: isInteger}); // [[1,2],[4,5]]
+```
+
+Take Note: The filtering is applied while splitting, ensuring O(n) performance, as such this is faster than split(arr.filter(...), ...)
 
 ### boolean
 - **isBoolean(val:any)**

@@ -18,29 +18,35 @@ function fnv1A (data:unknown, offset:number = FNV_32):number {
     let hash:number = offset;
     let sanitized:any;
 
-    //  Convert data to a format that is hashable
-    if (typeof data === 'string') {
-        sanitized = data;
-    } else if (Number.isFinite(data)) {
-        sanitized = String(data);
-    } else if (Array.isArray(data) || Object.prototype.toString.call(data) === '[object Object]') {
-        sanitized = JSON.stringify(data);
-    } else if (data instanceof RegExp) {
-        sanitized = data.toString();
-    } else if (data instanceof Date) {
-        sanitized = String(data.getTime());
-    } else if (Number.isNaN(data) || data === Infinity) {
-        sanitized = REPL_NAN;
-    } else if (data === false) {
-        sanitized = REPL_FALSE;
-    } else if (data === true) {
-        sanitized = REPL_TRUE;
-    } else if (data === null) {
-        sanitized = REPL_NULL;
-    } else if (data === undefined) {
-        sanitized = REPL_UNDEF;
-    } else {
-        throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
+    // Convert data to a format that is hashable
+    switch (typeof data) {
+        case 'string':
+            sanitized = data;
+            break;
+        case 'number':
+            sanitized = Number.isNaN(data) || !Number.isFinite(data) ? REPL_NAN : String(data);
+            break;
+        case 'boolean':
+            sanitized = data ? REPL_TRUE : REPL_FALSE;
+            break;
+        case 'undefined':
+            sanitized = REPL_UNDEF;
+            break;
+        case 'object':
+            if (data === null) {
+                sanitized = REPL_NULL;
+            } else if (Array.isArray(data) || data.toString() === '[object Object]') {
+                sanitized = JSON.stringify(data);
+            } else if (data instanceof RegExp) {
+                sanitized = data.toString();
+            } else if (data instanceof Date) {
+                sanitized = String(data.getTime());
+            } else {
+                throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
+            }
+            break;
+        default:
+            throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
     }
 
     //  Calculate the hash of the sanitized data by looping over each char

@@ -120,6 +120,8 @@ function sort <T extends {[key:string]:any}[]> (
     let FILTER_FN = isNotEmptyObject;
     if (typeof opts?.filter_fn === 'function') {
         const fn = opts.filter_fn;
+        /* eslint-disable-next-line */
+        /* @ts-ignore */
         FILTER_FN = (el => isNotEmptyObject(el) && fn(el)) as (val:unknown) => val is {[key:string]:any};
     }
 

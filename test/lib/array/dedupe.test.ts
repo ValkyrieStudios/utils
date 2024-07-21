@@ -78,4 +78,48 @@ describe('Array - dedupe', () => {
 
         assert.deepEqual(dedupe([{b: 2}, {b: 2}, {b: 2}]), [{b: 2}]);
     });
+
+    it('Correctly dedupe an array with a filter function', () => {
+        assert.deepEqual(
+            dedupe([0, 1, 1, 2, 99, 100, 99, 2, 3, 3, 4, 'foo', 'bar'], {filter_fn: el => typeof el === 'number'}),
+            [0, 1, 2, 99, 100, 3, 4]
+        );
+    });
+
+    it('Correctly dedupe an array of objects with a filter function', () => {
+        const test_a = {foo: 'bar'};
+        const test_b = {foo: 1, bar: {car: 2}};
+        const test_c = {foo: 2, bar: {car: 2}};
+
+        assert.deepEqual(
+            dedupe([test_a, test_b, test_a, test_b, test_c], {filter_fn: el => el.foo !== 'bar'}),
+            [test_b, test_c]
+        );
+    });
+
+    it('Correctly remove duplicate arrays with a filter function', () => {
+        const test_a = [0, 1, 2, 3, 'hello', 'world', 4, 5];
+        const test_b = [0, 1, ['foo', 'bar'], 2, 3, [['a'], ['b']]];
+
+        assert.deepEqual(
+            dedupe([test_a, test_b, test_b, test_a], {filter_fn: el => Array.isArray(el)}),
+            [test_a, test_b]
+        );
+
+        assert.deepEqual(
+            dedupe([[0], [0], [0, 1], [1, 0]], {filter_fn: el => el.length > 1}),
+            [[0, 1], [1, 0]]
+        );
+    });
+
+    it('Correctly remove duplicate objects with a complex filter function', () => {
+        const test_a = {foo: 'bar', age: 20};
+        const test_b = {foo: 'baz', age: 30};
+        const test_c = {foo: 'bar', age: 25};
+
+        assert.deepEqual(
+            dedupe([test_a, test_b, test_c, test_a], {filter_fn: el => el.age > 20}),
+            [test_b, test_c]
+        );
+    });
 });

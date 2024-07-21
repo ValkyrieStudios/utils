@@ -11,6 +11,7 @@ import mapKey                   from '../dist/array/mapKey';
 import mapPrimitive             from '../dist/array/mapPrimitive';
 import groupBy                  from '../dist/array/groupBy';
 import shuffle                  from '../dist/array/shuffle';
+import split                    from '../dist/array/split';
 import sort                     from '../dist/array/sort';
 import isBoolean                from '../dist/boolean/is';
 import addUTC                   from '../dist/date/addUTC';
@@ -290,6 +291,38 @@ for (const el of [
             {the: ['an', 'array', 0]},
             [[0, 2, 4], [1, 2, 3]],
         ]),
+    },
+    /* Array - split */
+    {
+        lbl: 'array/split',
+        fn: () => split([
+            {test: 'Peter'},
+            {test: 'Jack'},
+            {test: 'Pony'},
+            {test: 'John'},
+            {test: 'Joe'},
+            {test: 'Bob'},
+            {test: 'Alice'},
+        ], 2),
+    },
+    {
+        lbl: 'array/split - 20 elements',
+        fn: () => split([
+            {test: 'Peter'},
+            {test: 'Jack'},
+            {test: 'Pony'},
+            {test: 'John'},
+            {test: 'Joe'},
+            {test: 'Bob'},
+            {test: 'Alice'},
+            {test: 'Peter'},
+            {test: 'Jack'},
+            {test: 'Pony'},
+            {test: 'John'},
+            {test: 'Joe'},
+            {test: 'Bob'},
+            {test: 'Alice'},
+        ], 2, {filter_fn: isNotEmptyObject}),
     },
     /* Array - sort */
     {

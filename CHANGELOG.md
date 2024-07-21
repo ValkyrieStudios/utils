@@ -6,7 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: array/split utility function which can be used to split an array into batches of a particular size
+
 ### Improved
+- **feat**: array/dedupe now allows passing a filter_fn option to filter the array while deduping
 - **perf**: Minor performance bump in array/sort thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in array/shuffle thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in date/nowUnix thanks to swapping Math.floor in favor of bitwise `| 0`
@@ -14,6 +18,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: Minor performance bump in date/toUnix thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in date/format thanks to swapping Math.floor in favor of bitwise `| 0`
 - **perf**: Minor performance bump in number/randomIntBetween thanks to swapping Math.floor in favor of bitwise `| 0`
+- **perf**: Minor performance bump in hash/fnv1A thanks to swapping if/else chain for grouped switch/case
 
 ## [12.15.0] - 2024-07-16
 ### Improved

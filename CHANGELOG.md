@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.17.1] - 2024-07-21
+### Fixed
+- array/join - Potential glitch where a delimiter would be present if multiple invalid values would occur at start of passed array
+
 ## [12.17.0] - 2024-07-21
 ### Improved
 - **feat**: Barrel export for array now also includes new split function

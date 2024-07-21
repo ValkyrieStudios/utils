@@ -7,6 +7,7 @@ import {mapKey}             from './mapKey';
 import {mapPrimitive}       from './mapPrimitive';
 import {groupBy}            from './groupBy';
 import {shuffle}            from './shuffle';
+import {split}              from './split';
 import {sort}               from './sort';
 
 export {
@@ -23,5 +24,6 @@ export {
     mapPrimitive,
     groupBy,
     shuffle,
+    split,
     sort
 };

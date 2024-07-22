@@ -107,13 +107,13 @@ function quickSort (arr: [any, Record<string, any>][]) {
  * @returns Sorted array
  * @throws {Error}
  */
-function sort <T extends {[key:string]:any}[]> (
-    arr:T,
+function sort <T extends {[key:string]:any}> (
+    arr:T[],
     by:string|sortByFunction,
     dir:'asc'|'desc' = 'asc',
     opts?:sortOptions<T>
 ) {
-    if (!Array.isArray(arr) || !arr.length) return [] as unknown as T;
+    if (!Array.isArray(arr) || !arr.length) return [] as unknown as T[];
 
     const NOKEY_HIDE = opts?.nokey_hide === true;
     const NOKEY_AT_END = opts?.nokey_atend !== false;
@@ -166,7 +166,7 @@ function sort <T extends {[key:string]:any}[]> (
     for (let i = 0; i < prepared_arr.length; i++) rslt.push(prepared_arr[i][1]);
     if (!NOKEY_HIDE && NOKEY_AT_END) rslt.push(...nokey_arr);
 
-    return rslt as unknown as T;
+    return rslt as unknown as T[];
 }
 
 export {sort, sort as default};

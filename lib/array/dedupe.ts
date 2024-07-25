@@ -1,9 +1,41 @@
-import {fnv1A} from '../hash/fnv1A';
-
 type DedupeOptions<T> = {
   filter_fn?: (el: T) => boolean;
 };
 
+const REPL_NAN      = 'nan';
+const REPL_TRUE     = 'true';
+const REPL_FALSE    = 'false';
+const REPL_UNDEF    = 'undefined';
+const REPL_NULL     = 'null';
+
+function getTypeString (el: any): string {
+    switch (typeof el) {
+        case 'string':
+            return el;
+        case 'number':
+            return Number.isNaN(el) || !Number.isFinite(el) ? REPL_NAN : String(el);
+            break;
+        case 'boolean':
+            return el ? REPL_TRUE : REPL_FALSE;
+        case 'undefined':
+            return REPL_UNDEF;
+        case 'object':
+            if (el === null) {
+                return REPL_NULL;
+            } else if (Array.isArray(el) || el.toString() === '[object Object]') {
+                return JSON.stringify(el);
+            } else if (el instanceof RegExp) {
+                return el.toString();
+            } else if (el instanceof Date) {
+                return String(el.getTime());
+            } else {
+                return '';
+            }
+            break;
+        default:
+            return '';
+    }
+}
 
 /**
  * Dedupes the provided array
@@ -17,30 +49,20 @@ function dedupe <T> (val:T[], opts?: DedupeOptions<T>):T[] {
     if (!Array.isArray(val)) return [];
 
     /* Check options */
-    const FILTER_FN = typeof opts?.filter_fn === 'function' ? opts?.filter_fn : false;
+    const FILTER_FN = opts?.filter_fn;
 
-    const set:Set<number> = new Set();
-    const acc:T[] = [];
-    let hash:number;
+    const set: Set<string> = new Set();
+    const acc: T[] = [];
+    let hash: string;
     const len = val.length;
-    if (FILTER_FN) {
-        for (let i = 0; i < len; i++) {
-            const el = val[i];
-            if (FILTER_FN && !FILTER_FN(el)) continue;
-            hash = fnv1A(el);
-            if (!set.has(hash)) {
-                set.add(hash);
-                acc.push(el);
-            }
-        }
-    } else {
-        for (let i = 0; i < len; i++) {
-            const el = val[i];
-            hash = fnv1A(el);
-            if (!set.has(hash)) {
-                set.add(hash);
-                acc.push(el);
-            }
+
+    for (let i = 0; i < len; i++) {
+        const el = val[i];
+        if (FILTER_FN && !FILTER_FN(el)) continue;
+        hash = getTypeString(el);
+        if (!set.has(hash)) {
+            set.add(hash);
+            acc.push(el);
         }
     }
 

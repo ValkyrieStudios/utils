@@ -1,4 +1,4 @@
-import {isNotEmptyObject} from '../object/isNotEmpty';
+import {isObject} from '../object/is';
 
 type sortOptions <T> = {
     /**
@@ -43,9 +43,9 @@ function partition (arr: [any, Record<string, any>][], low: number, high: number
 }
 
 function quickSort (arr: [any, Record<string, any>][]) {
-    const stack = [{low: 0, high: arr.length - 1}];
+    const stack = [[0, arr.length - 1]];
     while (stack.length) {
-        const {low, high} = stack.pop() as { low: number; high: number };
+        const [low, high] = stack.pop() as number[];
         if (high - low <= INSERTION_SORT_THRESHOLD) {
             for (let i = low + 1; i <= high; i++) {
                 const key = arr[i];
@@ -58,11 +58,10 @@ function quickSort (arr: [any, Record<string, any>][]) {
             }
         } else {
             const p = partition(arr, low, high);
-            if (p - 1 > low) stack.push({low, high: p - 1});
-            if (p < high) stack.push({low: p, high});
+            if (p - 1 > low) stack.push([low, p - 1]);
+            if (p < high) stack.push([p, high]);
         }
     }
-    return arr;
 }
 
 /**
@@ -113,16 +112,19 @@ function sort <T extends {[key:string]:any}> (
     dir:'asc'|'desc' = 'asc',
     opts?:sortOptions<T>
 ) {
-    if (!Array.isArray(arr) || !arr.length) return [] as unknown as T[];
+    if (!Array.isArray(arr)) return [] as unknown as T[];
+
+    const len = arr.length;
+    if (!len) return [] as unknown as T[];
 
     const NOKEY_HIDE = opts?.nokey_hide === true;
     const NOKEY_AT_END = opts?.nokey_atend !== false;
-    let FILTER_FN = isNotEmptyObject;
+    let FILTER_FN = isObject;
     if (typeof opts?.filter_fn === 'function') {
         const fn = opts.filter_fn;
         /* eslint-disable-next-line */
         /* @ts-ignore */
-        FILTER_FN = (el => isNotEmptyObject(el) && fn(el)) as (val:unknown) => val is {[key:string]:any};
+        FILTER_FN = (el => isObject(el) && fn(el)) as (val:unknown) => val is {[key:string]:any};
     }
 
     /* Prepare for sort */
@@ -132,17 +134,20 @@ function sort <T extends {[key:string]:any}> (
         const by_s = by.trim();
         if (!by_s.length) throw new Error('Sort by as string should contain content');
 
-        for (const el of arr) {
+        for (let i = 0; i < len; i++) {
+            const el = arr[i];
             if (!FILTER_FN(el)) continue;
 
-            if (el?.[by_s] === undefined) {
+            const key = el?.[by_s];
+            if (key === undefined) {
                 nokey_arr.push(el);
             } else {
-                prepared_arr.push([el[by_s], el]);
+                prepared_arr.push([key, el]);
             }
         }
     } else if (typeof by === 'function') {
-        for (const el of arr) {
+        for (let i = 0; i < len; i++) {
+            const el = arr[i];
             if (!FILTER_FN(el)) continue;
 
             const key = by(el);

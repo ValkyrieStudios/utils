@@ -50,13 +50,12 @@ function groupBy <T extends Record<string, any>> (
         key = n_handler(el);
         if (key === undefined || (typeof key === 'string' && !key.length)) key = FALLBACK;
 
-        /* If we don't know our key yet, add to set and create new accumulator for key */
-        if (Array.isArray(acc[key as string])) {
+        /* If we don't know our key yet create new accumulator, otherwise push onto it */
+        if (!acc[key as string]) {
+            acc[key as string] = [el];
+        } else {
             acc[key as string].push(el);
-            continue;
         }
-
-        acc[key as string] = [el];
     }
     return acc;
 }

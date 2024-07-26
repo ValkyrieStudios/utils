@@ -29,21 +29,22 @@ interface mapOptions {
  * @returns {Record<string, T>} KV-Map object
  */
 function mapKey <T extends Record<string, any>> (arr:T[], key:string, opts?:mapOptions):Record<string, T> {
-    if (
-        (!Array.isArray(arr) || !arr.length) ||
-        typeof key !== 'string'
-    ) return {};
+    if (!Array.isArray(arr) || typeof key !== 'string') return {};
 
     const key_s = key.trim();
     if (!key_s.length) return {};
 
+    const len = arr.length;
+    if (!len) return {};
+
     const MERGE:boolean = opts?.merge === true;
 
     const map:Record<string, T> = {};
-    for (let i = 0; i < arr.length; i++) {
+    for (let i = 0; i < len; i++) {
         const el = arr[i];
-        if (el?.[key_s] === undefined) continue;
-        map[el[key_s]] = MERGE && map.hasOwnProperty(el[key_s]) ? {...map[el[key_s]], ...el} : el;
+        const el_key = el?.[key_s];
+        if (el_key === undefined) continue;
+        map[el_key] = MERGE && el_key in map ? {...map[el_key], ...el} : el;
     }
 
     return map;

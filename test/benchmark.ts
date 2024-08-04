@@ -1002,20 +1002,37 @@ for (const el of [
     },
     /* String - shorten */
     {
-        lbl: 'string/shorten - 10 chars w/ 3 char shorten',
+        lbl: 'string/shorten - 10 chars w/ 3 char',
         fn: () => shorten('0123456789', 3, '...'),
     },
     {
-        lbl: 'string/shorten - 10 chars w/ 6 char shorten',
+        lbl: 'string/shorten - 10 chars w/ 6 char',
         fn: () => shorten('0123456789', 6, '...'),
     },
     {
-        lbl: 'string/shorten - 20 chars w/ 3 char shorten',
+        lbl: 'string/shorten - 20 chars w/ 3 char',
         fn: () => shorten('01234567890123456789', 3, '...'),
     },
     {
-        lbl: 'string/shorten - 20 chars w/ 6 char shorten',
+        lbl: 'string/shorten - 20 chars w/ 6 char',
         fn: () => shorten('01234567890123456789', 6, '...'),
+    },
+    /* String - shorten - truncate_words false */
+    {
+        lbl: 'string/shorten notrunc - 10 chars w/ 3 char',
+        fn: () => shorten('012 345 678 9', 3, '...', false),
+    },
+    {
+        lbl: 'string/shorten notrunc - 10 chars w/ 6 char',
+        fn: () => shorten('012 345 678 9', 6, '...', false),
+    },
+    {
+        lbl: 'string/shorten notrunc - 20 chars w/ 3 char',
+        fn: () => shorten('012 345 678 901 234 56789', 3, '...', false),
+    },
+    {
+        lbl: 'string/shorten notrunc - 20 chars w/ 6 char',
+        fn: () => shorten('012 345 678 901 234 56789', 6, '...', false),
     },
     /* Equal */
     {

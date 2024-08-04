@@ -1,23 +1,43 @@
 /**
  * Shorten a string and add a postfix if it goes over a specific length, will autotrim value.
  *
- * @param val - String value to shorten
- * @param length - Length to shorten it to
- * @param postfix - (default='...') Postfix to use in case the string got shortened
+ * @param {string} val - String value to shorten
+ * @param {number} length - Length to shorten it to
+ * @param {string} postfix - (default:'...') Postfix to use in case the string got shortened
+ * @param {boolean?} truncate_words - (default:true) Truncate words or not
  *
  * @returns Shortened string
  */
-function shorten (val:string, length:number, postfix:string='...'):string {
+function shorten (val:string, length:number, postfix:string='...', truncate_words:boolean=true):string {
     /* Return empty string if value passed is not a string */
     if (typeof val !== 'string') return '';
 
     /* Return original value if options are invalid */
     if (typeof postfix !== 'string' || !Number.isInteger(length) || length <= 0) return val;
 
-    /* Trim first */
+    /* Trim the input string */
     const sanitized = val.trim();
 
-    return sanitized.length <= length ? sanitized : `${sanitized.substring(0, length)}${postfix}`;
+    /* If no truncation needs to be done do nothing */
+    if (sanitized.length <= length) return sanitized;
+
+    /* Get the initial truncated substring */
+    const truncated = sanitized.substring(0, length);
+
+    /* If word truncation is allowed return concatenated with postfix */
+    if (truncate_words) return truncated+postfix;
+
+    /* Shorten while keeping words intact */
+    let end = length;
+    while (end > 0 && sanitized[end] !== ' ' && sanitized[end - 1] !== ' ') {
+        end--;
+    }
+
+    if (end === 0) {
+        return sanitized.substring(0, length) + postfix;
+    }
+
+    return sanitized.substring(0, end).trim() + postfix;
 }
 
 export {shorten, shorten as default};

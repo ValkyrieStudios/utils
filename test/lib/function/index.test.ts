@@ -1,6 +1,7 @@
 import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';
 import * as LibFunction from '../../../lib/function';
+import debounce         from '../../../lib/function/debounce';
 import is               from '../../../lib/function/is';
 import isAsync          from '../../../lib/function/isAsync';
 import noop             from '../../../lib/function/noop';
@@ -11,6 +12,7 @@ import sleep            from '../../../lib/function/sleep';
 describe('Function - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibFunction, {
+            debounce,
             is,
             isFunction: is,
             isFn: is,

@@ -1,3 +1,4 @@
+import {debounce}           from './debounce';
 import {isFunction}         from './is';
 import {isAsyncFunction}    from './isAsync';
 import {noop}               from './noop';
@@ -6,6 +7,7 @@ import {noopreturn}         from './noopreturn';
 import {sleep}              from './sleep';
 
 export {
+    debounce,
     isFunction,
     isFunction as is,
     isFunction as isFn,

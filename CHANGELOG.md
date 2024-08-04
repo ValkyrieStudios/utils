@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- **feat**: function/debounce - Utility function that wraps an existing function and allows you to delay its execution over time, great for for example input debouncing
+```typescript
+const log = (message: string) => console.log(message);
+
+const debouncedLog = debounce(log, 2000);
+
+debouncedLog("Hello, World!");
+debouncedLog.cancel();
+debouncedLog.flush();
+```
+
+### Improved
+- **feat**: string/shorten now has an additional parameter called `truncate_words` which is a boolean flag (default=true) that if set to false will ensure words don't get cut in the middle
+```typescript
+shorten('To the moon and beyond', 11, '...', false); // 'To the moon...'
+```
+- **perf**: Major ~25% performance improvement in array/dedupe performance thanks to internal switch related to computation of equality
+- **perf**: Minor ~5 performance improvement in array/sort performance thanks to further reduction of operations and working with array index lookups over object key lookups.
+- **perf**: Minor ~4-5% performance improvement in array/mapKey performance thanks to further reduction of operations
+- **deps**: Upgrade @types/node to 20.14.14
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 7.18.0
+- **deps**: Upgrade @typescript-eslint/parser to 7.18.0
+- **deps**: Upgrade esbuild-register to 3.6.0
+- **deps**: Upgrade typescript to 5.5.4
+
 ## [12.17.2] - 2024-07-22
 ### Fixed
 - dx: array/sort Fix generic type not being correct for filter function

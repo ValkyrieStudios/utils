@@ -66,4 +66,4 @@ function debounce<T extends (...args: any[]) => any> (
     return debouncedFn as T & { cancel: () => void, flush: () => void };
 }
 
-export default debounce;
+export {debounce, debounce as default};

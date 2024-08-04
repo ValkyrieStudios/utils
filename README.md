@@ -633,6 +633,9 @@ equal(new RegExp(/ab+c/, 'i'), /ab+c/i); // TRUE
 ```
 
 ### function
+- **debounce(val:Fn, wait:number)**
+Wrap a function in a debounce proxy that waits for X uninterrupted milliseconds before running callback function
+
 - **isFunction(val:unknown)**
 Check if a variable is a Function
 
@@ -923,13 +926,16 @@ isNotEmptyString(' ', false); // TRUE
 isNotEmptyString('Hi'); // TRUE
 ```
 
-- **shorten(val:any, length:integer, postfix:string=...)**
+- **shorten(val:any, length:integer, postfix:string=..., truncate_words=true)**
 Shorten a string and add a postfix if string went over length
 ```typescript
 shorten('To the moon and beyond', 11, '..'); // 'To the moon..'
 shorten('Hi', 250); // 'Hi'
 shorten('To the moon and beyond'); // 'To the moon...'
 shorten('To the moon and beyond', 11, ' '); // 'To the moon '
+
+/* For when you don't want words to be truncated mid-word */
+shorten('To the moon and beyond', 11, '...', false);
 ```
 
 - **humanizeBytes(val:number|string)**

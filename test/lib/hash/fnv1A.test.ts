@@ -74,5 +74,53 @@ describe('Hash - fnv1A', () => {
         assert.ok(fnv1A('http://www.fourmilab.ch/gravitation/orbits/') === 0x29b50b38);
         assert.ok(fnv1A('EFCDAB8967452301') === 0x7fcb2275);
         assert.ok(fnv1A('2^21701-1') === 0xc0ed2114);
+        assert.ok(fnv1A(50) === 0x83e140a0);
+    });
+
+    it('should compute same hash for nan and negative/positive infinity', () => {
+        assert.equal(fnv1A(Number.NEGATIVE_INFINITY), fnv1A(Number.POSITIVE_INFINITY));
+        assert.equal(fnv1A(Number.NaN), fnv1A(Number.POSITIVE_INFINITY));
+    });
+
+    it('should compute same hash for undefined', () => {
+        assert.equal(fnv1A(undefined), 0x9b61ad43);
+    });
+
+    it('should compute same hash for null', () => {
+        assert.equal(fnv1A(null), 0x77074ba4);
+    });
+
+    it('should compute correct hash for an object', () => {
+        const a = {hello: 'world', a: [1,2,3]};
+        assert.equal(fnv1A(a), 0xaebe1fdc);
+        assert.equal(fnv1A(a), 0xaebe1fdc);
+    });
+
+    it('should compute correct hash for an array', () => {
+        const a = [1,2,3, false, {a: 'hello world'}];
+        assert.equal(fnv1A(a), 0x3b4bad41);
+        assert.equal(fnv1A(a), 0x3b4bad41);
+    });
+
+    it('should compute correct hash for a date', () => {
+        assert.equal(fnv1A(new Date('2022-02-04T04:20:00.000Z')), 0x254bba72);
+        assert.equal(fnv1A(new Date('2022-02-04T05:21:39.000Z')), 0x45a0ba63);
+    });
+
+    it('should compute correct hash for a regexp', () => {
+        assert.equal(fnv1A(/(\s){2,}/g), 0x48cb73a);
+        assert.equal(fnv1A(/(\s){2,}/g), 0x48cb73a);
+        assert.equal(fnv1A(new RegExp('\\s{3,}', 'g')), 0xdf966318);
+    });
+
+    it('Should compute correct hash for a boolean false', () => {
+        assert.equal(fnv1A(false), 0x0b069958);
+        assert.equal(fnv1A(true), 0x4db211e5);
+        assert.equal(fnv1A(false), 0x0b069958);
+        assert.equal(fnv1A(true), 0x4db211e5);
+    });
+
+    it('Should throw when passed a value it cant do', () => {
+        assert.throws(() => fnv1A(new FormData()), new TypeError('An FNV1A Hash could not be calculated for this datatype'));
     });
 });

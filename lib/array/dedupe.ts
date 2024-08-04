@@ -9,12 +9,11 @@ const REPL_UNDEF    = 'undefined';
 const REPL_NULL     = 'null';
 
 function getTypeString (el: any): string {
-    switch (typeof el) {
+    switch (typeof el) { /* eslint-disable-line default-case */
         case 'string':
             return el;
         case 'number':
             return Number.isNaN(el) || !Number.isFinite(el) ? REPL_NAN : String(el);
-            break;
         case 'boolean':
             return el ? REPL_TRUE : REPL_FALSE;
         case 'undefined':
@@ -28,13 +27,9 @@ function getTypeString (el: any): string {
                 return el.toString();
             } else if (el instanceof Date) {
                 return String(el.getTime());
-            } else {
-                return '';
             }
-            break;
-        default:
-            return '';
     }
+    return '';
 }
 
 /**

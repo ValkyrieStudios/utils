@@ -36,6 +36,27 @@ describe('Array - dedupe', () => {
         );
     });
 
+    it('Correctly remove duplicate regexes from an array', () => {
+        assert.deepEqual(
+            dedupe([/\s{2,}/g, /\s{2,}/g, /\s{3,}/g, new RegExp('\\s{2,}', 'g')]),
+            [/\s{2,}/g, /\s{3,}/g]
+        );
+    });
+
+    it('Correctly remove duplicate dates from an array', () => {
+        assert.deepEqual(
+            dedupe([new Date('2022-02-01T04:20:00.000Z'), new Date('2022-02-01T04:20:00.000Z'), new Date('2022-02-01T04:21:00.000Z')]),
+            [new Date('2022-02-01T04:20:00.000Z'), new Date('2022-02-01T04:21:00.000Z')]
+        );
+    });
+
+    it('Should not care about formdata', () => {
+        assert.deepEqual(
+            dedupe([new FormData(), new FormData()]),
+            [new FormData()]
+        );
+    });
+
     it('Correctly remove duplicates in a mixed primitive array', () => {
         assert.deepEqual(
             dedupe(['foo', null, 1, 2, NaN, 'bar', undefined, 'bar', true, true, false, NaN, 1, 2, false, null, undefined]),

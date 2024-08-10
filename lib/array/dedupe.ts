@@ -1,5 +1,8 @@
 type DedupeOptions<T> = {
-  filter_fn?: (el: T) => boolean;
+    /**
+     * Pass a custom filter function which will be run in O(n) while deduping is going on
+     */
+    filter_fn?: (el: T) => boolean;
 };
 
 const REPL_NAN      = 'nan';

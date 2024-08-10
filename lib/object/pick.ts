@@ -1,7 +1,16 @@
 import {deepGet} from '../deep/get';
-import {deepSet} from '../deep/set';
 
-const RGX_DEEP = /(\.|\[)/;
+type ObjectType = { [key: string]: any };
+
+type DottedKeys<T> = (
+  T extends ObjectType
+    ? {
+        [K in keyof T & string]: T[K] extends ObjectType
+          ? K | `${K}.${DottedKeys<T[K]>}`
+          : K;
+      }[keyof T & string]
+    : string
+) & string;
 
 /**
  * Returns a new object with the keys picked from the passed object
@@ -11,14 +20,14 @@ const RGX_DEEP = /(\.|\[)/;
  *
  * @returns Object containing the picked keys from source object
  */
-function pick (
-    obj:{[key:string]:any},
-    keys:string[]
+function pick <T extends Record<string, any>, K extends DottedKeys<T>> (
+    obj:T,
+    keys:K[]
 ):{[key:string]:any} {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' ||
-        !Array.isArray(keys) ||
-        !keys.length
+    !Array.isArray(keys) ||
+    !keys.length
     ) throw new TypeError('Please pass an object to pick from and a keys array');
 
     const map:{[key:string]:any} = {};
@@ -31,10 +40,20 @@ function pick (
         sanitized = key.trim();
         if (!sanitized.length) continue;
 
-        if (RGX_DEEP.test(sanitized)) {
+        if (sanitized.includes('.')) {
             val = deepGet(obj, sanitized);
             if (val === undefined) continue;
-            deepSet(map, sanitized, val);
+            const parts = key.split('.');
+            const parts_len = parts.length;
+            let cursor = map;
+            for (let y = 0; y < parts_len - 1; y++) {
+                const part = parts[y].trim();
+                if (!cursor[part]) {
+                    cursor[part] = {};
+                }
+                cursor = cursor[part];
+            }
+            cursor[parts[parts_len - 1].trim()] = val;
         } else if (obj[sanitized] !== undefined) {
             map[sanitized] = obj[sanitized];
         }

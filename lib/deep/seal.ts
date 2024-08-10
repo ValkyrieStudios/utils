@@ -6,7 +6,7 @@ type Sealed<T> = {
 
 function deep (obj:deepInput) {
     if (Array.isArray(obj)) {
-        for (const el of obj) deep(el);
+        for (let i = 0; i < obj.length; i++) deep(obj[i]);
     } else {
         for (const key in obj) {
             if (

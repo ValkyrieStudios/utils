@@ -2,16 +2,16 @@
  * Get a property's value deep inside the structure of an array/object
  *
  * Example:
- *  const myObj = {
- *      a: 2,
- *      b: [
- *          {price : 2},
- *          {price : 4},
- *      ],
- *  };
- *  deepGet(myObj, 'b[0].price');
+ * const myObj = {
+ *  a: 2,
+ *  b: [
+ *   {price : 2},
+ *   {price : 4},
+ *  ],
+ * };
+ * deepGet(myObj, 'b[0].price');
  * Output:
- *  2
+ * 2
  *
  * @param val - Object/Array to get the value from
  * @param path - Path string to deeply get the value at
@@ -20,11 +20,49 @@
  * @returns Value stored at property or undefined
  * @throws {TypeError}
  */
-function deepGet (
-    obj:{[key:string]:any}|{[key:string]:any}[]|any[],
-    path:string,
-    get_parent:boolean=false
-):any|undefined {
+
+type ObjectType = { [key: string]: any };
+type ArrayType = any[];
+
+type DeepGetResult<T extends ObjectType | ArrayType, P extends string> =
+ P extends `${infer Key}.${infer Rest}`
+  ? Key extends keyof T
+   ? T[Key] extends ObjectType | ArrayType
+    ? DeepGetResult<T[Key], Rest>
+    : undefined
+   : T extends ArrayType
+    ? number extends keyof T
+     ? DeepGetResult<T[number], Rest>
+     : undefined
+    : undefined
+ : P extends `${infer Key}[${infer Index}]`
+  ? Key extends keyof T
+   ? T[Key] extends ArrayType
+    ? Index extends `${number}`
+     ? DeepGetResult<T[Key][number], ''>
+     : undefined
+    : undefined
+   : T extends ArrayType
+    ? number extends keyof T
+     ? DeepGetResult<T[number], `[${Index}]`>
+     : undefined
+    : undefined
+ : P extends keyof T
+  ? T[P]
+  : T extends ArrayType
+   ? number extends keyof T
+    ? T[number]
+    : undefined
+   : undefined;
+
+function deepGet<
+ T extends ObjectType | ArrayType,
+ P extends string
+> (
+    obj: T,
+    path: P,
+    get_parent: boolean = false
+): DeepGetResult<T, P> | undefined {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
@@ -35,44 +73,61 @@ function deepGet (
 
     /* Check if path contains content */
     const path_s = path.trim();
-    if (!path_s.length) throw new TypeError('No path was given');
+    const path_len = path_s.length;
+    if (!path_len) throw new TypeError('No path was given');
 
     /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
-    const parts:string[] = path_s
-        .replace(/\[/g, '.')
-        .replace(/(\.){2,}/g, '.')
-        .replace(/(^\.|\.$|\])/g, '')
-        .split('.');
+    const parts: string[] = [];
+    let cursor_part = '';
+    let in_bracket = false;
+    for (let i = 0; i < path_len; i++) {
+        const char = path_s[i];
 
-    /* Return obj if no parts were passed or if only 1 part and get_parent is true */
-    if (!parts.length || (parts.length === 1 && get_parent)) return obj;
-
-    /* Cut last part if get_parent */
-    if (get_parent) parts.pop();
-
-    let cursor = obj;
-    while (parts.length) {
-        if (Array.isArray(cursor)) {
-            const ix = parseInt(parts.shift() as string);
-            if (!Number.isInteger(ix) || ix < 0 || ix > (cursor.length - 1)) return undefined;
-            cursor = cursor[ix];
-        } else if (Object.prototype.toString.call(cursor) === '[object Object]') {
-            const key = parts.shift() as string;
-            if (cursor[key] === undefined) return undefined;
-            cursor = cursor[key];
+        if (char === '[' || char === ']') {
+            in_bracket = !in_bracket;
+            if (cursor_part) {
+                parts.push(cursor_part);
+                cursor_part = '';
+            }
+        } else if (char === '.' && !in_bracket) {
+            if (cursor_part) {
+                parts.push(cursor_part);
+                cursor_part = '';
+            }
+        } else {
+            cursor_part += char;
         }
-
-        /* If we have more parts and cursor is not an array or object -> immediately return undefined */
-        if (
-            (!Array.isArray(cursor) && Object.prototype.toString.call(cursor) !== '[object Object]') &&
-            parts.length
-        ) return undefined;
     }
 
-    /**
-     * Certain values will negate the ternary, hence we do extra checks here
-     * to make sure none of them comes back as undefined
-     */
+    if (cursor_part) parts.push(cursor_part);
+
+    /* Return obj if no parts were passed or if only 1 part and get_parent is true */
+    let len = parts.length;
+    if (!len || (len === 1 && get_parent)) return obj as any;
+
+    /* Cut last part if get_parent */
+    if (get_parent) {
+        parts.pop();
+        len -= 1;
+    }
+
+    let cursor: any = obj;
+
+    for (let i = 0; i < len; i++) {
+        if (Array.isArray(cursor)) {
+            const ix = parseInt(parts[i], 10);
+            if (ix < 0 || ix > cursor.length - 1) return undefined;
+            cursor = cursor[ix];
+        } else if (
+            Object.prototype.toString.call(cursor) === '[object Object]'
+        ) {
+            cursor = cursor[parts[i]];
+            if (cursor === undefined) return undefined;
+        } else {
+            return undefined;
+        }
+    }
+
     return cursor;
 }
 

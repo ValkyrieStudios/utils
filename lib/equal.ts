@@ -6,9 +6,10 @@ function isArrayEqual (
     a:any[],
     b:any[]
 ):boolean {
-    if (a.length !== b.length) return false;
+    const a_len = a.length;
+    if (a_len !== b.length) return false;
 
-    for (let i = a.length - 1; i >= 0; i--) {
+    for (let i = a_len - 1; i >= 0; i--) {
         if (equal(a[i], b[i])) continue;
         return false;
     }
@@ -21,9 +22,10 @@ function isObjectEqual (
     b:{[key:string]:any}
 ):boolean {
     const keys_a = Object.keys(a);
-    if (keys_a.length !== Object.keys(b).length) return false;
+    const keys_a_len = keys_a.length;
+    if (keys_a_len !== Object.keys(b).length) return false;
 
-    for (let i = keys_a.length - 1; i >= 0; i--) {
+    for (let i = keys_a_len - 1; i >= 0; i--) {
         if (equal(a[keys_a[i]], b[keys_a[i]])) continue;
         return false;
     }

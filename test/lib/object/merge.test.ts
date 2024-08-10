@@ -79,30 +79,219 @@ describe('Object - merge', () => {
         );
     });
 
-    it('throws a type error when passed something else than an object target', () => {
+    it('Does merge in keys that are not defined in the target when union is passed as true', () => {
+        assert.deepEqual(
+            merge({a: 1, b: 2}, {a: 2, b: 3, c: 4}, {union: true}),
+            {a: 2, b: 3, c: 4}
+        );
+    });
+
+    it('Correctly merges two distinct objects with no overlapping keys when in union mode', () => {
+        assert.deepEqual(
+            merge({a: 1, b: 2}, {c: 3, d: 4}, {union: true}),
+            {a: 1, b: 2, c: 3, d: 4}
+        );
+    });
+
+    it('Correctly merges two distinct objects with some overlapping keys when in union mode', () => {
+        assert.deepEqual(
+            merge({a: 1, b: 2}, {b: 999, c: 3, d: 4}, {union: true}),
+            {a: 1, b: 999, c: 3, d: 4}
+        );
+    });
+
+    it('Correctly deep merges two distinct objects with some overlapping keys when in union mode', () => {
+        assert.deepEqual(
+            merge(
+                {
+                    a: 1,
+                    b: {
+                        a: 'Hello',
+                        b: 'World',
+                        c: {
+                            foo: 'bar',
+                        },
+                    },
+                    c: {
+                        a: 'Hello',
+                        b: 'World',
+                        c: {
+                            bar: 'foo',
+                        },
+                    },
+                }, {
+                    a: 1,
+                    c: {
+                        a: 1,
+                        c: {
+                            oof: 'nice',
+                            foo: {hello: 'There'},
+                        },
+                        d: 'nice',
+                    },
+                    b: {
+                        a: 'Hello',
+                        b: 'World',
+                        c: {
+                            bar: 'foo',
+                        },
+                    },
+                    d: [1, 2, 3],
+                }, {union: true}
+            ),
+            {
+                a: 1,
+                b: {
+                    a: 'Hello',
+                    b: 'World',
+                    c: {
+                        foo: 'bar',
+                        bar: 'foo',
+                    },
+                },
+                c: {
+                    a: 1,
+                    b: 'World',
+                    c: {
+                        oof: 'nice',
+                        bar: 'foo',
+                        foo: {hello: 'There'},
+                    },
+                    d: 'nice',
+                },
+                d: [1, 2, 3],
+            }
+        );
+    });
+
+    it('Correctly deep merges two distinct objects with some overlapping keys when NOT in union mode', () => {
+        assert.deepEqual(
+            merge(
+                {
+                    a: 1,
+                    b: {
+                        a: 'Hello',
+                        b: 'World',
+                        c: {
+                            foo: 'bar',
+                        },
+                    },
+                    c: {
+                        a: 'Hello',
+                        b: 'World',
+                        c: {
+                            bar: 'foo',
+                        },
+                    },
+                }, {
+                    a: 1,
+                    c: {
+                        a: 1,
+                        c: {
+                            oof: 'nice',
+                            foo: {hello: 'There'},
+                        },
+                        d: 'nice',
+                    },
+                    b: {
+                        a: 'Hallo',
+                        b: 'Wereld',
+                        c: {
+                            bar: 'foo',
+                        },
+                    },
+                    d: [1, 2, 3],
+                }, {union: false}
+            ),
+            {
+                a: 1,
+                b: {
+                    a: 'Hallo',
+                    b: 'Wereld',
+                    c: {
+                        foo: 'bar',
+                    },
+                },
+                c: {
+                    a: 1,
+                    b: 'World',
+                    c: {
+                        bar: 'foo',
+                    },
+                },
+            }
+        );
+    });
+
+    it('merges correctly in union mode when passing an array of sources', () => {
+        assert.deepEqual(merge({}, [
+            {a: 1},
+            {b: 2},
+            {c: 3, d: {foo: 'bar'}},
+            {d: {bar: 'foo'}, evt: 5},
+        ], {union: true}), {
+            a: 1,
+            b: 2,
+            c: 3,
+            d: {
+                foo: 'bar',
+                bar: 'foo',
+            },
+            evt: 5,
+        });
+    });
+
+    it('merges correctly in non-union mode when passing an array of sources', () => {
+        assert.deepEqual(merge({a: 1, b: 2, d: {bar: 'howdie'}}, [
+            {a: 1},
+            {b: 2},
+            {c: 3, d: {foo: 'bar'}},
+            {d: {bar: 'foo'}, evt: 5},
+        ], {union: false}), {
+            a: 1,
+            b: 2,
+            d: {
+                bar: 'foo',
+            },
+        });
+    });
+
+    it('throws an error when passed an array containing invalid objects', () => {
+        assert.throws(
+            () => merge({a: 1}, CONSTANTS.NOT_OBJECT),
+            new Error('object/merge: Please ensure valid target/source is passed')
+        );
+
+        assert.throws(
+            () => merge({a: 1}, [{b: 2}, ...CONSTANTS.NOT_OBJECT]),
+            new Error('object/merge: Please ensure valid target/source is passed')
+        );
+    });
+
+    it('throws an error when passed something else than an object target', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             assert.throws(
                 () => merge(el, {a: 2}),
-                new TypeError('Please pass a target and object to merge')
+                new Error('object/merge: Please ensure valid target/source is passed')
             );
         }
     });
 
-    it('throws a type error when passed something else than an object target', () => {
+    it('throws an error when passed something else than an object target', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             assert.throws(
                 () => merge(el, {a: 2}),
-                new TypeError('Please pass a target and object to merge')
+                new Error('object/merge: Please ensure valid target/source is passed')
             );
         }
     });
 
-    it('throws a type error when passed something else than an object source', () => {
+    it('throws an error when passed something else than an object source', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             if (el === undefined) continue;
             assert.throws(
                 () => merge(el, {a: 2}),
-                new TypeError('Please pass a target and object to merge')
+                new Error('object/merge: Please ensure valid target/source is passed')
             );
         }
     });

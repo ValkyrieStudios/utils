@@ -885,8 +885,23 @@ for (const el of [
     },
     /* Object - merge */
     {
-        lbl: 'object/merge',
+        lbl: 'object/merge left',
         fn: () => merge({a: true}, {b: true}),
+    },
+    /* Object - merge union */
+    {
+        lbl: 'object/merge union',
+        fn: () => merge({a: true}, {b: true}, {union: true}),
+    },
+    /* Object - merge multiple */
+    {
+        lbl: 'object/merge multi left',
+        fn: () => merge({a: true}, [{b: true}, {C: 1, d: 2}, {f: [0, 1, 2]}]),
+    },
+    /* Object - merge union */
+    {
+        lbl: 'object/merge multi union',
+        fn: () => merge({a: true}, [{b: true}, {C: 1, d: 2}, {f: [0, 1, 2]}], {union: true}),
     },
     /* Object - pick */
     {

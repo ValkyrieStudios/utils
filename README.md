@@ -851,11 +851,16 @@ Copies the keys passed in the 'keys' array from the passed object to a new objec
 pick({a: 1, b: 2, c: 3}, ['a','b']); // {a: 1, b: 2}
 ```
 
-- **merge(target:Object={},obj:Object={})**
+- **merge(target:Object={},obj:Object|Object[]={}, opts?:{union?:boolean})**
 Merges two objects together, with the preference over the second object.
 ```typescript
-merge({a: 1, b: false}, {a: 900, c: 50}); // {a: 900, b: false, c: 50}
+merge({a: 1, b: false}, {a: 900, c: 50}, {union: true}); // {a: 900, b: false, c: 50}
+merge({a: 1, b: false}, {a: 900, c: 50}, {union: false}); // {a: 900, b: false}
+merge({a: 1, c: {bar: 'foo'}}, [{b: 2}, {c: {foo: 'bar'}}], {union: true}); // {a: 1, b: 2, c: {bar: 'foo', foo: 'bar'}}
 ```
+
+Take Note: The default behavior is to not have union, this means that ONLY the keys in the target object
+are going to be available in the response of this function.
 
 - **define(props:Object, obj:Object={})**
 Creates an object with the passed accessors set on it

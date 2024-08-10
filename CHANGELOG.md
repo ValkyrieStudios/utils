@@ -41,14 +41,14 @@ merge({}, [
 - **dx**: The return of deepGet (deep/get.ts) is now typed
 - **dx**: The keys parameters for pick (object/pick.ts) is now strongly typed
 ```typescript
-/* Typescript will complain here about 'bar.foo' as that key does not exist */
+/* Typescript will complain here about 'bar.foo' in the keys array as that key does not exist */
 const val = pick({
     hello: 'world',
     foo: {
         bar: true,
         oof: false,
     },
-}, ['hello', bar.foo']);
+}, ['hello', 'bar.foo', 'foo.bar']);
 ```
 - **perf**: Major ~250% performance improvement for deepGet (deep/get.ts) thanks to reduction of internal operations and removal of regex checks
 - **perf**: Minor performance improvement in equality (equal.ts) checks for array and object values

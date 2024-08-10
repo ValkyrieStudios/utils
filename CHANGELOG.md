@@ -5,6 +5,54 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.19.0] - 2024-08-10
+### Added
+- **feat**: object/merge now includes a `union` option which when passed as true will merge the passed objects as a union rather than only including the keys of the origin
+```typescript
+merge(
+    {a: 1, b: {foo: 'bar'}},
+    {b: {bar: 'foo'}, c: 2},
+    {union: true}
+);
+// {
+//    a: 1,
+//    b: {bar: 'foo', foo: 'bar'},
+//    c: 2,
+// };
+```
+- **feat**: object/merge now allows passing an array of objects as source as well
+```typescript
+merge({}, [
+    {a: 1},
+    {b: 2},
+    {c: 3, d: {foo: 'bar'}},
+    {a: 2, d: {bar: 'foo'}, hello: 'world'},
+], {union: true});
+// {
+//    a: 2,
+//    b: 2,
+//    c: 3,
+//    d: {foo: 'bar', bar: 'foo'},
+//    hello: 'world'
+// };
+```
+
+### Improved
+- **dx**: The return of deepGet (deep/get.ts) is now typed
+- **dx**: The keys parameters for pick (object/pick.ts) is now strongly typed
+```typescript
+/* Typescript will complain here about 'bar.foo' as that key does not exist */
+const val = pick({
+    hello: 'world',
+    foo: {
+        bar: true,
+        oof: false,
+    },
+}, ['hello', bar.foo']);
+```
+- **perf**: Major ~250% performance improvement for deepGet (deep/get.ts) thanks to reduction of internal operations and removal of regex checks
+- **perf**: Minor performance improvement in equality (equal.ts) checks for array and object values
+
 ## [12.18.0] - 2024-08-05
 ### Added
 - **feat**: function/debounce - Utility function that wraps an existing function and allows you to delay its execution over time, great for for example input debouncing

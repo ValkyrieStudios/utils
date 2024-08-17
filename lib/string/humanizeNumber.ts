@@ -67,42 +67,40 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):
             : DEFAULT_UNITS;
 
     /* Normalize to a numerical value */
-    let normalized:number = 0;
-    if (typeof val === 'string') {
-        normalized = REAL ? parseInt(val.trim(), 10) : parseFloat(val);
-    } else if (Number.isFinite(val)) {
-        normalized = REAL ? Math.round(val) : val;
-    }
+    let normalized = typeof val === 'string' ? parseFloat(val.trim()) : val;
 
-    /* If not a valid value or 0, return */
     if (!Number.isFinite(normalized) || normalized === 0) return UNITS ? `0${UNITS[0]}` : '0';
+
+    if (REAL) normalized = Math.round(normalized);
 
     /* Determine original sign and normalize */
     const sign = normalized < 0 ? '-' : '';
     normalized = Math.abs(normalized);
 
     /* At each step, divide by divider, based on that we get the unit size */
-    let unit_ix: number = 0;
+    let unit_ix = 0;
     if (UNITS) {
-        for (unit_ix; normalized >= DIVIDER && unit_ix < UNITS.length - 1; unit_ix++) {
+        while (normalized >= DIVIDER && unit_ix < UNITS.length - 1) {
             normalized /= DIVIDER;
+            unit_ix++;
         }
     }
 
     /* Humanize from eg: 10023 to 10,023 */
     const humanized: string[] = `${round(normalized, PRECISION)}`.split('.', 2);
-    const integerPart: string = humanized[0];
+    const integer_part: string = humanized[0];
+    const integer_part_len = integer_part.length;
     let formattedIntegerPart: string = '';
 
-    for (let i = 0; i < integerPart.length; i++) {
-        if (i > 0 && (integerPart.length - i) % 3 === 0) {
+    for (let i = 0; i < integer_part_len; i++) {
+        if (i > 0 && (integer_part_len - i) % 3 === 0) {
             formattedIntegerPart += DELIM;
         }
-        formattedIntegerPart += integerPart[i];
+        formattedIntegerPart += integer_part[i];
     }
 
     /* Include a decimal point and a tenths-place digit if presenting less than then of KB or greater units */
-    return `${sign}${formattedIntegerPart}${humanized[1] ? SEPARATOR + humanized[1] : ''}${UNITS ? UNITS[unit_ix] : ''}`;
+    return sign + formattedIntegerPart + (humanized[1] ? SEPARATOR + humanized[1] : '') + (UNITS ? UNITS[unit_ix] : '');
 }
 
 export {humanizeNumber, humanizeNumber as default};

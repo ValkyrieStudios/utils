@@ -1,5 +1,4 @@
 import {humanizeNumber} from './humanizeNumber';
-import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
 interface humanizeBytesOptions {
     /**
@@ -28,6 +27,8 @@ interface humanizeBytesOptions {
     units?:string[];
 }
 
+const DEFAULT_UNITS = [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'];
+
 /**
  * Humanize a numerical byte value into a humanly readable file size
  *
@@ -42,18 +43,12 @@ interface humanizeBytesOptions {
  */
 function humanizeBytes (val:number|string, options:humanizeBytesOptions = {}):string {
     return humanizeNumber(val, {
-        delim: typeof options?.delim === 'string'
-            ? options.delim
-            : ',',
-        separator: typeof options?.separator === 'string' && options.separator.trim().length
-            ? options.separator
-            : '.',
-        precision: isIntegerAboveOrEqual(options?.precision, 0)
-            ? options.precision
-            : 2,
+        delim: 'delim' in options ? options.delim : ',',
+        separator: 'separator' in options ? options.separator : '.',
+        precision: 'precision' in options ? options.precision : 2,
         units: Array.isArray(options?.units) && options.units.length
             ? options.units
-            : [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB'],
+            : DEFAULT_UNITS,
         divider: 1024,
         real: true,
     });

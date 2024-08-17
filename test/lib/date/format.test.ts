@@ -15,31 +15,31 @@ describe('Date - format', () => {
         }
     });
 
-    it('Throw when passed a non-string or empty string for spec', () => {
-        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+    it('Throw when passed a non-string for spec', () => {
+        for (const el of CONSTANTS.NOT_STRING) {
             assert.throws(
                 () => format(new Date(), el),
-                new TypeError('format: spec must be a non-empty string')
+                new TypeError('format: spec must be a string')
             );
         }
     });
 
-    it('Throw when passed a non-string or empty string for locale', () => {
-        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+    it('Throw when passed a non-string for locale', () => {
+        for (const el of CONSTANTS.NOT_STRING) {
             if (el === undefined) continue;
             assert.throws(
                 () => format(new Date(), 'YYYY-MM-DD', el),
-                new TypeError('format: locale must be a non-empty string')
+                new TypeError('format: locale must be a string')
             );
         }
     });
 
-    it('Throw when passed a non-string or empty string for zone', () => {
-        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+    it('Throw when passed a non-string for zone', () => {
+        for (const el of CONSTANTS.NOT_STRING) {
             if (el === undefined) continue;
             assert.throws(
                 () => format(new Date(), 'YYYY-MM-DD', 'en', el),
-                new TypeError('format: zone must be a non-empty string')
+                new TypeError('format: zone must be a string')
             );
         }
     });

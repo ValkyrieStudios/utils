@@ -3,8 +3,7 @@
 import {isDate} from './is';
 
 type Formatter  = (d:Date, loc:string) => string;
-type RawTuple   = [string, Formatter];
-type TokenTuple = [string, RegExp, Formatter];
+type TokenTuple = [string, Formatter];
 
 const DEFAULT_LOCALE    = 'en-US';
 let DEFAULT_TZ          = 'UTC';
@@ -20,13 +19,13 @@ try {
 const escape_rgx = /\[[\s\S]+?]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
-const intl_formatters:Map<string, Intl.DateTimeFormat> = new Map();
+const intl_formatters: Record<string, Intl.DateTimeFormat> = Object.create(null);
 
 /* Memoize specs passed and their function chain */
-const spec_cache:Map<string, TokenTuple[]> = new Map();
+const spec_cache: Record<string, TokenTuple[] | null> = Object.create(null);
 
 /* Memoize TZ offsets */
-const zone_offset_cache:Map<string, number> = new Map();
+const zone_offset_cache: Record<string, number> = Object.create(null);
 
 /**
  * Get the day of the year for a particular date
@@ -55,25 +54,24 @@ function DOY (d:Date):number {
 function toZone (date:Date, zone:string):Date {
     /* We make use of a 'month' key as offsets might differ between months due to daylight saving time */
     const ckey = `${zone}:${date.getUTCFullYear()}${DOY(date)}`;
-    if (zone_offset_cache.has(ckey)) return new Date(date.getTime() + (zone_offset_cache.get(ckey) as number));
+    if (zone_offset_cache[ckey] !== undefined) return new Date(date.getTime() + zone_offset_cache[ckey]);
 
     /* Get the current client's timezone offset in minutes */
-    const client_time:number = date.getTime();
+    const client_time = date.getTime();
 
     /* Get the target timezone offset in minutes */
-    let zone_time:number|false = false;
+    let zone_time:number|null = null;
     try {
         zone_time = new Date(date.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
     } catch (err) {
-        /* noop */
+        throw new Error(`format: Invalid zone passed - ${zone}`);
     }
-    if (!Number.isInteger(zone_time)) throw new Error(`format: Invalid zone passed - ${zone}`);
 
     /* Calculate the time difference in minutes */
-    const offset = (zone_time as number) - client_time;
+    const offset = zone_time - client_time;
 
     /* Store in offset cache so we don't need to do this again */
-    zone_offset_cache.set(ckey, offset);
+    zone_offset_cache[ckey] = offset;
 
     /* Return new date and time */
     return new Date(client_time + offset);
@@ -94,19 +92,18 @@ function runIntl (
     props:Intl.DateTimeFormatOptions,
     val:Date
 ):string {
-    const hash = `${loc}:${token}`;
+    const hash = loc + ':' + token;
 
-    /* Use existing formatter if we already have a formatter for this */
-    let formatter = intl_formatters.get(hash);
+    let formatter = intl_formatters[hash];
     if (!formatter) {
         try {
-            /* Create new instance of Intl.DateTimeFormat and store it */
             formatter = new Intl.DateTimeFormat(loc, props);
-            intl_formatters.set(hash, formatter);
+            intl_formatters[hash] = formatter;
         } catch (err) {
             throw new Error(`format: Failed to run conversion for ${token} with locale ${loc}`);
         }
     }
+
     return formatter.format(val);
 }
 
@@ -117,34 +114,83 @@ function runIntl (
  * Take Note: RegExp memoization is done ahead of time to ensure no regex compilation needs to happen during formatting
  */
 const Tokens:TokenTuple[] = ([
-    ['YYYY', d => d.getFullYear()],                                     /* Full Year: eg (2021) */
-    ['Q', d => ((d.getMonth() + 3) / 3) | 0],                           /* Quarters of the year: eg (1 2 3 4) */
-    ['MMMM', (d, loc) => runIntl(loc, 'MMMM', {month: 'long'}, d)],     /* Month in full: eg (January February ... November December) */
-    ['MMM', (d, loc) => runIntl(loc, 'MMM', {month: 'short'}, d)],      /* Month as 3 char: eg (Jan Feb ... Nov Dec) */
-    ['MM', d => `${d.getMonth() + 1}`.padStart(2, '0')],                /* Month as 2 char: eg (01 02 .. 11 12) */
-    ['M', d => d.getMonth() + 1],                                       /* Month as pure digit: eg (1 2 .. 11 12) */
-    ['DD', d => `${d.getDate()}`.padStart(2, '0')],                     /* Day of month as 2 char: eg (01 02 .. 30 31) */
-    ['D', d => d.getDate()],                                            /* Day of month as 1 char: eg (1 2 .. 30 31) */
-    ['dddd', (d, loc) => runIntl(loc, 'dddd', {weekday: 'long'}, d)],   /* Day of week as 3 char: eg (Sun Mon ... Fri Sat) */
-    ['ddd', (d, loc) => runIntl(loc, 'ddd', {weekday: 'short'}, d)],    /* Day of week in full: eg (Sunday Monday ... Saturday) */
-    ['HH', d => `${d.getHours()}`.padStart(2, '0')],                    /* Hours as 2-char: eg (00 01 .. 22 23) */
-    ['H', d => d.getHours()],                                           /* Hours as pure digit: eg (0 1 .. 22 23) */
-    ['hh', d => `${((d.getHours()+11)%12)+1}`.padStart(2, '0')],        /* Hours in 12 hour time as 2 char: eg (01 02 ... 11 12) */
-    ['h', d => ((d.getHours()+11)%12)+1],                               /* Hours in 12 hour time as pure digit: eg (1 2 ... 11 12) */
-    ['mm', d => `${d.getMinutes()}`.padStart(2, '0')],                  /* Minutes as 2-char: eg (00 01 .. 58 59) */
-    ['m', d => d.getMinutes()],                                         /* Minutes as pure digit: eg (0 1 .. 58 59) */
-    ['ss', d => `${d.getSeconds()}`.padStart(2, '0')],                  /* Seconds as 2-char: eg (00 01 .. 58 59) */
-    ['s', d => d.getSeconds()],                                         /* Seconds as pure digit: eg (0 1 .. 58 59) */
-    ['SSS', d => `${d.getMilliseconds()}`.padStart(3, '0')],            /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
-    ['A', d => d.getHours() < 12 ? 'AM' : 'PM'],                        /* Uppercase AM/PM */
-    ['a', d => d.getHours() < 12 ? 'am' : 'pm'],                        /* Lowercase AM/PM */
-    ['l', (d, loc) => runIntl(loc, 'l', {dateStyle: 'short'}, d)],      /* Locale-specific date mark: eg (15/07/2024 vs 7/15/24) */
-    ['L', (d, loc) => runIntl(loc, 'L', {dateStyle: 'medium'}, d)],     /* Locale-specific date: eg (Jul 15, 2024 vs 15 jul 2024) */
-    ['t', (d, loc) => runIntl(loc, 't', {timeStyle: 'short'}, d)],      /* Locale-specific time: eg(10:28 PM vs 22:28) */
-    ['T', (d, loc) => runIntl(loc, 'T', {timeStyle: 'medium'}, d)],     /* Locale-specific time+sec: eg(10:28:30 PM vs 22:28:30) */
-] as RawTuple[])
-    .sort((a, b) => a[0].length > b[0].length ? -1 : 1)
-    .map((el:RawTuple):TokenTuple => [el[0], new RegExp(el[0], 'g'), el[1]]);
+    /* Full Year: eg (2021) */
+    ['YYYY', d => d.getFullYear()],
+    /* Quarters of the year: eg (1 2 3 4) */
+    ['Q', d => ((d.getMonth() + 3) / 3) | 0],
+    /* Month in full: eg (January February ... November December) */
+    ['MMMM', (d, loc) => runIntl(loc, 'MMMM', {month: 'long'}, d)],
+    /* Month as 3 char: eg (Jan Feb ... Nov Dec) */
+    ['MMM', (d, loc) => runIntl(loc, 'MMM', {month: 'short'}, d)],
+    /* Month as 2 char: eg (01 02 .. 11 12) */
+    ['MM', d => {
+        const val = d.getMonth() + 1;
+        return (val < 10 ? '0' : '') + val;
+    }],
+    /* Month as pure digit: eg (1 2 .. 11 12) */
+    ['M', d => d.getMonth() + 1],
+    /* Day of month as 2 char: eg (01 02 .. 30 31) */
+    ['DD', d => {
+        const val = d.getDate();
+        return (val < 10 ? '0' : '') + val;
+    }],
+    /* Day of month as 1 char: eg (1 2 .. 30 31) */
+    ['D', d => d.getDate()],
+    /* Day of week as 3 char: eg (Sun Mon ... Fri Sat) */
+    ['dddd', (d, loc) => runIntl(loc, 'dddd', {weekday: 'long'}, d)],
+    /* Day of week in full: eg (Sunday Monday ... Saturday) */
+    ['ddd', (d, loc) => runIntl(loc, 'ddd', {weekday: 'short'}, d)],
+    /* Hours as 2-char: eg (00 01 .. 22 23) */
+    ['HH', d => {
+        const val = d.getHours();
+        return (val < 10 ? '0' : '') + val;
+    }],
+    /* Hours as pure digit: eg (0 1 .. 22 23) */
+    ['H', d => d.getHours()],
+    /* Hours in 12 hour time as 2 char: eg (01 02 ... 11 12) */
+    ['hh', d => {
+        const val = ((d.getHours()+11)%12)+1;
+        return (val < 10 ? '0' : '') + val;
+    }],
+    /* Hours in 12 hour time as pure digit: eg (1 2 ... 11 12) */
+    ['h', d => ((d.getHours()+11)%12)+1],
+    /* Minutes as 2-char: eg (00 01 .. 58 59) */
+    ['mm', d => {
+        const val = d.getMinutes();
+        return (val < 10 ? '0' : '') + val;
+    }],
+    /* Minutes as pure digit: eg (0 1 .. 58 59) */
+    ['m', d => d.getMinutes()],
+    /* Seconds as 2-char: eg (00 01 .. 58 59) */
+    ['ss', d => {
+        const val = d.getSeconds();
+        return (val < 10 ? '0' : '') + val;
+    }],
+    /* Seconds as pure digit: eg (0 1 .. 58 59) */
+    ['s', d => d.getSeconds()],
+    /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
+    ['SSS', d => {
+        const val = d.getMilliseconds();
+        return val < 10
+            ? '00' + val
+            : val < 100
+                ? '0' + val
+                : val;
+    }],
+    /* Uppercase AM/PM */
+    ['A', d => d.getHours() < 12 ? 'AM' : 'PM'],
+    /* Lowercase AM/PM */
+    ['a', d => d.getHours() < 12 ? 'am' : 'pm'],
+    /* Locale-specific date mark: eg (15/07/2024 vs 7/15/24) */
+    ['l', (d, loc) => runIntl(loc, 'l', {dateStyle: 'short'}, d)],
+    /* Locale-specific date: eg (Jul 15, 2024 vs 15 jul 2024) */
+    ['L', (d, loc) => runIntl(loc, 'L', {dateStyle: 'medium'}, d)],
+    /* Locale-specific time: eg(10:28 PM vs 22:28) */
+    ['t', (d, loc) => runIntl(loc, 't', {timeStyle: 'short'}, d)],
+     /* Locale-specific time+sec: eg(10:28:30 PM vs 22:28:30) */
+    ['T', (d, loc) => runIntl(loc, 'T', {timeStyle: 'medium'}, d)],
+] as TokenTuple[])
+    .sort((a, b) => a[0].length > b[0].length ? -1 : 1);
 
 /**
  * Create and return spec chain if spec does not exist in spec cache, otherwise return cached spec plan
@@ -155,22 +201,33 @@ const Tokens:TokenTuple[] = ([
  * @param {string} spec - Spec to be converted to spec chain
  * @returns {TokenTuple[]|false} Returns either a token tuple array or false in case the spec does not contain tokens
  */
-function getSpecChain (spec:string):TokenTuple[]|false {
-    let spec_chain = spec_cache.get(spec);
-    if (spec_chain) return spec_chain;
+function getSpecChain (spec:string):TokenTuple[]|null {
+    if (spec_cache[spec] !== undefined) return spec_cache[spec];
 
-    spec_chain = [];
-    let cursor;
-    let spec_cursor = spec;
+    const spec_chain: TokenTuple[] = [];
+    const matched_positions: Set<number> = new Set();
+
     for (let i = 0; i < Tokens.length; i++) {
-        cursor = Tokens[i];
-        if (spec_cursor.indexOf(cursor[0]) < 0) continue;
-        spec_chain.push(cursor);
-        spec_cursor = spec_cursor.replace(cursor[1], '');
+        const [token] = Tokens[i];
+        let pos = spec.indexOf(token);
+
+        const token_len = token.length;
+        while (pos !== -1) {
+            /* Check if this position has already been processed */
+            if (!matched_positions.has(pos)) {
+                spec_chain.push(Tokens[i]);
+                /* Mark this position and the next characters as processed */
+                for (let j = 0; j < token_len; j++) {
+                    matched_positions.add(pos + j);
+                }
+            }
+            pos = spec.indexOf(token, pos + 1);
+        }
     }
-    if (spec_chain.length === 0) return false;
-    spec_cache.set(spec, spec_chain);
-    return spec_chain;
+
+    const result = spec_chain.length ? spec_chain : null;
+    spec_cache[spec] = result;
+    return result;
 }
 
 /**
@@ -188,13 +245,13 @@ function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:str
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 
     /* Ensure spec is a non-empty string */
-    if (typeof spec !== 'string' || !spec.trim().length) throw new TypeError('format: spec must be a non-empty string');
+    if (typeof spec !== 'string') throw new TypeError('format: spec must be a string');
 
     /* Ensure locale is a non-empty string */
-    if (typeof locale !== 'string' || !locale.trim().length) throw new TypeError('format: locale must be a non-empty string');
+    if (typeof locale !== 'string') throw new TypeError('format: locale must be a string');
 
     /* Ensure zone is a non-empty string */
-    if (typeof zone !== 'string' || !zone.trim().length) throw new TypeError('format: zone must be a non-empty string');
+    if (typeof zone !== 'string') throw new TypeError('format: zone must be a string');
 
     let formatted_string = spec;
 
@@ -203,30 +260,37 @@ function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:str
      * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$R0$YYYY $R1$Q $R2$M $R3$D' -> 2021 Q1 M2 D7
      */
     const escaped_acc:[string, string][] = [];
+    let escaped_count = 0;
     if (formatted_string.indexOf('[') >= 0) {
         formatted_string = formatted_string.replace(escape_rgx, match => {
-            const escape_token = `$R${escaped_acc.length}$`;
-            escaped_acc.push([escape_token, match.replace('[', '').replace(']', '')]);
+            const escape_token = '$R' + escaped_count++ + '$';
+            escaped_acc.push([escape_token, match.slice(1, -1)]);
             return escape_token;
         });
     }
 
     /* Get spec chain, this is the chain of token tuples that need to be executed for the spec */
-    const spec_chain:TokenTuple[]|false = getSpecChain(formatted_string);
+    const spec_chain = getSpecChain(formatted_string);
     if (!spec_chain) return val.toISOString();
 
     /* Convert date to zone if necessary */
-    const d:Date = toZone(val, zone);
+    const d = toZone(val, zone);
 
     /* Run spec chain */
     for (let i = 0; i < spec_chain.length; i++) {
-        const el = spec_chain[i];
-        formatted_string = formatted_string.replace(el[1], el[2](d, locale));
+        const [token, formatter] = spec_chain[i];
+        let pos = formatted_string.indexOf(token);
+        while (pos !== -1) {
+            formatted_string = formatted_string.slice(0, pos) +
+            formatter(d, locale) +
+            formatted_string.slice(pos + token.length);
+            pos = formatted_string.indexOf(token, pos + token.length);
+        }
     }
 
     /* Re-insert escaped tokens */
-    if (escaped_acc.length) {
-        for (let i = 0; i < escaped_acc.length; i++) {
+    if (escaped_count) {
+        for (let i = 0; i < escaped_count; i++) {
             const escape_token = escaped_acc[i];
             formatted_string = formatted_string.replace(escape_token[0], escape_token[1]);
         }

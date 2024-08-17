@@ -98,7 +98,7 @@
         "prefer-promise-reject-errors": "error",
         "prefer-rest-params": "error",
         "prefer-spread": "error",
-        "prefer-template": "error",
+        "prefer-template": "off",
         "quote-props": ["error", "as-needed"],
         "spaced-comment": ["error", "always", {"line": {"markers": ["/"]}}],
         "yoda": ["error", "never"],

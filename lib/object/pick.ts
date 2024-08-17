@@ -26,8 +26,8 @@ function pick <T extends Record<string, any>, K extends DottedKeys<T>> (
 ):{[key:string]:any} {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' ||
-    !Array.isArray(keys) ||
-    !keys.length
+        !Array.isArray(keys) ||
+        !keys.length
     ) throw new TypeError('Please pass an object to pick from and a keys array');
 
     const map:{[key:string]:any} = {};
@@ -40,7 +40,7 @@ function pick <T extends Record<string, any>, K extends DottedKeys<T>> (
         sanitized = key.trim();
         if (!sanitized.length) continue;
 
-        if (sanitized.includes('.')) {
+        if (sanitized.indexOf('.') >= 0) {
             val = deepGet(obj, sanitized);
             if (val === undefined) continue;
             const parts = key.split('.');
@@ -48,9 +48,7 @@ function pick <T extends Record<string, any>, K extends DottedKeys<T>> (
             let cursor = map;
             for (let y = 0; y < parts_len - 1; y++) {
                 const part = parts[y].trim();
-                if (!cursor[part]) {
-                    cursor[part] = {};
-                }
+                if (!cursor[part]) cursor[part] = {};
                 cursor = cursor[part];
             }
             cursor[parts[parts_len - 1].trim()] = val;

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [12.20.0] - 2024-08-18
 ### Added
 - **feat**: date/isFormat - A utility function which checks if a string is in a given format
 ```typescript
@@ -22,6 +22,7 @@ isFormat('2023-02-29T12:30:00.000Z', 'ISO'); // FALSE (leap year)
 - **perf**: Aproximate ~10% performance improvement in date/format performance thanks to reduction of internal operations and regex removals in favor of raw string behavior
 - **perf**: Approximate ~5% performance improvement in string/humanizeNumber performance thanks to further simplification of internal operations
 - **perf**: Approximate ~3-5% performance improvement in string/humanizeBytes performance thanks to further simplification of internal operations
+- **sys**: Automated test runs are now run against node 18.x, 20.x and 22.x instead of only 20.x
 - **deps**: Upgrade @types/node to 20.16.0
 
 ## [12.19.0] - 2024-08-10

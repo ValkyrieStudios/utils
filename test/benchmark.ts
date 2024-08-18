@@ -19,6 +19,7 @@ import diff                     from '../dist/date/diff';
 import endOfUTC                 from '../dist/date/endOfUTC';
 import format                   from '../dist/date/format';
 import isDate                   from '../dist/date/is';
+import isDateFormat             from '../dist/date/isFormat';
 import isFormData               from '../dist/formdata/is';
 import nowUnix                  from '../dist/date/nowUnix';
 import nowUnixMs                from '../dist/date/nowUnixMs';
@@ -514,6 +515,32 @@ for (const el of [
     {
         lbl: 'date/is',
         fn: () => isDate(DATE_EXAMPLE),
+    },
+    /* Date - isFormat - valid */
+    {
+        lbl: 'date/isFormat - valid YYYY-MM-DD',
+        fn: () => isDateFormat('2024-02-09', 'YYYY-MM-DD'),
+    },
+    {
+        lbl: 'date/isFormat - valid YYYY-[Q]Q',
+        fn: () => isDateFormat('2024-Q1', 'YYYY-[Q]Q'),
+    },
+    {
+        lbl: 'date/isFormat - valid ISO',
+        fn: () => isDateFormat('2024-02-01T12:30:45.123Z', 'ISO'),
+    },
+    /* Date - isFormat - invalid */
+    {
+        lbl: 'date/isFormat - invalid YYYY-MM-DD',
+        fn: () => isDateFormat('2023-02-29', 'YYYY-MM-DD'),
+    },
+    {
+        lbl: 'date/isFormat - invalid YYYY-[Q]Q',
+        fn: () => isDateFormat('2024-Q5', 'YYYY-[Q]Q'),
+    },
+    {
+        lbl: 'date/isFormat - invalid ISO',
+        fn: () => isDateFormat('2024-02-31T12:30:45.123Z', 'ISO'),
     },
     /* Date - nowUnix */
     {

@@ -35,10 +35,10 @@ function fnv1A (data:unknown, offset:number = FNV_32):number {
         case 'object':
             if (data === null) {
                 sanitized = REPL_NULL;
-            } else if (Array.isArray(data) || data.toString() === '[object Object]') {
+            } else if (Array.isArray(data) || Object.prototype.toString.call(data) === '[object Object]') {
                 sanitized = JSON.stringify(data);
             } else if (data instanceof RegExp) {
-                sanitized = data.toString();
+                sanitized = String(data);
             } else if (data instanceof Date) {
                 sanitized = String(data.getTime());
             } else {

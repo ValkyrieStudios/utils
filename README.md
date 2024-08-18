@@ -1,9 +1,9 @@
 # @valkyriestudios/utils
 
-[![CodeCov](https://codecov.io/gh/ValkyrieStudios/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
-[![Test](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml)
-[![Lint](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml/badge.svg?branch=master)](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml)
-[![CodeQL](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql/badge.svg?branch=master)](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql)
+[![CodeCov](https://codecov.io/gh/ValkyrieStudios/utils/branch/main/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
+[![Test](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml)
+[![Lint](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml)
+[![CodeQL](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql)
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 
@@ -15,14 +15,14 @@ Zero-dependency collection of single-function utilities for common tasks
 ## Available Functions
 
 ### array
-- **isArray(val:any)**
+- **isArray(val:unknown)**
 Check if a variable is of type Array
 ```typescript
 isArray({a:1}); // FALSE
 isArray([]); // TRUE
 ```
 
-- **isNotEmptyArray(val:any)**
+- **isNotEmptyArray(val:unknown)**
 Check if a variable a non-empty array
 ```typescript
 isNotEmptyArray({a:1}); // FALSE
@@ -365,12 +365,41 @@ await memoized('123456'); /* Original function will be called and re-cached */
 ```
 
 ### date
-- **isDate(val:any)**
+- **isDate(val:unknown)**
 Check if a variable is of type Date
 ```typescript
 isDate(new Date('December 17, 1995 03:24:00')); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
+
+- **isFormat(val:unknown, spec:string)**
+Check if a variable is a string in a particular date format
+```typescript
+isFormat('2024-02-07', 'YYYY-MM-DD'); // TRUE
+isFormat('2024-2-07', 'YYYY-MM-DD'); // FALSE
+isFormat('12:30 AM', 'HH:mm A'); // TRUE
+isFormat('2024-02-29T12:30:00.000Z', 'ISO'); // TRUE
+isFormat('2023-02-29T12:30:00.000Z', 'ISO'); // FALSE (leap year)
+```
+
+Available tokens for usage in spec:
+| Token     | Description               | Example       |
+|:---------|:--------------------------|:---------------|
+| `YYYY` | Full Year | 2021 |
+| `Q` | Quarters of the year | 1 2 3 4 |
+| `MM` | Month as 2 char | 01 02 .. 11 12 |
+| `DD` | Day of month as 2 char | 01 02 .. 30 31 |
+| `HH` | Hours as 2-char | 00 01 .. 22 23 |
+| `mm` | Minutes as 2-char | 00 01 .. 58 59 |
+| `ss` | Seconds as 2-char | 00 01 .. 58 59 |
+| `SSS` | Milliseconds as 3-digit | 000 001 ... 998 999 |
+| `A` | Uppercase AM/PM | AM ... PM |
+| `a` | Lowercase AM/PM | am ... pm |
+| `Z` | Zone, does not allow full zone names, only Z or offsets | `Z` `+02:00` |
+| `ISO` | Check for full iso date format, take note this enforces milliseconds as a requirement | 2024-02-03T10:28:30.000Z |
+
+Note: The `ISO` token is a shorthand for `YYYY-MM-DDTHH:mm:ss.SSSZ`
+Note: You can escape characters by surrounding them with `[...]` in your spec, eg: `YYYY-[Q]Q` would check for example `2024-Q1`
 
 - **diff(val_a:Date, val_b:Date, key:string)**
 Take two incoming dates and return the difference between them in a certain unit. Possible key options(week,day,hour,minute,second,millisecond).
@@ -385,12 +414,15 @@ diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06
 diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06:00"), 'millisecond'); // -1858344
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00")); // 2663187102
 ```
+
 - **format(val:Date, spec:string, locale?:string, zone?:string):string**
 Format a date according to a spec/locale and zone
 
 Note: The locale is by default set to 'en-US'
 
 Note: The zone is by default detected as the zone of the client
+
+Note: You can escape characters by surrounding them with `[...]` in your spec, eg: `YYYY-[Q]Q` would for example become `2024-Q1`
 
 Available tokens for usage in spec:
 | Token     | Description               | Example       |
@@ -670,7 +702,7 @@ Generate a unique identifier (guid) according to RFC4122
 guid(); // 245caf1a-86af-11e7-bb31-be2e44b06b34
 ```
 
-- **fnv1A(val:any)**
+- **fnv1A(val:unknown)**
 Generate a fnv1A hash from an object, using a 32-bit prime/offset
 ```typescript
 fnv1A('hello world'); // -2023343616
@@ -681,7 +713,7 @@ fnv1A(new Date('2012-02-02')); // 1655579136
 ```
 
 ### number
-- **isNumber(val:any)**
+- **isNumber(val:unknown)**
 Check if a variable is a number
 ```typescript
 isNumber('foo'); // FALSE
@@ -735,7 +767,7 @@ isNumberBetween(0, 0, 1); // TRUE
 isNumberBetween(-1, 0, 1); // FALSE
 ```
 
-- **isInteger(val:any)**
+- **isInteger(val:unknown)**
 Check if a variable is an integer
 ```typescript
 isInteger('foo'); // FALSE
@@ -791,7 +823,7 @@ isIntegerBetween(0, 0, 1); // TRUE
 isIntegerBetween(-1, 0, 1); // FALSE
 ```
 
-- **isNumericalNaN(val:any)**
+- **isNumericalNaN(val:unknown)**
 Check if a variable is a numerical nan ( a number that is a NaN, this distinguishment is made since both a string or a number can be NaN)
 ```typescript
 isNumericalNaN('foo'); // FALSE
@@ -829,14 +861,14 @@ randomIntBetween(25, 100); // Will generate a random between 25 and 100 (100 not
 ```
 
 ### object
-- **isObject(val:any)**
+- **isObject(val:unknown)**
 Check if a variable is of type Object
 ```typescript
 isObject({a: 1}); // TRUE
 isObject(1); // FALSE
 ```
 
-- **isNotEmptyObject(val:any)**
+- **isNotEmptyObject(val:unknown)**
 Check if a variable a non-empty object
 ```typescript
 isNotEmptyObject({a:1}); // TRUE
@@ -887,7 +919,7 @@ define({
 ```
 
 ### regexp
-- **isRegExp(val:any)**
+- **isRegExp(val:unknown)**
 Check if a variable is an instance of RegExp
 ```typescript
 isRegExp('foo'); // FALSE
@@ -903,7 +935,7 @@ sanitizeRegExp('contact@valkyriestudios.be'); // contact@valkyriestudios\\.be
 ```
 
 ### string
-- **isString(val:any)**
+- **isString(val:unknown)**
 Check if a variable is a string
 ```typescript
 isString('foo'); // TRUE
@@ -921,7 +953,7 @@ isStringBetween('    Joe', 1, 3); // TRUE
 isStringBetween('    Joe', 1, 3, false); // FALSE
 ```
 
-- **isNotEmptyString(val:any, trimmed:boolean=true)**
+- **isNotEmptyString(val:unknown, trimmed:boolean=true)**
 Check if a variable a non-empty string
 ```typescript
 isNotEmptyString({a:1}); // FALSE
@@ -931,7 +963,7 @@ isNotEmptyString(' ', false); // TRUE
 isNotEmptyString('Hi'); // TRUE
 ```
 
-- **shorten(val:any, length:integer, postfix:string=..., truncate_words=true)**
+- **shorten(val:string, length:integer, postfix:string=..., truncate_words=true)**
 Shorten a string and add a postfix if string went over length
 ```typescript
 shorten('To the moon and beyond', 11, '..'); // 'To the moon..'

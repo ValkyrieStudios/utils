@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- **feat**: date/isFormat - A utility function which checks if a string is in a given format
+```typescript
+isFormat('2024-02-07', 'YYYY-MM-DD'); // TRUE
+isFormat('2024-2-07', 'YYYY-MM-DD'); // FALSE
+isFormat('12:30 AM', 'HH:mm A'); // TRUE
+isFormat('2024-Q4', 'YYYY-[Q]Q'); // TRUE
+isFormat('2024-Q5', 'YYYY-[Q]Q'); // FALSE (there is no such thing as a fifth quarter)
+isFormat('2024-02-29T12:30:00.000Z', 'ISO'); // TRUE
+isFormat('2023-02-29T12:30:00.000Z', 'ISO'); // FALSE (leap year)
+```
+
+### Improved
+- **perf**: Aproximate ~10% performance improvement in date/format performance thanks to reduction of internal operations and regex removals in favor of raw string behavior
+- **perf**: Approximate ~5% performance improvement in string/humanizeNumber performance thanks to further simplification of internal operations
+- **perf**: Approximate ~3-5% performance improvement in string/humanizeBytes performance thanks to further simplification of internal operations
+- **deps**: Upgrade @types/node to 20.16.0
+
 ## [12.19.0] - 2024-08-10
 ### Added
 - **feat**: object/merge now includes a `union` option which when passed as true will merge the passed objects as a union rather than only including the keys of the origin

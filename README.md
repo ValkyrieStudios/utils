@@ -378,6 +378,8 @@ Check if a variable is a string in a particular date format
 isFormat('2024-02-07', 'YYYY-MM-DD'); // TRUE
 isFormat('2024-2-07', 'YYYY-MM-DD'); // FALSE
 isFormat('12:30 AM', 'HH:mm A'); // TRUE
+isFormat('2024-Q4', 'YYYY-[Q]Q'); // TRUE
+isFormat('2024-Q5', 'YYYY-[Q]Q'); // FALSE (there is no such thing as a fifth quarter)
 isFormat('2024-02-29T12:30:00.000Z', 'ISO'); // TRUE
 isFormat('2023-02-29T12:30:00.000Z', 'ISO'); // FALSE (leap year)
 ```

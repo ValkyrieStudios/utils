@@ -62,6 +62,21 @@ describe('Utils - debounce', () => {
         assert.equal(counter, 0); // not called because of cancel
     });
 
+    it('Should cancel delayed execution and have flush do nothing', async () => {
+        let counter = 0;
+        const increment = debounce(() => {
+            counter += 1;
+        }, 100);
+
+        increment();
+        assert.equal(counter, 0);
+
+        increment.cancel();
+        increment.flush();
+        await sleep(100);
+        assert.equal(counter, 0); // not called because of cancel
+    });
+
     it('Should flush delayed execution', async () => {
         let counter = 0;
         const increment = debounce(() => {

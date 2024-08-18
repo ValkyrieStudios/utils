@@ -20,4 +20,11 @@ describe('Function - sleep', () => {
         const timer_end = new Date().getTime() - timer_start.getTime();
         assert.ok(timer_end >= 200);
     });
+
+    it('Resolves immediately if provided time is smaller than 0', async () => {
+        const timer_start = new Date();
+        await sleep(-1);
+        const timer_end = new Date().getTime() - timer_start.getTime();
+        assert.ok(timer_end <= 5);
+    });
 });

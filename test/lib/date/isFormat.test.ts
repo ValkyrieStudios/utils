@@ -29,6 +29,16 @@ describe('Date - isDateFormat', () => {
         );
     });
 
+    it('Should return false if the spec contains no valid tokens', () => {
+        for (const {input, spec} of [
+            // Year-Month-Day
+            {input: '2024-04-06', spec: '--'},
+            {input: '2024-Q[5]', spec: '[Q]'},
+        ]) {
+            assert.ok(!isDateFormat(input, spec));
+        }
+    });
+
     it('Should correctly handle values valid to the spec', () => {
         for (const {input, spec} of [
             // Year-Month-Day
@@ -86,6 +96,7 @@ describe('Date - isDateFormat', () => {
             {input: '04-2024', spec: 'MM-YYYY'}, // Month and year
             {input: '06-04-2024', spec: 'DD-MM-YYYY'}, // Day-Month-Year
             {input: '15:30', spec: 'HH:mm'}, // Time with no seconds
+            {input: '04-30', spec: 'MM-DD'}, // Valid month and day for month
             {input: '12', spec: 'HH'}, // Hour only
             {input: '45', spec: 'mm'}, // Minute only
             {input: '30', spec: 'ss'}, // Second only
@@ -170,6 +181,7 @@ describe('Date - isDateFormat', () => {
             {input: '99:99:99', spec: 'HH:mm:ss'}, // Completely invalid time
             {input: '2024-01-00', spec: 'YYYY-MM-DD'}, // Day 00 should be invalid
             {input: '2024-12-32', spec: 'YYYY-MM-DD'}, // Day 32 should be invalid
+            {input: '04-31', spec: 'MM-DD'}, // Invalid month and day for month
             {input: '00:00:60', spec: 'HH:mm:ss'}, // Second 60 should be invalid
             {input: '2024/04/06', spec: 'YYYY-MM-DD'}, // Slashes instead of dashes
             {input: '20240406', spec: 'YYYY-MM-DD'}, // Missing delimiters

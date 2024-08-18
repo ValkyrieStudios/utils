@@ -92,6 +92,10 @@ describe('String - shorten', () => {
         assert.equal(shorten('To the moon', 5, '...', false), 'To...');
     });
 
+    it('Handles edge case where word is exactly ending on boundary when truncate_words is false', () => {
+        assert.equal(shorten('To the moon', 6, '...', false), 'To the...');
+    });
+
     it('Handles text with multiple spaces correctly when truncate_words is false', () => {
         assert.equal(shorten('To the    moon and beyond', 12, '...', false), 'To the...');
         assert.equal(shorten('To the    moon and beyond', 18, '...', false), 'To the    moon and...');

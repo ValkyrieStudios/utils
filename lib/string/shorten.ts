@@ -33,10 +33,6 @@ function shorten (val:string, length:number, postfix:string='...', truncate_word
         end--;
     }
 
-    if (end === 0) {
-        return sanitized.substring(0, length) + postfix;
-    }
-
     return sanitized.substring(0, end).trim() + postfix;
 }
 

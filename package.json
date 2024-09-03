@@ -35,7 +35,7 @@
     },
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
     "devDependencies": {
-        "@types/node": "^20.16.0",
+        "@types/node": "^20.16.3",
         "@typescript-eslint/eslint-plugin": "^7.18.0",
         "@typescript-eslint/parser": "^7.18.0",
         "esbuild-register": "^3.6.0",

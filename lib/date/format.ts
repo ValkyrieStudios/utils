@@ -2,8 +2,11 @@
 
 import {isDate} from './is';
 
-type Formatter  = (d:Date, loc:string) => string;
-type TokenTuple = [string, Formatter];
+export type WEEK_START = 'mon' | 'sun';
+
+type Formatter  = (d:Date, loc:string, sow:WEEK_START) => string;
+type RawTuple = [string, Formatter];
+type TokenTuple = [string, Formatter, number];
 
 const DEFAULT_LOCALE    = 'en-US';
 let DEFAULT_TZ          = 'UTC';
@@ -189,7 +192,8 @@ const Tokens:TokenTuple[] = ([
     ['t', (d, loc) => runIntl(loc, 't', {timeStyle: 'short'}, d)],
      /* Locale-specific time+sec: eg(10:28:30 PM vs 22:28:30) */
     ['T', (d, loc) => runIntl(loc, 'T', {timeStyle: 'medium'}, d)],
-] as TokenTuple[])
+] as RawTuple[])
+    .map(el => [el[0], el[1], el[0].length])
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1);
 
 /**
@@ -278,9 +282,14 @@ function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:str
 
     /* Run spec chain */
     for (let i = 0; i < spec_chain.length; i++) {
-        formatted_string = formatted_string
-            .split(spec_chain[i][0])
-            .join(spec_chain[i][1](d, locale));
+        let pos = formatted_string.indexOf(spec_chain[i][0]);
+        const formatted_val = spec_chain[i][1](d, locale);
+        while (pos !== -1) {
+            formatted_string = formatted_string.slice(0, pos) +
+            formatted_val +
+            formatted_string.slice(pos + spec_chain[i][2]);
+            pos = formatted_string.indexOf(spec_chain[i][0], pos + spec_chain[i][2]);
+        }
     }
 
     /* Re-insert escaped tokens */

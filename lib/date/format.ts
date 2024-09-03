@@ -278,14 +278,9 @@ function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:str
 
     /* Run spec chain */
     for (let i = 0; i < spec_chain.length; i++) {
-        const [token, formatter] = spec_chain[i];
-        let pos = formatted_string.indexOf(token);
-        while (pos !== -1) {
-            formatted_string = formatted_string.slice(0, pos) +
-            formatter(d, locale) +
-            formatted_string.slice(pos + token.length);
-            pos = formatted_string.indexOf(token, pos + token.length);
-        }
+        formatted_string = formatted_string
+            .split(spec_chain[i][0])
+            .join(spec_chain[i][1](d, locale));
     }
 
     /* Re-insert escaped tokens */

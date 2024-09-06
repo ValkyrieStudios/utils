@@ -7,6 +7,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **perf**: Approximate ~10% performance improvement in array/join thanks to dropping template strings in favor of direct concat and working with precompiled regex
 - **deps**: Upgrade @types/node to 20.16.3
 
 ## [12.20.0] - 2024-08-18

@@ -1,6 +1,8 @@
 import {round} from '../number/round';
 import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
+const SPACE_RGX = /(\s){2,}/g;
+
 interface joinOptions {
     /**
      * Delimiter to join with
@@ -55,10 +57,10 @@ function join (val:unknown[], opts?:joinOptions):string {
         const el = val[i];
         if (typeof el === 'string' && el.trim().length) {
             const trimmed = VALTRIM ? el.trim() : el;
-            result = `${result}${hasVal ? DELIM : ''}${INNERTRIM ? trimmed.replace(/(\s){2,}/g, ' ') : trimmed}`;
+            result = result + (hasVal ? DELIM : '') + (INNERTRIM ? trimmed.replace(SPACE_RGX, ' ') : trimmed);
             hasVal = true;
         } else if (Number.isFinite(el)) {
-            result = `${result}${hasVal ? DELIM : ''}${VALROUND !== false ? round(el as number, VALROUND) : el}`;
+            result = result + (hasVal ? DELIM : '') + (VALROUND !== false ? round(el as number, VALROUND) : el);
             hasVal = true;
         }
     }

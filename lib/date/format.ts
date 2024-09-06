@@ -19,13 +19,14 @@ try {
 }
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
-const escape_rgx = /\[[\s\S]+?]/g;
+const ESCAPE_RGX = /\[[\s\S]+?]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
 const intl_formatters: Record<string, Intl.DateTimeFormat> = Object.create(null);
 
 /* Memoize specs passed and their function chain */
-const spec_cache: Record<string, TokenTuple[] | null> = Object.create(null);
+type SpecCacheEntry = {base:string; chain: TokenTuple[]; chain_len:number; repl: [string, string][]; repl_len:number}|null;
+const spec_cache: Record<string, SpecCacheEntry> = Object.create(null);
 
 /* Memoize TZ offsets */
 const zone_offset_cache: Record<string, number> = Object.create(null);
@@ -52,32 +53,35 @@ function DOY (d:Date):number {
  *
  * @param {Date} date - Original date object
  * @param {string} zone - Time Zone to convert to
- * @returns {Date} Date in the zone
  */
-function toZone (date:Date, zone:string):Date {
-    /* We make use of a 'month' key as offsets might differ between months due to daylight saving time */
-    const ckey = `${zone}:${date.getUTCFullYear()}${DOY(date)}`;
-    if (zone_offset_cache[ckey] !== undefined) return new Date(date.getTime() + zone_offset_cache[ckey]);
+function toZone (d:Date, zone:string):Date {
+    const year = d.getUTCFullYear();
 
     /* Get the current client's timezone offset in minutes */
-    const client_time = date.getTime();
+    const time = d.getTime();
+
+    /* We make use of a 'month' + doy key as offsets might differ between months due to daylight saving time */
+    /* eslint-disable-next-line */
+    /* @ts-ignore */
+    const ckey = zone + ':' + year + (((d - new Date(year, 0, 0)) / 86400000) | 0);
+    if (zone_offset_cache[ckey] !== undefined) return new Date(time + zone_offset_cache[ckey]);
 
     /* Get the target timezone offset in minutes */
     let zone_time:number|null = null;
     try {
-        zone_time = new Date(date.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
+        zone_time = new Date(d.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
     } catch (err) {
         throw new Error(`format: Invalid zone passed - ${zone}`);
     }
 
     /* Calculate the time difference in minutes */
-    const offset = zone_time - client_time;
+    const offset = zone_time - time;
 
     /* Store in offset cache so we don't need to do this again */
     zone_offset_cache[ckey] = offset;
 
     /* Return new date and time */
-    return new Date(client_time + offset);
+    return new Date(time + offset);
 }
 
 /**
@@ -192,7 +196,7 @@ const Tokens:TokenTuple[] = ([
      /* Locale-specific time+sec: eg(10:28:30 PM vs 22:28:30) */
     ['T', (d, loc) => runIntl(loc, 'T', {timeStyle: 'medium'}, d)],
 ] as RawTuple[])
-    .map(el => [el[0], el[1], el[0].length])
+    .map(el => [el[0], el[1], el[0].length] as TokenTuple)
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1);
 
 /**
@@ -203,31 +207,47 @@ const Tokens:TokenTuple[] = ([
  *
  * @param {string} spec - Spec to be converted to spec chain
  */
-function getSpecChain (spec:string):TokenTuple[]|null {
+function getSpecChain (spec:string):SpecCacheEntry {
     if (spec_cache[spec] !== undefined) return spec_cache[spec];
 
-    const spec_chain: TokenTuple[] = [];
+    let base = spec;
+
+    /**
+     * Replacement of escaped characters
+     * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$R0$YYYY $R1$Q $R2$M $R3$D' -> 2021 Q1 M2 D7
+     */
+    const repl:[string, string][] = [];
+    let repl_len = 0;
+    if (base.indexOf('[') >= 0) {
+        base = base.replace(ESCAPE_RGX, match => {
+            const escape_token = '$R' + repl_len++ + '$';
+            repl.push([escape_token, match.slice(1, -1)]);
+            return escape_token;
+        });
+    }
+
+    const chain: TokenTuple[] = [];
     const matched_positions: Set<number> = new Set();
 
     for (let i = 0; i < Tokens.length; i++) {
         const [token] = Tokens[i];
-        let pos = spec.indexOf(token);
+        let pos = base.indexOf(token);
 
         const token_len = token.length;
         while (pos !== -1) {
             /* Check if this position has already been processed */
             if (!matched_positions.has(pos)) {
-                spec_chain.push(Tokens[i]);
+                chain.push(Tokens[i]);
                 /* Mark this position and the next characters as processed */
                 for (let j = 0; j < token_len; j++) {
                     matched_positions.add(pos + j);
                 }
             }
-            pos = spec.indexOf(token, pos + 1);
+            pos = base.indexOf(token, pos + 1);
         }
     }
-
-    const result = spec_chain.length ? spec_chain : null;
+    const chain_len = chain.length;
+    const result = chain_len ? {base, chain, chain_len, repl, repl_len} : null;
     spec_cache[spec] = result;
     return result;
 }
@@ -239,9 +259,10 @@ function getSpecChain (spec:string):TokenTuple[]|null {
  * @param {string} spec - Spec to format the date to
  * @param {string} locale - Locale to format the date in (only used in certain tokens such as dddd and MMMM)
  * @param {string} zone - (default=current timezone) Pass the timezone to convert into. If not passed no conversion will happen
+ * @param {string} sow - (default='mon') Start of week (only useful when working with the 'W' and 'w' tokens for week numbers
  * @throws {TypeError} When provided invalid payload
  */
-function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ):string {
+function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ, sow: WEEK_START = 'mon'):string {
     /* Ensure val is a Date */
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 
@@ -254,50 +275,33 @@ function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:str
     /* Ensure zone is a non-empty string */
     if (typeof zone !== 'string') throw new TypeError('format: zone must be a string');
 
-    let formatted_string = spec;
-
-    /**
-     * Replacement of escaped characters
-     * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$R0$YYYY $R1$Q $R2$M $R3$D' -> 2021 Q1 M2 D7
-     */
-    const escaped_acc:[string, string][] = [];
-    let escaped_count = 0;
-    if (formatted_string.indexOf('[') >= 0) {
-        formatted_string = formatted_string.replace(escape_rgx, match => {
-            const escape_token = '$R' + escaped_count++ + '$';
-            escaped_acc.push([escape_token, match.slice(1, -1)]);
-            return escape_token;
-        });
-    }
-
     /* Get spec chain, this is the chain of token tuples that need to be executed for the spec */
-    const spec_chain = getSpecChain(formatted_string);
-    if (!spec_chain) return val.toISOString();
+    const n_spec = getSpecChain(spec);
+    if (!n_spec) return val.toISOString();
 
     /* Convert date to zone if necessary */
     const d = toZone(val, zone);
+    let base = n_spec.base;
+    const {chain_len, chain, repl_len, repl} = n_spec;
 
     /* Run spec chain */
-    for (let i = 0; i < spec_chain.length; i++) {
-        let pos = formatted_string.indexOf(spec_chain[i][0]);
-        const formatted_val = spec_chain[i][1](d, locale);
+    for (let i = 0; i < chain_len; i++) {
+        let pos = base.indexOf(chain[i][0]);
+        const formatted_val = chain[i][1](d, locale, sow);
         while (pos !== -1) {
-            formatted_string = formatted_string.slice(0, pos) +
+            base = base.slice(0, pos) +
             formatted_val +
-            formatted_string.slice(pos + spec_chain[i][2]);
-            pos = formatted_string.indexOf(spec_chain[i][0], pos + spec_chain[i][2]);
+            base.slice(pos + chain[i][2]);
+            pos = base.indexOf(chain[i][0], pos + chain[i][2]);
         }
     }
 
     /* Re-insert escaped tokens */
-    if (escaped_count) {
-        for (let i = 0; i < escaped_count; i++) {
-            const escape_token = escaped_acc[i];
-            formatted_string = formatted_string.replace(escape_token[0], escape_token[1]);
-        }
+    for (let i = 0; i < repl_len; i++) {
+        base = base.replace(repl[i][0], repl[i][1]);
     }
 
-    return formatted_string;
+    return base;
 }
 
 export {format, format as default};

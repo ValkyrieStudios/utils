@@ -8,14 +8,12 @@
  * @param {number} max - Upper boundary
  */
 function isNumberBetween (val:unknown, min:number, max:number):val is number {
-    if (
-        !Number.isFinite(val) ||
-        !Number.isFinite(min) ||
-        !Number.isFinite(max) ||
-        min >= max
-    ) return false;
-
-    return (val as number) >= min && (val as number) <= max;
+    return (
+        Number.isFinite(val) &&
+        Number.isFinite(min) &&
+        Number.isFinite(max) &&
+        ((val as number) >= min && (val as number) <= max)
+    );
 }
 
 export {isNumberBetween, isNumberBetween as default};

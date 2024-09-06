@@ -67,7 +67,7 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):
     /* Normalize to a numerical value */
     let normalized = typeof val === 'string' ? parseFloat(val.trim()) : val;
 
-    if (!Number.isFinite(normalized) || normalized === 0) return UNITS ? `0${UNITS[0]}` : '0';
+    if (!Number.isFinite(normalized) || normalized === 0) return UNITS ? '0'+UNITS[0] : '0';
 
     if (REAL) normalized = Math.round(normalized);
 
@@ -85,7 +85,7 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):
     }
 
     /* Humanize from eg: 10023 to 10,023 */
-    const humanized: string[] = `${round(normalized, PRECISION)}`.split('.', 2);
+    const humanized: string[] = (''+round(normalized, PRECISION)).split('.', 2);
     const integer_part: string = humanized[0];
     const integer_part_len = integer_part.length;
     let formattedIntegerPart: string = '';

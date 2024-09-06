@@ -1,3 +1,5 @@
+const ROUND_EPSILON = 1 + Number.EPSILON;
+
 /**
  * Rounds the provided value to a certain precision
  *
@@ -6,10 +8,10 @@
  */
 function round (val:number, precision:number = 0):number {
     if (!Number.isFinite(val)) throw new TypeError('Value should be numeric');
+    if (!Number.isInteger(precision) || precision <= 0) return Math.round(val * ROUND_EPSILON);
 
-    const exp = Math.pow(10, Number.isInteger(precision) && precision > 0 ? precision : 0);
-    const num = (val * exp) * (1 + Number.EPSILON);
-    return Math.round(num)/exp;
+    const exp = Math.pow(10,  precision);
+    return Math.round((val * exp) * ROUND_EPSILON)/exp;
 }
 
 export {round, round as default};

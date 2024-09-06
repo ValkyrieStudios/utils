@@ -27,7 +27,7 @@ function shorten (val:string, length:number, postfix:string='...', truncate_word
 
     /* Shorten while keeping words intact */
     let end = length;
-    while (end > 0 && sanitized[end] !== ' ' && sanitized[end - 1] !== ' ') {
+    while (end && sanitized[end] !== ' ' && sanitized[end - 1] !== ' ') {
         end--;
     }
 

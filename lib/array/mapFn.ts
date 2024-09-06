@@ -49,7 +49,7 @@ function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapO
         if (!Number.isFinite(hash) && !(typeof hash === 'string' && hash.trim().length)) continue;
 
         /* Normalize hash to string */
-        hash = `${hash}`;
+        hash = hash + '';
 
         map[hash] = MERGE && map[hash] !== undefined ? {...map[hash], ...el} : el;
     }

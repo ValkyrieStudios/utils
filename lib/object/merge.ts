@@ -53,9 +53,7 @@ function merge (
     let  acc = {...target};
     for (let i = 0; i < sources.length; i++) {
         const el = sources[i];
-        if (Object.prototype.toString.call(el) !== PROTO_OBJ) {
-            throw new Error('object/merge: Please ensure valid target/source is passed');
-        }
+        if (Object.prototype.toString.call(el) !== PROTO_OBJ) continue;
         acc = innerMerge(acc, el, union);
     }
 

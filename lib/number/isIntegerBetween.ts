@@ -12,14 +12,12 @@ function isIntegerBetween (
     min:number,
     max:number
 ):val is number {
-    if (
-        !Number.isInteger(val) ||
-        !Number.isFinite(min) ||
-        !Number.isFinite(max) ||
-        min >= max
-    ) return false;
-
-    return (val as number) >= min && (val as number) <= max;
+    return (
+        Number.isInteger(val) &&
+        Number.isFinite(min) &&
+        Number.isFinite(max) &&
+        ((val as number) >= min && (val as number) <= max)
+    );
 }
 
 export {isIntegerBetween, isIntegerBetween as default};

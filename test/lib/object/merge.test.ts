@@ -256,15 +256,15 @@ describe('Object - merge', () => {
         });
     });
 
-    it('throws an error when passed an array containing invalid objects', () => {
-        assert.throws(
-            () => merge({a: 1}, CONSTANTS.NOT_OBJECT),
-            new Error('object/merge: Please ensure valid target/source is passed')
+    it('ignores invalid entries when passed an array containing invalid objects', () => {
+        assert.deepEqual(
+            merge({a: 1}, CONSTANTS.NOT_OBJECT),
+            {a: 1}
         );
 
-        assert.throws(
-            () => merge({a: 1}, [{b: 2}, ...CONSTANTS.NOT_OBJECT]),
-            new Error('object/merge: Please ensure valid target/source is passed')
+        assert.deepEqual(
+            merge({a: 1}, [{b: 2}, ...CONSTANTS.NOT_OBJECT]),
+            {a: 1}
         );
     });
 

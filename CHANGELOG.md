@@ -10,6 +10,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: Approximate ~10% performance improvement in array/join thanks to dropping template strings in favor of direct concat and working with precompiled regex
 - **deps**: Upgrade @types/node to 20.16.3
 
+### Removed
+- **deps**: Dev dep full-icu as no longer necessary
+
 ## [12.20.0] - 2024-08-18
 ### Added
 - **feat**: date/isFormat - A utility function which checks if a string is in a given format

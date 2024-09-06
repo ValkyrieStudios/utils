@@ -21,9 +21,7 @@ function deep (obj:deepInput) {
 /**
  * Recursively freezes all properties of an object
  *
- * @param obj - Object to deep freeze
- *
- * @returns Deeply frozen object
+ * @param {deepInput} obj - Object to deep freeze
  */
 function deepFreeze <T extends deepInput> (obj:T):Frozen<T> {
     if (

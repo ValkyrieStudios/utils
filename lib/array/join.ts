@@ -39,8 +39,6 @@ interface joinOptions {
  *
  * @param {unknown[]} val - Array of values to join
  * @param {joinOptions?} opts - Join options
- *
- * @returns Joined array as string
  */
 function join (val:unknown[], opts?:joinOptions):string {
     if (!Array.isArray(val) || !val.length) return '';

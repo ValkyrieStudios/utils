@@ -102,8 +102,6 @@ function quickSort (arr: [any, Record<string, any>][]) {
  * @param {string|sortByFunction} by - Either a string (key) or a function
  * @param {'desc'|'asc'} dir - (default='asc') Direction to sort in (asc or desc)
  * @param {sortOptions} opts - Sort options
- *
- * @returns Sorted array
  * @throws {Error}
  */
 function sort <T extends {[key:string]:any}> (

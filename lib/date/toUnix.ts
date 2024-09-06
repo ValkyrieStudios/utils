@@ -3,9 +3,7 @@ import {isDate} from './is';
 /**
  * Returns the unix time in seconds of the passed date
  *
- * @param val - Date to get the unix time for
- *
- * @returns Unix time in seconds
+ * @param {Date} val - Date to get the unix time for
  */
 function toUnix (val:Date):number {
     if (

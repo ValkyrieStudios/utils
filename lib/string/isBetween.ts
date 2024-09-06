@@ -3,12 +3,10 @@
  * inclusive of min and max
  * equal to another value
  *
- * @param val - Value to verify
- * @param min - Lower boundary
- * @param max - Upper boundary
- * @param trimmed  - (default=true) Trim the string or not
- *
- * @returns Whether or not the value is a string of length between min and max inclusive
+ * @param {unknown} val - Value to verify
+ * @param {number} min - Lower boundary
+ * @param {number} max - Upper boundary
+ * @param {boolean} trimmed  - (default=true) Trim the string or not
  */
 function isStringBetween (val:unknown, min:number, max:number, trimmed:boolean=true):val is string {
     if (

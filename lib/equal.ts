@@ -18,8 +18,8 @@ function isArrayEqual (
 }
 
 function isObjectEqual (
-    a:{[key:string]:any},
-    b:{[key:string]:any}
+    a:Record<string, any>,
+    b:Record<string, any>
 ):boolean {
     const keys_a = Object.keys(a);
     const keys_a_len = keys_a.length;
@@ -36,10 +36,8 @@ function isObjectEqual (
 /**
  * Compute whether or not two provided values are deeply equal
  *
- * @param a - Value to compare against
- * @param b - Value to compare with
- *
- * @returns Whether or not they are equal
+ * @param {any} a - Value to compare against
+ * @param {any} b - Value to compare with
  */
 function equal (a:any, b:any):boolean {
     /* Date Check */

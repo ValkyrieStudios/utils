@@ -5,8 +5,6 @@
  * @param {number} length - Length to shorten it to
  * @param {string} postfix - (default:'...') Postfix to use in case the string got shortened
  * @param {boolean?} truncate_words - (default:true) Truncate words or not
- *
- * @returns Shortened string
  */
 function shorten (val:string, length:number, postfix:string='...', truncate_words:boolean=true):string {
     /* Return empty string if value passed is not a string */

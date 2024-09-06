@@ -12,8 +12,7 @@ export type TimeProps = {
  * Sets the time on a provided date object and returns it
  *
  * @param {Date} val - Date to set the time for
- * @param {Time} props - Time props to set the time to
- * @returns {Date} New date with provided amount of key added
+ * @param {TimeProps} props - Time props to set the time to
  */
 function setTimeUTC (
     val:Date,

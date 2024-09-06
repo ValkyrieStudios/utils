@@ -33,7 +33,6 @@ const RGX_MALICIOUS = /__proto__|constructor|prototype/;
  * @param path - Path string to deeply set the value at
  * @param value - Value to set (if using defineProperty can be an accessor object)
  * @param define - Whether or not the property should be directly assigned or set using Object.defineProperty
- *
  * @returns True or false depending on whether or not the property was set correctly
  * @throws {TypeError}
  */

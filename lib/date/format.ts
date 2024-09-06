@@ -87,7 +87,6 @@ function toZone (date:Date, zone:string):Date {
  * @param {string} token - Token key this formatter is for
  * @param {Intl.DateTimeFormatOptions} props - Options to pass to the formatter
  * @param {Date} val - Value to format
- * @returns {string} Formatted value
  */
 function runIntl (
     loc:string,
@@ -203,7 +202,6 @@ const Tokens:TokenTuple[] = ([
  * with continued issue to cache the chains that need to be executed for these specs.
  *
  * @param {string} spec - Spec to be converted to spec chain
- * @returns {TokenTuple[]|false} Returns either a token tuple array or false in case the spec does not contain tokens
  */
 function getSpecChain (spec:string):TokenTuple[]|null {
     if (spec_cache[spec] !== undefined) return spec_cache[spec];
@@ -241,7 +239,6 @@ function getSpecChain (spec:string):TokenTuple[]|null {
  * @param {string} spec - Spec to format the date to
  * @param {string} locale - Locale to format the date in (only used in certain tokens such as dddd and MMMM)
  * @param {string} zone - (default=current timezone) Pass the timezone to convert into. If not passed no conversion will happen
- * @returns {string} Formatted date as string
  * @throws {TypeError} When provided invalid payload
  */
 function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ):string {

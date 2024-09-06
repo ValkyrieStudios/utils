@@ -8,8 +8,6 @@ for (let i = 0; i < 256; i++) {
 
 /**
  * Generate a unique identifier (guid) according to RFC4122
- *
- * @returns Generated guid string
  */
 function guid ():string {
     const d0 = (Math.random()*0xffffffff) | 0;

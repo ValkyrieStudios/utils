@@ -21,9 +21,7 @@ function deep (obj:deepInput) {
 /**
  * Recursively seals all properties of an object
  *
- * @param obj - Object to deep seal
- *
- * @returns Deeply sealed object
+ * @param {deepInput} obj - Object to deep seal
  */
 function deepSeal <T extends deepInput> (obj:T):Sealed<T> {
     if (

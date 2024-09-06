@@ -1,31 +1,31 @@
 import {isDate} from './is';
 
+export type AddUTCKey = 'years'
+    | 'year'
+    | 'months'
+    | 'month'
+    | 'days'
+    | 'day'
+    | 'hours'
+    | 'hour'
+    | 'minutes'
+    | 'minute'
+    | 'seconds'
+    | 'second'
+    | 'milliseconds'
+    | 'millisecond';
+
 /**
  * Adds the provided amount of a specific key to the provided date
  *
- * @param val - Date to set to end of
- * @param amount - (default=0) Amount of key to add
- * @param key - (default='millisecond') Key to set
- *
- * @returns New date with provided amount of key added
+ * @param {Date} val - Date to set to end of
+ * @param {number} amount - (default=0) Amount of key to add
+ * @param {AddUTCKey} key - (default='millisecond') Key to set
  */
 function addUTC (
     val:Date,
     amt:number=0,
-    key:'years'
-        | 'year'
-        | 'months'
-        | 'month'
-        | 'days'
-        | 'day'
-        | 'hours'
-        | 'hour'
-        | 'minutes'
-        | 'minute'
-        | 'seconds'
-        | 'second'
-        | 'milliseconds'
-        | 'millisecond' = 'millisecond'
+    key:AddUTCKey = 'millisecond'
 ):Date {
     if (!isDate(val)) throw new TypeError('addUTC requires a date object');
     if (!Number.isInteger(amt)) throw new TypeError('Amount needs to be an integer');

@@ -13,8 +13,6 @@ type SplitOptions<T> = {
  * @param {Array} val - Array to split
  * @param {number} size - Size of batches
  * @param {SplitOptions?} opts - Split options
- *
- * @returns Split batches
  */
 function split<T> (arr: T[], size: number, opts?: SplitOptions<T>): T[][] {
     if (

@@ -31,10 +31,8 @@ function innerMerge (target:{[key:string]:any},source:{[key:string]:any}, UNION:
  * take note: this does not merge onto passed objects by reference but instead
  * returns a new object
  *
- * @param target - Base Object
- * @param source - (default={}) Object to merge onto base object
- *
- * @returns Combined target and source objects
+ * @param {Record<string,any>} target - Base Object
+ * @param {Record<string,any>|Record<string,any>[]} source - (default={}) Object to merge onto base object
  */
 function merge (
     target:Record<string, any>,
@@ -60,7 +58,7 @@ function merge (
         }
         acc = innerMerge(acc, el, union);
     }
-   
+
     return acc;
 }
 

@@ -17,8 +17,6 @@ type DottedKeys<T> = (
  *
  * @param obj - Object to pick from
  * @param keys - Array of keys to pick from object
- *
- * @returns Object containing the picked keys from source object
  */
 function pick <T extends Record<string, any>, K extends DottedKeys<T>> (
     obj:T,

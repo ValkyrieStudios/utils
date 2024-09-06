@@ -33,12 +33,12 @@ const TOKENS: Token[] = [
     }],
     ['Z', /Z|[+-](?:0[0-9]|1[0-4]):[0-5][0-9]/.source, raw => {
         if (raw === 'Z') return true;
-        
+
         let hour = parseInt(raw[1] + raw[2], 10);
         if (raw[0] === '-') hour = -hour;
-        
+
         const minutes = parseInt(raw[4] + raw[5], 10);
-        
+
         if (hour === 14 || hour === -12) return minutes === 0;
         return hour >= -11 && hour < 14 && [0, 15, 30, 45].indexOf(minutes) >= 0;
     }],
@@ -56,7 +56,7 @@ const spec_pat_cache:Record<string, {rgx:RegExp;tokens:number[]}> = {};
  */
 function compileSpec (spec:string) {
     if (spec in spec_pat_cache) return spec_pat_cache[spec];
-    
+
     const tokens:number[] = [];
     let pat = '';
     let cursor = 0;
@@ -87,13 +87,12 @@ function compileSpec (spec:string) {
 
 /**
  * Checks if a given string is in a particular format
- * Eg: 
+ * Eg:
  *  isDateFormat('2024-02-09', 'YYYY-MM-DD'); // true
  *  isDateFormat('2024-02-09T14:30', 'YYYY-MM-DD'); // false
  *
  * @param {unknown} input - String to format (eg: '2024-08-01')
  * @param {string} spec - Spec to validate (Eg: 'YYYY-MM-DD')
- * @returns {boolean} Whether or not the input is valid according to the spec
  */
 function isDateFormat (input: unknown, spec: string): input is string {
     if (typeof input !== 'string' || input.trim().length === 0) {
@@ -132,7 +131,7 @@ function isDateFormat (input: unknown, spec: string): input is string {
 
     /* Hour check in AM/PM */
     if (is12 && 'hour' in context && context.hour > 11) return false;
-    
+
     return true;
 }
 

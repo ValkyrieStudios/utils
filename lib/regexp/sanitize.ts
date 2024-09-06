@@ -4,9 +4,7 @@
  *
  * For more info: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
  *
- * @param val - Value to sanitize
- *
- * @returns Sanitized value
+ * @param {string} val - Value to sanitize
  */
 function sanitizeRegExp (val:string):string|false {
     if (typeof val !== 'string') return false;

@@ -1,10 +1,8 @@
 /**
  * Generates a random number between the provided lower and upper bound
  *
- * @param min - (default=0) Lower bound
- * @param max - (default=10) Upper bound
- *
- * @returns Random number between min and max
+ * @param {number} min - (default=0) Lower bound
+ * @param {number} max - (default=10) Upper bound
  */
 function randomBetween (
     min:number = 0,

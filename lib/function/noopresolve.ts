@@ -3,8 +3,6 @@
  * that resolves with the value that was passed to it
  *
  * @param val - Value to be resolved with
- *
- * @returns Promise that resolves with passed value
  */
 function noopresolve <T> (val?:T):Promise<T|undefined> {
     return new Promise(resolve => resolve(val));

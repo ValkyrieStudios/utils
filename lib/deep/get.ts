@@ -1,26 +1,3 @@
-/**
- * Get a property's value deep inside the structure of an array/object
- *
- * Example:
- * const myObj = {
- *  a: 2,
- *  b: [
- *   {price : 2},
- *   {price : 4},
- *  ],
- * };
- * deepGet(myObj, 'b[0].price');
- * Output:
- * 2
- *
- * @param val - Object/Array to get the value from
- * @param path - Path string to deeply get the value at
- * @param get_parent - If passed as true retrieves the parent of where the value lives
- *
- * @returns Value stored at property or undefined
- * @throws {TypeError}
- */
-
 type ObjectType = { [key: string]: any };
 type ArrayType = any[];
 
@@ -55,6 +32,26 @@ type DeepGetResult<T extends ObjectType | ArrayType, P extends string> =
     : undefined
    : undefined;
 
+/**
+ * Get a property's value deep inside the structure of an array/object
+ *
+ * Example:
+ * const myObj = {
+ *  a: 2,
+ *  b: [
+ *   {price : 2},
+ *   {price : 4},
+ *  ],
+ * };
+ * deepGet(myObj, 'b[0].price');
+ * Output:
+ * 2
+ *
+ * @param val - Object/Array to get the value from
+ * @param path - Path string to deeply get the value at
+ * @param get_parent - If passed as true retrieves the parent of where the value lives
+ * @throws {TypeError}
+ */
 function deepGet<
  T extends ObjectType | ArrayType,
  P extends string

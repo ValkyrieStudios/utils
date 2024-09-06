@@ -3,8 +3,6 @@
  *
  * @param props - Object with properties to define
  * @param obj - (default={}) Object to define on top of
- *
- * @returns Object with the defined properties
  */
 function define (
     props:{[key:string]:any},

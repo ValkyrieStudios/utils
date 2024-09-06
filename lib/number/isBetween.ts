@@ -3,11 +3,9 @@
  * inclusive of min and max
  * equal to another value
  *
- * @param val - Value to verify
- * @param min - Lower boundary
- * @param max - Upper boundary
- *
- * @returns Whether or not the value is a number between min and max inclusive
+ * @param {unknown} val - Value to verify
+ * @param {number} min - Lower boundary
+ * @param {number} max - Upper boundary
  */
 function isNumberBetween (val:unknown, min:number, max:number):val is number {
     if (

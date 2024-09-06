@@ -49,10 +49,8 @@ interface humanizeNumberOptions {
  *	humanizeNumber('-1500'); // '-1.5k'
  *	humanizeNumber(47328748923747923479); // '47,328.75q'
  *
- * @param val - Number or string value to humanize (string should be convertible to a number)
- * @param opts - (default={}) Pass to override options.
- *
- * @returns Humanized number as string
+ * @param {number|string} val - Number or string value to humanize (string should be convertible to a number)
+ * @param {humanizeNumberOptions} opts - (default={}) Pass to override options.
  */
 function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):string {
     const DELIM:string = typeof options?.delim === 'string' ? options.delim : ',';

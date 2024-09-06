@@ -1,5 +1,22 @@
 import {isDate} from './is';
 
+export type EndOfUTCKey = 'year'
+    | 'quarter'
+    | 'month'
+    | 'week'
+    | 'week_sun'
+    | 'week_mon'
+    | 'week_tue'
+    | 'week_wed'
+    | 'week_thu'
+    | 'week_fri'
+    | 'week_sat'
+    | 'day'
+    | 'hour'
+    | 'minute'
+    | 'second'
+    | 'millisecond';
+
 /**
  * Take note: this is the end of week key for weeks starting on key,
  * eg: end of week for week_mon is sunday as the week starts on monday and ends on sunday
@@ -18,29 +35,12 @@ const WEEK_END = new Map([
 /**
  * Sets the provided date to end of UTC of provided key
  *
- * @param val - Date to set to end of
- * @param key - (default='millisecond') Key to set
- *
- * @returns New date set to end of key
+ * @param {Date} val - Date to set to end of
+ * @param {EndOfUTCKey} key - (default='millisecond') Key to set
  */
 function endOfUTC (
     val:Date,
-    key:'year'
-		| 'quarter'
-		| 'month'
-		| 'week'
-		| 'week_sun'
-		| 'week_mon'
-		| 'week_tue'
-		| 'week_wed'
-		| 'week_thu'
-		| 'week_fri'
-		| 'week_sat'
-		| 'day'
-		| 'hour'
-		| 'minute'
-		| 'second'
-		| 'millisecond' = 'millisecond'
+    key:EndOfUTCKey = 'millisecond'
 ):Date {
     if (!isDate(val)) throw new TypeError('endOfUTC requires a date object');
 

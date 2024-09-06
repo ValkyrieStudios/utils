@@ -40,8 +40,6 @@ function getTypeString (el: any): string {
  *
  * @param {Array} val - Array to dedupe
  * @param {DedupeOptions?} opts - Dedupe options
- *
- * @returns Deduped array
  */
 function dedupe <T> (val:T[], opts?: DedupeOptions<T>):T[] {
     if (!Array.isArray(val)) return [];

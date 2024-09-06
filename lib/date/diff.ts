@@ -1,5 +1,18 @@
 import {isDate} from './is';
 
+export type DiffKey = 'week'
+    | 'weeks'
+    | 'day'
+    | 'days'
+    | 'hour'
+    | 'hours'
+    | 'minute'
+    | 'minutes'
+    | 'second'
+    | 'seconds'
+    | 'millisecond'
+    | 'milliseconds';
+
 const SECOND_IN_MILLISECONDS    = 1000;
 const MINUTE_IN_MILLISECONDS    = SECOND_IN_MILLISECONDS * 60;
 const HOUR_IN_MILLISECONDS      = MINUTE_IN_MILLISECONDS * 60;
@@ -9,27 +22,14 @@ const WEEK_IN_MILLISECONDS      = DAY_IN_MILLISECONDS * 7;
 /**
  * Compute the diff between two dates in the provided key
  *
- * @param val_a - Date to diff against
- * @param val_b - Date to diff with
- * @param key - (default='millisecond') Key to diff in
- *
- * @returns Numerical diff between two dates
+ * @param {Date} val_a - Date to diff against
+ * @param {Date} val_b - Date to diff with
+ * @param {DiffKey} key - (default='millisecond') Key to diff in
  */
 function diff (
     val_a:Date,
     val_b:Date,
-    key:'week'
-        | 'weeks'
-        | 'day'
-        | 'days'
-        | 'hour'
-        | 'hours'
-        | 'minute'
-        | 'minutes'
-        | 'second'
-        | 'seconds'
-        | 'millisecond'
-        | 'milliseconds' = 'millisecond'
+    key:DiffKey = 'millisecond'
 ):number {
     if (
         !isDate(val_a) ||

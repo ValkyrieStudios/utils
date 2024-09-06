@@ -1,10 +1,8 @@
 /**
  * Rounds the provided value to a certain precision
  *
- * @param val - Value to round
- * @param precision - (default=0) Amount of decimals precision to round to
- *
- * @returns Rounded value according to decimal precision provided
+ * @param {number} val - Value to round
+ * @param {number} precision - (default=0) Amount of decimals precision to round to
  */
 function round (val:number, precision:number = 0):number {
     if (!Number.isFinite(val)) throw new TypeError('Value should be numeric');

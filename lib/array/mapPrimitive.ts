@@ -36,8 +36,6 @@ type mapReturn = Record<string, string|number>;
  *
  * @param {unknown[]} val - Array to map
  * @param {mapOptions?} opts - Options object to override built-in defaults
- *
- * @returns {mapReturn} KV-Map object
  */
 function mapPrimitive (arr:unknown[], opts:mapOptions = {}):mapReturn {
     if (!Array.isArray(arr) || !arr.length) return {};

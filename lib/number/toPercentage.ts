@@ -3,12 +3,10 @@ import {round} from './round';
 /**
  * Converts a number into a percentage respective to a provided range
  *
- * @param val - Value to convert into a percentage for the provided range
- * @param precision - (default=0) Amount of decimals precision to use
- * @param min - (default=0) Lower bound of the range the value is to be converted to percentage for
- * @param max - (default=1) Upper bound of the range the value is to be converted to percentage for
- *
- * @returns Percentage value respective to the provided range
+ * @param {number} val - Value to convert into a percentage for the provided range
+ * @param {number} precision - (default=0) Amount of decimals precision to use
+ * @param {number} min - (default=0) Lower bound of the range the value is to be converted to percentage for
+ * @param {number} max - (default=1) Upper bound of the range the value is to be converted to percentage for
  */
 function toPercentage (
     val:number,

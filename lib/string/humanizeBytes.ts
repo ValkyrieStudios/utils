@@ -37,9 +37,7 @@ const DEFAULT_UNITS = [' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB'
  * 	humanizeBytes(-374237489237); // '-348.5 GB'
  *
  * @param {number|string} val - Number or string byte value to humanize (string should be convertible to a number)
- * @param {humanizeBytesOptions?} opts - Humanization options
- *
- * @returns Humanized byte value as string
+ * @param {humanizeBytesOptions} opts - Humanization options
  */
 function humanizeBytes (val:number|string, options:humanizeBytesOptions = {}):string {
     return humanizeNumber(val, {

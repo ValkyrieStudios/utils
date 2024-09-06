@@ -1,5 +1,22 @@
 import {isDate} from './is';
 
+export type StartOfUTCKey = 'year'
+    | 'quarter'
+    | 'month'
+    | 'week'
+    | 'week_sun'
+    | 'week_mon'
+    | 'week_tue'
+    | 'week_wed'
+    | 'week_thu'
+    | 'week_fri'
+    | 'week_sat'
+    | 'day'
+    | 'hour'
+    | 'minute'
+    | 'second'
+    | 'millisecond';
+
 const WEEK_START = new Map([
     ['week', 1], /* Original lib cases only contained week and historical was monday */
     ['week_sun', 0],
@@ -14,29 +31,12 @@ const WEEK_START = new Map([
 /**
  * Sets the provided date to start of UTC of provided key
  *
- * @param val - Date to set to start of
- * @param key - (default='millisecond') Key to set
- *
- * @returns New date set to start of key
+ * @param {Date} val - Date to set to start of
+ * @param {StartOfUTCKey} key - (default='millisecond') Key to set
  */
 function startOfUTC (
     val:Date,
-    key:'year'
-        | 'quarter'
-        | 'month'
-		| 'week'
-		| 'week_sun'
-		| 'week_mon'
-		| 'week_tue'
-		| 'week_wed'
-		| 'week_thu'
-		| 'week_fri'
-		| 'week_sat'
-		| 'day'
-		| 'hour'
-		| 'minute'
-		| 'second'
-		| 'millisecond' = 'millisecond'
+    key:StartOfUTCKey = 'millisecond'
 ):Date {
     if (!isDate(val)) throw new TypeError('startOfUTC requires a date object');
 

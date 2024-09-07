@@ -16,9 +16,7 @@ function assignValue (acc: Record<string, unknown>, rawkey: string, value: unkno
 
         /* If this is the last key, assign the value */
         if (i === keys.length - 1) {
-            if (Array.isArray(cursor)) {
-                cursor[Number(key)] = value;
-            } else if (cursor[key] !== undefined) {
+            if (cursor[key] !== undefined) {
                 /* If the key already exists, convert it into an array if it isn’t already */
                 if (Array.isArray(cursor[key])) {
                     (cursor[key] as Array<unknown>).push(value);

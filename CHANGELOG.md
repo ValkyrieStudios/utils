@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: date/format@getLocale as a new function which returns the current default locale in use by date/format
+- **feat**: date/format@getZone as a new function which returns the current default time zone in use by date/format
+- **feat**: date/format@getStartOfWeek as a new function which returns the current default start of week in use by date/format
+```typescript
+import {format} from "@valkyriestudios/utils/date/format";
+format.getLocale(); // 'en-us'
+format.getZone(); // 'UTC'
+format.getStartOfWeek(); // 'mon'
+```
+- **feat**: date/format@setLocale as a new function which allows you to globally adjust the default locale in use by date/format
+- **feat**: date/format@setZone as a new function which allows you to globally adjust the default time zone in use by date/format (**Take Note:** The zone of the client is used by default, as such in many cases this will not need to be set manually)
+- **feat**: date/format@setStartOfWeek as a new function which allows you to globally adjust the default start of week in use by date/format
+```typescript
+import {format} from "@valkyriestudios/utils/date/format";
+format.setLocale("nl-be");
+format.setZone("America/New_York");
+
+... (somewhere in your code, not necessarily the same file)
+
+format(new Date("2022-08-17T08:55:15Z", "dddd DD MMMM YYYY H:mm:ss")); // "woensdag 17 augustus 2022 4:55:15"
+
+/* Take Note: You can still pass these options separately to get the same result */
+format(new Date("2022-08-17T08:55:15Z", "dddd DD MMMM YYYY H:mm:ss", "nl-be", "America/New_York")); // "woensdag 17 augustus 2022 4:55:15"
+```
+
 ### Improved
 - **perf**: Approximate ~10% performance improvement in array/join thanks to dropping template strings in favor of direct concat and working with precompiled regex
 - **deps**: Upgrade @types/node to 20.16.3

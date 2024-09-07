@@ -8,8 +8,11 @@ type Formatter  = (d:Date, loc:string, sow:WEEK_START) => string;
 type RawTuple = [string, Formatter];
 type TokenTuple = [string, Formatter, number];
 
-const DEFAULT_LOCALE    = 'en-US';
-let DEFAULT_TZ          = 'UTC';
+let DEFAULT_LOCALE          = 'en-US';
+let DEFAULT_TZ              = 'UTC';
+let DEFAULT_SOW:WEEK_START  = 'mon';
+
+/* Try to get default timezone */
 try {
     DEFAULT_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
 } catch (err) {
@@ -262,7 +265,13 @@ function getSpecChain (spec:string):SpecCacheEntry {
  * @param {string} sow - (default='mon') Start of week (only useful when working with the 'W' and 'w' tokens for week numbers
  * @throws {TypeError} When provided invalid payload
  */
-function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:string = DEFAULT_TZ, sow: WEEK_START = 'mon'):string {
+function format (
+    val:Date,
+    spec:string,
+    locale:string = DEFAULT_LOCALE,
+    zone:string = DEFAULT_TZ,
+    sow:WEEK_START = DEFAULT_SOW
+):string {
     /* Ensure val is a Date */
     if (!isDate(val)) throw new TypeError('format: val must be a Date');
 
@@ -303,5 +312,53 @@ function format (val:Date, spec:string, locale:string = DEFAULT_LOCALE, zone:str
 
     return base;
 }
+
+/**
+ * Returns the current locale the format function will use by default
+ */
+format.getLocale = function () {
+    return DEFAULT_LOCALE;
+};
+
+/**
+ * Configures the global default locale the format function will use
+ *
+ * @param {string} locale - Locale to use
+ */
+format.setLocale = function (locale:string) {
+    DEFAULT_LOCALE = locale;
+};
+
+/**
+ * Returns the current time zone the format function will use by default
+ */
+format.getZone = function () {
+    return DEFAULT_TZ;
+};
+
+/**
+ * Configures the global default timezone the format function will use
+ *
+ * @param {string} zone - Time zone to use
+ */
+format.setZone = function (zone:string) {
+    DEFAULT_TZ = zone;
+};
+
+/**
+ * Returns the current start of week the format function will use by default
+ */
+format.getStartOfWeek = function () {
+    return DEFAULT_SOW;
+};
+
+/**
+ * Configures the global default start of week the format function will use
+ *
+ * @param {WEEK_START} sow - Start of week to use
+ */
+format.setStartOfWeek = function (sow:WEEK_START) {
+    DEFAULT_SOW = sow;
+};
 
 export {format, format as default};

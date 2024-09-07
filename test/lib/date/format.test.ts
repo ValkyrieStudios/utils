@@ -1,6 +1,6 @@
 /* eslint-disable max-lines,max-statements */
 
-import {describe, it}   from 'node:test';
+import {describe, it, afterEach}   from 'node:test';
 import * as assert      from 'node:assert/strict';
 import CONSTANTS        from '../../constants';
 import format           from '../../../lib/date/format';
@@ -61,6 +61,125 @@ describe('Date - format', () => {
             () => format(new Date(), 'YYYY dddd', 'The force is strong'),
             new Error('format: Failed to run conversion for dddd with locale The force is strong')
         );
+    });
+
+    describe('setLocale and getLocale', () => {
+        const DEFAULT = format.getLocale();
+
+        afterEach(() => {
+            format.setLocale(DEFAULT);
+        });
+
+        it('Should be a function', () => {
+            assert.ok(typeof format.setLocale === 'function');
+            assert.ok(typeof format.getLocale === 'function');
+        });
+
+        it('Should not be an async function', () => {
+            assert.ok(format.setLocale.constructor.name !== 'AsyncFunction');
+            assert.ok(format.getLocale.constructor.name !== 'AsyncFunction');
+        });
+
+        it('Should set and return the default locale when a valid locale is provided', () => {
+            format.setLocale('fr-FR');
+            assert.equal(format.getLocale(), 'fr-FR');
+        });
+
+        it('Should throw an error when a non-string value is provided', () => {
+            for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+                assert.throws(() => {
+                    format.setLocale(el);
+                }, new Error('format/setLocale: locale should be a string'));
+            }
+        });
+
+        it('Should return the default locale', () => {
+            assert.equal(format.getLocale(), 'en-US');
+        });
+    });
+
+    describe('setZone and getZone', () => {
+        const DEFAULT = format.getZone();
+
+        afterEach(() => {
+            format.setZone(DEFAULT);
+        });
+
+        it('Should be a function', () => {
+            assert.ok(typeof format.setZone === 'function');
+            assert.ok(typeof format.getZone === 'function');
+        });
+
+        it('Should not be an async function', () => {
+            assert.ok(format.setZone.constructor.name !== 'AsyncFunction');
+            assert.ok(format.getZone.constructor.name !== 'AsyncFunction');
+        });
+
+        it('Should set and return the default time zone when a valid zone is provided', () => {
+            format.setZone('America/New_York');
+            assert.equal(format.getZone(), 'America/New_York'); // Ensure the time zone was set correctly
+        });
+
+        it('Should throw an error when an invalid time zone is provided', () => {
+            assert.throws(() => {
+                format.setZone('Invalid/Zone');
+            }, new Error('format/setZone: \'Invalid\/Zone\' is not a valid zone'));
+        });
+
+        it('Should throw an error when a non-string value is provided', () => {
+            for (const el of CONSTANTS.NOT_STRING) {
+                assert.throws(() => {
+                    format.setZone(el);
+                }, new Error('format/setZone: zone should be a string'));
+            }
+        });
+
+        it('Should return the default time zone', () => {
+            assert.equal(format.getZone(), DEFAULT); // Ensure it returns the correct default time zone
+        });
+    });
+
+    describe('setStartOfWeek and getStartOfWeek', () => {
+        const DEFAULT = format.getStartOfWeek();
+
+        afterEach(() => {
+            format.setStartOfWeek(DEFAULT);
+        });
+
+        it('Should be a function', () => {
+            assert.ok(typeof format.setStartOfWeek === 'function');
+            assert.ok(typeof format.getStartOfWeek === 'function');
+        });
+
+        it('Should not be an async function', () => {
+            assert.ok(format.setStartOfWeek.constructor.name !== 'AsyncFunction');
+            assert.ok(format.getStartOfWeek.constructor.name !== 'AsyncFunction');
+        });
+
+        it('should set and return the default start of the week when a valid value is provided', () => {
+            for (const el of ['mon', 'sat', 'sun']) {
+                format.setStartOfWeek(el);
+                assert.equal(format.getStartOfWeek(), el);
+            }
+        });
+
+        it('should throw an error when an invalid start of the week is provided', () => {
+            assert.throws(() => {
+                format.setStartOfWeek('fri' as WEEK_START);
+            }, new Error('format/setStartOfWeek: sow should be a valid start of week'));
+        });
+
+        it('should throw an error when a non-string value is provided', () => {
+            for (const el of CONSTANTS.NOT_STRING) {
+                assert.throws(() => {
+                    format.setStartOfWeek(el);
+                }, new Error('format/setStartOfWeek: sow should be a valid start of week'));
+            }
+        });
+
+        it('should return the default start of the week', () => {
+            assert.equal(format.getStartOfWeek(), 'mon');
+        });
     });
 
     it('Specific Cases: Default locale - UTC - Should format different combinations of tokens correctly', () => {

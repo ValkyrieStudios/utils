@@ -2,7 +2,13 @@
 
 import {isDate} from './is';
 
-export type WEEK_START = 'mon' | 'sun' | 'sat';
+const WEEK_STARTS = {
+    mon: 'mon',
+    sun: 'sun',
+    sat: 'sat',
+} as const;
+
+export type WEEK_START = keyof typeof WEEK_STARTS;
 
 type Formatter  = (d:Date, loc:string, sow:WEEK_START) => string;
 type RawTuple = [string, Formatter];
@@ -60,29 +66,29 @@ function WeekNr (d: Date, sow: WEEK_START): number {
         }
         /* Take note: This is the ISO implementation with monday as first day */
         default: {
-           /**
-            * Adjust the copied date object to represent the Thursday of the current week we do this by
-            * calculating the day number and adjust it to have Monday as the first day of the week and then
-            * adding 3
-            */
-           date.setDate(date.getDate() - ((d.getDay() + 6) % 7) + 3);
+            /**
+             * Adjust the copied date object to represent the Thursday of the current week we do this by
+             * calculating the day number and adjust it to have Monday as the first day of the week and then
+             * adding 3
+             */
+            date.setDate(date.getDate() - ((d.getDay() + 6) % 7) + 3);
 
-           // Store the value of the current Thursday of this week
-           const date_thu = date.valueOf();
+            /* Store the value of the current Thursday of this week */
+            const date_thu = date.valueOf();
 
-           // Set the cursor to Jan 1st
-           date.setMonth(0, 1);
+            /* Set the cursor to Jan 1st */
+            date.setMonth(0, 1);
 
-           // If January 1st is not a Thursday, find the date of the first Thursday of the year
-           if (date.getDay() !== 4) date.setMonth(0, 1 + ((4 - date.getDay()) + 7) % 7);
+            /* If January 1st is not a Thursday, find the date of the first Thursday of the year */
+            if (date.getDay() !== 4) date.setMonth(0, (1 + ((4 - date.getDay()) + 7)) % 7);
 
-           /**
-            * Calculate the ISO 8601 week number
-            * (monday first day of the week)
-            * this computation is based on diff between the value of the first and current Thursday
-            * divided by the number of milliseconds in a week
-            */
-           return 1 + Math.ceil((date_thu - date) / 604800000);
+            /**
+             * Calculate the ISO 8601 week number
+             * (monday first day of the week)
+             * this computation is based on diff between the value of the first and current Thursday
+             * divided by the number of milliseconds in a week
+             */
+            return 1 + Math.ceil((date_thu - date.valueOf()) / 604800000);
         }
     }
 }
@@ -379,7 +385,8 @@ format.getLocale = function () {
  * @param {string} locale - Locale to use
  */
 format.setLocale = function (locale:string) {
-    DEFAULT_LOCALE = locale;
+    if (typeof locale !== 'string' || !locale.trim().length) throw new Error('format/setLocale: locale should be a string');
+    DEFAULT_LOCALE = locale.trim();
 };
 
 /**
@@ -395,7 +402,13 @@ format.getZone = function () {
  * @param {string} zone - Time zone to use
  */
 format.setZone = function (zone:string) {
-    DEFAULT_TZ = zone;
+    if (typeof zone !== 'string') throw new Error('format/setZone: zone should be a string');
+    try {
+        new Intl.DateTimeFormat('en-US', {timeZone: zone});
+        DEFAULT_TZ = zone;
+    } catch {
+        throw new Error(`format/setZone: '${zone}' is not a valid zone`);
+    }
 };
 
 /**
@@ -411,6 +424,10 @@ format.getStartOfWeek = function () {
  * @param {WEEK_START} sow - Start of week to use
  */
 format.setStartOfWeek = function (sow:WEEK_START) {
+    if (
+        typeof sow !== 'string' ||
+        !Object.values(WEEK_STARTS).includes(sow)
+    ) throw new Error('format/setStartOfWeek: sow should be a valid start of week');
     DEFAULT_SOW = sow;
 };
 

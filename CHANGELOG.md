@@ -16,7 +16,7 @@ form.append('hobbies', 'reading');
 form.append('hobbies', 'writing');
 form.append('emptyField', '');
 
-toObject(formData); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
+toObject(form); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
 ```
 - **feat**: date/isLeap as utility function which returns true/false if the passed date is in a leap year or not
 ```typescript

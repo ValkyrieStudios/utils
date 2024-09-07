@@ -372,6 +372,13 @@ isDate(new Date('December 17, 1995 03:24:00')); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
+- **isLeap(val:Date)**
+Check if a date is in a leap year or not
+```typescript
+isLeap(new Date("2022-02-07T14:30:59.000Z")); // false
+isLeap(new Date("2022-02-07T14:30:59.000Z")); // true
+```
+
 - **isFormat(val:unknown, spec:string)**
 Check if a variable is a string in a particular date format
 ```typescript
@@ -417,16 +424,17 @@ diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00")); // 2663187102
 ```
 
-- **format(val:Date, spec:string, locale?:string, zone?:string):string**
+- **format(val:Date, spec:string, locale?:string, zone?:string, startOfWeek?:'mon'|'sun'|'sat'):string**
 Format a date according to a spec/locale and zone
 
-Note: The locale is by default set to 'en-US'
+**Take Note**:
+- The locale is by default set to `en-US`
+- The zone is by default detected as the time zone of the client
+- If we fail to detect the time zone we default to `UTC`
+- The start of week is by default set to `mon`, the supported values are `mon`, `sun`, `sat`
+- You can escape characters by surrounding them with `[...]` in your spec, eg: `YYYY-[Q]Q` would for example become `2024-Q1`
 
-Note: The zone is by default detected as the zone of the client
-
-Note: You can escape characters by surrounding them with `[...]` in your spec, eg: `YYYY-[Q]Q` would for example become `2024-Q1`
-
-Available tokens for usage in spec:
+**Available Tokens**:
 | Token     | Description               | Example       |
 |:---------|:--------------------------|:---------------|
 | `YYYY` | Full Year | 2021 |
@@ -435,6 +443,8 @@ Available tokens for usage in spec:
 | `MMM` | Month as 3 char | Jan Feb ... Nov Dec |
 | `MM` | Month as 2 char | 01 02 .. 11 12 |
 | `M` | Month as pure digit | 1 2 .. 11 12 |
+| `WW` | Week Number as 2 char | 01 02 .. 52 53 |
+| `W` | Week Number as pure digit | 1 2 .. 52 53 |
 | `DD` | Day of month as 2 char | 01 02 .. 30 31 |
 | `D` | Day of month as 1 char | 1 2 .. 30 31 |
 | `dddd` | Day of week as 3 char | Sun Mon ... Fri Sat |
@@ -455,6 +465,19 @@ Available tokens for usage in spec:
 | `t` | Locale-specific short time | 10:28 AM |
 | `T` | Locale-specific time with seconds | 10:28:30 AM |
 
+**Additional**:
+Format has several additional functions defined which help usage inside of an ecosystem (eg: webapp) by **overriding the global defaults** used by format.
+| Function     | Description               | Example       |
+|:---------|:--------------------------|:---------------|
+| setZone | Sets the global timezone used by format | `format.setZone("Europe/Brussels")` |
+| getZone | Returns the global timezone used by format ||
+| setLocale | Sets the global locale used by format | `format.setLocale("nl-BE")` |
+| getLocale | Returns the global locale used by format ||
+| setStartOfWeek | Sets the global start of week used by format | `format.setStartOfWeek("sun")` |
+| getStartOfWeek | Returns the global start of week used by format ||
+
+**Usage**:
+
 ```typescript
 format(new Date('2023-01-10T14:30:00Z'), '[Today is] dddd, MMMM D, YYYY [at] h:mm A', 'en', 'Europe/Brussels');
 //  'Today is Tuesday, January 10, 2023 at 2:30 PM'
@@ -467,6 +490,18 @@ format(new Date('2022-07-14T16:40:30Z'), 'YYYY-MM-DD', 'fr', 'Asia/Singapore');
 
 format(new Date('2022-07-14T16:40:30Z'), 'YYYY-MM-DD', 'fr', 'Europe/Brussels');
 // 2022-07-14
+
+// ... (somewhere else in your code)
+
+format.setLocale('fr');
+format.setZone('Asia/Singapore');
+
+// ... (somewhere else in your code)
+
+format(new Date('2022-07-14T16:40:30Z'), 'dddd, [Year] Q Q M D [à] hh:mm A [string]');
+// 'vendredi, Year 3 3 7 15 à 12:40 AM string'
+format(new Date('2022-07-14T19:40:30Z'), 'dddd, YYYY-MM-DD');
+// 'vendredi, 2022-07-15'
 ```
 
 - **toUTC(val:Date)**
@@ -695,6 +730,18 @@ Check if a variable is of type FormData
 ```typescript
 isFormData(new FormData()); // TRUE
 isFormData({hi: 'there'}); // FALSE
+```
+
+- **toObject(val:FormData)**
+Converts an instance of FormData to an object
+```typescript
+const form = new FormData();
+form.append('name', 'Alice');
+form.append('hobbies', 'reading');
+form.append('hobbies', 'writing');
+form.append('emptyField', '');
+
+toObject(form); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
 ```
 
 ### hash

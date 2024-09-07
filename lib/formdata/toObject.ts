@@ -1,12 +1,12 @@
 /**
  * Converts a FormData instance to a json object
  * Eg:
- *  const formData = new FormData();
- *  formData.append('name', 'Alice');
- *  formData.append('hobbies', 'reading');
- *  formData.append('hobbies', 'writing');
- *  formData.append('emptyField', '');
- *  toObject(formData);
+ *  const form = new FormData();
+ *  form.append('name', 'Alice');
+ *  form.append('hobbies', 'reading');
+ *  form.append('hobbies', 'writing');
+ *  form.append('emptyField', '');
+ *  toObject(form);
  *
  *  {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
  *

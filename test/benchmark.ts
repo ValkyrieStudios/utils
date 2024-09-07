@@ -22,6 +22,7 @@ import isDate                   from '../dist/date/is';
 import isDateFormat             from '../dist/date/isFormat';
 import isLeap                   from '../dist/date/isLeap';
 import isFormData               from '../dist/formdata/is';
+import toObject                 from '../dist/formdata/toObject';
 import nowUnix                  from '../dist/date/nowUnix';
 import nowUnixMs                from '../dist/date/nowUnixMs';
 import setTimeUTC               from '../dist/date/setTimeUTC';
@@ -106,6 +107,11 @@ const DATE_EXAMPLE = new Date('2022-10-05T13:12:11+02:00');
 const DATE_EXAMPLE_2 = new Date('2032-10-05T11:12:11.000Z');
 const DATE_EXAMPLE_LEAP_VALID = new Date('2024-10-05T13:12:11+02:00');
 const DATE_EXAMPLE_LEAP_INVALID = new Date('2022-10-05T13:12:11+02:00');
+const FORMDATA_EXAMPLE = new FormData();
+FORMDATA_EXAMPLE.append('name', 'Alice');
+FORMDATA_EXAMPLE.append('hobbies', 'reading');
+FORMDATA_EXAMPLE.append('hobbies', 'writing');
+FORMDATA_EXAMPLE.append('emptyField', '');
 
 /* Run benchmarks */
 for (const el of [
@@ -763,6 +769,11 @@ for (const el of [
     {
         lbl: 'formdata/is',
         fn: () => isFormData({hi: 'there'}),
+    },
+    /* FormData - toObject */
+    {
+        lbl: 'formdata/toObject',
+        fn: () => toObject(FORMDATA_EXAMPLE),
     },
     /* Function - is */
     {

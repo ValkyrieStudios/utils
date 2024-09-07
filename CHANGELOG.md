@@ -7,6 +7,17 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
+- **feat**: formdata/toObject as utility function which converts a FormData instance to an object
+```typescript
+import {toObject} from "@valkyriestudios/utils/formdata";
+const form = new FormData();
+form.append('name', 'Alice');
+form.append('hobbies', 'reading');
+form.append('hobbies', 'writing');
+form.append('emptyField', '');
+
+toObject(formData); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
+```
 - **feat**: date/isLeap as utility function which returns true/false if the passed date is in a leap year or not
 ```typescript
 import {isLeap} from "@valkyriestudios/utils/date/isLeap";

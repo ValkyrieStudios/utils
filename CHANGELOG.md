@@ -22,7 +22,7 @@ toObject(form); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: 
 ```typescript
 import {isLeap} from "@valkyriestudios/utils/date/isLeap";
 isLeap(new Date("2022-02-07T14:30:59.000Z")); // false
-isLeap(new Date("2022-02-07T14:30:59.000Z")); // true
+isLeap(new Date("2024-02-07T14:30:59.000Z")); // true
 ```
 - **feat**: date/format now supports `WW` and `W` tokens to allow rendering week numbers in formatted strings (WW is 0-prefixed to ensure 2 digits)
 ```

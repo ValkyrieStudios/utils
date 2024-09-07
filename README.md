@@ -376,7 +376,7 @@ isDate('December 17, 1995 03:24:00'); // FALSE
 Check if a date is in a leap year or not
 ```typescript
 isLeap(new Date("2022-02-07T14:30:59.000Z")); // false
-isLeap(new Date("2022-02-07T14:30:59.000Z")); // true
+isLeap(new Date("2024-02-07T14:30:59.000Z")); // true
 ```
 
 - **isFormat(val:unknown, spec:string)**

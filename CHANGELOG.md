@@ -5,6 +5,60 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.22.0] - 2024-09-07
+### Improved
+- **feat**: formdata/toObject will now convert strings to booleans where possible (eg: 'true' => true, 'false' => false)
+- **feat**: formdata/toObject will now convert strings to numbers where possible (eg: '12345' => 12345, '  045 ' => 45)
+- **feat**: formdata/toObject will now convert strings to deeply nested structures (eg: 'user[0].name', 'user[0].age' will become an array with a user
+    object with name and age)
+- **feat**: formdata/toObject now supports an additional parameters to determine keys in the formdata that should **not** be normalized
+```typescript
+const form = new FormData();
+form.append('user[0].name', 'Alice');
+form.append('user[1].age', '25');
+form.append('enabled', 'false');
+form.append('config.isGood', 'true');
+form.append('config.amount', ' 50 ');
+
+toObject(form); /* {
+    user: [
+        {name: 'Alice'},
+        {age: 25},
+    ],
+    enabled: false,
+    config: {
+        isGood: true,
+        amount: 50,
+    },
+} */
+```
+
+```typescript
+const form = new FormData();
+form.append('mixedArray', '123');
+form.append('mixedArray', 'true');
+form.append('mixedArray', 'hello');
+
+toObject(form); /* {
+    mixedArray: [123, true, 'hello'],
+} */
+```
+
+```typescript
+const form = new FormData();
+form.append('config.isEnabled', 'true');
+form.append('config.port', '8080');
+form.append('config.rawKey', '123');  // should remain a string
+
+toObject(form, {raw: ['config.rawKey']}); /* {
+    config: {
+        isEnabled: true,   // 'true' should be converted to boolean
+        port: 8080,        // '8080' should be converted to number
+        rawKey: '123',     // '123' should remain a string
+    },
+} */
+```
+
 ## [12.21.0] - 2024-09-07
 ### Added
 - **feat**: formdata/toObject as utility function which converts a FormData instance to an object

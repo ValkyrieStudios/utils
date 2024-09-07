@@ -263,14 +263,14 @@ describe('FormData - toObject', () => {
         });
     });
 
-    it('Should handle malformed numeric values (e.g., leading zeros)', () => {
+    it('Should handle numeric values with leading zeros', () => {
         const formData = new FormData();
         formData.append('zipCode', '000123');
         formData.append('phoneNumber', '0123456789');
 
         assert.deepEqual(toObject(formData), {
-            zipCode: '000123',
-            phoneNumber: '0123456789',
+            zipCode: 123,
+            phoneNumber: 123456789,
         });
     });
 
@@ -411,5 +411,119 @@ describe('FormData - toObject', () => {
 
         const result = toObject(formData);
         assert.ok(result.blobField instanceof Blob);
+    });
+
+    it('Should respect config.raw and not convert specified keys', () => {
+        const formData = new FormData();
+        formData.append('isEnabled', 'true');
+        formData.append('age', '30');
+        formData.append('rawString', '30');  // should remain as a string
+
+        assert.deepEqual(toObject(formData, {raw: ['rawString']}), {
+            isEnabled: true,   // 'true' should be converted to boolean
+            age: 30,           // '30' should be converted to number
+            rawString: '30',   // '30' should remain a string due to raw config
+        });
+    });
+
+    it('Should not convert multiple keys specified in config.raw', () => {
+        const formData = new FormData();
+        formData.append('isEnabled', 'true');
+        formData.append('age', '30');
+        formData.append('rawBoolean', 'false');  // should remain as a string
+        formData.append('rawNumber', '123');     // should remain as a string
+
+        assert.deepEqual(toObject(formData, {raw: ['rawBoolean', 'rawNumber']}), {
+            isEnabled: true,     // 'true' should be converted to boolean
+            age: 30,             // '30' should be converted to number
+            rawBoolean: 'false', // 'false' should remain a string
+            rawNumber: '123',    // '123' should remain a string
+        });
+    });
+
+    it('Should handle raw key for nested properties', () => {
+        const formData = new FormData();
+        formData.append('config.isEnabled', 'true');
+        formData.append('config.port', '8080');
+        formData.append('config.rawKey', '123');  // should remain a string
+
+        assert.deepEqual(toObject(formData, {raw: ['config.rawKey']}), {
+            config: {
+                isEnabled: true,   // 'true' should be converted to boolean
+                port: 8080,        // '8080' should be converted to number
+                rawKey: '123',     // '123' should remain a string
+            },
+        });
+    });
+
+    it('Should handle raw for array-like keys', () => {
+        const formData = new FormData();
+        formData.append('user[0].name', 'Alice');
+        formData.append('user[0].age', '30');   // should be converted to number
+        formData.append('user[1].name', 'Bob');
+        formData.append('user[1].age', '40');   // should remain a string
+
+        assert.deepEqual(toObject(formData, {raw: ['user[1].age']}), {
+            user: [
+                {name: 'Alice', age: 30},
+                {name: 'Bob', age: '40'},  // age should remain a string due to raw config
+            ],
+        });
+    });
+
+    it('Should not affect keys not present in config.raw', () => {
+        const formData = new FormData();
+        formData.append('name', 'John Doe');
+        formData.append('age', '45');
+        formData.append('isAdmin', 'true');
+
+        assert.deepEqual(toObject(formData, {raw: ['notPresent']}), {
+            name: 'John Doe',   // normal string
+            age: 45,            // '45' should be converted to number
+            isAdmin: true,      // 'true' should be converted to boolean
+        });
+    });
+
+    it('Should respect config.raw and not convert even boolean-like strings', () => {
+        const formData = new FormData();
+        formData.append('isEnabled', 'true');
+        formData.append('isVisible', 'false');
+
+        assert.deepEqual(toObject(formData, {raw: ['isEnabled', 'isVisible']}), {
+            isEnabled: 'true',  // should remain a string
+            isVisible: 'false', // should remain a string
+        });
+    });
+
+    it('Should handle mixed config and non-conversion for raw keys', () => {
+        const formData = new FormData();
+        formData.append('enabled', 'true');
+        formData.append('score', '100');
+        formData.append('config.debug', 'false');
+        formData.append('config.timeout', '30');
+
+        assert.deepEqual(toObject(formData, {raw: ['config.debug', 'score']}), {
+            enabled: true,         // converted to boolean
+            score: '100',          // should remain a string
+            config: {
+                debug: 'false',    // should remain a string
+                timeout: 30,       // converted to number
+            },
+        });
+    });
+
+    it('Should correctly handle multiple raw values with different types', () => {
+        const formData = new FormData();
+        formData.append('count', '20');
+        formData.append('isValid', 'true');
+        formData.append('rawString', '10');
+        formData.append('rawBoolean', 'false');
+
+        assert.deepEqual(toObject(formData, {raw: ['rawString', 'rawBoolean']}), {
+            count: 20,             // '20' converted to number
+            isValid: true,         // 'true' converted to boolean
+            rawString: '10',       // '10' remains a string due to raw config
+            rawBoolean: 'false',   // 'false' remains a string due to raw config
+        });
     });
 });

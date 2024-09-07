@@ -1,3 +1,10 @@
+type toObjectConfig = {
+    /**
+     * Pass array of keys that should not be normalized into number/bool when seen
+     */
+    raw?: string[];
+}
+
 const RGX_CLOSE = /\]/g;
 
 function assignValue (acc: Record<string, unknown>, rawkey: string, value: unknown): void {
@@ -49,22 +56,24 @@ function assignValue (acc: Record<string, unknown>, rawkey: string, value: unkno
  *  {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
  *
  * @param {FormData} val - FormData instance to convert to an object
+ * @param {}
  */
-function toObject <T extends Record<string, unknown>> (form:FormData):T {
+function toObject <T extends Record<string, unknown>> (form:FormData, config?:toObjectConfig):T {
     if (!(form instanceof FormData)) throw new Error('formdata/toObject: Value is not an instance of FormData');
 
+    const set = new Set(Array.isArray(config?.raw) ? config.raw : []);
     const acc:Record<string, unknown> = {};
     form.forEach((value, key) => {
         let normalizedValue = value;
 
         /* Handle string to boolean/number conversion */
-        if (typeof value === 'string') {
+        if (typeof value === 'string' && !set.has(key)) {
             const lower = value.toLowerCase();
             normalizedValue = (lower === 'true'
                 ? true
                 : lower === 'false'
                     ? false
-                    : !isNaN(Number(value)) && (value as string).trim() !== '' && value[0] !== '0'
+                    : !isNaN(Number(value)) && (value as string).trim() !== ''
                         ? Number(value)
                         : value) as FormDataEntryValue;
         }

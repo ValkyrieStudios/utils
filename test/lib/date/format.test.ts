@@ -502,6 +502,206 @@ describe('Date - format', () => {
         });
     });
 
+    describe('token:WW', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2023-01-01T00:00:00Z'), '52'], // Week 52 of the previous year
+                [new Date('2023-01-02T00:00:00Z'), '01'], // First week of the year
+                [new Date('2023-02-01T00:00:00Z'), '05'], // February 1st
+                [new Date('2023-03-15T00:00:00Z'), '11'], // March 15th
+                [new Date('2023-04-01T00:00:00Z'), '13'], // April 1st
+                [new Date('2023-05-20T00:00:00Z'), '20'], // May 20th
+                [new Date('2023-06-30T00:00:00Z'), '26'], // June 30th
+                [new Date('2023-07-14T00:00:00Z'), '28'], // July 14th
+                [new Date('2023-08-25T00:00:00Z'), '34'], // August 25th
+                [new Date('2023-09-10T00:00:00Z'), '36'], // September 10th
+                [new Date('2023-10-31T00:00:00Z'), '44'], // October 31st
+                [new Date('2023-11-15T00:00:00Z'), '46'], // November 15th
+                [new Date('2023-12-24T00:00:00Z'), '51'], // December 24th
+                [new Date('2023-12-31T00:00:00Z'), '52'], // Last week of the year
+                [new Date('2024-01-01T00:00:00Z'), '01'], // First week of the next year (2024 is a leap year)
+                [new Date('2024-01-07T00:00:00Z'), '01'], // January 7th, still week 1
+                [new Date('2024-02-29T00:00:00Z'), '09'], // Leap day
+                [new Date('2024-06-15T00:00:00Z'), '24'], // Mid-year
+                [new Date('2024-12-30T00:00:00Z'), '01'], // Last week spills into the first week of the next year
+                [new Date('2025-01-01T00:00:00Z'), '01'], // First week of 2025
+                [new Date('2025-03-31T00:00:00Z'), '14'], // March 31st, 2025
+                [new Date('2025-12-31T00:00:00Z'), '01'], // Last day of 2025, spills into week 1 of 2026
+                [new Date('2026-12-31T00:00:00Z'), '53'], // End of 2026, which has 53 weeks
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'WW'), el[1]);
+            }
+        });
+    });
+
+    describe('token:W', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2023-01-01T00:00:00Z'), '52'],
+                [new Date('2023-01-02T00:00:00Z'), '1'],
+                [new Date('2023-02-01T00:00:00Z'), '5'],
+                [new Date('2023-03-15T00:00:00Z'), '11'],
+                [new Date('2023-04-01T00:00:00Z'), '13'],
+                [new Date('2023-05-20T00:00:00Z'), '20'],
+                [new Date('2023-06-30T00:00:00Z'), '26'],
+                [new Date('2023-07-14T00:00:00Z'), '28'],
+                [new Date('2023-08-25T00:00:00Z'), '34'],
+                [new Date('2023-09-10T00:00:00Z'), '36'],
+                [new Date('2023-10-31T00:00:00Z'), '44'],
+                [new Date('2023-11-15T00:00:00Z'), '46'],
+                [new Date('2023-12-24T00:00:00Z'), '51'],
+                [new Date('2023-12-31T00:00:00Z'), '52'],
+                [new Date('2024-01-01T00:00:00Z'), '1'],
+                [new Date('2024-01-07T00:00:00Z'), '1'],
+                [new Date('2024-02-29T00:00:00Z'), '9'],
+                [new Date('2024-06-15T00:00:00Z'), '24'],
+                [new Date('2024-12-30T00:00:00Z'), '1'],
+                [new Date('2025-01-01T00:00:00Z'), '1'],
+                [new Date('2025-03-31T00:00:00Z'), '14'],
+                [new Date('2025-12-31T00:00:00Z'), '1'],
+                [new Date('2026-12-31T00:00:00Z'), '53'],
+            ] as [Date, string][]) {
+                assert.equal(format(el[0], 'W'), el[1]);
+            }
+        });
+    });
+
+    describe('token:WW sow:sun', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2023-01-01T00:00:00Z'), '01'], // Jan 1st, 2023 is Sunday, so week 1
+                [new Date('2023-01-07T00:00:00Z'), '01'], // Jan 7th, 2023 is still in week 1
+                [new Date('2023-01-08T00:00:00Z'), '02'], // Jan 8th, 2023 is Sunday, start of week 2
+                [new Date('2023-02-01T00:00:00Z'), '05'], // Feb 1st, 2023 is in week 5
+                [new Date('2023-03-15T00:00:00Z'), '11'], // Mar 15th, 2023 is in week 11
+                [new Date('2023-04-01T00:00:00Z'), '13'], // Apr 1st, 2023 is in week 13
+                [new Date('2023-05-20T00:00:00Z'), '20'], // May 20th, 2023 is in week 20
+                [new Date('2023-06-30T00:00:00Z'), '26'], // Jun 30th, 2023 is in week 26
+                [new Date('2023-07-14T00:00:00Z'), '28'], // Jul 14th, 2023 is in week 28
+                [new Date('2023-08-25T00:00:00Z'), '34'], // Aug 25th, 2023 is in week 34
+                [new Date('2023-09-10T00:00:00Z'), '37'], // Sep 10th, 2023 is in week 37
+                [new Date('2023-10-31T00:00:00Z'), '44'], // Oct 31st, 2023 is in week 44
+                [new Date('2023-11-15T00:00:00Z'), '46'], // Nov 15th, 2023 is in week 46
+                [new Date('2023-12-24T00:00:00Z'), '52'], // Dec 24th, 2023 is Sunday, start of week 52
+                [new Date('2023-12-31T00:00:00Z'), '53'], // Dec 31st, 2023 is Sunday, start of week 53
+                [new Date('2024-01-01T00:00:00Z'), '01'], // Jan 1st, 2024 is in week 1
+                [new Date('2024-01-07T00:00:00Z'), '02'], // Jan 7th, 2024 is in week 2
+                [new Date('2024-01-08T00:00:00Z'), '02'], // Jan 8th, 2024 is in week 2
+                [new Date('2024-02-29T00:00:00Z'), '09'], // Feb 29th, 2024 is in week 9 (leap year)
+                [new Date('2024-06-15T00:00:00Z'), '24'], // Jun 15th, 2024 is in week 24
+                [new Date('2024-12-30T00:00:00Z'), '53'], // Dec 30th, 2024 is in week 53
+                [new Date('2024-01-02T00:00:00Z'), '01'], // Jan 2nd, 2024 is in week 1 (Leap Year)
+                [new Date('2024-12-28T00:00:00Z'), '52'], // Dec 28th, 2024 is in week 52 (End of Leap Year)
+                [new Date('2024-12-29T00:00:00Z'), '53'], // Dec 29th, 2024 is in week 53 (End of Leap Year)
+                [new Date('2024-12-26T00:00:00Z'), '52'], // Dec 26th, 2024 is in week 52 (Thursday)
+                [new Date('2024-12-01T00:00:00Z'), '49'], // Dec 1st, 2024 is in week 48
+                [new Date('2023-12-30T00:00:00Z'), '52'], // Dec 30th, 2023 is in week 52
+            ]) assert.equal(format(el[0] as Date, 'WW', 'en', 'Europe/Brussels', 'sun'), el[1]);
+        });
+    });
+
+    describe('token:W sow:sun', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2023-01-01T00:00:00Z'), '1'], // Jan 1st, 2023 is Sunday, so week 1
+                [new Date('2023-01-07T00:00:00Z'), '1'], // Jan 7th, 2023 is still in week 1
+                [new Date('2023-01-08T00:00:00Z'), '2'], // Jan 8th, 2023 is Sunday, start of week 2
+                [new Date('2023-02-01T00:00:00Z'), '5'], // Feb 1st, 2023 is in week 5
+                [new Date('2023-03-15T00:00:00Z'), '11'], // Mar 15th, 2023 is in week 11
+                [new Date('2023-04-01T00:00:00Z'), '13'], // Apr 1st, 2023 is in week 13
+                [new Date('2023-05-20T00:00:00Z'), '20'], // May 20th, 2023 is in week 20
+                [new Date('2023-06-30T00:00:00Z'), '26'], // Jun 30th, 2023 is in week 26
+                [new Date('2023-07-14T00:00:00Z'), '28'], // Jul 14th, 2023 is in week 28
+                [new Date('2023-08-25T00:00:00Z'), '34'], // Aug 25th, 2023 is in week 34
+                [new Date('2023-09-10T00:00:00Z'), '37'], // Sep 10th, 2023 is in week 37
+                [new Date('2023-10-31T00:00:00Z'), '44'], // Oct 31st, 2023 is in week 44
+                [new Date('2023-11-15T00:00:00Z'), '46'], // Nov 15th, 2023 is in week 46
+                [new Date('2023-12-24T00:00:00Z'), '52'], // Dec 24th, 2023 is Sunday, start of week 52
+                [new Date('2023-12-31T00:00:00Z'), '53'], // Dec 31st, 2023 is Sunday, start of week 53
+                [new Date('2024-01-01T00:00:00Z'), '1'], // Jan 1st, 2024 is in week 1
+                [new Date('2024-01-07T00:00:00Z'), '2'], // Jan 7th, 2024 is in week 2
+                [new Date('2024-01-08T00:00:00Z'), '2'], // Jan 8th, 2024 is in week 2
+                [new Date('2024-02-29T00:00:00Z'), '9'], // Feb 29th, 2024 is in week 9 (leap year)
+                [new Date('2024-06-15T00:00:00Z'), '24'], // Jun 15th, 2024 is in week 24
+                [new Date('2024-12-30T00:00:00Z'), '53'], // Dec 30th, 2024 is in week 53
+                [new Date('2024-01-02T00:00:00Z'), '1'], // Jan 2nd, 2024 is in week 1 (Leap Year)
+                [new Date('2024-12-28T00:00:00Z'), '52'], // Dec 28th, 2024 is in week 52 (End of Leap Year)
+                [new Date('2024-12-29T00:00:00Z'), '53'], // Dec 29th, 2024 is in week 53 (End of Leap Year)
+                [new Date('2024-12-26T00:00:00Z'), '52'], // Dec 26th, 2024 is in week 52 (Thursday)
+                [new Date('2024-12-01T00:00:00Z'), '49'], // Dec 1st, 2024 is in week 48
+                [new Date('2023-12-30T00:00:00Z'), '52'], // Dec 30th, 2023 is in week 52
+            ]) assert.equal(format(el[0] as Date, 'W', 'en', 'Europe/Brussels', 'sun'), el[1]);
+        });
+    });
+
+    describe('token:WW sow:sat', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2023-01-01T00:00:00Z'), '01'], // Jan 1st, 2023 is Sunday, still in week 1 (week started on Dec 31st, 2022)
+                [new Date('2023-01-07T00:00:00Z'), '02'], // Jan 7th, 2023 is Saturday, week 2 starts
+                [new Date('2023-01-08T00:00:00Z'), '02'], // Jan 8th, 2023 is in week 2
+                [new Date('2023-02-01T00:00:00Z'), '05'], // Feb 1st, 2023 is in week 5
+                [new Date('2023-03-15T00:00:00Z'), '11'], // Mar 15th, 2023 is in week 11
+                [new Date('2023-04-01T00:00:00Z'), '14'], // Apr 1st, 2023 is in week 14
+                [new Date('2023-05-20T00:00:00Z'), '21'], // May 20th, 2023 is in week 21 (week starts on May 13th)
+                [new Date('2023-06-30T00:00:00Z'), '26'], // Jun 30th, 2023 is in week 27
+                [new Date('2023-07-14T00:00:00Z'), '28'], // Jul 14th, 2023 is in week 28
+                [new Date('2023-08-25T00:00:00Z'), '34'], // Aug 25th, 2023 is in week 34
+                [new Date('2023-09-10T00:00:00Z'), '37'], // Sep 10th, 2023 is in week 37
+                [new Date('2023-10-31T00:00:00Z'), '44'], // Oct 31st, 2023 is in week 44
+                [new Date('2023-11-15T00:00:00Z'), '46'], // Nov 15th, 2023 is in week 46
+                [new Date('2023-12-24T00:00:00Z'), '52'], // Dec 24th, 2023 is in week 52
+                [new Date('2023-12-31T00:00:00Z'), '53'], // Dec 31st, 2023 is in week 53
+                [new Date('2024-01-01T00:00:00Z'), '01'], // Jan 1st, 2024 is in week 1
+                [new Date('2024-01-07T00:00:00Z'), '02'],  // Jan 7th, 2024 is in week 2
+                [new Date('2024-01-08T00:00:00Z'), '02'],  // Jan 8th, 2024 is in week 2
+                [new Date('2024-02-29T00:00:00Z'), '09'],  // Feb 29th, 2024 is in week 9
+                [new Date('2024-06-15T00:00:00Z'), '25'], // Jun 15th, 2024 is in week 25
+                [new Date('2024-12-30T00:00:00Z'), '53'], // Dec 30th, 2024 is in week 53
+                [new Date('2024-01-02T00:00:00Z'), '01'], // Jan 2nd, 2024 is in week 1
+                [new Date('2024-12-28T00:00:00Z'), '53'], // Dec 28th, 2024 is in week 53
+                [new Date('2024-12-29T00:00:00Z'), '53'], // Dec 29th, 2024 is in week 53
+                [new Date('2024-12-26T00:00:00Z'), '52'], // Dec 26th, 2024 is in week 52
+                [new Date('2024-12-01T00:00:00Z'), '49'], // Dec 1st, 2024 is in week 49
+                [new Date('2023-12-30T00:00:00Z'), '53'], // Dec 30th, 2023 is in week 53
+            ]) assert.equal(format(el[0] as Date, 'WW', 'en', 'Europe/Brussels', 'sat'), el[1]);
+        });
+    });
+
+    describe('token:W sow:sat', () => {
+        it('Should be correct', () => {
+            for (const el of [
+                [new Date('2023-01-01T00:00:00Z'), '1'], // Jan 1st, 2023 is Sunday, still in week 1 (week started on Dec 31st, 2022)
+                [new Date('2023-01-07T00:00:00Z'), '2'], // Jan 7th, 2023 is Saturday, week 2 starts
+                [new Date('2023-01-08T00:00:00Z'), '2'], // Jan 8th, 2023 is in week 2
+                [new Date('2023-02-01T00:00:00Z'), '5'], // Feb 1st, 2023 is in week 5
+                [new Date('2023-03-15T00:00:00Z'), '11'], // Mar 15th, 2023 is in week 11
+                [new Date('2023-04-01T00:00:00Z'), '14'], // Apr 1st, 2023 is in week 14
+                [new Date('2023-05-20T00:00:00Z'), '21'], // May 20th, 2023 is in week 21 (week starts on May 13th)
+                [new Date('2023-06-30T00:00:00Z'), '26'], // Jun 30th, 2023 is in week 27
+                [new Date('2023-07-14T00:00:00Z'), '28'], // Jul 14th, 2023 is in week 28
+                [new Date('2023-08-25T00:00:00Z'), '34'], // Aug 25th, 2023 is in week 34
+                [new Date('2023-09-10T00:00:00Z'), '37'], // Sep 10th, 2023 is in week 37
+                [new Date('2023-10-31T00:00:00Z'), '44'], // Oct 31st, 2023 is in week 44
+                [new Date('2023-11-15T00:00:00Z'), '46'], // Nov 15th, 2023 is in week 46
+                [new Date('2023-12-24T00:00:00Z'), '52'], // Dec 24th, 2023 is in week 52
+                [new Date('2023-12-31T00:00:00Z'), '53'], // Dec 31st, 2023 is in week 53
+                [new Date('2024-01-01T00:00:00Z'), '1'], // Jan 1st, 2024 is in week 1
+                [new Date('2024-01-07T00:00:00Z'), '2'],  // Jan 7th, 2024 is in week 2
+                [new Date('2024-01-08T00:00:00Z'), '2'],  // Jan 8th, 2024 is in week 2
+                [new Date('2024-02-29T00:00:00Z'), '9'],  // Feb 29th, 2024 is in week 9
+                [new Date('2024-06-15T00:00:00Z'), '25'], // Jun 15th, 2024 is in week 25
+                [new Date('2024-12-30T00:00:00Z'), '53'], // Dec 30th, 2024 is in week 53
+                [new Date('2024-01-02T00:00:00Z'), '1'], // Jan 2nd, 2024 is in week 1
+                [new Date('2024-12-28T00:00:00Z'), '53'], // Dec 28th, 2024 is in week 53
+                [new Date('2024-12-29T00:00:00Z'), '53'], // Dec 29th, 2024 is in week 53
+                [new Date('2024-12-26T00:00:00Z'), '52'], // Dec 26th, 2024 is in week 52
+                [new Date('2024-12-01T00:00:00Z'), '49'], // Dec 1st, 2024 is in week 49
+                [new Date('2023-12-30T00:00:00Z'), '53'], // Dec 30th, 2023 is in week 53
+            ]) assert.equal(format(el[0] as Date, 'W', 'en', 'Europe/Brussels', 'sat'), el[1]);
+        });
+    });
+
     describe('token:DD', () => {
         it('Should be correct', () => {
             for (const el of [

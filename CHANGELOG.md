@@ -13,6 +13,16 @@ import {isLeap} from "@valkyriestudios/utils/date/isLeap";
 isLeap(new Date("2022-02-07T14:30:59.000Z")); // false
 isLeap(new Date("2022-02-07T14:30:59.000Z")); // true
 ```
+- **feat**: date/format now supports `WW` and `W` tokens to allow rendering week numbers in formatted strings (WW is 0-prefixed to ensure 2 digits)
+```
+import {format} from "@valkyriestudios/utils/date/format";
+format(new Date('2023-10-31T00:00:00Z'), "WW"); // '44'
+format(new Date('2026-12-31T00:00:00Z'), "W"); // '53'
+
+// With start of week
+format(new Date('2023-01-01T00:00:00Z'), 'WW', 'en', 'UTC', 'sun'); // '01'
+format(new Date('2023-12-31T00:00:00Z'), 'WW', 'en', 'UTC', 'sun'); // '53'
+```
 - **feat**: date/format@getLocale as a new function which returns the current default locale in use by date/format
 - **feat**: date/format@getZone as a new function which returns the current default time zone in use by date/format
 - **feat**: date/format@getStartOfWeek as a new function which returns the current default start of week in use by date/format
@@ -28,6 +38,7 @@ format.getStartOfWeek(); // 'mon'
 ```typescript
 import {format} from "@valkyriestudios/utils/date/format";
 format.setLocale("nl-be");
+format.setStartOfWeek("sun");
 format.setZone("America/New_York");
 
 ... (somewhere in your code, not necessarily the same file)
@@ -35,7 +46,7 @@ format.setZone("America/New_York");
 format(new Date("2022-08-17T08:55:15Z", "dddd DD MMMM YYYY H:mm:ss")); // "woensdag 17 augustus 2022 4:55:15"
 
 /* Take Note: You can still pass these options separately to get the same result */
-format(new Date("2022-08-17T08:55:15Z", "dddd DD MMMM YYYY H:mm:ss", "nl-be", "America/New_York")); // "woensdag 17 augustus 2022 4:55:15"
+format(new Date("2022-08-17T08:55:15Z", "[week:]WW dddd DD MMMM YYYY H:mm:ss", "nl-be", "America/New_York")); // "week:33 woensdag 17 augustus 2022 4:55:15"
 ```
 
 ### Improved

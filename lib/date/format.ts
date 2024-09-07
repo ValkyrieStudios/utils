@@ -2,7 +2,7 @@
 
 import {isDate} from './is';
 
-export type WEEK_START = 'mon' | 'sun';
+export type WEEK_START = 'mon' | 'sun' | 'sat';
 
 type Formatter  = (d:Date, loc:string, sow:WEEK_START) => string;
 type RawTuple = [string, Formatter];
@@ -35,15 +35,56 @@ const spec_cache: Record<string, SpecCacheEntry> = Object.create(null);
 const zone_offset_cache: Record<string, number> = Object.create(null);
 
 /**
- * Get the day of the year for a particular date
+ * Get the week number for a particular date
  *
- * @param {Date} d - Date to get the day of the year for
- * @returns {number} Day of the year
+ * @param {Date} d - Date to get the week number for
+ * @param {WEEK_START} sow - First day of the week
  */
-function DOY (d:Date):number {
-    /* eslint-disable-next-line */
-    /* @ts-ignore */
-    return ((d - new Date(d.getFullYear(), 0, 0)) / 86400000) | 0;
+function WeekNr (d: Date, sow: WEEK_START): number {
+    const date = new Date(d.valueOf());
+
+    switch (sow) {
+        case 'sun':
+        case 'sat': {
+            const OFFSET = sow === 'sat' ? 1 : 0;
+            const jan1 = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+
+            /* Adjust the date to the nearest previous Sunday (start of the week) */
+            const near = new Date(date.getTime() - (((date.getDay() + OFFSET) % 7) * 86400000));
+
+            /* Move January 1st back to the Sunday of its week if it's not already a Sunday */
+            const first = new Date(jan1.getTime() - (((jan1.getDay() + OFFSET) % 7) * 86400000));
+
+            /* Calculate the difference in weeks add 1 because weeks are 1-based */
+            return 1 + Math.floor((near.valueOf() - first.valueOf()) / 604800000);
+        }
+        /* Take note: This is the ISO implementation with monday as first day */
+        default: {
+           /**
+            * Adjust the copied date object to represent the Thursday of the current week we do this by
+            * calculating the day number and adjust it to have Monday as the first day of the week and then
+            * adding 3
+            */
+           date.setDate(date.getDate() - ((d.getDay() + 6) % 7) + 3);
+
+           // Store the value of the current Thursday of this week
+           const date_thu = date.valueOf();
+
+           // Set the cursor to Jan 1st
+           date.setMonth(0, 1);
+
+           // If January 1st is not a Thursday, find the date of the first Thursday of the year
+           if (date.getDay() !== 4) date.setMonth(0, 1 + ((4 - date.getDay()) + 7) % 7);
+
+           /**
+            * Calculate the ISO 8601 week number
+            * (monday first day of the week)
+            * this computation is based on diff between the value of the first and current Thursday
+            * divided by the number of milliseconds in a week
+            */
+           return 1 + Math.ceil((date_thu - date) / 604800000);
+        }
+    }
 }
 
 /**
@@ -59,14 +100,19 @@ function DOY (d:Date):number {
  */
 function toZone (d:Date, zone:string):Date {
     const year = d.getUTCFullYear();
-
-    /* Get the current client's timezone offset in minutes */
+    const month = d.getUTCMonth();
+    const day = d.getUTCDate();
     const time = d.getTime();
 
-    /* We make use of a 'month' + doy key as offsets might differ between months due to daylight saving time */
-    /* eslint-disable-next-line */
-    /* @ts-ignore */
-    const ckey = zone + ':' + year + (((d - new Date(year, 0, 0)) / 86400000) | 0);
+    /* Precomputed days in each month for a non-leap year */
+    const daysInMonths = [31, (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    /* Calculate day of the year (DOY) */
+    let doy = day;
+    for (let i = 0; i <= month; i++) doy += daysInMonths[i];
+
+    /* We make use of a cache key including year/doy as offsets might differ between months due to daylight saving time */
+    const ckey = zone + ':' + year + ':' + doy;
     if (zone_offset_cache[ckey] !== undefined) return new Date(time + zone_offset_cache[ckey]);
 
     /* Get the target timezone offset in minutes */
@@ -138,6 +184,13 @@ const Tokens:TokenTuple[] = ([
     }],
     /* Month as pure digit: eg (1 2 .. 11 12) */
     ['M', d => d.getMonth() + 1],
+    /* ISO Week Number: eg (01 02 .. 52 53) */
+    ['WW', (d, loc, sow) => {
+        const val = WeekNr(d, sow);
+        return (val < 10 ? '0' : '') + val;
+    }],
+    /* ISO Week Number without leading zero: eg (1 2 .. 52 53) */
+    ['W', (d, loc, sow) => WeekNr(d, sow)],
     /* Day of month as 2 char: eg (01 02 .. 30 31) */
     ['DD', d => {
         const val = d.getDate();

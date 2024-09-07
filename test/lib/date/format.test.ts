@@ -123,7 +123,7 @@ describe('Date - format', () => {
         it('Should throw an error when an invalid time zone is provided', () => {
             assert.throws(() => {
                 format.setZone('Invalid/Zone');
-            }, new Error('format/setZone: \'Invalid\/Zone\' is not a valid zone'));
+            }, new Error('format/setZone: \'Invalid/Zone\' is not a valid zone'));
         });
 
         it('Should throw an error when a non-string value is provided', () => {

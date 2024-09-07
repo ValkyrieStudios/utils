@@ -51,6 +51,7 @@ format(new Date("2022-08-17T08:55:15Z", "[week:]WW dddd DD MMMM YYYY H:mm:ss", "
 
 ### Improved
 - **perf**: Approximate ~10% performance improvement in array/join thanks to dropping template strings in favor of direct concat and working with precompiled regex
+- **perf**: Between ~10% and ~40% performance improvement (depends on spec) in date/format thanks to reduced computations at runtime and improving on zone computations
 - **deps**: Upgrade @types/node to 20.16.3
 
 ### Removed

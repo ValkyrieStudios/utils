@@ -20,6 +20,7 @@ import endOfUTC                 from '../dist/date/endOfUTC';
 import format                   from '../dist/date/format';
 import isDate                   from '../dist/date/is';
 import isDateFormat             from '../dist/date/isFormat';
+import isLeap                   from '../dist/date/isLeap';
 import isFormData               from '../dist/formdata/is';
 import nowUnix                  from '../dist/date/nowUnix';
 import nowUnixMs                from '../dist/date/nowUnixMs';
@@ -103,6 +104,8 @@ const GROUP_EXAMPLE_10 = [
 const GROUP_EXAMPLE_50 = [...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10, ...GROUP_EXAMPLE_10];
 const DATE_EXAMPLE = new Date('2022-10-05T13:12:11+02:00');
 const DATE_EXAMPLE_2 = new Date('2032-10-05T11:12:11.000Z');
+const DATE_EXAMPLE_LEAP_VALID = new Date('2024-10-05T13:12:11+02:00');
+const DATE_EXAMPLE_LEAP_INVALID = new Date('2022-10-05T13:12:11+02:00');
 
 /* Run benchmarks */
 for (const el of [
@@ -541,6 +544,16 @@ for (const el of [
     {
         lbl: 'date/isFormat - invalid ISO',
         fn: () => isDateFormat('2024-02-31T12:30:45.123Z', 'ISO'),
+    },
+    /* Date - isLeap - valid */
+    {
+        lbl: 'date/isLeap - valid',
+        fn: () => isLeap(DATE_EXAMPLE_LEAP_VALID),
+    },
+    /* Date - isLeap - invalid */
+    {
+        lbl: 'date/isLeap - invalid',
+        fn: () => isLeap(DATE_EXAMPLE_LEAP_INVALID),
     },
     /* Date - nowUnix */
     {

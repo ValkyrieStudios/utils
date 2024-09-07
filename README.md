@@ -13,26 +13,27 @@ Zero-dependency collection of single-function utilities for common tasks
 `npm install @valkyriestudios/utils`
 
 ## Available Functions
-
-### array
-- **isArray(val:unknown)**
+### array/is(val:unknown)
 Check if a variable is of type Array
 ```typescript
+import is from '@valkyriestudios/utils/array/is';
 isArray({a:1}); // FALSE
 isArray([]); // TRUE
 ```
 
-- **isNotEmptyArray(val:unknown)**
+### array/isNotEmpty(val:unknown)
 Check if a variable a non-empty array
 ```typescript
+import isNotEmptyArray from '@valkyriestudios/utils/array/isNotEmpty';
 isNotEmptyArray({a:1}); // FALSE
 isNotEmptyArray([]); // FALSE
 isNotEmptyArray([0, 1, 2]); // TRUE
 ```
 
-- **mapKey(val:Record[], key:string, opts:object={})**
+### array/mapKey(val:Record[], key:string, opts:object={})
 Map a non-primitive object array into an object map by key
 ```typescript
+import mapKey from '@valkyriestudios/utils/array/mapKey';
 mapKey([
     {uid: 12, name: 'Peter'},
     {uid: 15, name: 'Jonas'},
@@ -50,6 +51,7 @@ output:
 
 Autofilters anything not meeting the spec:
 ```typescript
+import mapKey from '@valkyriestudios/utils/array/mapKey';
 mapKey([
     0,
     {uid: 12, name: 'Peter'},
@@ -74,6 +76,7 @@ output:
 
 allows merging objects onto existing keys:
 ```typescript
+import mapKey from '@valkyriestudios/utils/array/mapKey';
 mapKey([
     0,
     {uid: 12, name: 'Peter'},
@@ -99,10 +102,11 @@ output:
 }
 ```
 
-- **mapFn(val:Record[], key:Function, opts:object={})**
+### array/mapFn(val:Record[], key:Function, opts:object={})
 Same behavior as mapKey but instead of a key, a function is passed to generate your own key. Eg:
 
 ```typescript
+import mapFn from '@valkyriestudios/utils/array/mapFn';
 mapFn([
     {uid: 12, name: 'Peter'},
     {uid: 15, name: 'Jonas'},
@@ -120,19 +124,21 @@ output:
 
 options are the same as the mapKey function
 
-- **mapPrimitive(val:any[], opts:object={valtrim:false,keyround:false,valround:false})**
+### array/mapPrimitive(val:any[], opts:object={valtrim:false,keyround:false,valround:false})
 Map an array of primitives (number/string)
 ```typescript
+import mapPrimitive from '@valkyriestudios/utils/array/mapPrimitive';
 mapPrimitive([1,2,3]); // {1: 1, 2: 2, 3: 3}
 mapPrimitive(['hello', 'hello', 'foo', 'bar']); // {hello: 'hello', foo: 'foo', bar: 'bar'}
 mapPrimitive(['hello', ' hello', 'foo', '  foo'], {valtrim: true}); // {hello: 'hello', foo: 'foo'}
 ```
 
-- **groupBy(val:Record[], handler:Function|string)**
+### array/groupBy(val:Record[], handler:Function|string)
 Return a grouped object from an array. This function **will automatically filter out any non/empty objects**.
 
 Example usage when using a **function** as the handler
 ```typescript
+import groupBy from '@valkyriestudios/utils/array/groupBy';
 /* The output of the function will be what the key is on the map  */
 const group = groupBy([
     {tally: 20, name: 'Peter'},
@@ -163,9 +169,9 @@ const group = groupBy([
 ```
 **Take note**: If the function returns an undefined or empty string the object will be added to a fallback group called '_'
 
-
 Example usage when using a **string** as the handler to denote a grouping by a certain property name
 ```typescript
+import groupBy from '@valkyriestudios/utils/array/groupBy';
 const group = groupBy([
     {role: 'user', name: 'Peter'},
     {role: 'user', name: 'Jake'},
@@ -184,9 +190,10 @@ const group = groupBy([
 **Take note**: any object without the key will be added to a fallback group called '_'
 
 
-- **dedupe(val:Array, opts?:{filter_fn})**
+### array/dedupe(val:Array, opts?:{filter_fn})
 Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.
 ```typescript
+import dedupe from '@valkyriestudios/utils/array/dedupe';
 dedupe(['a','a','b','c','c']); // ['a', 'b', 'c']
 dedupe(['1',1,'2',2]); // ['1','2']
 dedupe([new RegExp(/ab+c/, 'i'), new RegExp(/ab+c/, 'i')]); // [new RegExp(/ab+c/, 'i')]
@@ -197,10 +204,11 @@ dedupe(['hello', 'hello', 'world', false, 'world'], {filter_fn: el => isNotEmpty
 
 Take Note: The filtering is applied while deduping, ensuring O(n) performance, as such this is faster than dedupe(arr.filter(...))
 
-- **join(val:Array, opts:object={delim:' ',trim:true,valtrim:true,innertrim:true,valround:false})**
+### array/join(val:Array, opts:object={delim:' ',trim:true,valtrim:true,innertrim:true,valround:false})
 Concatenate the values within an array into a string, behind the scenes this will automatically filter out any value that is not a string or numerical value. For strings it will automatically trim (and remove if empty after trimming) before joining.
 
 ```typescript
+import join from '@valkyriestudios/utils/array/join';
 join(['Valkyrie', 'Studios']); // 'Valkyrie Studios'
 join([5.1, '  years ', 'ago'], {valround: 0}); // '5 years ago'
 join(['peter   ', '  valkyrie  '], {delim: '@'}); // 'peter@valkyrie'
@@ -209,19 +217,21 @@ join(['  a', 1], {delim: '', valtrim: false, trim: false}); // '  a1'
 join(['  hello  world  ', 'this   is    peter   '], {valtrim:true, innertrim: true, delim: ' '}); // 'hello world this is peter'
 ```
 
-- **shuffle(val:Array)**
+### array/shuffle(val:Array)
 Shuffle an array (Fisher-Yates) in O(n), take note this changes the passed value
 
 ```typescript
+import shuffle from '@valkyriestudios/utils/array/shuffle';
 const arr = [1, 2, 3, 4, 5, 6];
 shuffle(arr);
 // [4, 6, 3, 2, 5, 1]
 ```
 
-- **sort(val:Array[object], by:string|Function, dir:Enum(asc,desc), options:Object)**
+### array/sort(val:Array[object], by:string|Function, dir:Enum(asc,desc), options:Object)
 Sort an array of objects, uses an implementation of [Tony Hoare's quicksort](https://cs.stanford.edu/people/eroberts/courses/soco/projects/2008-09/tony-hoare/quicksort.html)
 
 ```typescript
+import sort from '@valkyriestudios/utils/array/sort';
 const out = sort([
     {test: 'Peter'},
     {test: 'Jack'},
@@ -235,6 +245,7 @@ const out = sort([
 ```
 
 ```typescript
+import sort from '@valkyriestudios/utils/array/sort';
 const out = sort([
     {test: 'Peter'},
     {test: 'Jack'},
@@ -250,6 +261,7 @@ const out = sort([
 allows passing a function to determine the key to sort by
 
 ```typescript
+import sort from '@valkyriestudios/utils/array/sort';
 const out = sort([
     {test: 'Peter'},
     {test: 'Jack'},
@@ -265,6 +277,7 @@ const out = sort([
 auto-cleans input to only contains non-empty objects
 
 ```typescript
+import sort from '@valkyriestudios/utils/array/sort';
 const out = sort([
     {test: 'Peter'},
     {},
@@ -284,6 +297,7 @@ allows passing custom filter function to clean input
 Take note: Sort will still verify that the object is not an empty object, even when passing a custom filter function.
 
 ```typescript
+import sort from '@valkyriestudios/utils/array/sort';
 const out = sort([
     {test: 'Peter'},
     {},
@@ -304,6 +318,7 @@ const out = sort([
 allows passing custom options to position elements without a proper key (nokey_atend, defaults to true), or hide them (nokey_hide, defaults to false)
 
 ```typescript
+import sort from '@valkyriestudios/utils/array/sort';
 const arr = [{test: 'Peter'}, {test: undefined}, {test: 'Jack'}, {test: 'Pony'}, {uid: 100}, {test: 'JOHn'}];
 const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_atend: false});
 // [{test: undefined}, {uid: 100}, {test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
@@ -315,29 +330,31 @@ const out = sort(arr, el => el.test.toLowerCase(), 'desc', {nokey_hide: true});
 // [{test: 'Pony'}, {test: 'Peter'}, {test: 'JOHn'}, {test: 'Jack'}]
 ```
 
-- **split(val:any[], size:number, opts?:{filter_fn})**
+### array/split(val:any[], size:number, opts?:{filter_fn})
 Splits an array into subarray of provided size with optional filter
 ```typescript
+import split from '@valkyriestudios/utils/array/split';
 split([1,2,3,4,5], 2); // [[1,2],[3,4],[5]]
 split([1, 2, false, 4, 5], 2, {filter_fn: isInteger}); // [[1,2],[4,5]]
 ```
 
 Take Note: The filtering is applied while splitting, ensuring O(n) performance, as such this is faster than split(arr.filter(...), ...)
 
-### boolean
-- **isBoolean(val:any)**
+### boolean/is(val:any)
 Check if a variable is of type Boolean
 ```typescript
+import isBoolean from '@valkyriestudios/utils/boolean/is';
 isBoolean(null); // FALSE
 isBoolean(false); // TRUE
 isBoolean(true); // TRUE
 ```
 
-### caching
-- **memoize(fn:Function, resolver:Function=false, memoize_for:number|false)**
+### caching/memoize(fn:Function, resolver:Function=false, memoize_for:number|false)
 memoize the output of a function. An optional resolver function can be passed which allows custom cache key generation.
 
 ```typescript
+import memoize from '@valkyriestudios/utils/caching/memoize';
+
 const memoized_function = memoize((a) => {
     return fnv1A(a);
 });
@@ -345,6 +362,8 @@ const memoized_function = memoize((a) => {
 
 Take Note: Also supports async functions and cache busting, eg:
 ```typescript
+import memoize from '@valkyriestudios/utils/caching/memoize';
+
 async function retrieveUser (userId:string) {
     ...
 }
@@ -364,24 +383,26 @@ await memoized('123456'); /* Original function will not be called and memoized c
 await memoized('123456'); /* Original function will be called and re-cached */
 ```
 
-### date
-- **isDate(val:unknown)**
-Check if a variable is of type Date
+### date/is(val:unknown)
+Check if a variable is of type Date and valid
 ```typescript
+import isDate from '@valkyriestudios/utils/date/is';
 isDate(new Date('December 17, 1995 03:24:00')); // TRUE
 isDate('December 17, 1995 03:24:00'); // FALSE
 ```
 
-- **isLeap(val:Date)**
+### date/isLeap(val:Date)
 Check if a date is in a leap year or not
 ```typescript
+import isLeap from '@valkyriestudios/utils/date/isLeap';
 isLeap(new Date("2022-02-07T14:30:59.000Z")); // false
 isLeap(new Date("2024-02-07T14:30:59.000Z")); // true
 ```
 
-- **isFormat(val:unknown, spec:string)**
+### date/isFormat(val:unknown, spec:string)
 Check if a variable is a string in a particular date format
 ```typescript
+import isFormat from '@valkyriestudios/utils/date/isFormat';
 isFormat('2024-02-07', 'YYYY-MM-DD'); // TRUE
 isFormat('2024-2-07', 'YYYY-MM-DD'); // FALSE
 isFormat('12:30 AM', 'HH:mm A'); // TRUE
@@ -410,11 +431,12 @@ Available tokens for usage in spec:
 Note: The `ISO` token is a shorthand for `YYYY-MM-DDTHH:mm:ss.SSSZ`
 Note: You can escape characters by surrounding them with `[...]` in your spec, eg: `YYYY-[Q]Q` would check for example `2024-Q1`
 
-- **diff(val_a:Date, val_b:Date, key:string)**
+### date/diff(val_a:Date, val_b:Date, key:string)
 Take two incoming dates and return the difference between them in a certain unit. Possible key options(week,day,hour,minute,second,millisecond).
 
 Note: Does not touch the passed date objects, if no key is passed will default to millisecond
 ```typescript
+import diff from '@valkyriestudios/utils/date/diff';
 diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-11-05T13:12:11+06:00"), 'week'); // -4.404761904761905
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'day'); // 30.83333333333333332
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:12:11+02:00"), 'hour'); // 740
@@ -424,7 +446,7 @@ diff(new Date("2022-10-05T13:12:11+02:00"), new Date("2022-10-05T17:43:09.344+06
 diff(new Date("2022-11-05T13:12:11+06:00"), new Date("2022-10-05T13:25:43.898+02:00")); // 2663187102
 ```
 
-- **format(val:Date, spec:string, locale?:string, zone?:string, startOfWeek?:'mon'|'sun'|'sat'):string**
+### date/format(val:Date, spec:string, locale?:string, zone?:string, startOfWeek?:'mon'|'sun'|'sat'):string
 Format a date according to a spec/locale and zone
 
 **Take Note**:
@@ -479,6 +501,8 @@ Format has several additional functions defined which help usage inside of an ec
 **Usage**:
 
 ```typescript
+import format from '@valkyriestudios/utils/date/format';
+
 format(new Date('2023-01-10T14:30:00Z'), '[Today is] dddd, MMMM D, YYYY [at] h:mm A', 'en', 'Europe/Brussels');
 //  'Today is Tuesday, January 10, 2023 at 2:30 PM'
 
@@ -504,23 +528,24 @@ format(new Date('2022-07-14T19:40:30Z'), 'dddd, YYYY-MM-DD');
 // 'vendredi, 2022-07-15'
 ```
 
-- **toUTC(val:Date)**
+### date/toUTC(val:Date)
 Takes the passed date object and returns a new date object set for utc
 
-- **toUnix(val:Date)**
+### date/toUnix(val:Date)
 Takes the passed date object and returns its unix timestamp in seconds
 
-- **nowUnix()**
+### date/nowUnix()
 Returns the current unix timestamp in seconds
 
-- **nowUnixMs()**
+### date/nowUnixMs()
 Returns the current unix timestamp in milliseconds
 
-- **setTimeUTC(val:Date, props:{hour?:number;minute?:number;second?:number;millisecond?:number})**
+### date/setTimeUTC(val:Date, props:{hour?:number;minute?:number;second?:number;millisecond?:number})
 Take the incoming date and return a date where the time portion is set to the values in the provided props
 
 Note: Does not touch the date object passed
 ```typescript
+import setTimeUTC from '@valkyriestudios/utils/date/setTimeUTC';
 setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5}); // new Date("2023-05-04T05:04:27.432Z")
 setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30}); // new Date("2023-05-04T05:30:27.432Z")
 setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {hour: 5, minute: 30, second: 0}); // new Date("2023-05-04T05:30:00.432Z")
@@ -529,11 +554,12 @@ setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {minute: 30, second: 0, millise
 setTimeUTC(new Date("2023-05-04T12:04:27.432Z"), {second: 9, millisecond: 0}); // new Date("2023-05-04T12:04:09.000Z")
 ```
 
-- **startOfUTC(val:Date, key:string)**
+### date/startOfUTC(val:Date, key:string)
 Take the incoming date and return a date set to the start of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
 ```typescript
+import startOfUTC from '@valkyriestudios/utils/date/startOfUTC';
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'year'); // new Date("2023-01-01T00:00:00.000Z")
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'quarter'); // new Date("2023-04-01T00:00:00.000Z")
 startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month'); // new Date("2023-05-01T00:00:00.000Z")
@@ -549,11 +575,12 @@ startOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'minute'); // new Date("2023-0
 startOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023-05-04T10:04:27.000Z")
 ```
 
-- **endOfUTC(val:Date, key:string)**
+### date/endOfUTC(val:Date, key:string)
 Take the incoming date and return a date set to the end of passed key. Possible key options(year,quarter,month,week,week_sun,week_mon,week_tue,week_wed,week_thu,week_fri,week_sat,day,hour,minute,second).
 
 Note: Does not touch the date object passed
 ```typescript
+import endOfUTC from '@valkyriestudios/utils/date/endOfUTC';
 endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'year'); // new Date("2023-12-31T23:59:59.999Z")
 endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'quarter'); // new Date("2023-06-30T23:59:59.999Z")
 endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'month'); // new Date("2023-05-31T23:59:59.999Z")
@@ -573,11 +600,12 @@ endOfUTC(new Date("2023-05-04T12:04:27+02:00"), 'minute'); // new Date("2023-05-
 endOfUTC(new Date("2023-05-04T12:04:27.043+02:00"), 'second'); // new Date("2023-05-04T10:04:27.999Z")
 ```
 
-- **addUTC(val:Date, amount:integer, key:string)**
+### date/addUTC(val:Date, amount:integer, key:string)
 Take the incoming date and add a certain amount of the passed key. Possible key options(year,years,month,months,day,days,hour,hours,minute,minutes,second,seconds,millisecond,milliseconds).
 
 Note: Does not touch the date object passed
 ```typescript
+import addUTC from '@valkyriestudios/utils/date/addUTC';
 addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'year'); // new Date("2032-10-05T11:12:11.000Z")
 addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'year'); // new Date("2012-10-05T11:12:11.000Z")
 addUTC(new Date("2022-10-05T13:12:11+02:00"), 10, 'month'); // new Date("2023-08-05T11:12:11.000Z")
@@ -596,35 +624,36 @@ addUTC(new Date("2022-10-05T13:12:11+02:00"), 336000 * 60, 'second'); // new Dat
 addUTC(new Date("2022-10-05T13:12:11+02:00"), -10, 'second'); // new Date("2022-10-05T11:12:01.000Z")
 ```
 
-### deep
-- **deepFreeze(val:Object)**
+### deep/freeze(val:Object)
 Recursively freezes all properties of an object
 ```typescript
+import deepFreeze from '@valkyriestudios/utils/deep/freeze';
 const myObj = deepFreeze({
-	a: 2,
-	b: {
-		c: 3,
-		d: {
-			e: 'hello',
-		}
-	}
+    a: 2,
+    b: {
+        c: 3,
+        d: {
+            e: 'hello',
+        }
+    }
 });
 Object.isFrozen(myObj); // TRUE
 Object.isFrozen(myObj.b); // TRUE
 Object.isFrozen(myObj.b.d); // TRUE
 ```
 
-- **deepSeal(val:Object)**
+### deep/seal(val:Object)
 Recursively freezes all properties of an object
 ```typescript
+import deepSeal from '@valkyriestudios/utils/deep/seal';
 const myObj = deepSeal({
-	a: 2,
-	b: {
-		c: 3,
-		d: {
-			e: 'hello',
-		}
-	}
+    a: 2,
+    b: {
+        c: 3,
+        d: {
+            e: 'hello',
+        }
+    }
 });
 Object.isSealed(myObj); // TRUE
 Object.isSealed(myObj.b); // TRUE
@@ -632,66 +661,62 @@ Object.isSealed(myObj.b.d); // TRUE
 Object.isFrozen(myObj.b.d); // FALSE
 ```
 
-- **deepSet(obj:Object, path:string, value:any=null, define:boolean=false)**
+### deep/set(obj:Object, path:string, value:any=null, define:boolean=false)
 Sets a property and its value deep in the structure of an object
 ```typescript
+import deepSet from '@valkyriestudios/utils/deep/set';
 const myObj = {
-	a: 2,
+    a: 2,
 };
 deepSet(myObj, 'b.c.d.e', 4);
 myObj.b.c.d.e; // 4
-```
 
-```typescript
-const myObj = {
-	a: 2,
-	b: [
-		{ price : 2 },
-		{ price : 4 },
-	],
+const myObj2 = {
+    a: 2,
+    b: [
+        { price : 2 },
+        { price : 4 },
+    ],
 };
-deepSet(myObj, 'b[0].price', 100);
-deepSet(myObj, 'b[1].price', 500);
-myObj.b[0].price; // 100
-myObj.b[1].price; // 500
-```
+deepSet(myObj2, 'b[0].price', 100);
+deepSet(myObj2, 'b[1].price', 500);
+myObj2.b[0].price; // 100
+myObj2.b[1].price; // 500
 
-```typescript
-const myObj = {
-	a: 2,
+const myObj3 = {
+    a: 2,
 };
-deepSet(myObj, 'b.c', { value: function () => {...} }, true);
-myObj.b.c; // Function
+deepSet(myObj3, 'b.c', { value: function () => {...} }, true);
+myObj3.b.c; // Function
 ```
 
-- **deepGet(obj:Object, path:string, get_parent:boolean=false)**
+### deep/get(obj:Object, path:string, get_parent:boolean=false)
 Retrieves a value based on a path in a deeply nested object
 ```typescript
+import deepGet from '@valkyriestudios/utils/deep/get';
 const myObj = {
-	a: 2,
-	b: [
-		{ price : 2 },
-		{ price : 4 },
-	],
+    a: 2,
+    b: [
+        { price : 2 },
+        { price : 4 },
+    ],
 };
 deepGet(myObj, 'b[0].price', true); // [{price: 2}, {price: 4}]
-```
 
-```typescript
-const myObj = {
-	a: 2,
-	b: [
-		{ price : 2 },
-		{ price : 4 },
-	],
+const myObj2 = {
+    a: 2,
+    b: [
+        { price : 2 },
+        { price : 4 },
+    ],
 };
-deepGet(myObj, 'b[0].price'); // 2
+deepGet(myObj2, 'b[0].price'); // 2
 ```
 
-### equal
-- **equal(a:any, b:any)**
+### equal(a:any, b:any)
 Check if a variable is equal to another one
 ```typescript
+import equal from '@valkyriestudios/utils/equal';
 equal(5, 6); // FALSE
 equal(1, 1); // TRUE
 equal([0, 1, 2], [1, 2]); // FALSE
@@ -701,40 +726,71 @@ equal(new Date('2012-20-09'), '2012-20-09'); // TRUE ( check is being done on un
 equal(new RegExp(/ab+c/, 'i'), /ab+c/i); // TRUE
 ```
 
-### function
-- **debounce(val:Fn, wait:number)**
+### function/debounce(val:Fn, wait:number)
 Wrap a function in a debounce proxy that waits for X uninterrupted milliseconds before running callback function
+```typescript
+const log = (message: string) => console.log(message);
+const debouncedLog = debounce(log, 2000);
+debouncedLog("Hello, World!"); // 2 seconds later we see log
 
-- **isFunction(val:unknown)**
+debouncedLog("Hello, World!");
+debouncedLog.cancel(); // No log as we cancelled
+
+debouncedLog("Hello, World!");
+debouncedLog.flush(); // Immediate log no 2 second debounce
+
+debouncedLog("Hello, World!");
+debouncedLog.cancel();
+debouncedLog.flush(); // Nothing happens as timeout was killed through cancel
+````
+
+### function/is(val:unknown)
 Check if a variable is a Function
+```typescript
+import isFunction from '@valkyriestudios/utils/function/is';
+isFunction(() => console.log('Hello')); // TRUE
+isFunction('December 17, 1995 03:24:00'); // FALSE
+```
 
-- **isAsyncFunction(val:unknown):boolean**
+### function/isAsync(val:unknown):boolean
 Check if a variable is an async function
+```typescript
+import isAsync from '@valkyriestudios/utils/function/isAsync';
+isAsync(() => console.log('Hello')); // FALSE
+isAsync(async () => {
+    await sleep(1000);
+    console.log('Hello');
+}); // TRUE
+```
 
-- **noop()**
+### function/noop()
 An empty function that can be used in (for example) piping
 
-- **noopreturn(val:any)**
+### function/noopreturn(val:any)
 An empty function that will pass back the variable that it was passed
 
-- **noopresolve(val:any)**
+### function/noopresolve(val:any)
 An empty function that returns a promise that will immediately resolve itself and pass back any variable that was passed to it
 
-- **sleep(val:int)**
+### function/sleep(val:int)
 An empty function that returns a promise that will resolve after X milliseconds, default is set to 1000ms.
-**
+```typescript
+import sleep from '@valkyriestudios/utils/function/sleep';
+await sleep(1000); // sleeps for 1 second
+````
 
-### formdata
-- **isFormData(val:any)**
+### formdata/is(val:any)
 Check if a variable is of type FormData
 ```typescript
+import isFormData from '@valkyriestudios/utils/formdata/is';
 isFormData(new FormData()); // TRUE
 isFormData({hi: 'there'}); // FALSE
 ```
 
-- **toObject(val:FormData)**
+### formdata/toObject(val:FormData)
 Converts an instance of FormData to an object
 ```typescript
+import toObject from '@valkyriestudios/utils/formdata/toObject';
 const form = new FormData();
 form.append('name', 'Alice');
 form.append('hobbies', 'reading');
@@ -744,16 +800,17 @@ form.append('emptyField', '');
 toObject(form); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
 ```
 
-### hash
-- **guid()**
+### hash/guid()
 Generate a unique identifier (guid) according to RFC4122
 ```typescript
+import guid from '@valkyriestudios/utils/hash/guid';
 guid(); // 245caf1a-86af-11e7-bb31-be2e44b06b34
 ```
 
-- **fnv1A(val:unknown)**
+### hash/fnv1A(val:unknown)
 Generate a fnv1A hash from an object, using a 32-bit prime/offset
 ```typescript
+import fnv1A from '@valkyriestudios/utils/hash/fnv1A';
 fnv1A('hello world'); // -2023343616
 fnv1A({a:1,b:2}); // 361168128
 fnv1A(4); // 1630425728
@@ -761,54 +818,114 @@ fnv1A(new RegExp(/ab+c/, 'i')); // 2131692544
 fnv1A(new Date('2012-02-02')); // 1655579136
 ```
 
-### number
-- **isNumber(val:unknown)**
+### Is
+The utility found at `@valkyriestudios/utils/is` combines and exposes a barrel export of several other functions found within the library. This does not extend those utils but simply acts as an easy single import for many utils all at once.
+
+These functions are the following:
+- **Is.Array**
+- **Is.NeArray**
+- **Is.NotEmptyArray**
+- **Is.Boolean**
+- **Is.Date**
+- **Is.Formdata**
+- **Is.Function**
+- **Is.AsyncFunction**
+- **Is.Num**
+- **Is.NumBetween**
+- **Is.NumAbove**
+- **Is.NumAboveOrEqual**
+- **Is.NumBelow**
+- **Is.NumBelowOrEqual**
+- **Is.NumGt**
+- **Is.NumGte**
+- **Is.NumLt**
+- **Is.NumLte**
+- **Is.Number**
+- **Is.NumberBetween**
+- **Is.NumberAbove**
+- **Is.NumberAboveOrEqual**
+- **Is.NumberBelow**
+- **Is.NumberBelowOrEqual**
+- **Is.Int**
+- **Is.IntBetween**
+- **Is.IntAbove**
+- **Is.IntAboveOrEqual**
+- **Is.IntBelow**
+- **Is.IntBelowOrEqual**
+- **Is.IntGt**
+- **Is.IntGte**
+- **Is.IntLt**
+- **Is.IntLte**
+- **Is.Integer**
+- **Is.IntegerBetween**
+- **Is.IntegerBelow**
+- **Is.IntegerBelowOrEqual**
+- **Is.IntegerAbove**
+- **Is.IntegerAboveOrEqual**
+- **Is.RegExp**
+- **Is.Object**
+- **Is.NeObject**
+- **Is.NotEmptyObject**
+- **Is.String**
+- **Is.StringBetween**
+- **Is.NeString**
+- **Is.NotEmptyString**
+- **Is.Equal**
+- **Is.Eq**
+
+### number/is(val:unknown)
 Check if a variable is a number
 ```typescript
+import isNumber from '@valkyriestudios/utils/number/is';
 isNumber('foo'); // FALSE
 isNumber(4); // TRUE
 isNumber(0.5); // TRUE
 ```
 
-- **isNumberAbove(val:number, comp:number)**
+### number/isAbove(val:number, comp:number)
 Check if a variable is a number above a certain bound
 ```typescript
+import isNumberAbove from '@valkyriestudios/utils/number/isAbove';
 isNumberAbove(5, 0); // TRUE
 isNumberAbove(.1, 0); // TRUE
 isNumberAbove(-1, -1); // FALSE
 isNumberAbove(-10, -9); // FALSE
 ```
 
-- **isNumberAboveOrEqual(val:number, comp:number)**
+### number/isAboveOrEqual(val:number, comp:number)
 Check if a variable is a number above or equal to a certain bound
 ```typescript
+import isNumberAboveOrEqual from '@valkyriestudios/utils/number/isAboveOrEqual';
 isNumberAboveOrEqual(5, 0); // TRUE
 isNumberAboveOrEqual(.1, 0); // TRUE
 isNumberAboveOrEqual(-1, -1); // TRUE
 isNumberAboveOrEqual(-10, -9); // FALSE
 ```
 
-- **isNumberBelow(val:number, comp:number)**
+### number/isBelow(val:number, comp:number)
 Check if a variable is a number below a certain bound
 ```typescript
+import isNumberBelow from '@valkyriestudios/utils/number/isBelow';
 isNumberBelow(0, 5); // TRUE
 isNumberBelow(0, .1); // TRUE
 isNumberBelow(-1, -1); // FALSE
 isNumberBelow(-9, -10); // FALSE
 ```
 
-- **isNumberBelowOrEqual(val:number, comp:number)**
+### number/isBelowOrEqual(val:number, comp:number)
 Check if a variable is a number below or equal a certain bound
 ```typescript
+import isNumberBelowOrEqual from '@valkyriestudios/utils/number/isBelowOrEqual';
 isNumberBelowOrEqual(0, 5); // TRUE
 isNumberBelowOrEqual(0, .1); // TRUE
 isNumberBelowOrEqual(-1, -1); // TRUE
 isNumberBelowOrEqual(-9, -10); // FALSE
 ```
 
-- **isNumberBetween(val:number, min:number, max:number)**
+### number/isBetween(val:number, min:number, max:number)
 Check if a variable is a number between a range of numbers
 ```typescript
+import isNumberBetween from '@valkyriestudios/utils/number/isBetween';
 isNumberBetween(5, 0, 10); // TRUE
 isNumberBetween(.1, 0, 1); // TRUE
 isNumberBetween(-.1, -1, 0); // TRUE
@@ -816,35 +933,39 @@ isNumberBetween(0, 0, 1); // TRUE
 isNumberBetween(-1, 0, 1); // FALSE
 ```
 
-- **isInteger(val:unknown)**
+### number/isInteger(val:unknown)
 Check if a variable is an integer
 ```typescript
+import isInteger from '@valkyriestudios/utils/number/isInteger';
 isInteger('foo'); // FALSE
 isInteger(4); // TRUE
 isInteger(0.5); // FALSE
 ```
 
-- **isIntegerAbove(val:number, comp:number)**
+### number/isIntegerAbove(val:number, comp:number)
 Check if a variable is an integer above a certain bound
 ```typescript
+import isIntegerAbove from '@valkyriestudios/utils/number/isIntegerAbove';
 isIntegerAbove(5, 0); // TRUE
 isIntegerAbove(.1, 0); // FALSE
 isIntegerAbove(-1, -1); // FALSE
 isIntegerAbove(-10, -9); // FALSE
 ```
 
-- **isIntegerAboveOrEqual(val:number, comp:number)**
+### number/isIntegerAboveOrEqual(val:number, comp:number)
 Check if a variable is an integer above or equal to a certain bound
 ```typescript
+import isIntegerAboveOrEqual from '@valkyriestudios/utils/number/isIntegerAboveOrEqual';
 isIntegerAboveOrEqual(5, 0); // TRUE
 isIntegerAboveOrEqual(.1, 0); // FALSE
 isIntegerAboveOrEqual(-1, -1); // TRUE
 isIntegerAboveOrEqual(-10, -9); // FALSE
 ```
 
-- **isIntegerBelow(val:number, comp:number)**
+### number/isIntegerBelow(val:number, comp:number)
 Check if a variable is an integer below a certain bound
 ```typescript
+import isIntegerBelow from '@valkyriestudios/utils/number/isIntegerBelow';
 isIntegerBelow(0, 5); // TRUE
 isIntegerBelow(0, .1); // TRUE
 isIntegerBelow(.4, 5); // FALSE
@@ -852,9 +973,10 @@ isIntegerBelow(-1, -1); // FALSE
 isIntegerBelow(-9, -10); // FALSE
 ```
 
-- **isIntegerBelowOrEqual(val:number, comp:number)**
+### number/isIntegerBelowOrEqual(val:number, comp:number)
 Check if a variable is an integer below or equal to a certain bound
 ```typescript
+import isIntegerBelowOrEqual from '@valkyriestudios/utils/number/isIntegerBelowOrEqual';
 isIntegerBelowOrEqual(0, 5); // TRUE
 isIntegerBelowOrEqual(0, .1); // TRUE
 isIntegerBelowOrEqual(.4, 5); // FALSE
@@ -862,9 +984,10 @@ isIntegerBelowOrEqual(-1, -1); // TRUE
 isIntegerBelowOrEqual(-9, -10); // FALSE
 ```
 
-- **isIntegerBetween(val:number, min:number, max:number)**
+### number/isIntegerBetween(val:number, min:number, max:number)
 Check if a variable is an integer between a range of numbers
 ```typescript
+import isIntegerBetween from '@valkyriestudios/utils/number/isIntegerBetween';
 isIntegerBetween(5, 0, 10); // TRUE
 isIntegerBetween(.1, 0, 1); // FALSE
 isIntegerBetween(-.1, -1, 0); // FALSE
@@ -872,69 +995,77 @@ isIntegerBetween(0, 0, 1); // TRUE
 isIntegerBetween(-1, 0, 1); // FALSE
 ```
 
-- **isNumericalNaN(val:unknown)**
+### number/isNumericalNaN(val:unknown)
 Check if a variable is a numerical nan ( a number that is a NaN, this distinguishment is made since both a string or a number can be NaN)
 ```typescript
+import isNumericalNaN from '@valkyriestudios/utils/number/isNumericalNaN';
 isNumericalNaN('foo'); // FALSE
 isNumericalNaN(NaN); // TRUE
 ```
 
-- **toPercentage(val:Number,precision:Number=0,min:Number=0,max:Number=1)**
+### number/toPercentage(val:Number,precision:Number=0,min:Number=0,max:Number=1)
 Calculate the percentage of a specific value in a range
 ```typescript
+import toPercentage from '@valkyriestudios/utils/number/toPercentage';
 toPercentage(0.50106579, 5); // 50.11658
 toPercentage(-356, 0, -1000, 1000); // 32
 toPercentage(0.5); // 50
 ```
 
-- **round(val:Number,precision:Number=0)**
+### number/round(val:Number,precision:Number=0)
 Round a numeric value to a specific amount of decimals
 ```typescript
+import round from '@valkyriestudios/utils/number/round';
 round(5.123456789, 0); // 5
 round(5.123456789, 2); // 5.12
 round(5.123456789, 5); // 5.12346
 ```
 
-- **randomBetween(min:Number=0,max:Number=10)**
+### number/randomBetween(min:Number=0,max:Number=10)
 Generate a random numeric value between a min and max range
 ```typescript
+import randomBetween from '@valkyriestudios/utils/number/randomBetween';
 randomBetween(); // Will generate a random between 0 and 10
 randomBetween(25, 100); // Will generate a random between 25 and 100
 ```
 
-- **randomIntBetween(min:Number=0,max:Number=10)**
+### number/randomIntBetween(min:Number=0,max:Number=10)
 Generate a random numeric value between a min and max range (max not inclusive)
 ```typescript
+import randomIntBetween from '@valkyriestudios/utils/number/randomIntBetween';
 randomIntBetween(); // Will generate a random between 0 and 10 (10 not inclusive)
 randomIntBetween(25, 100); // Will generate a random between 25 and 100 (100 not inclusive)
 ```
 
-### object
-- **isObject(val:unknown)**
+### object/is(val:unknown)
 Check if a variable is of type Object
 ```typescript
+import isObject from '@valkyriestudios/utils/object/is';
 isObject({a: 1}); // TRUE
 isObject(1); // FALSE
 ```
 
-- **isNotEmptyObject(val:unknown)**
+### object/isNotEmpty(val:unknown)
 Check if a variable a non-empty object
 ```typescript
+import isNotEmptyObject from '@valkyriestudios/utils/object/isNotEmpty';
 isNotEmptyObject({a:1}); // TRUE
 isNotEmptyObject({}); // FALSE
 isNotEmptyObject('Hi'); // FALSE
 ```
 
-- **pick(obj:Object={}, keys:Array[string]=[])**
+### object/pick(obj:Object={}, keys:Array[string]=[])
 Copies the keys passed in the 'keys' array from the passed object to a new object and returns that object.**
 <small>If a key wasn't found it will be set as undefined</small>
 ```typescript
+import pick from '@valkyriestudios/utils/object/pick';
 pick({a: 1, b: 2, c: 3}, ['a','b']); // {a: 1, b: 2}
 ```
 
-- **merge(target:Object={},obj:Object|Object[]={}, opts?:{union?:boolean})**
+### object/merge(target:Object={},obj:Object|Object[]={}, opts?:{union?:boolean})
 Merges two objects together, with the preference over the second object.
 ```typescript
+import merge from '@valkyriestudios/utils/object/merge';
 merge({a: 1, b: false}, {a: 900, c: 50}, {union: true}); // {a: 900, b: false, c: 50}
 merge({a: 1, b: false}, {a: 900, c: 50}, {union: false}); // {a: 900, b: false}
 merge({a: 1, c: {bar: 'foo'}}, [{b: 2}, {c: {foo: 'bar'}}], {union: true}); // {a: 1, b: 2, c: {bar: 'foo', foo: 'bar'}}
@@ -943,68 +1074,73 @@ merge({a: 1, c: {bar: 'foo'}}, [{b: 2}, {c: {foo: 'bar'}}], {union: true}); // {
 Take Note: The default behavior is to not have union, this means that ONLY the keys in the target object
 are going to be available in the response of this function.
 
-- **define(props:Object, obj:Object={})**
+### object/define(props:Object, obj:Object={})
 Creates an object with the passed accessors set on it
 ```typescript
+import define from '@valkyriestudios/utils/object/define';
 define(
-	{
-		a: {
-			enumerable: false,
-			value : function () { ... }
-		}
-	},
-	{ b: 2 }
+    {
+        a: {
+            enumerable: false,
+            value : function () { ... }
+        }
+    },
+    { b: 2 }
 );
 // { a : () => ..., b: 2 }
 ```
 
 ```typescript
+import define from '@valkyriestudios/utils/object/define';
 define({
-	a : {
-		enumerable: false,
-		value : function () { ... }
-	}
+    a : {
+        enumerable: false,
+        value : function () { ... }
+    }
 }); // { a : () => ... }
 ```
 
-### regexp
-- **isRegExp(val:unknown)**
+### regexp/is(val:unknown)
 Check if a variable is an instance of RegExp
 ```typescript
+import isRegExp from '@valkyriestudios/utils/regexp/is';
 isRegExp('foo'); // FALSE
 isRegExp(new RegExp('ab+c', 'i')); // TRUE
 isRegExp(new RegExp(/ab+c/, 'i')); // TRUE
 isRegExp(/ab+c/i); // FALSE
 ```
 
-- **sanitize(val:string)**
+### regexp/sanitize(val:string)
 Escapes special characters in a string and returns a sanitized version safe for usage in RegExp instances
 ```typescript
-sanitizeRegExp('contact@valkyriestudios.be'); // contact@valkyriestudios\\.be
+import sanitize from '@valkyriestudios/utils/regexp/sanitize';
+sanitize('contact@valkyriestudios.be'); // contact@valkyriestudios\\.be
 ```
 
-### string
-- **isString(val:unknown)**
+### string/is(val:unknown)
 Check if a variable is a string
 ```typescript
+import isString from '@valkyriestudios/utils/string/is';
 isString('foo'); // TRUE
 isString(4); // FALSE
 ```
 
-- **isStringBetween(val:string, min:number, max:number, trimmed:boolean=true)**
+### string/isBetween(val:string, min:number, max:number, trimmed:boolean=true)
 Check if a variable is between a range of numbers
 ```typescript
-isStringBetween('Peter', 4, 10); // TRUE
-isStringBetween('Jeff', 4, 10); // TRUE
-isStringBetween('Moe', 4, 10); // FALSE
-isStringBetween('Hello', 6, 1); // FALSE
-isStringBetween('    Joe', 1, 3); // TRUE
-isStringBetween('    Joe', 1, 3, false); // FALSE
+import isBetween from '@valkyriestudios/utils/string/isBetween';
+isBetween('Peter', 4, 10); // TRUE
+isBetween('Jeff', 4, 10); // TRUE
+isBetween('Moe', 4, 10); // FALSE
+isBetween('Hello', 6, 1); // FALSE
+isBetween('    Joe', 1, 3); // TRUE
+isBetween('    Joe', 1, 3, false); // FALSE
 ```
 
-- **isNotEmptyString(val:unknown, trimmed:boolean=true)**
+### string/isNotEmpty(val:unknown, trimmed:boolean=true)
 Check if a variable a non-empty string
 ```typescript
+import isNotEmptyString from '@valkyriestudios/utils/string/isNotEmpty';
 isNotEmptyString({a:1}); // FALSE
 isNotEmptyString(''); // FALSE
 isNotEmptyString(' '); // FALSE
@@ -1012,9 +1148,10 @@ isNotEmptyString(' ', false); // TRUE
 isNotEmptyString('Hi'); // TRUE
 ```
 
-- **shorten(val:string, length:integer, postfix:string=..., truncate_words=true)**
+### string/shorten(val:string, length:integer, postfix:string=..., truncate_words=true)
 Shorten a string and add a postfix if string went over length
 ```typescript
+import shorten from '@valkyriestudios/utils/string/shorten';
 shorten('To the moon and beyond', 11, '..'); // 'To the moon..'
 shorten('Hi', 250); // 'Hi'
 shorten('To the moon and beyond'); // 'To the moon...'
@@ -1024,21 +1161,26 @@ shorten('To the moon and beyond', 11, ' '); // 'To the moon '
 shorten('To the moon and beyond', 11, '...', false);
 ```
 
-- **humanizeBytes(val:number|string)**
+### string/humanizeBytes(val:number|string)
 Humanize an amount of bytes
+
+allows passing options to control the output, following options are possible:
 -- option:delim (default:','): Override the delimiter used, eg: `20000 -> 20,000`
 -- option:separator (default:'.'): Override the separator used for floats, eg: '20.034' -> '20,034'
 -- option:precision (default:2):  Override decimal precision for floats: eg: '20.0344233' with precision 2 -> '20.03'
 -- option:units (default:[' byes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB']): Override units used, eg: `4893290423489 with units [' Jedi', ' Darth', ' Vader', ' Force'] and precision of 0` -> `'4,893 Force'`
 ```typescript
+import humanizeBytes from '@valkyriestudios/utils/string/humanizeBytes';
 humanizeBytes(1504230); // '1.4 MB'
 humanizeBytes(23); // '23 bytes'
 humanizeBytes(-374237489237); // '-348.5 GB'
 humanizeBytes('-1504230'); // '-1.4 MB'
 ```
 
-- **humanizeNumber(val:number|string, options:Object)**
+### string/humanizeNumber(val:number|string, options:Object)
 Humanize a number
+
+allows passing options to control the output, following options are possible:
 -- option:delim (default:','): Override the delimiter used, eg: `20000 -> 20,000`
 -- option:separator (default:'.'): Override the separator used for floats, eg: '20.034' -> '20,034'
 -- option:precision (default:2):  Override decimal precision for floats: eg: '20.0344233' with precision 2 -> '20.03'
@@ -1047,6 +1189,7 @@ Humanize a number
 -- option:divider (default:1000): Override default divider used for units (used internally for humanizeBytes with 1024 as divider)
 
 ```typescript
+import humanizeBytes from '@valkyriestudios/utils/string/humanizeBytes';
 humanizeNumber(4327963279469432); // '4.33q'
 humanizeNumber(1504230); // '1.5m'
 humanizeNumber(-432443); // '-432.44k'
@@ -1054,7 +1197,6 @@ humanizeNumber('-1500'); // '-1.5k'
 humanizeNumber(47328748923747923479); // '47,328.75q'
 ```
 
-allows passing options to control the output, following options are possible:
-
 ## Contributors
 - [Peter Vermeulen](https://www.linkedin.com/in/petervermeulen1/)
+- [Xander Berkein](https://github.com/xanderberkein)

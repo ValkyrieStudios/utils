@@ -3,6 +3,7 @@ import * as assert      from 'node:assert/strict';
 import * as LibDate     from '../../../lib/date';
 import is               from '../../../lib/date/is';
 import isDateFormat     from '../../../lib/date/isFormat';
+import isLeap           from '../../../lib/date/isLeap';
 import addUTC           from '../../../lib/date/addUTC';
 import diff             from '../../../lib/date/diff';
 import endOfUTC         from '../../../lib/date/endOfUTC';
@@ -21,6 +22,7 @@ describe('Date - *', () => {
             is,
             isDateFormat,
             isFormat: isDateFormat,
+            isLeap,
             addUTC,
             diff,
             endOfUTC,

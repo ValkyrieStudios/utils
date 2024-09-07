@@ -7,6 +7,12 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
+- **feat**: date/isLeap as utility function which returns true/false if the passed date is in a leap year or not
+```typescript
+import {isLeap} from "@valkyriestudios/utils/date/isLeap";
+isLeap(new Date("2022-02-07T14:30:59.000Z")); // false
+isLeap(new Date("2022-02-07T14:30:59.000Z")); // true
+```
 - **feat**: date/format@getLocale as a new function which returns the current default locale in use by date/format
 - **feat**: date/format@getZone as a new function which returns the current default time zone in use by date/format
 - **feat**: date/format@getStartOfWeek as a new function which returns the current default start of week in use by date/format

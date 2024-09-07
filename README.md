@@ -787,7 +787,7 @@ isFormData(new FormData()); // TRUE
 isFormData({hi: 'there'}); // FALSE
 ```
 
-### formdata/toObject(val:FormData)
+### formdata/toObject(val:FormData, {raw?:string[]} = {})
 Converts an instance of FormData to an object
 ```typescript
 import toObject from '@valkyriestudios/utils/formdata/toObject';
@@ -798,6 +798,46 @@ form.append('hobbies', 'writing');
 form.append('emptyField', '');
 
 toObject(form); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
+```
+
+Automatically converts strings to numbers and booleans, and nests objects/arrays based on key structures:
+```typescript
+const form = new FormData();
+form.append('user[0].name', 'Alice');
+form.append('user[1].age', '25');
+form.append('enabled', 'false');
+form.append('config.isGood', 'true');
+form.append('config.amount', ' 50 ');
+
+toObject(form); /* {
+    user: [
+        {name: 'Alice'},
+        {age: 25},
+    ],
+    enabled: false,
+    config: {
+        isGood: true,
+        amount: 50,
+    },
+} */
+```
+
+Allows blacklisting keys that should not be normalized into numbers/booleans but should remain as they are:
+```typescript
+const form = new FormData();
+form.append('pincode', '0123');
+form.append('enabled', 'false');
+form.append('config.isGood', 'true');
+form.append('config.amount', ' 50 ');
+
+toObject(form, {raw: ['pincode']}); /* {
+    pincode: '0123',
+    enabled: false,
+    config: {
+        isGood: true,
+        amount: 50,
+    },
+} */
 ```
 
 ### hash/guid()

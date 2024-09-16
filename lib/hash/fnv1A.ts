@@ -1,4 +1,7 @@
 const FNV_32        = 2166136261;
+export const FNV_32 = 2166136261;
+export const FNV_64 = 1099511628211;
+
 const REPL_NAN      = 'nan';
 const REPL_TRUE     = 'true';
 const REPL_FALSE    = 'false';

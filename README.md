@@ -787,7 +787,7 @@ isFormData(new FormData()); // TRUE
 isFormData({hi: 'there'}); // FALSE
 ```
 
-### formdata/toObject(val:FormData, {raw?:string[]} = {})
+### formdata/toObject(val:FormData, {raw?:string[]|true;single?:string[]} = {})
 Converts an instance of FormData to an object
 ```typescript
 import toObject from '@valkyriestudios/utils/formdata/toObject';
@@ -838,6 +838,19 @@ toObject(form, {raw: ['pincode']}); /* {
         amount: 50,
     },
 } */
+```
+
+Take Note: Set raw to `true` to do no normalization
+
+Allows passing a 'single' list that tells the system to NEVER turn a particular value into an array of values:
+```typescript
+const formData = new FormData();
+formData.append('status', 'active');
+formData.append('status', 'inactive');
+formData.append('action', 'save');
+formData.append('action', 'reset');
+
+toObject(formData, { single: ['status', 'action'] }) /* {status: 'inactive', action: 'reset'} */
 ```
 
 ### hash/guid()

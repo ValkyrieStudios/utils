@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.23.0] - 2024-09-16
+### Added
+- **feat**: formdata/toObject now allows the 'single' option, which is a config that allows you to ensure a value does NOT get converted into an array but only the last entry remains. For Example:
+```typescript
+const formData = new FormData();
+formData.append('status', 'active');
+formData.append('status', 'inactive');
+formData.append('action', 'save');
+formData.append('action', 'reset');
+
+toObject(formData, { single: ['status', 'action'] }) /* {status: 'inactive', action: 'reset'} */
+
+/* Without single */
+toObject(formData) /* {status: ['active', 'inactive'], action: ['save', 'reset']} */
+```
+- **feat**: formdata/toObject now allows the 'raw' option to be passed as true, if passing as true no normalization will take place of values. For Example:
+```typescript
+const formData = new FormData();
+formData.append('count', '20');
+formData.append('isValid', 'true');
+formData.append('rawString', '10');
+formData.append('rawBoolean', 'false');
+
+toObject(formData, {raw: true}) /* {
+    count: '20',
+    isValid: 'true',
+    rawString: '10',
+    rawBoolean: 'false',
+} */
+```
+
+### Improved
+- **feat**: hash/fnv1A now exports two constants `FNV_32` and `FNV_64` which are respectively the primes used for 32-bit and 64-bit fnv computation (fnv1A defaults to using the 32-bit version)
+
 ## [12.22.0] - 2024-09-07
 ### Improved
 - **feat**: formdata/toObject will now convert strings to booleans where possible (eg: 'true' => true, 'false' => false)

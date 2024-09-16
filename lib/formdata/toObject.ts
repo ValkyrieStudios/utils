@@ -3,11 +3,16 @@ type toObjectConfig = {
      * Pass array of keys that should not be normalized into number/bool when seen
      */
     raw?: string[];
+
+    /**
+     * Pass array of keys that should only have a single value (e.g., 'action')
+     */
+    single?: string[];
 }
 
 const RGX_CLOSE = /\]/g;
 
-function assignValue (acc: Record<string, unknown>, rawkey: string, value: unknown): void {
+function assignValue (acc: Record<string, unknown>, rawkey: string, value: unknown, single:Set<string>|null): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
     const keys = rawkey.replace(RGX_CLOSE, '').split(/\[|\./);
 
@@ -16,7 +21,7 @@ function assignValue (acc: Record<string, unknown>, rawkey: string, value: unkno
 
         /* If this is the last key, assign the value */
         if (i === keys.length - 1) {
-            if (cursor[key] !== undefined) {
+            if (cursor[key] !== undefined && (!single || !single.has(key))) {
                 /* If the key already exists, convert it into an array if it isn’t already */
                 if (Array.isArray(cursor[key])) {
                     (cursor[key] as Array<unknown>).push(value);
@@ -60,6 +65,8 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:to
     if (!(form instanceof FormData)) throw new Error('formdata/toObject: Value is not an instance of FormData');
 
     const set = new Set(Array.isArray(config?.raw) ? config.raw : []);
+    const single = Array.isArray(config?.single) && config?.single.length ? new Set(config.single) : null;
+
     const acc:Record<string, unknown> = {};
     form.forEach((value, key) => {
         let normalizedValue = value;
@@ -76,7 +83,7 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:to
                         : value) as FormDataEntryValue;
         }
 
-        assignValue(acc, key, normalizedValue);
+        assignValue(acc, key, normalizedValue, single);
     });
     return acc as T;
 }

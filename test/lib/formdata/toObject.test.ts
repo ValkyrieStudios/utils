@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+
 import {describe, it} from 'node:test';
 import * as assert from 'node:assert/strict';
 import {toObject} from '../../../lib/formdata/toObject';
@@ -524,6 +526,31 @@ describe('FormData - toObject', () => {
             isValid: true,         // 'true' converted to boolean
             rawString: '10',       // '10' remains a string due to raw config
             rawBoolean: 'false',   // 'false' remains a string due to raw config
+        });
+    });
+
+    describe('single option', () => {
+        it('Should ensure the "single" option keeps a single value even with multiple form entries', () => {
+            const formData = new FormData();
+            formData.append('action', 'save');
+            formData.append('action', 'save');
+
+            assert.deepEqual(toObject(formData, {single: ['action']}), {
+                action: 'save',
+            });
+        });
+
+        it('Should handle multiple single fields and ensure they are not converted into arrays', () => {
+            const formData = new FormData();
+            formData.append('status', 'active');
+            formData.append('status', 'inactive');
+            formData.append('action', 'save');
+            formData.append('action', 'reset');
+
+            assert.deepEqual(toObject(formData, {single: ['status', 'action']}), {
+                status: 'inactive',
+                action: 'reset',
+            });
         });
     });
 });

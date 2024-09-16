@@ -1,4 +1,3 @@
-const FNV_32        = 2166136261;
 export const FNV_32 = 2166136261;
 export const FNV_64 = 1099511628211;
 

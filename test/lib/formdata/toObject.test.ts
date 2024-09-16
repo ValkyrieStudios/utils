@@ -529,6 +529,21 @@ describe('FormData - toObject', () => {
         });
     });
 
+    it('Should correctly handle raw being set to true', () => {
+        const formData = new FormData();
+        formData.append('count', '20');
+        formData.append('isValid', 'true');
+        formData.append('rawString', '10');
+        formData.append('rawBoolean', 'false');
+
+        assert.deepEqual(toObject(formData, {raw: true}), {
+            count: '20',           // '20' converted to number
+            isValid: 'true',       // 'true' converted to boolean
+            rawString: '10',       // '10' remains a string due to raw config
+            rawBoolean: 'false',   // 'false' remains a string due to raw config
+        });
+    });
+
     describe('single option', () => {
         it('Should ensure the "single" option keeps a single value even with multiple form entries', () => {
             const formData = new FormData();

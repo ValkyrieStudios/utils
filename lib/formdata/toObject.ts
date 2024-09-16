@@ -2,7 +2,7 @@ type toObjectConfig = {
     /**
      * Pass array of keys that should not be normalized into number/bool when seen
      */
-    raw?: string[];
+    raw?: string[] | true;
 
     /**
      * Pass array of keys that should only have a single value (e.g., 'action')
@@ -64,7 +64,7 @@ function assignValue (acc: Record<string, unknown>, rawkey: string, value: unkno
 function toObject <T extends Record<string, unknown>> (form:FormData, config?:toObjectConfig):T {
     if (!(form instanceof FormData)) throw new Error('formdata/toObject: Value is not an instance of FormData');
 
-    const set = new Set(Array.isArray(config?.raw) ? config.raw : []);
+    const set:Set<string>|true = config?.raw === true ? true : new Set(Array.isArray(config?.raw) ? config?.raw : []);
     const single = Array.isArray(config?.single) && config?.single.length ? new Set(config.single) : null;
 
     const acc:Record<string, unknown> = {};
@@ -72,7 +72,7 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:to
         let normalizedValue = value;
 
         /* Handle string to boolean/number conversion */
-        if (typeof value === 'string' && !set.has(key)) {
+        if (set !== true && typeof value === 'string' && !set.has(key)) {
             const lower = value.toLowerCase();
             normalizedValue = (lower === 'true'
                 ? true

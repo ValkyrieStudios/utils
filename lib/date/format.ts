@@ -1,6 +1,6 @@
 /* eslint-disable no-confusing-arrow */
 
-import {isDate} from './is';
+import {convertToDate} from './convertToDate';
 
 const WEEK_STARTS = {
     mon: 'mon',
@@ -21,7 +21,7 @@ let DEFAULT_SOW:WEEK_START  = 'mon';
 /* Try to get default timezone */
 try {
     DEFAULT_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
-} catch (err) {
+} catch {
     /* NOOP: If this doesn't work we simply work with UTC as default */
 } finally {
     if (typeof DEFAULT_TZ !== 'string') DEFAULT_TZ = 'UTC';
@@ -47,16 +47,14 @@ const zone_offset_cache: Record<string, number> = Object.create(null);
  * @param {WEEK_START} sow - First day of the week
  */
 function WeekNr (d: Date, sow: WEEK_START): number {
-    const date = new Date(d.valueOf());
-
     switch (sow) {
         case 'sun':
         case 'sat': {
             const OFFSET = sow === 'sat' ? 1 : 0;
-            const jan1 = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+            const jan1 = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
 
             /* Adjust the date to the nearest previous Sunday (start of the week) */
-            const near = new Date(date.getTime() - (((date.getDay() + OFFSET) % 7) * 86400000));
+            const near = new Date(d.getTime() - (((d.getDay() + OFFSET) % 7) * 86400000));
 
             /* Move January 1st back to the Sunday of its week if it's not already a Sunday */
             const first = new Date(jan1.getTime() - (((jan1.getDay() + OFFSET) % 7) * 86400000));
@@ -66,6 +64,8 @@ function WeekNr (d: Date, sow: WEEK_START): number {
         }
         /* Take note: This is the ISO implementation with monday as first day */
         default: {
+            const date = new Date(d.valueOf());
+
             /**
              * Adjust the copied date object to represent the Thursday of the current week we do this by
              * calculating the day number and adjust it to have Monday as the first day of the week and then
@@ -125,7 +125,7 @@ function toZone (d:Date, zone:string):Date {
     let zone_time:number|null = null;
     try {
         zone_time = new Date(d.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
-    } catch (err) {
+    } catch {
         throw new Error(`format: Invalid zone passed - ${zone}`);
     }
 
@@ -160,7 +160,7 @@ function runIntl (
         try {
             formatter = new Intl.DateTimeFormat(loc, props);
             intl_formatters[hash] = formatter;
-        } catch (err) {
+        } catch {
             throw new Error(`format: Failed to run conversion for ${token} with locale ${loc}`);
         }
     }
@@ -317,7 +317,7 @@ function getSpecChain (spec:string):SpecCacheEntry {
 /**
  * Formats the provided date according to a specific spec
  *
- * @param {Date} val - Date to format
+ * @param {Date|string} val - Date to format
  * @param {string} spec - Spec to format the date to
  * @param {string} locale - Locale to format the date in (only used in certain tokens such as dddd and MMMM)
  * @param {string} zone - (default=current timezone) Pass the timezone to convert into. If not passed no conversion will happen
@@ -325,14 +325,15 @@ function getSpecChain (spec:string):SpecCacheEntry {
  * @throws {TypeError} When provided invalid payload
  */
 function format (
-    val:Date,
+    val:Date|string,
     spec:string,
     locale:string = DEFAULT_LOCALE,
     zone:string = DEFAULT_TZ,
     sow:WEEK_START = DEFAULT_SOW
 ):string {
-    /* Ensure val is a Date */
-    if (!isDate(val)) throw new TypeError('format: val must be a Date');
+    /* Normalize onto n_val and convert eg strings to dates */
+    const n_val = convertToDate(val);
+    if (n_val === null) throw new TypeError('format: val must be a Date');
 
     /* Ensure spec is a non-empty string */
     if (typeof spec !== 'string') throw new TypeError('format: spec must be a string');
@@ -345,10 +346,10 @@ function format (
 
     /* Get spec chain, this is the chain of token tuples that need to be executed for the spec */
     const n_spec = getSpecChain(spec);
-    if (!n_spec) return val.toISOString();
+    if (!n_spec) return n_val.toISOString();
 
     /* Convert date to zone if necessary */
-    const d = toZone(val, zone);
+    const d = toZone(n_val, zone);
     let base = n_spec.base;
     const {chain_len, chain, repl_len, repl} = n_spec;
 

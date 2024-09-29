@@ -12,6 +12,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - **feat**: date/addUTC now accepts both a date and a date string
 - **feat**: date/endOfUTC now accepts both a date and a date string
+- **feat**: date/format now accepts both a date and a date string
 - **feat**: date/startOfUTC now accepts both a date and a date string
 - **deps**: Upgrade eslint to 9.11.1
 - **deps**: Upgrade nyc to 17.1.0

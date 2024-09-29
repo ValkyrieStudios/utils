@@ -35,6 +35,14 @@ describe('Array - join', () => {
         );
     });
 
+    it('filters out trimmed strings when joining by default', () => {
+        const vals = ['    ', '   studios  '];
+        assert.equal(
+            join(vals),
+            'studios'
+        );
+    });
+
     it('does not autotrims strings when joining if option is turned off', () => {
         const vals = ['   valkyrie ', '   studios  '];
         assert.equal(
@@ -80,6 +88,14 @@ describe('Array - join', () => {
         assert.equal(
             join(vals, {delim: '@'}),
             'valkyrie@569.45@studios'
+        );
+    });
+
+    it('allows you to join only numbers', () => {
+        const vals = [569.45, 965.12];
+        assert.equal(
+            join(vals, {delim: '@', valround: 0}),
+            '569@965'
         );
     });
 

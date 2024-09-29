@@ -14,6 +14,12 @@ describe('Date - setTimeUTC', () => {
     });
 
     describe('dateObject', () => {
+        it('Should return the same date if passed empty props', () => {
+            const date = new Date('2022-10-05T13:12:11+02:00');
+            /* @ts-ignore */
+            assert.deepEqual(setTimeUTC(date), date);
+        });
+
         it('Should correctly set a combination of parameters', () => {
             const date = new Date('2022-10-05T13:12:11+02:00');
             const out = setTimeUTC(date, {
@@ -160,6 +166,12 @@ describe('Date - setTimeUTC', () => {
     });
 
     describe('dateString', () => {
+        it('Should return the same date if passed empty props', () => {
+            const date = '2022-10-05T13:12:11+02:00';
+            /* @ts-ignore */
+            assert.deepEqual(setTimeUTC(date), new Date(date));
+        });
+
         it('Should correctly set a combination of parameters', () => {
             const date = '2022-10-05T13:12:11+02:00';
             const out = setTimeUTC(date, {

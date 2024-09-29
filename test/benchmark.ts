@@ -69,7 +69,7 @@ import {RANDOM_OBJECT}          from './benchmarkObject';
 
 const ROW_TEST_WIDTH    = 50;
 const ROW_OPS_WIDTH     = 15;
-const EXPORT_COLLECTOR  = [];
+const EXPORT_COLLECTOR:{lbl:string;ops:number}[]  = [];
 
 function separator () {
     console.info(''.padEnd(ROW_TEST_WIDTH + ROW_OPS_WIDTH, '-'));

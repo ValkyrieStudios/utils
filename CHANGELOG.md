@@ -10,6 +10,21 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **deps**: typescript-eslint (dev dep)
 
 ### Improved
+- **dx**: object/pick now has a typed return which is the result of the keys picked off of the object
+```typescript
+const obj = {
+    a: 1,
+    b: false,
+    c: "Hello",
+    d: {
+        e: "world,
+        f: [1, 2, 3],
+    },
+};
+
+/* The type of obj2 is now {a: number; d: {f: number[]}} */
+const obj2 = pick(obj, ["a", "d.f"]);
+```
 - **feat**: date/addUTC now accepts both a date and a date string
 - **feat**: date/diff now accepts both a date and a date string
 - **feat**: date/endOfUTC now accepts both a date and a date string

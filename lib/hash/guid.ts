@@ -1,5 +1,3 @@
-/* eslint-disable prefer-template */
-
 /* Prebuilt hexmap from 0 to 255 */
 const HEX:string[] = [];
 for (let i = 0; i < 256; i++) {

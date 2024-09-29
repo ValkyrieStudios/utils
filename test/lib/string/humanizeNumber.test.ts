@@ -33,7 +33,7 @@ const val_tests = [
     {val: 438274237890, out: '438.27b'},
     {val: 4328904892322, out: '4.33t'},
     {val: 974238788, out: '974.24m'},
-    {val: 47328748923747923479, out: '47,328.75q'}, // eslint-disable-line no-loss-of-precision,@typescript-eslint/no-loss-of-precision
+    {val: 47328748923747923479, out: '47,328.75q'}, // eslint-disable-line no-loss-of-precision
 ];
 
 describe('String - humanizeNumber', () => {

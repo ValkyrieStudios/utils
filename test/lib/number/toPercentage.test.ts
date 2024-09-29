@@ -1,4 +1,4 @@
-/* eslint-disable max-statements,no-new-wrappers */
+/* eslint-disable no-new-wrappers */
 
 import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';

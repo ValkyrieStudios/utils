@@ -1,4 +1,4 @@
-/* eslint-disable max-statements,no-new-wrappers,no-loss-of-precision,@typescript-eslint/no-loss-of-precision */
+/* eslint-disable no-loss-of-precision */
 
 import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';

@@ -1,5 +1,3 @@
-/* eslint-disable no-confusing-arrow */
-
 import {isNotEmptyObject} from '../object/isNotEmpty';
 
 type Handler <T> = (val:T) => string|number|boolean;

@@ -1,5 +1,3 @@
-/* eslint-disable max-len,max-lines,no-console */
-
 import * as fs from 'node:fs';
 
 import dedupe                   from '../dist/array/dedupe';

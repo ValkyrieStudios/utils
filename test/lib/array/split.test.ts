@@ -1,5 +1,3 @@
-/* eslint-disable max-statements */
-
 import {describe, it} from 'node:test';
 import * as assert from 'node:assert/strict';
 import CONSTANTS from '../../constants';
@@ -87,7 +85,7 @@ describe('Array - split', () => {
                 {test: 'Alice'},
             ],
             2,
-            {filter_fn: el => el.test && typeof el.test === 'string'}
+            {filter_fn: el => typeof el.test === 'string'}
         );
         assert.deepEqual(out, [
             [{test: 'Peter'}, {test: 'Jack'}],

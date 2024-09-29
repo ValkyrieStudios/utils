@@ -32,7 +32,7 @@ const val_tests = [
     {val: 438274237890, out: '408.17 GB'},
     {val: 4328904892322, out: '3.94 TB'},
     {val: 974238788, out: '929.11 MB'},
-    {val: 47328748923747923479, out: '41.05 EB'}, // eslint-disable-line no-loss-of-precision,@typescript-eslint/no-loss-of-precision
+    {val: 47328748923747923479, out: '41.05 EB'}, // eslint-disable-line no-loss-of-precision
 ];
 
 describe('String - humanizeBytes', () => {

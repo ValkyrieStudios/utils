@@ -1,5 +1,3 @@
-/* eslint-disable max-statements */
-
 import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';
 import CONSTANTS        from '../../constants';
@@ -130,7 +128,7 @@ describe('Array - sort', () => {
     });
 
     it('Should sort correctly when passed an array of objects with a string to sort by and asc dir (benchmark array of 10000)', () => {
-        let out = [];
+        let out:{i:number}[] = [];
         for (let i = 0; i < 10000; i++) {
             out.push({i});
         }
@@ -147,7 +145,7 @@ describe('Array - sort', () => {
     });
 
     it('Should sort correctly when passed an array of objects with a string to sort by and desc dir (benchmark array of 10000)', () => {
-        let out = [];
+        let out:{i:number}[] = [];
         for (let i = 0; i < 10000; i++) {
             out.push({i});
         }
@@ -164,7 +162,7 @@ describe('Array - sort', () => {
     });
 
     it('Should sort correctly when passed an array of objects with a string to sort by and asc dir (benchmark array of 20000)', () => {
-        let out = [];
+        let out:{i:number}[] = [];
         for (let i = 0; i < 20000; i++) {
             out.push({i});
         }
@@ -181,7 +179,7 @@ describe('Array - sort', () => {
     });
 
     it('Should sort correctly when passed an array of objects with a string to sort by and desc dir (benchmark array of 20000)', () => {
-        let out = [];
+        let out:{i:number}[] = [];
         for (let i = 0; i < 20000; i++) {
             out.push({i});
         }
@@ -198,7 +196,7 @@ describe('Array - sort', () => {
     });
 
     it('Should sort correctly when passed an array of objects with a string to sort by and asc dir (benchmark array of 30000)', () => {
-        let out = [];
+        let out:{i:number}[] = [];
         for (let i = 0; i < 30000; i++) {
             out.push({i});
         }
@@ -215,7 +213,7 @@ describe('Array - sort', () => {
     });
 
     it('Should sort correctly when passed an array of objects with a string to sort by and desc dir (benchmark array of 30000)', () => {
-        let out = [];
+        let out:{i:number}[] = [];
         for (let i = 0; i < 30000; i++) {
             out.push({i});
         }

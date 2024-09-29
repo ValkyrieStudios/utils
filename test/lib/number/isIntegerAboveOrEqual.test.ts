@@ -1,5 +1,3 @@
-/* eslint-disable max-statements */
-
 import {describe, it}           from 'node:test';
 import * as assert              from 'node:assert/strict';
 import CONSTANTS                from '../../constants';

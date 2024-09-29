@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **deps**: Upgrade eslint to 9.11.1
+- **deps**: Upgrade nyc to 17.1.0
+- **deps**: Upgrade typescript to 5.6.2
+- **deps**: Upgrade @types/node to 20.16.10
+- **deps**: Upgrade @typescript-eslint/eslint-plugin to 8.7.0
+- **deps**: Upgrade @typescript-eslint/parser to 8.7.0
+
 ## [12.23.0] - 2024-09-16
 ### Added
 - **feat**: formdata/toObject now allows the 'single' option, which is a config that allows you to ensure a value does NOT get converted into an array but only the last entry remains. For Example:

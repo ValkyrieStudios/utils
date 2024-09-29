@@ -1,7 +1,5 @@
 import {deepGet} from '../deep/get';
 
-const SPACE_RGX = /(\s)+/g;
-
 type ObjectType = { [key: string]: any };
 
 type DottedKeys<T> = (
@@ -50,7 +48,7 @@ function pick<T extends Record<string, any>, K extends readonly DottedKeys<T>[]>
         const key:string = keys[i];
         if (typeof key !== 'string') continue;
 
-        sanitized = key.replace(SPACE_RGX, '');
+        sanitized = key.trim();
         if (!sanitized) continue;
 
         if (sanitized.indexOf('.') >= 0) {
@@ -60,11 +58,11 @@ function pick<T extends Record<string, any>, K extends readonly DottedKeys<T>[]>
             const parts_len = parts.length;
             let cursor = map;
             for (let y = 0; y < parts_len - 1; y++) {
-                const part = parts[y];
+                const part = parts[y].trim();
                 if (!(part in cursor)) cursor[part] = {};
                 cursor = cursor[part];
             }
-            cursor[parts[parts_len - 1]] = val;
+            cursor[parts[parts_len - 1].trim()] = val;
         } else if (sanitized in obj) {
             map[sanitized] = obj[sanitized];
         }

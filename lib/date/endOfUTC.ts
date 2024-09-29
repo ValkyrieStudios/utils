@@ -1,4 +1,4 @@
-import {isDate} from './is';
+import {convertToDate} from './convertToDate';
 
 export type EndOfUTCKey = 'year'
     | 'quarter'
@@ -35,19 +35,22 @@ const WEEK_END = new Map([
 /**
  * Sets the provided date to end of UTC of provided key
  *
- * @param {Date} val - Date to set to end of
+ * @param {Date|string} val - Date to set to end of
  * @param {EndOfUTCKey} key - (default='millisecond') Key to set
  */
 function endOfUTC (
-    val:Date,
+    val:Date|string,
     key:EndOfUTCKey = 'millisecond'
 ):Date {
-    if (!isDate(val)) throw new TypeError('endOfUTC requires a date object');
+    const n_val = convertToDate(val);
+    if (n_val === null) throw new TypeError('endOfUTC requires a date object');
+
+    const year = n_val.getUTCFullYear();
 
     switch (key) {
         case 'year':
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
+                year,
                 11,
                 31,
                 23,
@@ -56,9 +59,9 @@ function endOfUTC (
                 999
             ));
         case 'quarter': {
-            const UTC_MONTH = val.getUTCMonth();
+            const UTC_MONTH = n_val.getUTCMonth();
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
+                year,
                 (UTC_MONTH - (UTC_MONTH % 3)) + 3,
                 0,
                 23,
@@ -69,8 +72,8 @@ function endOfUTC (
         }
         case 'month':
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth() + 1,
+                year,
+                n_val.getUTCMonth() + 1,
                 0,
                 23,
                 59,
@@ -85,12 +88,12 @@ function endOfUTC (
         case 'week_thu':
         case 'week_fri':
         case 'week_sat': {
-            const UTC_DAY = val.getUTCDay();
+            const UTC_DAY = n_val.getUTCDay();
             const UTC_EOD = WEEK_END.get(key) as number;
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate() + (UTC_DAY <= UTC_EOD ? UTC_EOD - UTC_DAY : (7 - UTC_DAY) + UTC_EOD),
+                year,
+                n_val.getUTCMonth(),
+                n_val.getUTCDate() + (UTC_DAY <= UTC_EOD ? UTC_EOD - UTC_DAY : (7 - UTC_DAY) + UTC_EOD),
                 23,
                 59,
                 59,
@@ -99,9 +102,9 @@ function endOfUTC (
         }
         case 'day':
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate(),
+                year,
+                n_val.getUTCMonth(),
+                n_val.getUTCDate(),
                 23,
                 59,
                 59,
@@ -109,43 +112,43 @@ function endOfUTC (
             ));
         case 'hour':
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate(),
-                val.getUTCHours(),
+                year,
+                n_val.getUTCMonth(),
+                n_val.getUTCDate(),
+                n_val.getUTCHours(),
                 59,
                 59,
                 999
             ));
         case 'minute':
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate(),
-                val.getUTCHours(),
-                val.getUTCMinutes(),
+                year,
+                n_val.getUTCMonth(),
+                n_val.getUTCDate(),
+                n_val.getUTCHours(),
+                n_val.getUTCMinutes(),
                 59,
                 999
             ));
         case 'second':
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate(),
-                val.getUTCHours(),
-                val.getUTCMinutes(),
-                val.getUTCSeconds(),
+                year,
+                n_val.getUTCMonth(),
+                n_val.getUTCDate(),
+                n_val.getUTCHours(),
+                n_val.getUTCMinutes(),
+                n_val.getUTCSeconds(),
                 999
             ));
         default:
             return new Date(Date.UTC(
-                val.getUTCFullYear(),
-                val.getUTCMonth(),
-                val.getUTCDate(),
-                val.getUTCHours(),
-                val.getUTCMinutes(),
-                val.getUTCSeconds(),
-                val.getUTCMilliseconds()
+                year,
+                n_val.getUTCMonth(),
+                n_val.getUTCDate(),
+                n_val.getUTCHours(),
+                n_val.getUTCMinutes(),
+                n_val.getUTCSeconds(),
+                n_val.getUTCMilliseconds()
             ));
     }
 }

@@ -1,4 +1,5 @@
 import {addUTC}         from './addUTC';
+import {convertToDate}  from './convertToDate';
 import {diff}           from './diff';
 import {endOfUTC}       from './endOfUTC';
 import {format}         from './format';
@@ -14,6 +15,7 @@ import {toUTC}          from './toUTC';
 
 export {
     addUTC,
+    convertToDate,
     diff,
     endOfUTC,
     format,

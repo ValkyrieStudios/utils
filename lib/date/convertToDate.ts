@@ -5,7 +5,7 @@ import {isDate} from './is';
  *
  * @param {Date|string} val - Value to convert
  */
-export function convertToDate (val: Date | string | number): Date | null {
+function convertToDate (val: Date | string | number): Date | null {
     if (isDate(val)) {
         return val;
     } else if (typeof val === 'string') {
@@ -15,3 +15,5 @@ export function convertToDate (val: Date | string | number): Date | null {
 
     return null;
 }
+
+export {convertToDate, convertToDate as default};

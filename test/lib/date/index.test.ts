@@ -5,6 +5,7 @@ import is               from '../../../lib/date/is';
 import isDateFormat     from '../../../lib/date/isFormat';
 import isLeap           from '../../../lib/date/isLeap';
 import addUTC           from '../../../lib/date/addUTC';
+import convertToDate    from '../../../lib/date/convertToDate';
 import diff             from '../../../lib/date/diff';
 import endOfUTC         from '../../../lib/date/endOfUTC';
 import format           from '../../../lib/date/format';
@@ -24,6 +25,7 @@ describe('Date - *', () => {
             isFormat: isDateFormat,
             isLeap,
             addUTC,
+            convertToDate,
             diff,
             endOfUTC,
             format,

@@ -1,7 +1,7 @@
 import {round} from '../number/round';
 import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
-const SPACE_RGX = /(\s){2,}/g;
+const SPACE_RGX = /(\s)+/g;
 
 interface joinOptions {
     /**
@@ -55,9 +55,11 @@ function join (val:unknown[], opts?:joinOptions):string {
     let hasVal:boolean = false;
     for (let i = 0; i < val.length; i++) {
         const el = val[i];
-        if (typeof el === 'string' && el.trim().length) {
-            const trimmed = VALTRIM ? el.trim() : el;
-            result = result + (hasVal ? DELIM : '') + (INNERTRIM ? trimmed.replace(SPACE_RGX, ' ') : trimmed);
+        if (typeof el === 'string') {
+            const trimmed = el.trim();
+            if (!trimmed) continue;
+            const n_el = VALTRIM ? trimmed : el;
+            result = result + (hasVal ? DELIM : '') + (INNERTRIM ? n_el.replace(SPACE_RGX, ' ') : n_el);
             hasVal = true;
         } else if (Number.isFinite(el)) {
             result = result + (hasVal ? DELIM : '') + (VALROUND !== false ? round(el as number, VALROUND) : el);

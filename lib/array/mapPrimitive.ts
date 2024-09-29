@@ -51,13 +51,19 @@ function mapPrimitive (arr:unknown[], opts:mapOptions = {}):mapReturn {
         const el = arr[i];
         if (typeof el === 'string') {
             const trimmed = el.trim();
-            if (!trimmed.length) continue;
+            if (!trimmed) continue;
             map[trimmed] = VALTRIM ? trimmed : el;
-        } else if (typeof el === 'number' && Number.isFinite(el)) {
+        } else if (Number.isFinite(el)) {
+            /* eslint-disable-next-line */
+            /* @ts-ignore Typescript doesn't recognize el as a number here */
             map[`${KEYROUND ? Math.round(el) : el}`] = VALROUND === false
                 ? el
                 : VALROUND === true
+                    /* eslint-disable-next-line */
+                    /* @ts-ignore Typescript doesn't recognize el as a number here */
                     ? Math.round(el)
+                    /* eslint-disable-next-line */
+                    /* @ts-ignore Typescript doesn't recognize el as a number here */
                     : round(el, VALROUND);
         }
     }

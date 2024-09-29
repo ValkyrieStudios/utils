@@ -3,7 +3,7 @@
  *
  * @param {unknown} val - Value to verify
  */
-function isObject (val:unknown):val is {[key:string]:any} {
+function isObject <T extends Record<string, any>> (val:T|unknown):val is T {
     return Object.prototype.toString.call(val) === '[object Object]';
 }
 

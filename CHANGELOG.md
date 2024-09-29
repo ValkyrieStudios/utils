@@ -32,6 +32,8 @@ const obj2 = pick(obj, ["a", "d.f"]);
 - **feat**: date/format now accepts both a date and a date string
 - **feat**: date/setTimeUTC now accepts both a date and a date string
 - **feat**: date/startOfUTC now accepts both a date and a date string
+- **perf**: Minor ~3-5% performance improvement in setTimeUTC thanks to reduced internal key lookups
+- **perf**: Minor ~3-5% performance improvement in startOfUTC thanks to reduced internal operations
 - **deps**: Upgrade eslint to 9.11.1
 - **deps**: Upgrade nyc to 17.1.0
 - **deps**: Upgrade typescript to 5.6.2

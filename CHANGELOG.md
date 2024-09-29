@@ -10,6 +10,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **deps**: typescript-eslint (dev dep)
 
 ### Improved
+- **feat**: date/addUTC now accepts both a date and a date string
 - **deps**: Upgrade eslint to 9.11.1
 - **deps**: Upgrade nyc to 17.1.0
 - **deps**: Upgrade typescript to 5.6.2

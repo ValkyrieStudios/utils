@@ -1,4 +1,4 @@
-import {isDate} from './is';
+import {convertToDate} from './convertToDate';
 
 export type AddUTCKey = 'years'
     | 'year'
@@ -18,25 +18,27 @@ export type AddUTCKey = 'years'
 /**
  * Adds the provided amount of a specific key to the provided date
  *
- * @param {Date} val - Date to set to end of
+ * @param {Date|string} val - Date to set to end of
  * @param {number} amount - (default=0) Amount of key to add
  * @param {AddUTCKey} key - (default='millisecond') Key to set
  */
 function addUTC (
-    val:Date,
+    val:Date|string,
     amt:number=0,
     key:AddUTCKey = 'millisecond'
 ):Date {
-    if (!isDate(val)) throw new TypeError('addUTC requires a date object');
     if (!Number.isInteger(amt)) throw new TypeError('Amount needs to be an integer');
 
-    const year  = val.getUTCFullYear();
-    const month = val.getUTCMonth();
-    const date  = val.getUTCDate();
-    const hour  = val.getUTCHours();
-    const min   = val.getUTCMinutes();
-    const sec   = val.getUTCSeconds();
-    const ms    = val.getUTCMilliseconds();
+    const n_val = convertToDate(val);
+    if (n_val === null) throw new TypeError('addUTC requires a date object');
+
+    const year  = n_val.getUTCFullYear();
+    const month = n_val.getUTCMonth();
+    const date  = n_val.getUTCDate();
+    const hour  = n_val.getUTCHours();
+    const min   = n_val.getUTCMinutes();
+    const sec   = n_val.getUTCSeconds();
+    const ms    = n_val.getUTCMilliseconds();
 
     switch (key) {
         case 'years':

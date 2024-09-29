@@ -11,6 +11,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Improved
 - **feat**: date/addUTC now accepts both a date and a date string
+- **feat**: date/diff now accepts both a date and a date string
 - **feat**: date/endOfUTC now accepts both a date and a date string
 - **feat**: date/format now accepts both a date and a date string
 - **feat**: date/startOfUTC now accepts both a date and a date string

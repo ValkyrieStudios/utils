@@ -1,4 +1,4 @@
-import {isDate} from './is';
+import {convertToDate} from './convertToDate';
 import {isIntegerBetween} from '../number/isIntegerBetween';
 
 export type TimeProps = {
@@ -11,23 +11,27 @@ export type TimeProps = {
 /**
  * Sets the time on a provided date object and returns it
  *
- * @param {Date} val - Date to set the time for
+ * @param {Date|string} val - Date to set the time for
  * @param {TimeProps} props - Time props to set the time to
  */
 function setTimeUTC (
-    val:Date,
+    val:Date|string,
     props:TimeProps
 ):Date {
-    if (!isDate(val)) throw new TypeError('setTimeUTC requires a date object');
+    const n_val = convertToDate(val);
+    if (n_val === null) throw new TypeError('setTimeUTC requires a date object');
+
+    /* Destructure so we don't have unnecessary key lookups */
+    const {hour, minute, second, millisecond} = props || {};
 
     return new Date(Date.UTC(
-        val.getUTCFullYear(),
-        val.getUTCMonth(),
-        val.getUTCDate(),
-        isIntegerBetween(props?.hour, 0, 23) ? props.hour : val.getUTCHours(),
-        isIntegerBetween(props?.minute, 0, 59) ? props?.minute : val.getUTCMinutes(),
-        isIntegerBetween(props?.second, 0, 59) ? props?.second : val.getUTCSeconds(),
-        isIntegerBetween(props?.millisecond, 0, 999) ? props?.millisecond : val.getUTCMilliseconds()
+        n_val.getUTCFullYear(),
+        n_val.getUTCMonth(),
+        n_val.getUTCDate(),
+        isIntegerBetween(hour, 0, 23) ? hour : n_val.getUTCHours(),
+        isIntegerBetween(minute, 0, 59) ? minute : n_val.getUTCMinutes(),
+        isIntegerBetween(second, 0, 59) ? second : n_val.getUTCSeconds(),
+        isIntegerBetween(millisecond, 0, 999) ? millisecond : n_val.getUTCMilliseconds()
     ));
 }
 

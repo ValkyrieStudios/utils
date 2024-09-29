@@ -21,8 +21,8 @@
         "test:only": "node --icu-data-dir=node_modules/full-icu --require esbuild-register --test --test-only ./test/lib/**/*.ts ./test/lib/*.ts",
         "test:coverage": "nyc npm run test",
         "lint": "npm run lint:src && npm run lint:test",
-        "lint:src": "./node_modules/.bin/eslint --ext .js,.ts,.mjs ./lib",
-        "lint:test": "./node_modules/.bin/eslint --ext .js,.ts,.mjs ./test",
+        "lint:src": "./node_modules/.bin/eslint ./lib",
+        "lint:test": "./node_modules/.bin/eslint ./test",
         "codecov": "codecov",
         "benchmark": "node --require esbuild-register ./test/benchmark.ts"
     },
@@ -36,11 +36,10 @@
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
     "devDependencies": {
         "@types/node": "^20.16.10",
-        "@typescript-eslint/eslint-plugin": "^8.7.0",
-        "@typescript-eslint/parser": "^8.7.0",
         "esbuild-register": "^3.6.0",
         "eslint": "^9.11.1",
         "nyc": "^17.1.0",
-        "typescript": "^5.6.2"
+        "typescript": "^5.6.2",
+        "typescript-eslint": "^8.7.0"
     }
 }

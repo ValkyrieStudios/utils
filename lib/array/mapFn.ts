@@ -1,4 +1,6 @@
-interface mapOptions {
+import {merge} from '../object/merge';
+
+type MapOptions = {
     /**
      * Allow merging existing keys or not, if not keys will be overriden if they exist
      * (default=false)
@@ -13,7 +15,7 @@ interface mapOptions {
     merge?:boolean;
 }
 
-type mapFn<T extends Record<string, any>>= (entry:T) => (string|number|boolean);
+type MapFn<T extends Record<string, any>>= (entry:T) => (string|number|boolean);
 
 /**
  * Map an object array into a kv-object through a function that generates a key. Returning a non-string,
@@ -25,18 +27,18 @@ type mapFn<T extends Record<string, any>>= (entry:T) => (string|number|boolean);
  *  {12: {uid: 12, name: 'Peter'}, 15: {uid: 15, name: 'Jonas'}}
  *
  * @param {Record<string, any>[]} val - Array to map
- * @param {mapFn} fn - Handler function which is run for each of the objects and should return a string or number
- * @param {mapOptions?} opts - Options object to override built-in defaults
+ * @param {MapFn} fn - Handler function which is run for each of the objects and should return a string or number
+ * @param {MapOptions?} opts - Options object to override built-in defaults
  *
  * @returns {Record<string, T>} KV-Map object
  */
-function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapOptions):Record<string, T> {
+function mapFn <T extends Record<string, any>> (arr:T[], fn:MapFn<T>, opts?:MapOptions):Record<string, T> {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof fn !== 'function'
     ) return {};
 
-    const MERGE:boolean = opts?.merge === true;
+    const MERGE = opts?.merge === true;
 
     const map:Record<string, T> = {};
     let hash:(string|number|boolean) = false;
@@ -51,7 +53,7 @@ function mapFn <T extends Record<string, any>> (arr:T[], fn:mapFn<T>, opts?:mapO
         /* Normalize hash to string */
         hash = hash + '';
 
-        map[hash] = MERGE && map[hash] !== undefined ? {...map[hash], ...el} : el;
+        map[hash] = (MERGE && hash in map ? merge(map[hash], el, {union: true}) : el) as T;
     }
 
     return map;

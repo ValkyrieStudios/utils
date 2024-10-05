@@ -29,6 +29,14 @@ describe('Equal', () => {
             assert.equal(equal(null, false), false);
             assert.equal(equal(null, 0), false);
         });
+
+        describe('Edge Case: Null vs Undefined', () => {
+            it('Correctly flag inconsistency', () => {
+                assert.equal(equal(null, undefined), false);
+                assert.equal(equal(null, 0), false);
+                assert.equal(equal(undefined, false), false);
+            });
+        });
     });
 
     describe('Primitive: String', () => {
@@ -75,6 +83,37 @@ describe('Equal', () => {
             assert.equal(equal(NaN, undefined), false);
             assert.equal(equal(NaN, null), false);
             assert.equal(equal(512, new Number(512)), false);
+        });
+    });
+
+    describe('Primitive: BigInt', () => {
+        it('Correctly flag equal', () => {
+            assert.ok(equal(10n, 10n));
+            assert.ok(equal(10n, BigInt(10)));
+        });
+
+        it('Correctly flag inconsistency', () => {
+            assert.equal(equal(10n, 20n), false);
+            assert.equal(equal(10n, 10), false);
+        });
+    });
+
+    describe('Primitive: Function', () => {
+        function a () {
+            return 1;
+        }
+        function b () {
+            return 1;
+        }
+        const c = a;
+
+        it('Correctly flag equal', () => {
+            assert.ok(equal(a, c)); // same reference
+        });
+
+        it('Correctly flag inconsistency', () => {
+            assert.equal(equal(a, b), false); // different function objects even if same code
+            assert.equal(equal(a, () => 1), false); // arrow functions
         });
     });
 
@@ -232,11 +271,41 @@ describe('Equal', () => {
         });
     });
 
-    describe('Complex: Object', () => {
-        it('Correctly flag inconsistency', () => {
-            assert.equal(equal({a: 1}, {b: 2, c:3}), false);
+    describe('Complex: Array with nested values', () => {
+        it('Correctly flag equal', () => {
+            const a = [
+                0,
+                {a: 'Valkyrie', map: new Map([['key', 'value']])},
+                new RegExp('foo', 'g'),
+                [1, 2, 3],
+            ];
+            const b = [
+                0,
+                {a: 'Valkyrie', map: new Map([['key', 'value']])},
+                new RegExp('foo', 'g'),
+                [1, 2, 3],
+            ];
+            assert.ok(equal(a, b));
         });
 
+        it('Correctly flag inconsistency', () => {
+            const a = [
+                0,
+                {a: 'Valkyrie', map: new Map([['key', 'value']])},
+                new RegExp('foo', 'g'),
+                [1, 2, 3],
+            ];
+            const b = [
+                0,
+                {a: 'Valkyrie', map: new Map([['key', 'different']])},
+                new RegExp('foo', 'g'),
+                [1, 2, 3],
+            ];
+            assert.equal(equal(a, b), false);
+        });
+    });
+
+    describe('Complex: Object', () => {
         it('Correctly flag equal', () => {
             const a = {
                 foo: 'bar',
@@ -269,6 +338,8 @@ describe('Equal', () => {
         });
 
         it('Correctly flag inconsistency', () => {
+            assert.equal(equal({a: 1}, {b: 2, c:3}), false);
+
             const a = {
                 fooz: 'bar',
                 a: 1,
@@ -297,6 +368,78 @@ describe('Equal', () => {
             const d = {a: new Date(2018, 10, 10), b: new RegExp('abcdefg', 'i'), c: true, d: 0.001};
             assert.equal(equal(a, b), false);
             assert.equal(equal(c, d), false);
+        });
+    });
+
+    describe('Complex: Error', () => {
+        it('Correctly flag equal', () => {
+            const errorA = new Error('test error');
+            const errorB = new Error('test error');
+            assert.ok(equal(errorA, errorB));
+
+            const errorC = new TypeError('type error');
+            const errorD = new TypeError('type error');
+            assert.ok(equal(errorC, errorD));
+        });
+
+        it('Correctly flag inconsistency', () => {
+            const errorA = new Error('test error');
+            const errorB = new Error('different error');
+            assert.equal(equal(errorA, errorB), false);
+
+            const errorC = new Error('test error');
+            const errorD = new TypeError('test error');
+            assert.equal(equal(errorC, errorD), false);
+        });
+    });
+
+    describe('Complex: Map', () => {
+        it('Correctly flag equal', () => {
+            const a = new Map([['a', 1], ['b', 2]]);
+            const b = new Map([['a', 1], ['b', 2]]);
+            assert.ok(equal(a, b));
+
+            /* @ts-ignore */
+            const c = new Map([['a', {x: 1}], ['b', 2]]);
+            /* @ts-ignore */
+            const d = new Map([['a', {x: 1}], ['b', 2]]);
+            assert.ok(equal(c, d));
+        });
+
+        it('Correctly flag inconsistency', () => {
+            const a = new Map([['a', 1], ['b', 2]]);
+            const b = new Map([['a', 1], ['b', 3]]);
+            assert.equal(equal(a, b), false);
+
+            /* @ts-ignore */
+            const c = new Map([['a', {x: 1}], ['b', 2]]);
+            /* @ts-ignore */
+            const d = new Map([['a', {x: 2}], ['b', 2]]);
+            assert.equal(equal(c, d), false);
+        });
+    });
+
+    describe('Complex: Custom Object Instances', () => {
+        class MyClass {
+
+            public prop:number;
+
+            constructor (prop: number) {
+                this.prop = prop;
+            }
+
+        }
+
+        it('Correctly flag equal', () => {
+            const a = new MyClass(1);
+            const b = new MyClass(1);
+            assert.ok(equal(a, b));
+        });
+
+        it('Correctly flag inconsistency', () => {
+            const a = new MyClass(1);
+            const b = new MyClass(2);
+            assert.equal(equal(a, b), false);
         });
     });
 });

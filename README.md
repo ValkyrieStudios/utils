@@ -30,7 +30,7 @@ isNotEmptyArray([]); // FALSE
 isNotEmptyArray([0, 1, 2]); // TRUE
 ```
 
-### array/mapKey(val:Record[], key:string, opts:object={})
+### array/mapKey(val:Record[], key:string, opts?:{merge?:boolean;filter_fn?:(el:T) => boolean})
 Map a non-primitive object array into an object map by key
 ```typescript
 import mapKey from '@valkyriestudios/utils/array/mapKey';
@@ -39,9 +39,7 @@ mapKey([
     {uid: 15, name: 'Jonas'},
     {uid: 87, name: 'Josh'},
 ], 'uid');
-
-output:
-
+/* Expected output: */
 {
     12: {uid: 12, name: 'Peter'},
     15: {uid: 15, name: 'Jonas'},
@@ -64,9 +62,7 @@ mapKey([
     new Date(),
     {uid: 87, name: 'Josh'},
 ], 'uid');
-
-output:
-
+/* Expected output: */
 {
     12: {uid: 12, name: 'Peter'},
     15: {uid: 15, name: 'Jonas'},
@@ -92,13 +88,29 @@ mapKey([
     {uid: 87, name: 'Josh'},
     {uid: 12, name: 'Farah'},
 ], 'uid', {merge: true})
-
-output:
-
+/* Expected output: */
 {
     12: {uid: 12, name: 'Farah'},
     15: {uid: 15, name: 'Bob', dob: '2022-02-07'},
     87: {uid: 87, name: 'Josh'},
+}
+```
+
+allows filtering out objects with a custom filter_fn:
+```typescript
+import mapKey from '@valkyriestudios/utils/array/mapKey';
+mapKey([
+    {uid: 12, name: 'Peter', isActive: true},
+    {uid: 15, name: 'Jonas', dob: '2022-02-07', isActive: true},
+    {uid: 15, name: 'Bob', isActive: false},
+    {name: 'Alana', isActive: true},
+    {uid: 87, name: 'Josh', isActive: false},
+    {uid: 12, name: 'Farah', isActive: false},
+], 'uid', {merge: true})
+/* Expected output: */
+{
+    12: {uid: 12, name: 'Peter', isActive: true},
+    15: {uid: 15, name: 'Jonas', dob: '2022-02-07'},
 }
 ```
 
@@ -112,9 +124,7 @@ mapFn([
     {uid: 15, name: 'Jonas'},
     {uid: 87, name: 'Josh'},
 ], el => el.uid)
-
-output:
-
+/* Expected output: */
 {
     12: {uid: 12, name: 'Peter'},
     15: {uid: 15, name: 'Jonas'},
@@ -124,13 +134,19 @@ output:
 
 options are the same as the mapKey function
 
-### array/mapPrimitive(val:any[], opts:object={valtrim:false,keyround:false,valround:false})
+### array/mapPrimitive(val:any[], opts?:{valtrim:false;keyround:false;valround:false;filter_fn:(el)=>boolean})
 Map an array of primitives (number/string)
 ```typescript
 import mapPrimitive from '@valkyriestudios/utils/array/mapPrimitive';
 mapPrimitive([1,2,3]); // {1: 1, 2: 2, 3: 3}
 mapPrimitive(['hello', 'hello', 'foo', 'bar']); // {hello: 'hello', foo: 'foo', bar: 'bar'}
 mapPrimitive(['hello', ' hello', 'foo', '  foo'], {valtrim: true}); // {hello: 'hello', foo: 'foo'}
+```
+
+Allows filtering out unwanted values:
+```typescript
+import mapPrimitive from '@valkyriestudios/utils/array/mapPrimitive';
+mapPrimitive([1,2,'bla', 3, false], {filter_fn: isNumber}); // {1: 1, 2: 2, 3: 3}
 ```
 
 ### array/groupBy(val:Record[], handler:Function|string)

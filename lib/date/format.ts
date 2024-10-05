@@ -124,7 +124,7 @@ function toZone (d:Date, zone:string):Date {
     /* Get the target timezone offset in minutes */
     let zone_time:number|null = null;
     try {
-        zone_time = new Date(d.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime();
+        zone_time = new Date(d.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime() + d.getMilliseconds();
     } catch {
         throw new Error(`format: Invalid zone passed - ${zone}`);
     }

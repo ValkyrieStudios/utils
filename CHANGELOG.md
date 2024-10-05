@@ -6,9 +6,86 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: `date/isFormat` now supports optional markers
+```typescript
+import isFormat from '../../../lib/date/isFormat';
+isFormat('2024-02-07', 'YYYY-MM-DD{THH:mm:ss}'); // true
+isFormat('2024-02-07T14:50', 'YYYY-MM-DD{THH:mm:ss}'); // false as optional part is passed but invalid
+isFormat('2024-02-07T14:50:30', 'YYYY-MM-DD{THH:mm:ss}'); // true
+isFormat('2024-02-07T14:20:25', 'YYYY-MM-DDTHH:mm:ss{.SSS}{Z}'); // true
+isFormat('2024-02-07T14:20:25.123Z', 'YYYY-MM-DDTHH:mm:ss{.SSS}{Z}'); // true (zone and milliseconds passed)
+isFormat('2024-02-07T14:20:25-05:00', 'YYYY-MM-DDTHH:mm:ss{.SSS}{Z}'); // true (zone passed but no millseconds)
+```
+- **feat**: `formdata/toObject` now supports a `normalize_bool` flag, set to false to NOT normalize boolean values
+- **feat**: `formdata/toObject` now supports a `normalize_date` flag, set to false to NOT normalize date values
+- **feat**: `formdata/toObject` now supports a `normalize_number` flag, set to false to NOT normalize number values
+- **feat**: `array/mapKey` now supports a `filter_fn` prop which can be used to further filter the array at O(n) time
+```typescript
+import mapKey from '@valkyriestudios/utils/array/mapKey';
+mapKey([
+    {uid: 12, name: 'Peter', isActive: true},
+    'foobar',
+    {uid: 15, name: 'Jonas', dob: '2022-02-07'},
+    [{hi: 'there'}],
+    {uid: 15, name: 'Bob', isActive: true},
+    {name: 'Alana'},
+    {uid: 87, name: 'Josh'},
+    {uid: 12, name: 'Farah', isActive: false},
+], 'uid', {filter_fn: el => el?.isActive});
+/* {
+    12: {uid: 12, name: 'Peter', isActive: true},
+    15: {uid: 15, name: 'Bob', isActive: true},
+} */
+```
+- **feat**: `array/mapPrimitive` now supports a `filter_fn` prop which can be used to further filter the array at O(n) time
+```typescript
+import mapPrimitive from '@valkyriestudios/utils/array/mapPrimitive';
+mapPrimitive(
+    ['  hello   ', 'hello  ', {a: 1}, new Date(), 10, ' foo', 'bar'],
+    {valtrim: true, filter_fn: isString}
+),
+/* {
+    hello: 'hello',
+    foo: 'foo',
+    bar: 'bar',
+} */
+```
+
 ### Improved
+- **feat**: `date/isFormat` the built-in alias `ISO` now treats milliseconds as optional
+```typescript
+isFormat('2024-02-07T14:20:25.123Z', 'ISO'); // true
+isFormat('2024-02-07T14:20:25Z', 'ISO'); // true
+isFormat('2024-02-07T14:20:25', 'ISO'); // false, missing zone
+```
+- **feat**: `formdata/toObject` now normalizes valid date strings in ISO format (YYYY-MM-DDTHH:mm:ss{.SSS}Z) to Date instances
+```typescript
+const frm = new FormData();
+frm.append('startDate', '2023-12-25T09:00:00Z');
+frm.append('endDate', '2023-12-31T12:00:00.987Z');
+toObject(frm); /* {
+    startDate: new Date('2023-12-25T09:00:00Z'),
+    endDate: new Date('2023-12-31T12:00:00.987Z'),
+} */
+```
+- **feat**: `equal` now supports map equality checks
+```typescript
+import {equal} from "@valkyriestudios/utils/equal";
+const map1 = new Map([["a", 1], ["b", 2]]);
+const map2 = new Map([["b", 2], ["a", 1]]);
+const map3 = new Map([["a", 1], ["b", [0, 1]]]);
+equal(map1, map2); // true
+equal(map1, map3); // false
+```
+- **feat**: `array/mapFn` will now perform union merges instead of just spreading when passing merge as true
+- **feat**: `array/mapKey` will now perform union merges instead of just spreading when passing merge as true
+- **perf**: Up to 60%% performance improvement in equal thanks to adjusted approach regarding type checks and as such keeping internal operations to a minimum
 - **deps**: Upgrade eslint to 9.12.0
 - **deps**: Upgrade typescript-eslint to 8.8.0
+
+### Fixed
+- **date/format**: Fixed issue where millisecond information got lost in zone-conversion thanks @florDonnaSanders
 
 ## [12.24.0] - 2024-09-29
 ### Added

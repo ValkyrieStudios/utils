@@ -276,13 +276,13 @@ function getSpecChain (spec:string):SpecCacheEntry {
 
     /**
      * Replacement of escaped characters
-     * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$R0$YYYY $R1$Q $R2$M $R3$D' -> 2021 Q1 M2 D7
+     * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$0$YYYY $1$Q $2$M $3$D' -> 2021 Q1 M2 D7
      */
     const repl:[string, string][] = [];
     let repl_len = 0;
     if (base.indexOf('[') >= 0) {
         base = base.replace(ESCAPE_RGX, match => {
-            const escape_token = '$R' + repl_len++ + '$';
+            const escape_token = '$' + repl_len++ + '$';
             repl.push([escape_token, match.slice(1, -1)]);
             return escape_token;
         });

@@ -441,7 +441,7 @@ describe('FormData - toObject', () => {
         assert.deepEqual(toObject(formData, {raw: ['rawBoolean', 'rawNumber']}), {
             isEnabled: true,
             age: 30,
-            rawBoolean: 'false'
+            rawBoolean: 'false',
             rawNumber: '123',
         });
     });

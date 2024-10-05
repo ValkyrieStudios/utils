@@ -2,6 +2,7 @@ import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';
 import CONSTANTS        from '../../constants';
 import mapPrimitive     from '../../../lib/array/mapPrimitive';
+import {isString}       from '../../../lib/string/is';
 
 describe('Array - mapPrimitive', () => {
     it('Returns an empty object when passing nothing', () => {
@@ -179,6 +180,20 @@ describe('Array - mapPrimitive', () => {
                 foo: 'foo',
                 bar: 'bar',
                 10: 10,
+            }
+        );
+    });
+
+    it('Should automatically remove anything that does not match my filter function', () => {
+        assert.deepEqual(
+            mapPrimitive(
+                ['  hello   ', 'hello  ', {a: 1}, new Date(), new RegExp('w'), 10, ' foo', 'bar'],
+                {valtrim: true, filter_fn: isString}
+            ),
+            {
+                hello: 'hello',
+                foo: 'foo',
+                bar: 'bar',
             }
         );
     });

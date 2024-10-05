@@ -1,7 +1,7 @@
 import {round} from '../number/round';
 import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
-interface mapOptions {
+type MapOptions = {
     /**
      * Automatically trim all string values
      * (default=false)
@@ -21,6 +21,10 @@ interface mapOptions {
      * eg: mapPrimitive([5.432, 5.4, 5.43, 4.2, 4.1], {keyround: true}) -> {5: 5.43, 4: 4.1}
      */
     keyround?:boolean;
+    /**
+     * Pass a custom filter function which will be run in O(n) while iterating
+     */
+    filter_fn?: (el: unknown) => boolean;
 }
 
 type mapReturn = Record<string, string|number>;
@@ -35,20 +39,25 @@ type mapReturn = Record<string, string|number>;
  *  {hello: 'hello', foo: 'foo', bar: 'bar'}
  *
  * @param {unknown[]} val - Array to map
- * @param {mapOptions?} opts - Options object to override built-in defaults
+ * @param {MapOptions?} opts - Options object to override built-in defaults
  */
-function mapPrimitive (arr:unknown[], opts:mapOptions = {}):mapReturn {
+function mapPrimitive (arr:unknown[], opts:MapOptions = {}):mapReturn {
     if (!Array.isArray(arr) || !arr.length) return {};
 
     const VALTRIM:boolean = opts?.valtrim === true;
-    const VALROUND:number|boolean = isIntegerAboveOrEqual(opts?.valround, 0)
+    const VALROUND:number|null = isIntegerAboveOrEqual(opts?.valround, 0)
         ? opts?.valround
-        : opts?.valround === true;
+        : opts?.valround === true
+            ? 0
+            : null;
     const KEYROUND:number|boolean = opts?.keyround === true;
+    const FILTER_FN = opts?.filter_fn;
 
     const map:mapReturn = {};
     for (let i = 0; i < arr.length; i++) {
         const el = arr[i];
+        if (FILTER_FN && !FILTER_FN(el)) continue;
+
         if (typeof el === 'string') {
             const trimmed = el.trim();
             if (!trimmed) continue;
@@ -56,15 +65,9 @@ function mapPrimitive (arr:unknown[], opts:mapOptions = {}):mapReturn {
         } else if (Number.isFinite(el)) {
             /* eslint-disable-next-line */
             /* @ts-ignore Typescript doesn't recognize el as a number here */
-            map[`${KEYROUND ? Math.round(el) : el}`] = VALROUND === false
+            map[`${KEYROUND ? Math.round(el) : el}`] = VALROUND === null
                 ? el
-                : VALROUND === true
-                    /* eslint-disable-next-line */
-                    /* @ts-ignore Typescript doesn't recognize el as a number here */
-                    ? Math.round(el)
-                    /* eslint-disable-next-line */
-                    /* @ts-ignore Typescript doesn't recognize el as a number here */
-                    : round(el, VALROUND);
+                : round(el as number, VALROUND);
         }
     }
 

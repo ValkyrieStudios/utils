@@ -110,6 +110,25 @@ FORMDATA_EXAMPLE.append('name', 'Alice');
 FORMDATA_EXAMPLE.append('hobbies', 'reading');
 FORMDATA_EXAMPLE.append('hobbies', 'writing');
 FORMDATA_EXAMPLE.append('emptyField', '');
+/* eslint-disable-next-line */
+const MAP_OBJECTS_EXAMPLE:Record<string, any>[] = [
+    {uid: 12, name: 'Peter', isActive: true},
+    {uid: 14, name: 'Jake', isActive: true},
+    {uid: 15, name: 'Jonas', isActive: false},
+    [{hi: 'there'}],
+    /* eslint-disable-next-line */
+    /* @ts-ignore */
+    null,
+    /* eslint-disable-next-line */
+    /* @ts-ignore */
+    undefined,
+    new Date(),
+    {uid: 87, name: 'Josh', isActive: true},
+];
+const MAP_PRIMITIVE_NUMBER = [0, 1, 1, 2, 99, 100, 99, 2, 3, 3];
+const MAP_PRIMITIVE_NUMBER_20 = [0, 1, 1, 2, 99, 100, 99, 2, 3, 3, 0, 1, 1, 2, 99, 100, 99, 2, 3, 3];
+const MAP_PRIMITIVE_STRING = ['a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b'];
+const MAP_PRIMITIVE_STRING_20 = ['a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b', 'a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b'];
 
 /* Run benchmarks */
 for (const el of [
@@ -152,47 +171,41 @@ for (const el of [
     /* Array - mapFn */
     {
         lbl: 'array/mapFn',
-        fn: () => mapFn([
-            {uid: 12, name: 'Peter'},
-            {uid: 14, name: 'Jake'},
-            {uid: 15, name: 'Jonas'},
-            [{hi: 'there'}],
-            null,
-            undefined,
-            new Date(),
-            {uid: 87, name: 'Josh'},
-        ], val => val.uid),
+        fn: () => mapFn(MAP_OBJECTS_EXAMPLE, val => val.uid),
     },
     /* Array - mapKey */
     {
         lbl: 'array/mapKey',
-        fn: () => mapKey([
-            {uid: 12, name: 'Peter'},
-            {uid: 14, name: 'Jake'},
-            {uid: 15, name: 'Jonas'},
-            [{hi: 'there'}],
-            null,
-            undefined,
-            new Date(),
-            {uid: 87, name: 'Josh'},
-        ], 'uid'),
+        fn: () => mapKey(MAP_OBJECTS_EXAMPLE, 'uid'),
+    },
+    {
+        lbl: 'array/mapKey w/ filter',
+        fn: () => mapKey(MAP_OBJECTS_EXAMPLE, 'uid', {filter_fn: el => el?.isActive}),
     },
     /* Array - mapPrimitive */
     {
         lbl: 'array/mapPrimitive - numeric - 10 elements',
-        fn: () => mapPrimitive([0, 1, 1, 2, 99, 100, 99, 2, 3, 3]),
+        fn: () => mapPrimitive(MAP_PRIMITIVE_NUMBER),
     },
     {
         lbl: 'array/mapPrimitive - numeric - 20 elements',
-        fn: () => mapPrimitive([0, 1, 1, 2, 99, 100, 99, 2, 3, 3, 0, 1, 1, 2, 99, 100, 99, 2, 3, 3]),
+        fn: () => mapPrimitive(MAP_PRIMITIVE_NUMBER_20),
+    },
+    {
+        lbl: 'array/mapPrimitive - numeric - 20 elements filter',
+        fn: () => mapPrimitive(MAP_PRIMITIVE_NUMBER_20, {filter_fn: isNumber}),
     },
     {
         lbl: 'array/mapPrimitive - string - 10 elements',
-        fn: () => mapPrimitive(['a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b']),
+        fn: () => mapPrimitive(MAP_PRIMITIVE_STRING),
     },
     {
         lbl: 'array/mapPrimitive - string - 20 elements',
-        fn: () => mapPrimitive(['a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b', 'a', 'b', 'b', 'c', 'd', 'e', 'd', 'c', 'b', 'b']),
+        fn: () => mapPrimitive(MAP_PRIMITIVE_STRING_20),
+    },
+    {
+        lbl: 'array/mapPrimitive - string - 20 elements filter',
+        fn: () => mapPrimitive(MAP_PRIMITIVE_STRING_20, {filter_fn: isString}),
     },
     /* Array - groupBy */
     {

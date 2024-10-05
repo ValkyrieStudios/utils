@@ -28,30 +28,41 @@ const RGX_CLOSE = /\]/g;
 function assignValue (acc: Record<string, unknown>, rawkey: string, value: unknown, single:Set<string>|null): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
     const keys = rawkey.replace(RGX_CLOSE, '').split(/\[|\./);
-
-    for (let i = 0; i < keys.length; i++) {
+    const keys_len = keys.length;
+    for (let i = 0; i < keys_len; i++) {
         const key = keys[i];
 
         /* If this is the last key, assign the value */
-        if (i === keys.length - 1) {
+        if (i === keys_len - 1) {
+            /* eslint-disable-next-line */
+            /* @ts-ignore */
             const cursor_val = cursor[key];
             if (cursor_val !== undefined && (!single || !single.has(key))) {
                 /* If the key already exists, convert it into an array if it isn’t already */
                 if (Array.isArray(cursor_val)) {
+                    /* eslint-disable-next-line */
+                    /* @ts-ignore */
                     (cursor[key] as Array<unknown>).push(value);
                 } else {
+                    /* eslint-disable-next-line */
+                    /* @ts-ignore */
                     cursor[key] = [cursor_val, value];
                 }
             } else {
+                /* eslint-disable-next-line */
+                /* @ts-ignore */
                 cursor[key] = value;
             }
-        } else if (Array.isArray(cursor)) {
-            const index = Number(key);
-            if (!cursor[index]) cursor[index] = isNaN(Number(keys[i + 1])) ? {} : [];
-            cursor = cursor[index] as Record<string, unknown> | unknown[];
         } else {
-            if (!cursor[key]) cursor[key] = isNaN(Number(keys[i + 1])) ? {} : [];
-            cursor = cursor[key] as Record<string, unknown> | unknown[];
+            /* eslint-disable-next-line */
+            /* @ts-ignore */
+            const n_key = Array.isArray(cursor) ? Number(key) : key;
+            /* eslint-disable-next-line */
+            /* @ts-ignore */
+            if (!cursor[n_key]) cursor[n_key] = isNaN(Number(keys[i + 1])) ? {} : [];
+            /* eslint-disable-next-line */
+            /* @ts-ignore */
+            cursor = cursor[n_key];
         }
     }
 }
@@ -96,7 +107,7 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
             }
 
             const trimmed = (value as string).trim();
-            if (trimmed) {
+            if (trimmed.length) {
                 if (nNumber && !isNaN(Number(value))) {
                     assignValue(acc, key, Number(value), single);
                     return;

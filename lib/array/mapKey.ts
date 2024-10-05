@@ -1,4 +1,6 @@
-interface mapOptions {
+import {merge} from '../object/merge';
+
+type MapOptions<T> = {
     /**
      * Allow merging existing keys or not, if not keys will be overriden if they exist
      * (default=false)
@@ -11,6 +13,10 @@ interface mapOptions {
      *  {12: {uid: 12, b: 'ho'}}
      */
     merge?:boolean;
+    /**
+     * Pass a custom filter function which will be run in O(n) while iterating
+     */
+    filter_fn?: (el: T) => boolean;
 }
 
 /**
@@ -24,27 +30,35 @@ interface mapOptions {
  *
  * @param {Record<string,any>[]} val - Array to map
  * @param {string} key - Key to map by
- * @param {mapOptions?} opts - Options object to override built-in defaults
+ * @param {MapOptions?} opts - Options object to override built-in defaults
  *
  * @returns {Record<string, T>} KV-Map object
  */
-function mapKey <T extends Record<string, any>> (arr:T[], key:string, opts?:mapOptions):Record<string, T> {
+function mapKey <T extends Record<string, any>> (arr:T[], key:string, opts?:MapOptions<T>):Record<string, T> {
     if (!Array.isArray(arr) || typeof key !== 'string') return {};
-
-    const key_s = key.trim();
-    if (!key_s.length) return {};
 
     const len = arr.length;
     if (!len) return {};
 
-    const MERGE:boolean = opts?.merge === true;
+    const key_s = key.trim();
+    if (!key_s.length) return {};
+
+    /* Check options */
+    const FILTER_FN = opts?.filter_fn;
+    const MERGE = opts?.merge === true;
 
     const map:Record<string, T> = {};
     for (let i = 0; i < len; i++) {
         const el = arr[i];
+
+        /* Key check */
         const el_key = el?.[key_s];
         if (el_key === undefined) continue;
-        map[el_key] = MERGE && el_key in map ? {...map[el_key], ...el} : el;
+
+        /* Filter */
+        if (FILTER_FN && !FILTER_FN(el)) continue;
+
+        map[el_key] = (MERGE && el_key in map ? merge(map[el_key], el, {union: true}) : el) as T;
     }
 
     return map;

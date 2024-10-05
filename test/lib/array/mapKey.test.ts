@@ -64,7 +64,9 @@ describe('Array - mapKey', () => {
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
+                /* @ts-ignore */
                 null,
+                /* @ts-ignore */
                 undefined,
                 new Date(),
                 {uid: 87, name: 'Josh'},
@@ -89,7 +91,9 @@ describe('Array - mapKey', () => {
                 'foobar',
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
+                /* @ts-ignore */
                 null,
+                /* @ts-ignore */
                 undefined,
                 {name: 'Alana'},
                 new Date(),
@@ -116,7 +120,9 @@ describe('Array - mapKey', () => {
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
                 {uid: 15, name: 'Bob'},
+                /* @ts-ignore */
                 null,
+                /* @ts-ignore */
                 undefined,
                 {name: 'Alana'},
                 new Date(),
@@ -144,7 +150,9 @@ describe('Array - mapKey', () => {
                 {uid: 15, name: 'Jonas'},
                 [{hi: 'there'}],
                 {uid: 15, name: 'Bob'},
+                /* @ts-ignore */
                 null,
+                /* @ts-ignore */
                 undefined,
                 {name: 'Alana'},
                 new Date(),
@@ -172,7 +180,9 @@ describe('Array - mapKey', () => {
                 {uid: 15, name: 'Jonas', dob: '2022-02-07'},
                 [{hi: 'there'}],
                 {uid: 15, name: 'Bob'},
+                /* @ts-ignore */
                 null,
+                /* @ts-ignore */
                 undefined,
                 {name: 'Alana'},
                 new Date(),
@@ -183,6 +193,35 @@ describe('Array - mapKey', () => {
                 12: {uid: 12, name: 'Farah'},
                 15: {uid: 15, name: 'Bob', dob: '2022-02-07'},
                 87: {uid: 87, name: 'Josh'},
+            }
+        );
+    });
+
+    it('Should automatically remove anything that does not match my filter function', () => {
+        assert.deepEqual(
+            mapKey([
+                /* @ts-ignore */
+                0,
+                {uid: 12, name: 'Peter', isActive: true},
+                /* @ts-ignore */
+                false,
+                /* @ts-ignore */
+                'foobar',
+                {uid: 15, name: 'Jonas', dob: '2022-02-07'},
+                [{hi: 'there'}],
+                {uid: 15, name: 'Bob', isActive: true},
+                /* @ts-ignore */
+                null,
+                /* @ts-ignore */
+                undefined,
+                {name: 'Alana'},
+                new Date(),
+                {uid: 87, name: 'Josh'},
+                {uid: 12, name: 'Farah', isActive: false},
+            ], 'uid', {merge: true, filter_fn: el => el?.isActive}),
+            {
+                12: {uid: 12, name: 'Peter', isActive: true},
+                15: {uid: 15, name: 'Bob', isActive: true},
             }
         );
     });

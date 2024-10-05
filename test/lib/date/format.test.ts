@@ -1689,6 +1689,7 @@ describe('Date - format', () => {
 
         it('Should take zone into account', () => {
             assert.equal(format(new Date('2022-03-06T08:30:45Z'), 'SSS', 'en', 'Europe/Paris'), '000');
+            assert.equal(format(new Date('2022-03-06T08:30:45.010Z'), 'SSS', 'en', 'Europe/Paris'), '010');
             assert.equal(format(new Date('2022-03-06T08:30:45.123Z'), 'SSS', 'en', 'America/New_York'), '123');
             assert.equal(format(new Date('2022-03-06T00:30:45.987+02:00'), 'SSS', 'en', 'UTC'), '987');
             assert.equal(format(new Date('2022-03-06T23:30:15.001-07:00'), 'SSS', 'en', 'UTC'), '001');
@@ -1698,6 +1699,7 @@ describe('Date - format', () => {
             assert.equal(format('2022-03-06T23:30:15.001-07:00', 'SSS', 'en', 'UTC'), '001');
         });
     });
+
     describe('token:A', () => {
         it('Should be correct', () => {
             for (const el of [

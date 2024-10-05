@@ -208,6 +208,24 @@ describe('Deep - set', () => {
         assert.deepEqual(obj, {a: 'bi'});
     });
 
+    it('Should throw when passed an invalid array string path', () => {
+        const obj = {a: 'bi', c: [0, 1, 2, [1, 2, 3]]};
+        assert.throws(
+            () => deepSet(obj, 'c[a][0]', 1),
+            new TypeError('Invalid path provided')
+        );
+        assert.deepEqual(obj, {a: 'bi', c: [0, 1, 2, [1, 2, 3]]});
+    });
+
+    it('Should throw when passed an invalid array string path as the last part', () => {
+        const obj = {a: 'bi', c: [0, 1, 2]};
+        assert.throws(
+            () => deepSet(obj, 'c[a]', 1),
+            new TypeError('Invalid path provided')
+        );
+        assert.deepEqual(obj, {a: 'bi', c: [0, 1, 2]});
+    });
+
     describe('malicious: __proto__', () => {
         it('Should throw when passed as single value', () => {
             const obj = {a: 'bi'};

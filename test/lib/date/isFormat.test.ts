@@ -191,6 +191,13 @@ describe('Date - isDateFormat', () => {
     });
 
     describe('Optional Format Handling', () => {
+        it('Should throw when passed a spec with a missing close }', () => {
+            assert.throws(
+                () => isDateFormat('2024-02-07', 'YYYY-MM-DD{THH:mm:ss'),
+                new Error('isDateFormat: Unmatched { in format string')
+            );
+        });
+
         it('Should correctly handle valid values', () => {
             for (const {input, spec} of [
                 {input: '2024-02-07', spec: 'YYYY-MM-DD{THH:mm:ss}'},

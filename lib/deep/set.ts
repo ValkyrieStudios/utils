@@ -67,9 +67,6 @@ function deepSet (
 
     /* Build any unknown paths and set cursor */
     for (let i = 0; i < last_part_ix; i++) {
-        /* If this part is an empty string, just continue */
-        if (parts[i] === '') continue;
-
         if (Array.isArray(obj)) {
             const idx = parseInt(parts[i]);
             if (!Number.isInteger(idx) || idx < 0) throw new TypeError('Invalid path provided');

@@ -45,7 +45,7 @@ const TOKENS: Token[] = [
 ];
 
 const SPEC_ALIASES:Record<string, string> = {
-    ISO: 'YYYY-MM-DDTHH:mm:ss.SSSZ',
+    ISO: 'YYYY-MM-DDTHH:mm:ss{.SSS}Z',
 };
 
 /* Cache for specs that have already been compiled */
@@ -53,8 +53,11 @@ const spec_pat_cache:Record<string, {rgx:RegExp;tokens:number[]}> = {};
 
 /**
  * Compiles a spec and stores it on the spec cache
+ *
+ * @param {string} spec - Spec to compile
+ * @param {boolean} is_chunk - Whether or not this is a subchunk
  */
-function compileSpec (spec:string) {
+function compileSpec (spec:string, is_chunk:boolean = false) {
     if (spec in spec_pat_cache) return spec_pat_cache[spec];
 
     const tokens:number[] = [];
@@ -66,6 +69,21 @@ function compileSpec (spec:string) {
             if (end_idx === -1) throw new Error('isDateFormat: Unmatched [ in format string');
 
             pat += spec.slice(cursor + 1, end_idx).replace(SPECIAL_CHARS, '\\$&');
+            cursor = end_idx + 1;
+        } else if (spec[cursor] === '{') {
+            /* Handle optional parts indicated by { and } */
+            const end_idx = spec.indexOf('}', cursor);
+            if (end_idx === -1) throw new Error('isDateFormat: Unmatched { in format string');
+
+            /* Compile chunk between brackets */
+            const compiled = compileSpec(spec.slice(cursor + 1, end_idx), true);
+
+            /* Wrap the optional part in a non-capturing group with "?" for optionality */
+            pat += '(?:' + compiled.rgx.source + ')?';
+
+            /* Append tokens for optional part (optional tokens are still validated if present) */
+            tokens.push(...compiled.tokens);
+
             cursor = end_idx + 1;
         } else {
             const token_idx = TOKENS.findIndex(([token_key]) => spec.startsWith(token_key, cursor));
@@ -81,7 +99,7 @@ function compileSpec (spec:string) {
         }
     }
 
-    spec_pat_cache[spec] = {rgx: RegExp('^' + pat + '$'), tokens};
+    spec_pat_cache[spec] = {rgx: is_chunk ? RegExp(pat) : RegExp('^' + pat + '$'), tokens};
     return spec_pat_cache[spec];
 }
 
@@ -115,7 +133,8 @@ function isDateFormat (input: unknown, spec: string): input is string {
     const matches = patMatch.slice(1);
     const context: Record<string, number> = {};
     for (let i = 0; i < matches.length; i++) {
-        if (!TOKENS[tokens[i]][2](matches[i], context)) return false;
+        const match = matches[i];
+        if (match !== undefined && !TOKENS[tokens[i]][2](match, context)) return false;
     }
 
     /**

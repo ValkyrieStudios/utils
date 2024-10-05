@@ -1,4 +1,4 @@
-/* Prebuilt hexmap from 0 to 255 */
+/* Prebuilt hex lookup from 0 to 255 */
 const HEX:string[] = [];
 for (let i = 0; i < 256; i++) {
     HEX[i] = (i < 16 ? '0' : '') + i.toString(16);

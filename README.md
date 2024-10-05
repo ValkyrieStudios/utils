@@ -428,7 +428,15 @@ Available tokens for usage in spec:
 | `Z` | Zone, does not allow full zone names, only Z or offsets | `Z` `+02:00` |
 | `ISO` | Check for full iso date format, take note this enforces milliseconds as a requirement | 2024-02-03T10:28:30.000Z |
 
-Note: The `ISO` token is a shorthand for `YYYY-MM-DDTHH:mm:ss.SSSZ`
+Allows for marking certain portions as optional by wrapping in `{...}`:
+```typescript
+import isFormat from '@valkyriestudios/utils/date/isFormat';
+isFormat('2024-02-07', 'YYYY-MM-DD{THH:mm:ss}'); // true
+isFormat('2024-02-07T14:50', 'YYYY-MM-DD{THH:mm:ss}'); // false, optional part passed but invalid
+isFormat('2024-02-07T14:50:30', 'YYYY-MM-DD{THH:mm:ss}'); // true
+```
+
+Note: The `ISO` token is a shorthand for `YYYY-MM-DDTHH:mm:ss{.SSS}Z`
 Note: You can escape characters by surrounding them with `[...]` in your spec, eg: `YYYY-[Q]Q` would check for example `2024-Q1`
 
 ### date/diff(val_a:Date, val_b:Date, key:string)

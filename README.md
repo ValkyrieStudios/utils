@@ -795,7 +795,7 @@ isFormData(new FormData()); // TRUE
 isFormData({hi: 'there'}); // FALSE
 ```
 
-### formdata/toObject(val:FormData, {raw?:string[]|true;single?:string[]} = {})
+### formdata/toObject(val:FormData, {raw?:string[]|true;single?:string[];normalize_bool?:boolean;normalize_date?:bool;normalize_number?:bool} = {})
 Converts an instance of FormData to an object
 ```typescript
 import toObject from '@valkyriestudios/utils/formdata/toObject';
@@ -808,7 +808,7 @@ form.append('emptyField', '');
 toObject(form); // {name: 'Alice', hobbies: ['reading', 'writing'], emptyField: ''}
 ```
 
-Automatically converts strings to numbers and booleans, and nests objects/arrays based on key structures:
+Automatically converts strings to numbers, dates, booleans and nests objects/arrays based on key structures:
 ```typescript
 const form = new FormData();
 form.append('user[0].name', 'Alice');
@@ -859,6 +859,24 @@ formData.append('action', 'save');
 formData.append('action', 'reset');
 
 toObject(formData, { single: ['status', 'action'] }) /* {status: 'inactive', action: 'reset'} */
+```
+
+Allows configuring what types of data to normalize:
+```typescript
+const form = new FormData();
+form.append('pincode', '0123');
+form.append('enabled', 'false');
+form.append('config.isGood', 'true');
+form.append('config.amount', ' 50 ');
+
+toObject(form, {raw: ['pincode'], normalize_bool: false}); /* {
+    pincode: '0123',
+    enabled: 'false',
+    config: {
+        isGood: 'true',
+        amount: 50,
+    },
+} */
 ```
 
 ### hash/guid()

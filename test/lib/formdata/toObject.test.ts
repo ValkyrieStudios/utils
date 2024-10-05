@@ -137,11 +137,11 @@ describe('FormData - toObject', () => {
     it('Should handle strings that resemble numbers but are not numbers', () => {
         const formData = new FormData();
         formData.append('version', 'v1.0');
-        formData.append('age', '123'); // leading zeros
+        formData.append('age', '123');
 
         assert.deepEqual(toObject(formData), {
-            version: 'v1.0', // this should remain a string
-            age: 123,        // this should be parsed as a number
+            version: 'v1.0',
+            age: 123,
         });
     });
 
@@ -151,8 +151,8 @@ describe('FormData - toObject', () => {
         formData.append('whitespaceBoolean', ' false ');
 
         assert.deepEqual(toObject(formData), {
-            whitespaceNumber: 42,      // should be parsed as number
-            whitespaceBoolean: ' false ',  // should be parsed as boolean
+            whitespaceNumber: 42,
+            whitespaceBoolean: ' false ',
         });
     });
 
@@ -162,7 +162,7 @@ describe('FormData - toObject', () => {
         formData.append('enabled', 'false');
 
         assert.deepEqual(toObject(formData), {
-            enabled: [true, false], // should store both as boolean values in an array
+            enabled: [true, false],
         });
     });
 
@@ -173,7 +173,7 @@ describe('FormData - toObject', () => {
         formData.append('scores', '300');
 
         assert.deepEqual(toObject(formData), {
-            scores: [100, 200, 300], // should store all as numbers in an array
+            scores: [100, 200, 300],
         });
     });
 
@@ -231,7 +231,7 @@ describe('FormData - toObject', () => {
         formData.append('', 'emptyKeyTest');
 
         assert.deepEqual(toObject(formData), {
-            '': 'emptyKeyTest', // empty key, should work and map to an empty key
+            '': 'emptyKeyTest',
         });
     });
 
@@ -242,7 +242,7 @@ describe('FormData - toObject', () => {
         formData.append('mixedArray', 'hello');
 
         assert.deepEqual(toObject(formData), {
-            mixedArray: [123, true, 'hello'], // mixed types should be preserved in the array
+            mixedArray: [123, true, 'hello'],
         });
     });
 
@@ -281,7 +281,7 @@ describe('FormData - toObject', () => {
         formData.append('emptyField', '');
 
         assert.deepEqual(toObject(formData), {
-            emptyField: '', // empty string should be preserved
+            emptyField: '',
         });
     });
 
@@ -291,8 +291,8 @@ describe('FormData - toObject', () => {
         formData.append('isVisible', 'FALSE');
 
         assert.deepEqual(toObject(formData), {
-            isEnabled: true,  // should treat 'True' as boolean true
-            isVisible: false, // should treat 'FALSE' as boolean false
+            isEnabled: true,
+            isVisible: false,
         });
     });
 
@@ -379,17 +379,20 @@ describe('FormData - toObject', () => {
     });
 
 
-    it('Should handle date-like strings without converting them', () => {
+    it('Should handle date-like strings correctly', () => {
         const formData = new FormData();
         formData.append('startDate', '2023-12-25');
+        formData.append('startDate2', '2023-12-49T12:00:00.000Z');
         formData.append('endDate', '2023-12-31T12:00:00Z');
+        formData.append('endDate2', '2023-12-31T12:00:00.987Z');
 
         assert.deepEqual(toObject(formData), {
-            startDate: '2023-12-25',           // Should remain a string
-            endDate: '2023-12-31T12:00:00Z',   // Should remain a string
+            startDate: '2023-12-25',
+            startDate2: '2023-12-49T12:00:00.000Z',
+            endDate: new Date('2023-12-31T12:00:00Z'),
+            endDate2: new Date('2023-12-31T12:00:00.987Z'),
         });
     });
-
 
     it('Should handle multiple File objects for the same key', () => {
         const formData = new FormData();
@@ -419,12 +422,12 @@ describe('FormData - toObject', () => {
         const formData = new FormData();
         formData.append('isEnabled', 'true');
         formData.append('age', '30');
-        formData.append('rawString', '30');  // should remain as a string
+        formData.append('rawString', '30');
 
         assert.deepEqual(toObject(formData, {raw: ['rawString']}), {
-            isEnabled: true,   // 'true' should be converted to boolean
-            age: 30,           // '30' should be converted to number
-            rawString: '30',   // '30' should remain a string due to raw config
+            isEnabled: true,
+            age: 30,
+            rawString: '30',
         });
     });
 
@@ -432,14 +435,14 @@ describe('FormData - toObject', () => {
         const formData = new FormData();
         formData.append('isEnabled', 'true');
         formData.append('age', '30');
-        formData.append('rawBoolean', 'false');  // should remain as a string
-        formData.append('rawNumber', '123');     // should remain as a string
+        formData.append('rawBoolean', 'false');
+        formData.append('rawNumber', '123');
 
         assert.deepEqual(toObject(formData, {raw: ['rawBoolean', 'rawNumber']}), {
-            isEnabled: true,     // 'true' should be converted to boolean
-            age: 30,             // '30' should be converted to number
-            rawBoolean: 'false', // 'false' should remain a string
-            rawNumber: '123',    // '123' should remain a string
+            isEnabled: true,
+            age: 30,
+            rawBoolean: 'false'
+            rawNumber: '123',
         });
     });
 
@@ -447,13 +450,13 @@ describe('FormData - toObject', () => {
         const formData = new FormData();
         formData.append('config.isEnabled', 'true');
         formData.append('config.port', '8080');
-        formData.append('config.rawKey', '123');  // should remain a string
+        formData.append('config.rawKey', '123');
 
         assert.deepEqual(toObject(formData, {raw: ['config.rawKey']}), {
             config: {
-                isEnabled: true,   // 'true' should be converted to boolean
-                port: 8080,        // '8080' should be converted to number
-                rawKey: '123',     // '123' should remain a string
+                isEnabled: true,
+                port: 8080,
+                rawKey: '123',
             },
         });
     });
@@ -461,14 +464,14 @@ describe('FormData - toObject', () => {
     it('Should handle raw for array-like keys', () => {
         const formData = new FormData();
         formData.append('user[0].name', 'Alice');
-        formData.append('user[0].age', '30');   // should be converted to number
+        formData.append('user[0].age', '30');
         formData.append('user[1].name', 'Bob');
-        formData.append('user[1].age', '40');   // should remain a string
+        formData.append('user[1].age', '40');
 
         assert.deepEqual(toObject(formData, {raw: ['user[1].age']}), {
             user: [
                 {name: 'Alice', age: 30},
-                {name: 'Bob', age: '40'},  // age should remain a string due to raw config
+                {name: 'Bob', age: '40'},
             ],
         });
     });
@@ -480,9 +483,9 @@ describe('FormData - toObject', () => {
         formData.append('isAdmin', 'true');
 
         assert.deepEqual(toObject(formData, {raw: ['notPresent']}), {
-            name: 'John Doe',   // normal string
-            age: 45,            // '45' should be converted to number
-            isAdmin: true,      // 'true' should be converted to boolean
+            name: 'John Doe',
+            age: 45,
+            isAdmin: true,
         });
     });
 
@@ -492,8 +495,8 @@ describe('FormData - toObject', () => {
         formData.append('isVisible', 'false');
 
         assert.deepEqual(toObject(formData, {raw: ['isEnabled', 'isVisible']}), {
-            isEnabled: 'true',  // should remain a string
-            isVisible: 'false', // should remain a string
+            isEnabled: 'true',
+            isVisible: 'false',
         });
     });
 
@@ -505,11 +508,11 @@ describe('FormData - toObject', () => {
         formData.append('config.timeout', '30');
 
         assert.deepEqual(toObject(formData, {raw: ['config.debug', 'score']}), {
-            enabled: true,         // converted to boolean
-            score: '100',          // should remain a string
+            enabled: true,
+            score: '100',
             config: {
-                debug: 'false',    // should remain a string
-                timeout: 30,       // converted to number
+                debug: 'false',
+                timeout: 30,
             },
         });
     });
@@ -522,10 +525,10 @@ describe('FormData - toObject', () => {
         formData.append('rawBoolean', 'false');
 
         assert.deepEqual(toObject(formData, {raw: ['rawString', 'rawBoolean']}), {
-            count: 20,             // '20' converted to number
-            isValid: true,         // 'true' converted to boolean
-            rawString: '10',       // '10' remains a string due to raw config
-            rawBoolean: 'false',   // 'false' remains a string due to raw config
+            count: 20,
+            isValid: true,
+            rawString: '10',
+            rawBoolean: 'false',
         });
     });
 
@@ -537,10 +540,10 @@ describe('FormData - toObject', () => {
         formData.append('rawBoolean', 'false');
 
         assert.deepEqual(toObject(formData, {raw: true}), {
-            count: '20',           // '20' converted to number
-            isValid: 'true',       // 'true' converted to boolean
-            rawString: '10',       // '10' remains a string due to raw config
-            rawBoolean: 'false',   // 'false' remains a string due to raw config
+            count: '20',
+            isValid: 'true',
+            rawString: '10',
+            rawBoolean: 'false',
         });
     });
 
@@ -565,6 +568,194 @@ describe('FormData - toObject', () => {
             assert.deepEqual(toObject(formData, {single: ['status', 'action']}), {
                 status: 'inactive',
                 action: 'reset',
+            });
+        });
+    });
+
+    describe('with normalization options', () => {
+        it('Should correctly handle normalization of booleans', () => {
+            const formData = new FormData();
+            formData.append('isHuman', 'true');
+            formData.append('isRobot', 'false');
+
+            assert.deepEqual(toObject(formData, {normalize_bool: true}), {
+                isHuman: true,
+                isRobot: false,
+            });
+
+            assert.deepEqual(toObject(formData, {normalize_bool: false}), {
+                isHuman: 'true',
+                isRobot: 'false',
+            });
+        });
+
+        it('Should correctly handle normalization of numbers', () => {
+            const formData = new FormData();
+            formData.append('age', '25');
+            formData.append('height', '180.5');
+            formData.append('nonNumber', 'abc123');
+
+            assert.deepEqual(toObject(formData, {normalize_number: true}), {
+                age: 25,
+                height: 180.5,
+                nonNumber: 'abc123',
+            });
+
+            assert.deepEqual(toObject(formData, {normalize_number: false}), {
+                age: '25',
+                height: '180.5',
+                nonNumber: 'abc123',
+            });
+        });
+
+        it('Should correctly handle normalization of dates', () => {
+            const formData = new FormData();
+            formData.append('startDate', '2023-12-25');
+            formData.append('endDate', '2023-12-31T12:00:00.987Z');
+
+            assert.deepEqual(toObject(formData, {normalize_date: true}), {
+                startDate: '2023-12-25',
+                endDate: new Date('2023-12-31T12:00:00.987Z'),
+            });
+
+            assert.deepEqual(toObject(formData, {normalize_date: false}), {
+                startDate: '2023-12-25',
+                endDate: '2023-12-31T12:00:00.987Z',
+            });
+        });
+
+        it('Should handle a mix of boolean, number, and date normalization', () => {
+            const formData = new FormData();
+            formData.append('isEnabled', 'true');
+            formData.append('age', '42');
+            formData.append('birthDate', '1990-01-01T07:39:40Z');
+
+            assert.deepEqual(toObject(formData, {normalize_bool: true, normalize_number: true, normalize_date: true}), {
+                isEnabled: true,
+                age: 42,
+                birthDate: new Date('1990-01-01T07:39:40Z'),
+            });
+
+            assert.deepEqual(toObject(formData, {normalize_bool: false, normalize_number: false, normalize_date: false}), {
+                isEnabled: 'true',
+                age: '42',
+                birthDate: '1990-01-01T07:39:40Z',
+            });
+        });
+
+        it('Should correctly handle raw keys with normalization enabled', () => {
+            const formData = new FormData();
+            formData.append('rawBoolean', 'true');
+            formData.append('rawNumber', '123');
+            formData.append('rawDate', '2023-12-31T12:00:00.987Z');
+
+            assert.deepEqual(toObject(formData, {
+                raw: ['rawBoolean', 'rawNumber', 'rawDate'],
+                normalize_bool: true,
+                normalize_number: true,
+                normalize_date: true,
+            }), {
+                rawBoolean: 'true',
+                rawNumber: '123',
+                rawDate: '2023-12-31T12:00:00.987Z',
+            });
+        });
+
+        it('Should handle mixed raw and normalized values', () => {
+            const formData = new FormData();
+            formData.append('isHuman', 'true');
+            formData.append('age', '30');
+            formData.append('startDate', '2023-12-25T12:00:00.000Z');
+            formData.append('rawKey', 'false');
+
+            assert.deepEqual(toObject(formData, {raw: ['rawKey'], normalize_bool: true, normalize_number: true, normalize_date: true}), {
+                isHuman: true,
+                age: 30,
+                startDate: new Date('2023-12-25T12:00:00.000Z'),
+                rawKey: 'false',
+            });
+        });
+
+        it('Should correctly handle single-value keys with normalization enabled', () => {
+            const formData = new FormData();
+            formData.append('action', 'save');
+            formData.append('action', 'save');
+
+            assert.deepEqual(toObject(formData, {single: ['action'], normalize_bool: true, normalize_number: true}), {
+                action: 'save',
+            });
+        });
+
+        it('Should handle multiple normalization options together', () => {
+            const formData = new FormData();
+            formData.append('isEnabled', 'true');
+            formData.append('age', '45');
+            formData.append('height', '1.85');
+            formData.append('startDate', '2024-02-09T12:34:56Z');
+            formData.append('rawField', 'false');
+
+            const result = toObject(formData, {
+                normalize_bool: true,
+                normalize_date: true,
+                normalize_number: true,
+                raw: ['rawField'],
+            });
+
+            assert.deepEqual(result, {
+                isEnabled: true,
+                age: 45,
+                height: 1.85,
+                startDate: new Date('2024-02-09T12:34:56Z'),
+                rawField: 'false',
+            });
+        });
+
+        it('Should handle normalization in nested objects', () => {
+            const form = new FormData();
+            form.append('pincode', '0123');
+            form.append('enabled', 'false');
+            form.append('config.isGood', 'true');
+            form.append('config.amount', ' 50 ');
+            form.append('config.createdAt', '2024-02-09T12:34:56Z');
+
+            assert.deepEqual(toObject(form, {raw: ['pincode']}), {
+                pincode: '0123',
+                enabled: false,
+                config: {
+                    isGood: true,
+                    amount: 50,
+                    createdAt: new Date('2024-02-09T12:34:56Z'),
+                },
+            });
+
+            assert.deepEqual(toObject(form, {raw: ['pincode'], normalize_bool: false}), {
+                pincode: '0123',
+                enabled: 'false',
+                config: {
+                    isGood: 'true',
+                    amount: 50,
+                    createdAt: new Date('2024-02-09T12:34:56Z'),
+                },
+            });
+
+            assert.deepEqual(toObject(form, {normalize_bool: false, normalize_number: false}), {
+                pincode: '0123',
+                enabled: 'false',
+                config: {
+                    isGood: 'true',
+                    amount: ' 50 ',
+                    createdAt: new Date('2024-02-09T12:34:56Z'),
+                },
+            });
+
+            assert.deepEqual(toObject(form, {normalize_bool: false, normalize_number: false, normalize_date: false}), {
+                pincode: '0123',
+                enabled: 'false',
+                config: {
+                    isGood: 'true',
+                    amount: ' 50 ',
+                    createdAt: '2024-02-09T12:34:56Z',
+                },
             });
         });
     });

@@ -493,8 +493,8 @@ Format a date according to a spec/locale and zone
 | `W` | Week Number as pure digit | 1 2 .. 52 53 |
 | `DD` | Day of month as 2 char | 01 02 .. 30 31 |
 | `D` | Day of month as 1 char | 1 2 .. 30 31 |
-| `dddd` | Day of week as 3 char | Sun Mon ... Fri Sat |
-| `ddd` | Day of week in full | Sunday Monday ... Saturday |
+| `dddd` | Day of week in full | Sunday Monday ... Saturday |
+| `ddd` | Day of week as 3 char | Sun Mon ... Fri Sat |
 | `HH` | Hours as 2-char | 00 01 .. 22 23 |
 | `H` | Hours as pure digit | 0 1 .. 22 23 |
 | `hh` | Hours in 12 hour time as 2 char | 01 02 ... 11 12 |

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- **date/format**: Fixed an edge case issue where the result would be wrong if the output of a token formatter contains another token that was also part of the passed spec
+
 ## [12.25.0] - 2024-10-05
 ### Added
 - **feat**: `date/isFormat` now supports optional markers

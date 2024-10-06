@@ -34,7 +34,7 @@ const ESCAPE_RGX = /\[[\s\S]+?]/g;
 const intl_formatters: Record<string, Intl.DateTimeFormat> = Object.create(null);
 
 /* Memoize specs passed and their function chain */
-type SpecCacheEntry = {base:string; chain: TokenTuple[]; chain_len:number; repl: [string, string][]; repl_len:number}|null;
+type SpecCacheEntry = {base:string; chain: TokenTuple[]; chain_len:number; repl: [string, string][]}|null;
 const spec_cache: Record<string, SpecCacheEntry> = Object.create(null);
 
 /* Memoize TZ offsets */
@@ -309,7 +309,7 @@ function getSpecChain (spec:string):SpecCacheEntry {
         }
     }
     const chain_len = chain.length;
-    const result = chain_len ? {base, chain, chain_len, repl, repl_len} : null;
+    const result = chain_len ? {base, chain, chain_len, repl} : null;
     spec_cache[spec] = result;
     return result;
 }
@@ -351,17 +351,24 @@ function format (
     /* Convert date to zone if necessary */
     const d = toZone(n_val, zone);
     let base = n_spec.base;
-    const {chain_len, chain, repl_len, repl} = n_spec;
 
     /* Run spec chain */
-    for (let i = 0; i < chain_len; i++) {
-        let pos = base.indexOf(chain[i][0]);
-        const formatted_val = chain[i][1](d, locale, sow);
+    const repl = [...n_spec.repl];
+    let repl_len = n_spec.repl.length;
+    for (let i = 0; i < n_spec.chain_len; i++) {
+        const el = n_spec.chain[i];
+        let pos = base.indexOf(el[0]);
+        const token_val = el[1](d, locale, sow);
         while (pos !== -1) {
-            base = base.slice(0, pos) +
-            formatted_val +
-            base.slice(pos + chain[i][2]);
-            pos = base.indexOf(chain[i][0], pos + chain[i][2]);
+            /**
+             * We work with escaped tokens here as the output
+             * of a token formatter might contain another token.
+             */
+            const key = '$' + repl_len++ + '$';
+            repl.push([key, token_val]);
+
+            base = base.slice(0, pos) + key + base.slice(pos + el[2]);
+            pos = base.indexOf(el[0], pos + el[2]);
         }
     }
 

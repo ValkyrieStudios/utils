@@ -420,6 +420,28 @@ describe('Date - format', () => {
         }
     });
 
+    it('Specific Cases - Dutch locale', () => {
+        for (const el of [
+            {s: 'dddd l t', i: '2024-10-05T23:58:58.000Z', o: 'zondag 06-10-2024 01:58', tz: 'Europe/Brussels'},
+            {s: 'dddd l t', i: '2024-10-05T23:58:58.000Z', o: 'zaterdag 05-10-2024 23:58', tz: 'UTC'},
+            {
+                s: 'YYYY [esc] Q Q M D [chars]',
+                i: '2022-05-25T12:15:45Z',
+                o: '2022 esc 2 2 5 25 chars',
+                tz: 'Asia/Kolkata',
+            },
+            {
+                s: 'MMM D, YYYY [à] hh:mm A',
+                i: '2021-07-07T21:08:15-04:00',
+                o: 'jul 7, 2021 à 09:08 PM',
+                tz: 'America/Toronto',
+            },
+        ]) {
+            assert.equal(format(new Date(el.i), el.s, 'nl', el.tz), el.o);
+            assert.equal(format(el.i, el.s, 'nl', el.tz), el.o);
+        }
+    });
+
     describe('token:YYYY', () => {
         it('Should be correct', () => {
             for (const el of [

@@ -24,45 +24,34 @@ type ToObjectConfig = {
 }
 
 const RGX_CLOSE = /\]/g;
+const RGX_DIGIT = /^\d+$/;
 
-function assignValue (acc: Record<string, unknown>, rawkey: string, value: unknown, single:Set<string>|null): void {
+function assignValue (acc: Record<string, unknown>, rawkey: string, value: unknown, single:Set<string>): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
     const keys = rawkey.replace(RGX_CLOSE, '').split(/\[|\./);
     const keys_len = keys.length;
     for (let i = 0; i < keys_len; i++) {
-        const key = keys[i];
+        const key:string = keys[i];
 
-        /* If this is the last key, assign the value */
-        if (i === keys_len - 1) {
-            /* eslint-disable-next-line */
-            /* @ts-ignore */
-            const cursor_val = cursor[key];
-            if (cursor_val !== undefined && (!single || !single.has(key))) {
-                /* If the key already exists, convert it into an array if it isn’t already */
-                if (Array.isArray(cursor_val)) {
-                    /* eslint-disable-next-line */
-                    /* @ts-ignore */
-                    (cursor[key] as Array<unknown>).push(value);
-                } else {
-                    /* eslint-disable-next-line */
-                    /* @ts-ignore */
-                    cursor[key] = [cursor_val, value];
-                }
-            } else {
-                /* eslint-disable-next-line */
-                /* @ts-ignore */
-                cursor[key] = value;
+        /* If more values */
+        if (i < (keys_len - 1)) {
+            const n_key: string | number = Array.isArray(cursor) ? Number(key) : key;
+
+            /* Create array or object only if it doesn't exist */
+            if (!cursor[n_key]) {
+                cursor[n_key] = RGX_DIGIT.test(keys[i + 1]) ? [] : {};
             }
+
+            cursor = cursor[n_key] as Record<string, unknown>;
+        } else if (!(key in cursor) || single.has(key)) {
+            (cursor as Record<string, unknown>)[key] = value;
         } else {
-            /* eslint-disable-next-line */
-            /* @ts-ignore */
-            const n_key = Array.isArray(cursor) ? Number(key) : key;
-            /* eslint-disable-next-line */
-            /* @ts-ignore */
-            if (!cursor[n_key]) cursor[n_key] = isNaN(Number(keys[i + 1])) ? {} : [];
-            /* eslint-disable-next-line */
-            /* @ts-ignore */
-            cursor = cursor[n_key];
+            const cursor_val = (cursor as Record<string, unknown>)[key];
+            if (Array.isArray(cursor_val)) {
+                cursor_val.push(value);
+            } else {
+                (cursor as Record<string, unknown>)[key] = [cursor_val, value];
+            }
         }
     }
 }
@@ -86,15 +75,15 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
     if (!(form instanceof FormData)) throw new Error('formdata/toObject: Value is not an instance of FormData');
 
     const set:Set<string>|true = config?.raw === true ? true : new Set(Array.isArray(config?.raw) ? config?.raw : []);
-    const single = Array.isArray(config?.single) && config?.single.length ? new Set(config.single) : null;
+    const single = new Set(Array.isArray(config?.single) ? config!.single : []);
     const nBool = config?.normalize_bool !== false;
     const nDate = config?.normalize_date !== false;
     const nNumber = config?.normalize_number !== false;
 
     const acc:Record<string, unknown> = {};
     form.forEach((value, key) => {
-        /* Handle string to boolean/number conversion */
-        if (set !== true && typeof value === 'string' && !set.has(key)) {
+        if (set !== true && typeof value === 'string' && value !== '' && !set.has(key)) {
+            /* Bool normalization */
             if (nBool) {
                 const lower = value.toLowerCase();
                 if (lower === 'true') {
@@ -106,17 +95,19 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
                 }
             }
 
-            const trimmed = (value as string).trim();
-            if (trimmed.length) {
-                if (nNumber && !isNaN(Number(value))) {
-                    assignValue(acc, key, Number(value), single);
+            /* Number normalization */
+            if (nNumber) {
+                const nVal = Number(value);
+                if (!isNaN(nVal)) {
+                    assignValue(acc, key, nVal, single);
                     return;
                 }
+            }
 
-                if (nDate && isDateFormat(value, 'ISO')) {
-                    assignValue(acc, key, new Date(value), single);
-                    return;
-                }
+            /* Date normalization */
+            if (nDate && isDateFormat(value, 'ISO')) {
+                assignValue(acc, key, new Date(value), single);
+                return;
             }
         }
 

@@ -54,6 +54,7 @@ import round                    from '../dist/number/round';
 import toPercentage             from '../dist/number/toPercentage';
 import merge                    from '../dist/object/merge';
 import pick                     from '../dist/object/pick';
+import omit                     from '../dist/object/omit';
 import isObject                 from '../dist/object/is';
 import isNotEmptyObject         from '../dist/object/isNotEmpty';
 import isRegExp                 from '../dist/regexp/is';
@@ -969,6 +970,11 @@ for (const el of [
     {
         lbl: 'object/pick',
         fn: () => pick({a: true, b: true}, ['a', 'b']),
+    },
+    /* Object - omit */
+    {
+        lbl: 'object/omit',
+        fn: () => omit({a: true, b: {c: 1, d: "Peter", e: "Hello"}}, ['b.c', 'b.e']),
     },
     /* RegExp - is */
     {

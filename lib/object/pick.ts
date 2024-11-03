@@ -28,8 +28,8 @@ type UnionToIntersection<U> =
 /**
  * Returns a new object with the keys picked from the passed object
  *
- * @param obj - Object to pick from
- * @param keys - Array of keys to pick from object
+ * @param {Record<string, any>} obj - Object to pick from
+ * @param {string[]} keys - Array of keys to pick from object
  */
 function pick<T extends Record<string, any>, K extends readonly DottedKeys<T>[]> (
     obj: T,

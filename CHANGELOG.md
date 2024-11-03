@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.27.1] - 2024-11-03
+### Fixed
+- **fix**: object/omit now correctly omits below 3 levels
+
 ## [12.27.0] - 2024-11-03
 ### Improved
 - **feat**: Add barrel export for omit on @valkyriestudios/utils/object

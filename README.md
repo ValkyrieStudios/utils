@@ -1150,11 +1150,35 @@ isNotEmptyObject('Hi'); // FALSE
 ```
 
 ### object/pick(obj:Object={}, keys:Array[string]=[])
-Copies the keys passed in the 'keys' array from the passed object to a new object and returns that object.**
+Copies the keys passed in the 'keys' array from the passed object to a new object and returns that object.
 <small>If a key wasn't found it will be set as undefined</small>
 ```typescript
 import pick from '@valkyriestudios/utils/object/pick';
 pick({a: 1, b: 2, c: 3}, ['a','b']); // {a: 1, b: 2}
+```
+
+### object/omit(obj:Object={}, keys:Array[string]=[])
+Returns an object with the keys provided in the keys array stripped from the provided object.
+```typescript
+import { omit } from "@valkyriestudios/utils/object"; /* Or @valkyriestudios/utils/object/omit; */
+const redacted = omit({
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    age: 34,
+    details: {
+        phone: "...",
+        email: "...",
+        isActive: true,
+        password: "...",
+    },
+}, ["age", "details.phone", "details.email", "details.password"]);
+/**
+Redacted here will be:
+{firstName: "Peter", lastName: "Vermeulen", "details": {"isActive": true}}
+
+Its type will be
+{firstName: string; lastName: string; details: {isActive: boolean}}
+*/
 ```
 
 ### object/merge(target:Object={},obj:Object|Object[]={}, opts?:{union?:boolean})

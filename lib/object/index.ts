@@ -3,6 +3,7 @@ import {isObject}           from './is';
 import {isNotEmptyObject}   from './isNotEmpty';
 import {merge}              from './merge';
 import {pick}               from './pick';
+import {omit}               from './omit';
 
 export {
     define,
@@ -13,5 +14,6 @@ export {
     isNotEmptyObject as isNeObject,
     isNotEmptyObject as isNe,
     merge,
-    pick
+    pick,
+    omit
 };

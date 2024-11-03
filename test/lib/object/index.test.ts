@@ -6,6 +6,7 @@ import is               from '../../../lib/object/is';
 import isNotEmpty       from '../../../lib/object/isNotEmpty';
 import merge            from '../../../lib/object/merge';
 import pick             from '../../../lib/object/pick';
+import omit             from '../../../lib/object/omit';
 
 describe('Object - *', () => {
     it('Should be a correct export', () => {
@@ -19,6 +20,7 @@ describe('Object - *', () => {
             define,
             merge,
             pick,
+            omit,
         });
     });
 });

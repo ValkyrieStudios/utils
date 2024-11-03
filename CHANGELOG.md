@@ -7,9 +7,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
-- **deps**: Upgrade @types/node to 20.16.11
+- **deps**: Upgrade @types/node to 22.8.7
+- **deps**: Upgrade eslint to 9.14.0
 - **deps**: Upgrade typescript to 5.6.3
-- **deps**: Upgrade typescript-eslint to 8.8.1
+- **deps**: Upgrade typescript-eslint to 8.12.2
 
 ## [12.25.1] - 2024-10-06
 ### Fixed

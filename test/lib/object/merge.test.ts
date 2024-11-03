@@ -295,4 +295,93 @@ describe('Object - merge', () => {
             );
         }
     });
+
+    it('Should automatically build sublevels where necessary', () => {
+        assert.deepEqual(
+            merge({a: 1}, {settings: {flags: {flag_1: true, flag_2: false}}}, {union: true}),
+            {
+                a: 1,
+                settings: {
+                    flags: {
+                        flag_1: true,
+                        flag_2: false,
+                    },
+                },
+            }
+        );
+    });
+
+    it('Should automatically build sublevels where necessary when key is undefined/null in prior objects', () => {
+        assert.deepEqual(
+            merge({a: 1, settings: undefined}, {settings: {flags: {flag_1: true, flag_2: false}}}, {union: true}),
+            {
+                a: 1,
+                settings: {
+                    flags: {
+                        flag_1: true,
+                        flag_2: false,
+                    },
+                },
+            }
+        );
+
+        assert.deepEqual(
+            merge({a: 1, settings: null}, {settings: {flags: {flag_1: true, flag_2: false}}}, {union: true}),
+            {
+                a: 1,
+                settings: {
+                    flags: {
+                        flag_1: true,
+                        flag_2: false,
+                    },
+                },
+            }
+        );
+    });
+
+    it('Should automatically build sublevels where necessary when key is undefined/null in sublevels on prior objects', () => {
+        assert.deepEqual(
+            merge({a: 1, settings: {flags: undefined}}, {settings: {flags: {flag_1: true, flag_2: false}}}, {union: true}),
+            {
+                a: 1,
+                settings: {
+                    flags: {
+                        flag_1: true,
+                        flag_2: false,
+                    },
+                },
+            }
+        );
+
+        assert.deepEqual(
+            merge({a: 1, settings: {flags: null}}, {settings: {flags: {flag_1: true, flag_2: false}}}, {union: true}),
+            {
+                a: 1,
+                settings: {
+                    flags: {
+                        flag_1: true,
+                        flag_2: false,
+                    },
+                },
+            }
+        );
+
+        assert.deepEqual(
+            merge(
+                {a: 1, settings: {flags: {flag_3: true, flag_1: false}}},
+                {settings: {flags: {flag_1: true, flag_2: false}}},
+                {union: true}
+            ),
+            {
+                a: 1,
+                settings: {
+                    flags: {
+                        flag_1: true,
+                        flag_2: false,
+                        flag_3: true,
+                    },
+                },
+            }
+        );
+    });
 });

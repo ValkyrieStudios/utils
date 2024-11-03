@@ -27,11 +27,11 @@ function innerOmit (obj:Record<string, any>, keys:string[]) {
         const key = keys[i];
         if (typeof key !== 'string') continue;
 
-        const [root, path] = key.trim().split('.', 2);
+        const [root, ...rest] = key.trim().split('.');
 
-        if (path) {
+        if (rest.length) {
             if (!groups[root]) groups[root] = [];
-            groups[root].push(path);
+            groups[root].push(rest.join('.'));
         } else {
             /* Remove top-level prop */
             delete result[root];

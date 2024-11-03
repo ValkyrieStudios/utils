@@ -143,6 +143,30 @@ describe('Object - omit', () => {
         );
     });
 
+    it('Correctly filters out deeply nested keys', () => {
+        const subject = {
+            a: 100,
+            b: 200,
+            c: {
+                j: 5,
+                bar: true,
+                f: {
+                    age: 42,
+                    world: 'hello',
+                },
+            },
+        };
+
+        assert.deepEqual(
+            omit(subject, [
+                'a',
+                'c.f.age',
+                'c.j',
+            ]),
+            {b: 200, c: {bar: true, f: {world: 'hello'}}}
+        );
+    });
+
     it('Throws a type error when passed something other than an object to omit from', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             assert.throws(

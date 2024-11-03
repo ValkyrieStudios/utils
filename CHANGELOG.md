@@ -5,7 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [12.26.0] - 2024-11-03
+### Added
+- **feat**: `object/omit` as a function which is the reverse of `object/pick` in that it returns an object with the provided keys removed while also returning a proper type for the new object
+```typescript
+import { omit } from "@valkyriestudios/utils/object"; /* Or @valkyriestudios/utils/object/omit; */
+const redacted = omit({
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    age: 34,
+    details: {
+        phone: "...",
+        email: "...",
+        isActive: true,
+        password: "...",
+    },
+}, ["age", "details.phone", "details.email", "details.password"]);
+/**
+Redacted here will be:
+{firstName: "Peter", lastName: "Vermeulen", "details": {"isActive": true}}
+
+Its type will be
+{firstName: string; lastName: string; details: {isActive: boolean}}
+*/
+```
+
 ### Improved
 - **deps**: Upgrade @types/node to 22.8.7
 - **deps**: Upgrade eslint to 9.14.0

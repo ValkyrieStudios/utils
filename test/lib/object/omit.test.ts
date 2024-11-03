@@ -120,6 +120,29 @@ describe('Object - omit', () => {
         );
     });
 
+    it('Correctly filters out keys for which the root object doesnt exist', () => {
+        const subject = {
+            a: 100,
+            b: 200,
+            c: {
+                j: 5,
+                bar: true,
+                f: [0, 1, 2],
+            },
+        };
+
+        assert.deepEqual(
+            omit(subject, [
+                'a',
+                '  ',
+                '  c.d     ',
+                'd.f',
+                'b    ',
+            ]),
+            {c: {j: 5, bar: true, f: [0, 1, 2]}}
+        );
+    });
+
     it('Throws a type error when passed something other than an object to omit from', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             assert.throws(

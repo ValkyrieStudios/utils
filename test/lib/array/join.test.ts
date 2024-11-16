@@ -118,4 +118,31 @@ describe('Array - join', () => {
     it('removes multiple invalid values while joining', () => {
         assert.equal(join([false, false, 'hi', false, false, 'there'], {delim: '|'}), 'hi|there');
     });
+
+    it('allows you to dedupe values while joining', () => {
+        assert.equal(join(['prop_1', 'prop_2', 'prop_1', 'prop_3'], {
+            delim: ',',
+            dedupe: true,
+        }), 'prop_1,prop_2,prop_3');
+
+        assert.equal(join(['prop_1', 'prop_2', 'prop_1', 'prop_3'], {
+            delim: ',',
+            dedupe: false,
+        }), 'prop_1,prop_2,prop_1,prop_3');
+    });
+
+    it('allows you to dedupe after trimming values while joining', () => {
+        assert.equal(join(['prop_1', 'prop_2', ' prop_1', 'prop_3 ', ' prop_3'], {
+            delim: ',',
+            dedupe: true,
+        }), 'prop_1,prop_2,prop_3');
+    });
+
+    it('allows you to dedupe after rounding values while joining', () => {
+        assert.equal(join([58.432, 58.43, 58.421], {delim: '@', dedupe: true, valround: 1}), '58.4');
+    });
+
+    it('allows you to dedupe after rounding values while joining and dedupe after stringification', () => {
+        assert.equal(join([58.432, 58.43, 58.421, '58', 59.1, '59'], {delim: '@', dedupe: true, valround: 0}), '58@59');
+    });
 });

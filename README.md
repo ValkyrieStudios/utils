@@ -220,7 +220,7 @@ dedupe(['hello', 'hello', 'world', false, 'world'], {filter_fn: el => isNotEmpty
 
 Take Note: The filtering is applied while deduping, ensuring O(n) performance, as such this is faster than dedupe(arr.filter(...))
 
-### array/join(val:Array, opts:object={delim:' ',trim:true,valtrim:true,innertrim:true,valround:false})
+### array/join(val:Array, opts:object={delim:' ',trim:true,valtrim:true,innertrim:true,valround:false,dedupe:false})
 Concatenate the values within an array into a string, behind the scenes this will automatically filter out any value that is not a string or numerical value. For strings it will automatically trim (and remove if empty after trimming) before joining.
 
 ```typescript
@@ -231,6 +231,7 @@ join(['peter   ', '  valkyrie  '], {delim: '@'}); // 'peter@valkyrie'
 join([user.first_name, user.last_name]); // 'John' (where user is {first_name: 'John', last_name: false})
 join(['  a', 1], {delim: '', valtrim: false, trim: false}); // '  a1'
 join(['  hello  world  ', 'this   is    peter   '], {valtrim:true, innertrim: true, delim: ' '}); // 'hello world this is peter'
+join(['  prop_1 ', 'prop_2', ' prop_1', '  prop_2'], {delim: ',', dedupe: true}); // 'prop_1,prop_2'
 ```
 
 ### array/shuffle(val:Array)

@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: array/join now has a `dedupe` option which when passed as true will automatically dedupe the array while joining
+```typescript
+import {join} from "@valkyriestudios/utils/array";
+join(['prop_1', 'prop_2', ' prop_1', 'prop_3 ', ' prop_3'], {
+    delim: '|',
+    dedupe: true,
+}); /* 'prop_1|prop_2|prop_3' */
+```
+
 ### Improved
 - **deps**: Upgrade @types/node to 22.9.0
 - **deps**: Upgrade typescript-eslint to 8.13.0

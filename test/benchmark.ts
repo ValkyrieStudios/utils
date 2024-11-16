@@ -169,6 +169,10 @@ for (const el of [
         lbl: 'array/join - valtrim: false,valround 1',
         fn: () => join(['   valkyrie ', 569.45, '   studios  '], {delim: '@', valround: 1, valtrim: false}),
     },
+    {
+        lbl: 'array/join - dedupe:true valtrim: true',
+        fn: () => join(['  prop_1  ', 'prop_2', '   prop_2', 'prop_1'], {delim: '|', dedupe: true, valtrim: true}),
+    },
     /* Array - mapFn */
     {
         lbl: 'array/mapFn',

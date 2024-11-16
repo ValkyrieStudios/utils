@@ -11,6 +11,12 @@ interface joinOptions {
      */
     delim?:string;
     /**
+     * Dedupe the provided array while joining or not?
+     * (default=false)
+     * eg: join(['val_a', 'val_b', 'val_'a], {dedupe: true, delim:','}) -> 'val_a,val_b'
+     */
+    dedupe?:boolean;
+    /**
      * Trim after joining or not
      * (default=true)
      * eg: join(['  hello', 'world  '], {trim: true}) -> 'hello world'
@@ -19,7 +25,7 @@ interface joinOptions {
     /**
      * Trim internals of values or not
      * (default=false)
-     * eg: join(['   hello    world', 'this   is ', 'Peter'], {trimBetween: true, trim: true}) -> 'hello world this is peter'
+     * eg: join(['   hello    world', 'this   is ', 'Peter'], {innertrim: true, trim: true}) -> 'hello world this is peter'
      */
     innertrim?:boolean;
     /**
@@ -46,28 +52,44 @@ function join (val:unknown[], opts?:joinOptions):string {
     if (!Array.isArray(val) || !val.length) return '';
 
     const DELIM:string = typeof opts?.delim === 'string' ? opts.delim : ' ';
-    const TRIM: boolean = opts?.trim ?? true;
+    const DEDUPE: Set<string|number> | null = opts?.dedupe === true ? new Set() : null;
     const VALTRIM: boolean = opts?.valtrim ?? true;
     const INNERTRIM: boolean = opts?.innertrim ?? false;
     const VALROUND: number | false = isIntegerAboveOrEqual(opts?.valround, 0) ? opts!.valround! : false;
 
-    let result = '';
-    let hasVal:boolean = false;
+    let result:string= '';
+    let has_val:boolean = false;
     for (let i = 0; i < val.length; i++) {
         const el = val[i];
+        let n_el:string;
         if (typeof el === 'string') {
             const trimmed = el.trim();
             if (!trimmed) continue;
-            const n_el = VALTRIM ? trimmed : el;
-            result = result + (hasVal ? DELIM : '') + (INNERTRIM ? n_el.replace(SPACE_RGX, ' ') : n_el);
-            hasVal = true;
+
+            n_el = VALTRIM ? trimmed : el;
+            if (INNERTRIM) n_el = n_el.replace(SPACE_RGX, ' ');
         } else if (Number.isFinite(el)) {
-            result = result + (hasVal ? DELIM : '') + (VALROUND !== false ? round(el as number, VALROUND) : el);
-            hasVal = true;
+            n_el = '' + (VALROUND !== false ? round(el as number, VALROUND) : el);
+        } else {
+            continue;
+        }
+
+        /* If dedupe */
+        if (DEDUPE) {
+            if (DEDUPE.has(n_el)) continue;
+            DEDUPE.add(n_el);
+        }
+
+        /* Expand result */
+        if (has_val) {
+            result = result + DELIM + n_el;
+        } else {
+            result = n_el;
+            has_val = true;
         }
     }
 
-    return TRIM ? result.trim() : result;
+    return opts?.trim ?? true ? result.trim() : result;
 }
 
 export {join, join as default};

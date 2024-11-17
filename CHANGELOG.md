@@ -61,6 +61,7 @@ await retrieveUser('123abc');
 - **deps**: Upgrade @types/node to 22.9.0
 - **deps**: Upgrade eslint to 9.14.0
 - **deps**: Upgrade typescript-eslint to 8.13.0
+- **misc**: Benchmarks are now run against node 22.x
 
 ## [12.27.1] - 2024-11-03
 ### Fixed

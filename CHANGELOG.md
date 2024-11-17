@@ -15,8 +15,25 @@ join(['prop_1', 'prop_2', ' prop_1', 'prop_3 ', ' prop_3'], {
     dedupe: true,
 }); /* 'prop_1|prop_2|prop_3' */
 ```
+- **feat**: caching/memoize now has a `cache_max_size` option which allows (in addition to the cache_duration_ms option) you to define the max amount of cached entries at any one time in the memoized cache `(default=100)`
+```typescript
+import {memoize} from "@valkyriestudios/utils/caching";
+
+/**
+ * Example usage where we're defining a memoized async function which memoizes values
+ * up to 60 seconds with at max 50 entries in the cache
+ */
+const retrieveUser = memoize(async (userId:string) => {
+    ... (your logic)
+}, undefined, 60000, 50);
+
+await retrieveUser('123abc');
+```
 
 ### Improved
+- **perf**: date/isFormat now makes use of the new LRU cache to ensure no unwanted memory buildup happens over time
+- **perf**: date/format now makes use of the new LRU cache to ensure no unwanted memory buildup happens over time
+- **perf**: caching/memoize now makes use of the new LRU cache to ensure no unwanted memory buildup happens over time
 - **deps**: Upgrade @types/node to 22.9.0
 - **deps**: Upgrade eslint to 9.14.0
 - **deps**: Upgrade typescript-eslint to 8.13.0

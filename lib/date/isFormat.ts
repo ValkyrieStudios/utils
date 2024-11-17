@@ -1,3 +1,5 @@
+import LRU from '../caching/LRU';
+
 type Token = [string, string, (val: string, context: Record<string, number>) => boolean];
 
 const SPECIAL_CHARS = /[.*+?^${}()|[\]\\]/g;
@@ -49,7 +51,7 @@ const SPEC_ALIASES:Record<string, string> = {
 };
 
 /* Cache for specs that have already been compiled */
-const spec_pat_cache:Record<string, {rgx:RegExp;tokens:number[]}> = {};
+const spec_pat_cache = new LRU<string, {rgx:RegExp;tokens:number[]}>({max_size: 100});
 
 /**
  * Compiles a spec and stores it on the spec cache
@@ -58,7 +60,8 @@ const spec_pat_cache:Record<string, {rgx:RegExp;tokens:number[]}> = {};
  * @param {boolean} is_chunk - Whether or not this is a subchunk
  */
 function compileSpec (spec:string, is_chunk:boolean = false) {
-    if (spec in spec_pat_cache) return spec_pat_cache[spec];
+    let cached = spec_pat_cache.get(spec);
+    if (cached !== undefined) return cached;
 
     const tokens:number[] = [];
     let pat = '';
@@ -99,8 +102,9 @@ function compileSpec (spec:string, is_chunk:boolean = false) {
         }
     }
 
-    spec_pat_cache[spec] = {rgx: is_chunk ? RegExp(pat) : RegExp('^' + pat + '$'), tokens};
-    return spec_pat_cache[spec];
+    cached = {rgx: is_chunk ? RegExp(pat) : RegExp('^' + pat + '$'), tokens};
+    spec_pat_cache.set(spec, cached);
+    return cached;
 }
 
 /**

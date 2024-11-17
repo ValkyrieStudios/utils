@@ -1,6 +1,7 @@
 /* eslint-disable no-confusing-arrow */
 
 import {convertToDate} from './convertToDate';
+import LRU from '../caching/LRU';
 
 const WEEK_STARTS = {
     mon: 'mon',
@@ -31,14 +32,14 @@ try {
 const ESCAPE_RGX = /\[[\s\S]+?]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
-const intl_formatters: Record<string, Intl.DateTimeFormat> = Object.create(null);
+const intl_formatters = new LRU<string, Intl.DateTimeFormat>({max_size: 100});
 
 /* Memoize specs passed and their function chain */
 type SpecCacheEntry = {base:string; chain: TokenTuple[]; chain_len:number; repl: [string, string][]}|null;
-const spec_cache: Record<string, SpecCacheEntry> = Object.create(null);
+const spec_cache = new LRU<string, SpecCacheEntry>({max_size: 100});
 
 /* Memoize TZ offsets */
-const zone_offset_cache: Record<string, number> = Object.create(null);
+const zone_offset_cache = new LRU<string, number>({max_size: 100});
 
 /**
  * Get the week number for a particular date
@@ -119,7 +120,8 @@ function toZone (d:Date, zone:string):Date {
 
     /* We make use of a cache key including year/doy as offsets might differ between months due to daylight saving time */
     const ckey = zone + ':' + year + ':' + doy;
-    if (zone_offset_cache[ckey] !== undefined) return new Date(time + zone_offset_cache[ckey]);
+    const cached = zone_offset_cache.get(ckey);
+    if (cached !== undefined) return new Date(time + cached);
 
     /* Get the target timezone offset in minutes */
     let zone_time:number|null = null;
@@ -133,7 +135,7 @@ function toZone (d:Date, zone:string):Date {
     const offset = zone_time - time;
 
     /* Store in offset cache so we don't need to do this again */
-    zone_offset_cache[ckey] = offset;
+    zone_offset_cache.set(ckey, offset);
 
     /* Return new date and time */
     return new Date(time + offset);
@@ -155,11 +157,11 @@ function runIntl (
 ):string {
     const hash = loc + ':' + token;
 
-    let formatter = intl_formatters[hash];
+    let formatter = intl_formatters.get(hash);
     if (!formatter) {
         try {
             formatter = new Intl.DateTimeFormat(loc, props);
-            intl_formatters[hash] = formatter;
+            intl_formatters.set(hash, formatter);
         } catch {
             throw new Error(`format: Failed to run conversion for ${token} with locale ${loc}`);
         }
@@ -270,7 +272,8 @@ const Tokens:TokenTuple[] = ([
  * @param {string} spec - Spec to be converted to spec chain
  */
 function getSpecChain (spec:string):SpecCacheEntry {
-    if (spec_cache[spec] !== undefined) return spec_cache[spec];
+    const cached = spec_cache.get(spec);
+    if (cached !== undefined) return cached;
 
     let base = spec;
 
@@ -310,7 +313,7 @@ function getSpecChain (spec:string):SpecCacheEntry {
     }
     const chain_len = chain.length;
     const result = chain_len ? {base, chain, chain_len, repl} : null;
-    spec_cache[spec] = result;
+    spec_cache.set(spec, result);
     return result;
 }
 

@@ -18,8 +18,8 @@ join(['prop_1', 'prop_2', ' prop_1', 'prop_3 ', ' prop_3'], {
 
 ### Improved
 - **deps**: Upgrade @types/node to 22.9.0
-- **deps**: Upgrade eslint to 9.15.0
-- **deps**: Upgrade typescript-eslint to 8.14.0
+- **deps**: Upgrade eslint to 9.14.0
+- **deps**: Upgrade typescript-eslint to 8.13.0
 
 ## [12.27.1] - 2024-11-03
 ### Fixed

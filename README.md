@@ -366,7 +366,43 @@ isBoolean(false); // TRUE
 isBoolean(true); // TRUE
 ```
 
-### caching/memoize(fn:Function, resolver:Function=false, memoize_for:number|false)
+### caching/LRU({max_size?:number})
+Class-based LRU (Least Recently Used) cache utility with configurable max_size (defaults to 100). The LRU cache is internally used in `caching/memoize`, `date/format`, `date/isFormat` to reduce setup times and runtime memory usage but can also be used independently.
+
+Entries are automatically removed from cache based on the max size of the cache and how recently they were used
+
+```typescript
+import LRU from '@valkyriestudios/utils/caching/LRU';
+
+const cache = new LRU({max_size: 10});
+
+/* .set sets a value */
+cache.set('hello', 'World');
+
+/* .has checks if a value exists */
+cache.has('hello'); // true
+cache.has('holle'); // false
+
+/* .get retrieves the value */
+console.log(cache.get('hello')); // world
+
+/* .del deletes a key */
+cache.del('hello');
+console.log(cache.get('hello')); // undefined
+
+/* .clear clears the entire cache */
+cache.clear();
+```
+
+Take Note: The cache max_size can be reconfigured at runtime, eg:
+```typescript
+import LRU from '@valkyriestudios/utils/caching/LRU';
+
+const cache = new LRU({max_size: 10});
+cache.max_size = 20;
+```
+
+### caching/memoize(fn:Function, resolver:Function=false, cache_duration_ms?:number|false = false, cache_max_size?:number = 100)
 memoize the output of a function. An optional resolver function can be passed which allows custom cache key generation.
 
 ```typescript
@@ -391,13 +427,16 @@ await memoized('123456'); /* Original function will be called */
 await memoized('123456'); /* Original function will not be called and memoized cache will be returned */
 
 /* Async with cache busting after 5 seconds */
-const memoized = memoize(retrieveUser, null, 5000);
+const memoized = memoize(retrieveUser, undefined, 5000);
 await memoized('123456'); /* Original function will be called */
 await memoized('123456'); /* Original function will not be called and memoized cache will be returned */
 
 ... (some time longer than 5 seconds passes)
 
 await memoized('123456'); /* Original function will be called and re-cached */
+
+/* Async with cache busting after 60 seconds and a max cache size of 50 entries*/
+const memoized = memoize(retrieveUser, undefined, 60000, 50);
 ```
 
 ### date/is(val:unknown)

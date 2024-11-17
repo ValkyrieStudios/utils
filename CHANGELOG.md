@@ -7,6 +7,29 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
+- **feat**: caching/LRU as an implementation of a Least-Recently-Used cache which is both internally used inside of utils as well as can be individually instantiated.
+```typescript
+import LRU from '@valkyriestudios/utils/caching/LRU';
+
+const cache = new LRU({max_size: 10});
+
+/* .set sets a value */
+cache.set('hello', 'World');
+
+/* .has checks if a value exists */
+cache.has('hello'); // true
+cache.has('holle'); // false
+
+/* .get retrieves the value */
+console.log(cache.get('hello')); // world
+
+/* .del deletes a key */
+cache.del('hello');
+console.log(cache.get('hello')); // undefined
+
+/* .clear clears the entire cache */
+cache.clear();
+```
 - **feat**: array/join now has a `dedupe` option which when passed as true will automatically dedupe the array while joining
 ```typescript
 import {join} from "@valkyriestudios/utils/array";
@@ -34,6 +57,7 @@ await retrieveUser('123abc');
 - **perf**: date/isFormat now makes use of the new LRU cache to ensure no unwanted memory buildup happens over time
 - **perf**: date/format now makes use of the new LRU cache to ensure no unwanted memory buildup happens over time
 - **perf**: caching/memoize now makes use of the new LRU cache to ensure no unwanted memory buildup happens over time
+- **perf**: caching/memoize now runs more efficient internal cache checks (aside from lru) to determine whether or not to refresh value
 - **deps**: Upgrade @types/node to 22.9.0
 - **deps**: Upgrade eslint to 9.14.0
 - **deps**: Upgrade typescript-eslint to 8.13.0

@@ -7,7 +7,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [12.29.0] - 2024-11-30
 ### Improved
-- **perf**: Minor ~5-10% performance improvement in `deepGet` thanks to reduced internal operations
+- **perf**: Minor ~5-15% performance improvement in `deepGet` thanks to reduced internal operations
 - **deps**: Upgrade @types/node to 22.10.1
 - **deps**: Upgrade eslint to 9.16.0
 - **deps**: Upgrade typescript to 5.7.2

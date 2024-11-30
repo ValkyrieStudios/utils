@@ -72,47 +72,56 @@ function deepGet<
     ) throw new TypeError('deepGet: Invalid path provided');
 
     /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
-    const parts: string[] = [];
-    let cursor_part = '';
-    let in_bracket = false;
+    const nodes: any[] = [];
+    let node:any = obj;
+    let key = '';
     for (let i = 0; i < path.length; i++) {
         const char = path[i];
         switch (char) {
             case '[':
             case ']':
             case '.':
-                in_bracket = !in_bracket;
-                if (!cursor_part) break;
-                parts.push(cursor_part);
-                cursor_part = '';
+                if (!key) break;
+                if (Array.isArray(node)) {
+                    const ix = parseInt(key, 10);
+                    if (ix < 0 || ix > node.length - 1) return undefined;
+                    node = node[ix];
+                    nodes.push(node);
+                } else if (typeof node === 'object' && node !== null) {
+                    node = node[key];
+                    nodes.push(node);
+                    if (node === undefined) return undefined;
+                } else {
+                    return undefined;
+                }
+                key = '';
                 break;
             default:
-                cursor_part += char;
+                key += char;
                 break;
         }
     }
 
     /* Push any remaining part */
-    if (cursor_part) parts.push(cursor_part);
-
-    /* Cut last part if get_parent */
-    if (get_parent) parts.pop();
-
-    let cursor: any = obj;
-    for (let i = 0; i < parts.length; i++) {
-        if (Array.isArray(cursor)) {
-            const ix = parseInt(parts[i], 10);
-            if (ix < 0 || ix > cursor.length - 1) return undefined;
-            cursor = cursor[ix];
-        } else if (typeof cursor === 'object' && cursor !== null) {
-            cursor = cursor[parts[i]];
-            if (cursor === undefined) return undefined;
+    if (key) {
+        if (Array.isArray(node)) {
+            const ix = parseInt(key, 10);
+            if (ix < 0 || ix > node.length - 1) return undefined;
+            node = node[ix];
+            nodes.push(node);
+        } else if (typeof node === 'object' && node !== null) {
+            node = node[key];
+            nodes.push(node);
+            if (node === undefined) return undefined;
         } else {
             return undefined;
         }
     }
 
-    return cursor;
+    /* Cut last part if get_parent */
+    if (get_parent) nodes.pop();
+
+    return nodes.length ? nodes.pop() : obj;
 }
 
 export {deepGet, deepGet as default};

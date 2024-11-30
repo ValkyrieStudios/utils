@@ -103,7 +103,7 @@ describe('Deep - get', () => {
         ]) {
             assert.throws(
                 () => deepGet(el, '2'),
-                new TypeError('Deepget is only supported for objects')
+                new TypeError('deepGet: Requires object or array')
             );
         }
     });
@@ -123,7 +123,7 @@ describe('Deep - get', () => {
             assert.throws(
                 /* @ts-ignore */
                 () => deepGet({a: '2'}, el),
-                new TypeError('No path was given')
+                new TypeError('deepGet: Invalid path provided')
             );
         }
     });
@@ -132,7 +132,7 @@ describe('Deep - get', () => {
         const obj = {a: 'bi'};
         assert.throws(
             () => deepGet(obj, ''),
-            new TypeError('No path was given')
+            new TypeError('deepGet: Invalid path provided')
         );
         assert.deepEqual(obj, {a: 'bi'});
     });

@@ -47,9 +47,9 @@ type DeepGetResult<T extends ObjectType | ArrayType, P extends string> =
  * Output:
  * 2
  *
- * @param val - Object/Array to get the value from
- * @param path - Path string to deeply get the value at
- * @param get_parent - If passed as true retrieves the parent of where the value lives
+ * @param {Record<string, unknown>|unknown[]} obj - Object/Array to get the value from
+ * @param {string} path - Path string to deeply get the value at
+ * @param {boolean} get_parent - If passed as true retrieves the parent of where the value lives
  * @throws {TypeError}
  */
 function deepGet<
@@ -63,39 +63,46 @@ function deepGet<
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' &&
         !Array.isArray(obj)
-    ) throw new TypeError('Deepget is only supported for objects');
+    ) throw new TypeError('deepGet: Requires object or array');
 
-    /* If no path is provided, do nothing */
-    if (typeof path !== 'string') throw new TypeError('No path was given');
-
-    /* Check if path contains content */
-    const path_s = path.trim();
-    const path_len = path_s.length;
-    if (!path_len) throw new TypeError('No path was given');
+    /* If invalid path is provided, do nothing */
+    if (
+        typeof path !== 'string' ||
+        !path.length
+    ) throw new TypeError('deepGet: Invalid path provided');
 
     /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
     const parts: string[] = [];
     let cursor_part = '';
     let in_bracket = false;
-    for (let i = 0; i < path_len; i++) {
-        const char = path_s[i];
-
-        if (char === '[' || char === ']') {
-            in_bracket = !in_bracket;
-            if (cursor_part) {
-                parts.push(cursor_part);
-                cursor_part = '';
+    for (let i = 0; i < path.length; i++) {
+        const char = path[i];
+        switch (char) {
+            case '[':
+            case ']': {
+                in_bracket = !in_bracket;
+                if (cursor_part) {
+                    parts.push(cursor_part);
+                    cursor_part = '';
+                }
+                break;
             }
-        } else if (char === '.' && !in_bracket) {
-            if (cursor_part) {
-                parts.push(cursor_part);
-                cursor_part = '';
+            case '.': {
+                if (in_bracket) {
+                    cursor_part += char;
+                } else if (cursor_part) {
+                    parts.push(cursor_part);
+                    cursor_part = '';
+                }
+                break;
             }
-        } else {
-            cursor_part += char;
+            default:
+                cursor_part += char;
+                break;
         }
     }
 
+    /* Push any remaining part */
     if (cursor_part) parts.push(cursor_part);
 
     /* Return obj if no parts were passed or if only 1 part and get_parent is true */
@@ -109,15 +116,12 @@ function deepGet<
     }
 
     let cursor: any = obj;
-
     for (let i = 0; i < len; i++) {
         if (Array.isArray(cursor)) {
             const ix = parseInt(parts[i], 10);
             if (ix < 0 || ix > cursor.length - 1) return undefined;
             cursor = cursor[ix];
-        } else if (
-            Object.prototype.toString.call(cursor) === '[object Object]'
-        ) {
+        } else if (typeof cursor === 'object' && cursor !== null) {
             cursor = cursor[parts[i]];
             if (cursor === undefined) return undefined;
         } else {

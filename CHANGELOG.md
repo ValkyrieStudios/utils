@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [12.29.0] - 2024-11-30
 ### Improved
 - **perf**: Minor ~5-10% performance improvement in `deepGet` thanks to reduced internal operations
 - **deps**: Upgrade @types/node to 22.10.1

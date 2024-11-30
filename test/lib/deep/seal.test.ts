@@ -5,7 +5,7 @@ import * as assert                  from 'node:assert/strict';
 import CONSTANTS                    from '../../constants';
 import deepSeal                     from '../../../lib/deep/seal';
 
-describe('Deep - get', () => {
+describe('Deep - seal', () => {
     let subject;
     beforeEach(() => {
         subject = deepSeal({

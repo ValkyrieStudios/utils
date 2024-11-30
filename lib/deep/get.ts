@@ -79,23 +79,13 @@ function deepGet<
         const char = path[i];
         switch (char) {
             case '[':
-            case ']': {
+            case ']':
+            case '.':
                 in_bracket = !in_bracket;
-                if (cursor_part) {
-                    parts.push(cursor_part);
-                    cursor_part = '';
-                }
+                if (!cursor_part) break;
+                parts.push(cursor_part);
+                cursor_part = '';
                 break;
-            }
-            case '.': {
-                if (in_bracket) {
-                    cursor_part += char;
-                } else if (cursor_part) {
-                    parts.push(cursor_part);
-                    cursor_part = '';
-                }
-                break;
-            }
             default:
                 cursor_part += char;
                 break;
@@ -105,18 +95,11 @@ function deepGet<
     /* Push any remaining part */
     if (cursor_part) parts.push(cursor_part);
 
-    /* Return obj if no parts were passed or if only 1 part and get_parent is true */
-    let len = parts.length;
-    if (!len || (len === 1 && get_parent)) return obj as any;
-
     /* Cut last part if get_parent */
-    if (get_parent) {
-        parts.pop();
-        len -= 1;
-    }
+    if (get_parent) parts.pop();
 
     let cursor: any = obj;
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < parts.length; i++) {
         if (Array.isArray(cursor)) {
             const ix = parseInt(parts[i], 10);
             if (ix < 0 || ix > cursor.length - 1) return undefined;

@@ -35,11 +35,11 @@
     },
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
     "devDependencies": {
-        "@types/node": "^22.10.1",
+        "@types/node": "^22.10.2",
         "esbuild-register": "^3.6.0",
-        "eslint": "^9.16.0",
+        "eslint": "^9.17.0",
         "nyc": "^17.1.0",
         "typescript": "^5.7.2",
-        "typescript-eslint": "^8.16.0"
+        "typescript-eslint": "^8.18.1"
     }
 }

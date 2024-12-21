@@ -318,7 +318,6 @@ describe('FormData - toObject', () => {
         assert.ok(result.blob instanceof Blob);
     });
 
-
     it('Should handle mixed types for the same key', () => {
         const formData = new FormData();
         formData.append('mixedKey', '42');
@@ -329,7 +328,6 @@ describe('FormData - toObject', () => {
             mixedKey: [42, true, 'text'],
         });
     });
-
 
     it('Should handle deeply nested arrays', () => {
         const formData = new FormData();
@@ -345,7 +343,6 @@ describe('FormData - toObject', () => {
         });
     });
 
-
     it('Should handle numbers in scientific notation', () => {
         const formData = new FormData();
         formData.append('scientific', '1.23e10');
@@ -354,7 +351,6 @@ describe('FormData - toObject', () => {
             scientific: 1.23e10,
         });
     });
-
 
     it('Should handle mixed case boolean-like strings', () => {
         const formData = new FormData();
@@ -367,7 +363,6 @@ describe('FormData - toObject', () => {
         });
     });
 
-
     it('Should handle multiple values for an empty string key', () => {
         const formData = new FormData();
         formData.append('', 'first');
@@ -377,7 +372,6 @@ describe('FormData - toObject', () => {
             '': ['first', 'second'],
         });
     });
-
 
     it('Should handle date-like strings correctly', () => {
         const formData = new FormData();
@@ -407,7 +401,6 @@ describe('FormData - toObject', () => {
         assert.ok(result.files[0] instanceof File);
         assert.ok(result.files[1] instanceof File);
     });
-
 
     it('Should handle Blob objects as values', () => {
         const formData = new FormData();

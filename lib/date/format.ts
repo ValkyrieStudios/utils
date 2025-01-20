@@ -2,6 +2,7 @@
 
 import {convertToDate} from './convertToDate';
 import LRU from '../caching/LRU';
+import {parse} from './dateParser';
 
 const WEEK_STARTS = {
     mon: 'mon',
@@ -126,7 +127,7 @@ function toZone (d:Date, zone:string):Date {
     /* Get the target timezone offset in minutes */
     let zone_time:number|null = null;
     try {
-        zone_time = new Date(d.toLocaleString(DEFAULT_LOCALE, {timeZone: zone})).getTime() + d.getMilliseconds();
+        zone_time = parse(d, zone).getTime() + d.getMilliseconds();
     } catch {
         throw new Error(`format: Invalid zone passed - ${zone}`);
     }

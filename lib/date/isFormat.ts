@@ -59,7 +59,7 @@ const spec_pat_cache = new LRU<string, {rgx:RegExp;tokens:number[]}>({max_size: 
  * @param {string} spec - Spec to compile
  * @param {boolean} is_chunk - Whether or not this is a subchunk
  */
-function compileSpec (spec:string, is_chunk:boolean = false) {
+export function compileSpec (spec:string, is_chunk:boolean = false) {
     let cached = spec_pat_cache.get(spec);
     if (cached !== undefined) return cached;
 

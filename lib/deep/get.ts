@@ -83,10 +83,21 @@ function deepGet<
             case '.':
                 if (!key) break;
                 if (Array.isArray(node)) {
-                    const ix = parseInt(key, 10);
-                    if (ix < 0 || ix > node.length - 1) return undefined;
-                    node = node[ix];
-                    nodes.push(node);
+                    if (!isNaN(Number(key))) {
+                        const ix = parseInt(key, 10);
+                        if (ix < 0 || ix > node.length - 1) return undefined;
+                        node = node[ix];
+                        nodes.push(node);
+                    } else {
+                        /* Extract from each array element */
+                        const extracted = [];
+                        for (let i = 0; i < node.length; i++) {
+                            const el = deepGet(node[i], key);
+                            if (el !== undefined) extracted.push(el);
+                        }
+                        node = extracted.length ? extracted.flat() : undefined;
+                        nodes.push(node);
+                    }
                 } else if (typeof node === 'object' && node !== null) {
                     node = node[key];
                     nodes.push(node);
@@ -105,10 +116,21 @@ function deepGet<
     /* Push any remaining part */
     if (key) {
         if (Array.isArray(node)) {
-            const ix = parseInt(key, 10);
-            if (ix < 0 || ix > node.length - 1) return undefined;
-            node = node[ix];
-            nodes.push(node);
+            if (!isNaN(Number(key))) {
+                const ix = parseInt(key, 10);
+                if (ix < 0 || ix > node.length - 1) return undefined;
+                node = node[ix];
+                nodes.push(node);
+            } else {
+                /* Extract from each array element */
+                const extracted = [];
+                for (let i = 0; i < node.length; i++) {
+                    const el = node[i];
+                    if (el?.[key] !== undefined) extracted.push(el?.[key]);
+                }
+                node = extracted.length ? extracted : undefined;
+                nodes.push(node);
+            }
         } else if (typeof node === 'object' && node !== null) {
             node = node[key];
             nodes.push(node);

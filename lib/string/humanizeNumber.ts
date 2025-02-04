@@ -1,5 +1,4 @@
 import {round} from '../number/round';
-import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
 const DEFAULT_UNITS = ['', 'k', 'm', 'b', 't', 'q'];
 
@@ -55,8 +54,8 @@ interface humanizeNumberOptions {
 function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):string {
     const DELIM:string = typeof options?.delim === 'string' ? options.delim : ',';
     const SEPARATOR:string = typeof options?.separator === 'string' && options.separator.trim().length ? options.separator : '.';
-    const PRECISION:number = isIntegerAboveOrEqual(options?.precision, 0) ? options.precision : 2;
-    const DIVIDER:number = isIntegerAboveOrEqual(options?.divider, 2) ? options.divider : 1000;
+    const PRECISION:number = Number.isInteger(options?.precision) && options.precision! >= 0 ? options.precision! : 2;
+    const DIVIDER:number = Number.isInteger(options?.divider) && options.divider! >= 2 ? options.divider! : 1000;
     const REAL:boolean = options?.real === true;
     const UNITS:string[]|false = Array.isArray(options?.units) && options.units.length
         ? options.units

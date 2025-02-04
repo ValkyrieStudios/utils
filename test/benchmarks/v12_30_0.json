@@ -1,0 +1,834 @@
+[
+    {
+        "lbl": "array/dedupe: numeric - 10 elements",
+        "ops": 4901987
+    },
+    {
+        "lbl": "array/dedupe: numeric - 20 elements",
+        "ops": 3813178
+    },
+    {
+        "lbl": "array/dedupe: string - 10 elements",
+        "ops": 5708071
+    },
+    {
+        "lbl": "array/dedupe: string - 20 elements",
+        "ops": 4035865
+    },
+    {
+        "lbl": "array/is",
+        "ops": 84610572
+    },
+    {
+        "lbl": "array/isNotEmpty",
+        "ops": 79599924
+    },
+    {
+        "lbl": "array/join - valround 1",
+        "ops": 8785735
+    },
+    {
+        "lbl": "array/join - valtrim: false,valround 1",
+        "ops": 8003977
+    },
+    {
+        "lbl": "array/join - dedupe:true valtrim: true",
+        "ops": 6226788
+    },
+    {
+        "lbl": "array/mapFn",
+        "ops": 3036961
+    },
+    {
+        "lbl": "array/mapKey",
+        "ops": 3803458
+    },
+    {
+        "lbl": "array/mapKey w/ filter",
+        "ops": 3737731
+    },
+    {
+        "lbl": "array/mapPrimitive - numeric - 10 elements",
+        "ops": 3337873
+    },
+    {
+        "lbl": "array/mapPrimitive - numeric - 20 elements",
+        "ops": 2905954
+    },
+    {
+        "lbl": "array/mapPrimitive - numeric - 20 elements filter",
+        "ops": 2749485
+    },
+    {
+        "lbl": "array/mapPrimitive - string - 10 elements",
+        "ops": 6327838
+    },
+    {
+        "lbl": "array/mapPrimitive - string - 20 elements",
+        "ops": 3588990
+    },
+    {
+        "lbl": "array/mapPrimitive - string - 20 elements filter",
+        "ops": 2837786
+    },
+    {
+        "lbl": "array/groupBy(key) - 10 elements",
+        "ops": 3095118
+    },
+    {
+        "lbl": "array/groupBy(key) - 50 elements",
+        "ops": 801252
+    },
+    {
+        "lbl": "array/groupBy(fn) - 10 elements",
+        "ops": 2865763
+    },
+    {
+        "lbl": "array/groupBy(fn) - 50 elements",
+        "ops": 727788
+    },
+    {
+        "lbl": "array/shuffle - numeric - 10 elements",
+        "ops": 10490353
+    },
+    {
+        "lbl": "array/shuffle - numeric - 20 elements",
+        "ops": 6451546
+    },
+    {
+        "lbl": "array/shuffle - string - 10 elements",
+        "ops": 10110745
+    },
+    {
+        "lbl": "array/shuffle - string - 20 elements",
+        "ops": 6087467
+    },
+    {
+        "lbl": "array/shuffle - mixed - 10 elements",
+        "ops": 2900916
+    },
+    {
+        "lbl": "array/shuffle - mixed - 20 elements",
+        "ops": 1492325
+    },
+    {
+        "lbl": "array/split",
+        "ops": 9920271
+    },
+    {
+        "lbl": "array/split - 20 elements",
+        "ops": 3467452
+    },
+    {
+        "lbl": "array/sort - key string - ascending",
+        "ops": 4328093
+    },
+    {
+        "lbl": "array/sort - key string - descending",
+        "ops": 4085868
+    },
+    {
+        "lbl": "array/sort - function - ascending",
+        "ops": 3835902
+    },
+    {
+        "lbl": "array/sort - function - descending",
+        "ops": 3490750
+    },
+    {
+        "lbl": "boolean/is",
+        "ops": 62426874
+    },
+    {
+        "lbl": "date/addUTC: milliseconds",
+        "ops": 4459494
+    },
+    {
+        "lbl": "date/addUTC: seconds",
+        "ops": 4638471
+    },
+    {
+        "lbl": "date/addUTC: minutes",
+        "ops": 4581234
+    },
+    {
+        "lbl": "date/addUTC: hours",
+        "ops": 4641538
+    },
+    {
+        "lbl": "date/addUTC: days",
+        "ops": 4713250
+    },
+    {
+        "lbl": "date/addUTC: months",
+        "ops": 4863521
+    },
+    {
+        "lbl": "date/addUTC: years",
+        "ops": 4915084
+    },
+    {
+        "lbl": "date/diff: milliseconds",
+        "ops": 10667870
+    },
+    {
+        "lbl": "date/diff: seconds",
+        "ops": 10987280
+    },
+    {
+        "lbl": "date/diff: minutes",
+        "ops": 10916635
+    },
+    {
+        "lbl": "date/diff: hours",
+        "ops": 10954298
+    },
+    {
+        "lbl": "date/diff: days",
+        "ops": 11020352
+    },
+    {
+        "lbl": "date/diff: weeks",
+        "ops": 10929294
+    },
+    {
+        "lbl": "date/endOfUTC: second",
+        "ops": 4855300
+    },
+    {
+        "lbl": "date/endOfUTC: minute",
+        "ops": 5262664
+    },
+    {
+        "lbl": "date/endOfUTC: hour",
+        "ops": 5409928
+    },
+    {
+        "lbl": "date/endOfUTC: day",
+        "ops": 5882051
+    },
+    {
+        "lbl": "date/endOfUTC: week",
+        "ops": 5381588
+    },
+    {
+        "lbl": "date/endOfUTC: week_sun",
+        "ops": 5228074
+    },
+    {
+        "lbl": "date/endOfUTC: week_mon",
+        "ops": 5352775
+    },
+    {
+        "lbl": "date/endOfUTC: week_tue",
+        "ops": 5335696
+    },
+    {
+        "lbl": "date/endOfUTC: week_wed",
+        "ops": 5316353
+    },
+    {
+        "lbl": "date/endOfUTC: week_thu",
+        "ops": 5381854
+    },
+    {
+        "lbl": "date/endOfUTC: week_fri",
+        "ops": 5265415
+    },
+    {
+        "lbl": "date/endOfUTC: week_sat",
+        "ops": 5384023
+    },
+    {
+        "lbl": "date/endOfUTC: month",
+        "ops": 6464360
+    },
+    {
+        "lbl": "date/endOfUTC: quarter",
+        "ops": 6538892
+    },
+    {
+        "lbl": "date/endOfUTC: year",
+        "ops": 6926002
+    },
+    {
+        "lbl": "date/format: YYYY-MM-DD",
+        "ops": 878806
+    },
+    {
+        "lbl": "date/format: YYYY-MM-DD and zone",
+        "ops": 1045039
+    },
+    {
+        "lbl": "date/format: dddd, DD, MMMMM YYYY hh:mm a",
+        "ops": 265175
+    },
+    {
+        "lbl": "date/format: [Now:] dddd, DD, MMMMM YYYY hh:mm a",
+        "ops": 265962
+    },
+    {
+        "lbl": "date/is",
+        "ops": 19582926
+    },
+    {
+        "lbl": "date/isFormat - valid YYYY-MM-DD",
+        "ops": 1927917
+    },
+    {
+        "lbl": "date/isFormat - valid YYYY-[Q]Q",
+        "ops": 3920337
+    },
+    {
+        "lbl": "date/isFormat - valid ISO",
+        "ops": 1555539
+    },
+    {
+        "lbl": "date/isFormat - invalid YYYY-MM-DD",
+        "ops": 1919540
+    },
+    {
+        "lbl": "date/isFormat - invalid YYYY-[Q]Q",
+        "ops": 6973277
+    },
+    {
+        "lbl": "date/isFormat - invalid ISO",
+        "ops": 1583480
+    },
+    {
+        "lbl": "date/isLeap - valid",
+        "ops": 16869967
+    },
+    {
+        "lbl": "date/isLeap - invalid",
+        "ops": 17133165
+    },
+    {
+        "lbl": "date/nowUnix",
+        "ops": 21536127
+    },
+    {
+        "lbl": "date/nowUnixMs",
+        "ops": 22661661
+    },
+    {
+        "lbl": "date/setTimeUTC: combined",
+        "ops": 6534598
+    },
+    {
+        "lbl": "date/setTimeUTC: millisecond",
+        "ops": 4849321
+    },
+    {
+        "lbl": "date/setTimeUTC: second",
+        "ops": 4852026
+    },
+    {
+        "lbl": "date/setTimeUTC: minute",
+        "ops": 4775893
+    },
+    {
+        "lbl": "date/setTimeUTC: hour",
+        "ops": 4503637
+    },
+    {
+        "lbl": "date/startOfUTC: second",
+        "ops": 5013783
+    },
+    {
+        "lbl": "date/startOfUTC: minute",
+        "ops": 5545740
+    },
+    {
+        "lbl": "date/startOfUTC: hour",
+        "ops": 5812990
+    },
+    {
+        "lbl": "date/startOfUTC: day",
+        "ops": 6473235
+    },
+    {
+        "lbl": "date/startOfUTC: week",
+        "ops": 5802953
+    },
+    {
+        "lbl": "date/startOfUTC: week_sun",
+        "ops": 5835738
+    },
+    {
+        "lbl": "date/startOfUTC: week_mon",
+        "ops": 5979477
+    },
+    {
+        "lbl": "date/startOfUTC: week_tue",
+        "ops": 5866821
+    },
+    {
+        "lbl": "date/startOfUTC: week_wed",
+        "ops": 5939316
+    },
+    {
+        "lbl": "date/startOfUTC: week_thu",
+        "ops": 5523626
+    },
+    {
+        "lbl": "date/startOfUTC: week_fri",
+        "ops": 5544956
+    },
+    {
+        "lbl": "date/startOfUTC: week_sat",
+        "ops": 5547020
+    },
+    {
+        "lbl": "date/startOfUTC: month",
+        "ops": 6920785
+    },
+    {
+        "lbl": "date/startOfUTC: quarter",
+        "ops": 6798117
+    },
+    {
+        "lbl": "date/startOfUTC: year",
+        "ops": 7403239
+    },
+    {
+        "lbl": "date/toUnix",
+        "ops": 19306562
+    },
+    {
+        "lbl": "date/toUTC",
+        "ops": 4932593
+    },
+    {
+        "lbl": "deep/freeze - small object",
+        "ops": 9385261
+    },
+    {
+        "lbl": "deep/freeze - complex object",
+        "ops": 1796643
+    },
+    {
+        "lbl": "deep/get - 1 level",
+        "ops": 8088774
+    },
+    {
+        "lbl": "deep/get - 2 levels",
+        "ops": 7234319
+    },
+    {
+        "lbl": "deep/get - 3 levels",
+        "ops": 6296945
+    },
+    {
+        "lbl": "deep/get - 4 levels",
+        "ops": 5280729
+    },
+    {
+        "lbl": "deep/get - 5 levels",
+        "ops": 5484747
+    },
+    {
+        "lbl": "deep/get - nested",
+        "ops": 3634956
+    },
+    {
+        "lbl": "deep/seal - small object",
+        "ops": 9708085
+    },
+    {
+        "lbl": "deep/seal - complex object",
+        "ops": 1811276
+    },
+    {
+        "lbl": "deep/set - 1 level",
+        "ops": 3313160
+    },
+    {
+        "lbl": "deep/set - 2 levels",
+        "ops": 2890752
+    },
+    {
+        "lbl": "deep/set - 3 levels",
+        "ops": 2761065
+    },
+    {
+        "lbl": "deep/set - 4 levels",
+        "ops": 2683861
+    },
+    {
+        "lbl": "deep/set - 5 levels",
+        "ops": 2513364
+    },
+    {
+        "lbl": "formdata/is",
+        "ops": 34929775
+    },
+    {
+        "lbl": "formdata/toObject",
+        "ops": 676138
+    },
+    {
+        "lbl": "function/is",
+        "ops": 48794078
+    },
+    {
+        "lbl": "function/isAsync",
+        "ops": 37183125
+    },
+    {
+        "lbl": "hash/fnv1A - 10 chars",
+        "ops": 15371832
+    },
+    {
+        "lbl": "hash/fnv1A - 20 chars",
+        "ops": 8009653
+    },
+    {
+        "lbl": "hash/guid",
+        "ops": 7777269
+    },
+    {
+        "lbl": "number/is",
+        "ops": 51979596
+    },
+    {
+        "lbl": "number/isAbove",
+        "ops": 54446581
+    },
+    {
+        "lbl": "number/isAboveOrEqual",
+        "ops": 56410182
+    },
+    {
+        "lbl": "number/isBelow",
+        "ops": 57590848
+    },
+    {
+        "lbl": "number/isBelowOrEqual",
+        "ops": 55824499
+    },
+    {
+        "lbl": "number/isBetween",
+        "ops": 57404371
+    },
+    {
+        "lbl": "number/isInteger",
+        "ops": 57250606
+    },
+    {
+        "lbl": "number/isIntegerAbove",
+        "ops": 56420615
+    },
+    {
+        "lbl": "number/isIntegerAboveOrEqual",
+        "ops": 58076548
+    },
+    {
+        "lbl": "number/isIntegerBelow",
+        "ops": 54742501
+    },
+    {
+        "lbl": "number/isIntegerBelowOrEqual",
+        "ops": 53512467
+    },
+    {
+        "lbl": "number/isIntegerBetween",
+        "ops": 57724742
+    },
+    {
+        "lbl": "number/isNumericalNaN",
+        "ops": 56788542
+    },
+    {
+        "lbl": "number/randomBetween",
+        "ops": 44430680
+    },
+    {
+        "lbl": "number/randomIntBetween",
+        "ops": 44270726
+    },
+    {
+        "lbl": "number/round - 0 precision",
+        "ops": 51942272
+    },
+    {
+        "lbl": "number/round - 1 precision",
+        "ops": 60479530
+    },
+    {
+        "lbl": "number/round - 2 precision",
+        "ops": 57978839
+    },
+    {
+        "lbl": "number/round - 3 precision",
+        "ops": 56390116
+    },
+    {
+        "lbl": "number/round - 4 precision",
+        "ops": 58908211
+    },
+    {
+        "lbl": "number/round - 5 precision",
+        "ops": 57573288
+    },
+    {
+        "lbl": "number/toPercentage - 0 precision",
+        "ops": 54718663
+    },
+    {
+        "lbl": "number/toPercentage - 1 precision",
+        "ops": 57366731
+    },
+    {
+        "lbl": "number/toPercentage - 2 precision",
+        "ops": 58185779
+    },
+    {
+        "lbl": "number/toPercentage - 3 precision",
+        "ops": 53355250
+    },
+    {
+        "lbl": "number/toPercentage - 4 precision",
+        "ops": 57123663
+    },
+    {
+        "lbl": "number/toPercentage - 5 precision",
+        "ops": 54359867
+    },
+    {
+        "lbl": "object/is",
+        "ops": 45090602
+    },
+    {
+        "lbl": "object/isNotEmpty",
+        "ops": 37130482
+    },
+    {
+        "lbl": "object/merge left",
+        "ops": 20440876
+    },
+    {
+        "lbl": "object/merge union",
+        "ops": 13598307
+    },
+    {
+        "lbl": "object/merge multi left",
+        "ops": 6901760
+    },
+    {
+        "lbl": "object/merge multi union",
+        "ops": 5739137
+    },
+    {
+        "lbl": "object/pick",
+        "ops": 10893954
+    },
+    {
+        "lbl": "object/omit",
+        "ops": 1929973
+    },
+    {
+        "lbl": "regexp/is",
+        "ops": 50656698
+    },
+    {
+        "lbl": "regexp/sanitize",
+        "ops": 3755532
+    },
+    {
+        "lbl": "string/humanizeBytes - short w/ 0 precision",
+        "ops": 8084631
+    },
+    {
+        "lbl": "string/humanizeBytes - short w/ 1 precision",
+        "ops": 6021914
+    },
+    {
+        "lbl": "string/humanizeBytes - short w/ 2 precision",
+        "ops": 6013783
+    },
+    {
+        "lbl": "string/humanizeBytes - short w/ 3 precision",
+        "ops": 4216534
+    },
+    {
+        "lbl": "string/humanizeBytes - short w/ 4 precision",
+        "ops": 4130587
+    },
+    {
+        "lbl": "string/humanizeBytes - long w/ 0 precision",
+        "ops": 8214813
+    },
+    {
+        "lbl": "string/humanizeBytes - long w/ 1 precision",
+        "ops": 7223533
+    },
+    {
+        "lbl": "string/humanizeBytes - long w/ 2 precision",
+        "ops": 6477664
+    },
+    {
+        "lbl": "string/humanizeBytes - long w/ 3 precision",
+        "ops": 4580027
+    },
+    {
+        "lbl": "string/humanizeBytes - long w/ 4 precision",
+        "ops": 4586997
+    },
+    {
+        "lbl": "string/humanizeNumber - short w/ 0 precision",
+        "ops": 8634504
+    },
+    {
+        "lbl": "string/humanizeNumber - short w/ 1 precision",
+        "ops": 6600450
+    },
+    {
+        "lbl": "string/humanizeNumber - short w/ 2 precision",
+        "ops": 6204359
+    },
+    {
+        "lbl": "string/humanizeNumber - short w/ 3 precision",
+        "ops": 4205497
+    },
+    {
+        "lbl": "string/humanizeNumber - short w/ 4 precision",
+        "ops": 4295212
+    },
+    {
+        "lbl": "string/humanizeNumber - long w/ 0 precision",
+        "ops": 9953858
+    },
+    {
+        "lbl": "string/humanizeNumber - long w/ 1 precision",
+        "ops": 7616534
+    },
+    {
+        "lbl": "string/humanizeNumber - long w/ 2 precision",
+        "ops": 6708101
+    },
+    {
+        "lbl": "string/humanizeNumber - long w/ 3 precision",
+        "ops": 4791893
+    },
+    {
+        "lbl": "string/humanizeNumber - long w/ 4 precision",
+        "ops": 4746620
+    },
+    {
+        "lbl": "string/is",
+        "ops": 62330577
+    },
+    {
+        "lbl": "string/isBetween",
+        "ops": 39746373
+    },
+    {
+        "lbl": "string/isNotEmpty",
+        "ops": 44072651
+    },
+    {
+        "lbl": "string/shorten - 10 chars w/ 3 char",
+        "ops": 33273086
+    },
+    {
+        "lbl": "string/shorten - 10 chars w/ 6 char",
+        "ops": 30169274
+    },
+    {
+        "lbl": "string/shorten - 20 chars w/ 3 char",
+        "ops": 34509014
+    },
+    {
+        "lbl": "string/shorten - 20 chars w/ 6 char",
+        "ops": 31439649
+    },
+    {
+        "lbl": "string/shorten notrunc - 10 chars w/ 3 char",
+        "ops": 23876260
+    },
+    {
+        "lbl": "string/shorten notrunc - 10 chars w/ 6 char",
+        "ops": 17195942
+    },
+    {
+        "lbl": "string/shorten notrunc - 20 chars w/ 3 char",
+        "ops": 24966314
+    },
+    {
+        "lbl": "string/shorten notrunc - 20 chars w/ 6 char",
+        "ops": 17711893
+    },
+    {
+        "lbl": "equal - numbers - unequal",
+        "ops": 53192434
+    },
+    {
+        "lbl": "equal - numbers - unequal same type",
+        "ops": 41268586
+    },
+    {
+        "lbl": "equal - numbers - equal",
+        "ops": 61037018
+    },
+    {
+        "lbl": "equal - boolean - unequal",
+        "ops": 61972697
+    },
+    {
+        "lbl": "equal - boolean - unequal same type",
+        "ops": 59095298
+    },
+    {
+        "lbl": "equal - boolean - equal",
+        "ops": 61538658
+    },
+    {
+        "lbl": "equal - string - unequal",
+        "ops": 58345378
+    },
+    {
+        "lbl": "equal - string - unequal same type",
+        "ops": 61741985
+    },
+    {
+        "lbl": "equal - string - equal",
+        "ops": 61067777
+    },
+    {
+        "lbl": "equal - dates - unequal",
+        "ops": 7195867
+    },
+    {
+        "lbl": "equal - dates - unequal same type",
+        "ops": 4037513
+    },
+    {
+        "lbl": "equal - dates - equal",
+        "ops": 4074037
+    },
+    {
+        "lbl": "equal - arrays - unequal",
+        "ops": 57453876
+    },
+    {
+        "lbl": "equal - arrays - unequal same type",
+        "ops": 42991133
+    },
+    {
+        "lbl": "equal - arrays - equal",
+        "ops": 38715176
+    },
+    {
+        "lbl": "equal - objects - unequal",
+        "ops": 36496656
+    },
+    {
+        "lbl": "equal - objects - unequal same type",
+        "ops": 20291724
+    },
+    {
+        "lbl": "equal - objects - equal",
+        "ops": 22252124
+    }
+]

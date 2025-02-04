@@ -730,6 +730,10 @@ for (const el of [
         lbl: 'deep/get - 5 levels',
         fn: () => deepGet({g: {a: {b: {c: {d: 'treasure'}}}}}, 'g.a.b.c.d'),
     },
+    {
+        lbl: 'deep/get - nested',
+        fn: () => deepGet({g: {a: {b: [{name: "Peter"}, {name: "Jake"}, {name: "Joe"}]}}}, 'g.a.b.name'),
+    },
     /* Deep - seal */
     {
         lbl: 'deep/seal - small object',

@@ -775,6 +775,8 @@ const myObj2 = {
     ],
 };
 deepGet(myObj2, 'b[0].price'); // 2
+
+deepGet(myObj2, 'b.price'); // [2, 4]
 ```
 
 ### equal(a:any, b:any)

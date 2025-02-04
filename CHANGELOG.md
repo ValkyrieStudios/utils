@@ -5,8 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [12.30.0] - 2025-02-04
 ### Improved
+- **misc**: package file now contains an exports block
+- **feat**: deep/get now supports extracting a prop from a nested array as an array of values. Eg:
+```typescript
+const val = {
+    hello: true,
+    list: [
+        {id: '123', name: 'User 1'},
+        {id: '456', name: 'User 2'},
+        {id: '789', name: 'User 3'},
+    ],
+};
+
+deepGet(val, 'list.name'); // ['User 1', 'User 2', 'User 3']
+deepGet(val, 'list.id'); // ['123', '456', '789']
+
+// Other behavior is of course still supported
+deepGet(val, 'list[0].id'); // '123'
+deepGet(val, 'list[2].id'); // '789'
+deepGet(val, 'list[0].foo'); // undefined
+deepGet(val, 'list[2].name'); // 'User 3'
+```
 - **deps**: Upgrade @types/node to 22.13.1
 - **deps**: Upgrade eslint to 9.19.0
 - **deps**: Upgrade typescript to 5.7.3

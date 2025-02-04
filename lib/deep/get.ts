@@ -1,3 +1,5 @@
+/* eslint-disable complexity,max-statements,max-depth */
+
 type ObjectType = { [key: string]: any };
 type ArrayType = any[];
 
@@ -91,8 +93,8 @@ function deepGet<
                     } else {
                         /* Extract from each array element */
                         const extracted = [];
-                        for (let i = 0; i < node.length; i++) {
-                            const el = deepGet(node[i], key);
+                        for (let y = 0; y < node.length; y++) {
+                            const el = deepGet(node[y], key);
                             if (el !== undefined) extracted.push(el);
                         }
                         node = extracted.length ? extracted.flat() : undefined;

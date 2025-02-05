@@ -17,8 +17,8 @@
     "license": "MIT",
     "scripts": {
         "build": "npm run lint && npm run test && tsc -p ./tsconfig.build.json && tsc -p ./tsconfig.types.json && tsc -p ./tsconfig.types_all.json",
-        "test": "node --icu-data-dir=node_modules/full-icu --require esbuild-register --test ./test/lib/**/*.ts ./test/lib/*.ts",
-        "test:only": "node --icu-data-dir=node_modules/full-icu --require esbuild-register --test --test-only ./test/lib/**/*.ts ./test/lib/*.ts",
+        "test": "node --require esbuild-register --test ./test/lib/**/*.ts ./test/lib/*.ts",
+        "test:only": "node --require esbuild-register --test --test-only ./test/lib/**/*.ts ./test/lib/*.ts",
         "test:coverage": "nyc npm run test",
         "lint": "npm run lint:src && npm run lint:test",
         "lint:src": "./node_modules/.bin/eslint ./lib",
@@ -38,360 +38,1064 @@
     "sideEffects": false,
     "exports": {
         ".": {
-            "import": "./index.js",
+            "import": {
+                "default": "./index.js",
+                "types": "./index.d.ts"
+            },
+            "require": {
+                "default": "./index.js",
+                "types": "./index.d.ts"
+            },
+            "default": "./index.js",
             "types": "./index.d.ts"
         },
         "./package.json": "./package.json",
         "./equal": {
-            "import": "./equal.js",
+            "import": {
+                "default": "./equal.js",
+                "types": "./equal.d.ts"
+            },
+            "require": {
+                "default": "./equal.js",
+                "types": "./equal.d.ts"
+            },
+            "default": "./equal.js",
             "types": "./equal.d.ts"
         },
         "./is": {
-            "import": "./is.js",
+            "import": {
+                "default": "./is.js",
+                "types": "./is.d.ts"
+            },
+            "require": {
+                "default": "./is.js",
+                "types": "./is.d.ts"
+            },
+            "default": "./is.js",
             "types": "./is.d.ts"
         },
         "./array": {
-            "import": "./array/index.js",
+            "default": "./array/index.js",
             "types": "./array/index.d.ts"
         },
         "./array/dedupe": {
-            "import": "./array/dedupe.js",
+            "import": {
+                "default": "./array/dedupe.js",
+                "types": "./array/dedupe.d.ts"
+            },
+            "require": {
+                "default": "./array/dedupe.js",
+                "types": "./array/dedupe.d.ts"
+            },
+            "default": "./array/dedupe.js",
             "types": "./array/dedupe.d.ts"
         },
         "./array/groupBy": {
-            "import": "./array/groupBy.js",
+            "import": {
+                "default": "./array/groupBy.js",
+                "types": "./array/groupBy.d.ts"
+            },
+            "require": {
+                "default": "./array/groupBy.js",
+                "types": "./array/groupBy.d.ts"
+            },
+            "default": "./array/groupBy.js",
             "types": "./array/groupBy.d.ts"
         },
         "./array/is": {
-            "import": "./array/is.js",
+            "import": {
+                "default": "./array/is.js",
+                "types": "./array/is.d.ts"
+            },
+            "require": {
+                "default": "./array/is.js",
+                "types": "./array/is.d.ts"
+            },
+            "default": "./array/is.js",
             "types": "./array/is.d.ts"
         },
         "./array/isNotEmpty": {
-            "import": "./array/isNotEmpty.js",
+            "import": {
+                "default": "./array/isNotEmpty.js",
+                "types": "./array/isNotEmpty.d.ts"
+            },
+            "require": {
+                "default": "./array/isNotEmpty.js",
+                "types": "./array/isNotEmpty.d.ts"
+            },
+            "default": "./array/isNotEmpty.js",
             "types": "./array/isNotEmpty.d.ts"
         },
         "./array/join": {
-            "import": "./array/join.js",
+            "import": {
+                "default": "./array/join.js",
+                "types": "./array/join.d.ts"
+            },
+            "require": {
+                "default": "./array/join.js",
+                "types": "./array/join.d.ts"
+            },
+            "default": "./array/join.js",
             "types": "./array/join.d.ts"
         },
         "./array/mapFn": {
-            "import": "./array/mapFn.js",
+            "import": {
+                "default": "./array/mapFn.js",
+                "types": "./array/mapFn.d.ts"
+            },
+            "require": {
+                "default": "./array/mapFn.js",
+                "types": "./array/mapFn.d.ts"
+            },
+            "default": "./array/mapFn.js",
             "types": "./array/mapFn.d.ts"
         },
         "./array/mapKey": {
-            "import": "./array/mapKey.js",
+            "import": {
+                "default": "./array/mapKey.js",
+                "types": "./array/mapKey.d.ts"
+            },
+            "require": {
+                "default": "./array/mapKey.js",
+                "types": "./array/mapKey.d.ts"
+            },
+            "default": "./array/mapKey.js",
             "types": "./array/mapKey.d.ts"
         },
         "./array/mapPrimitive": {
-            "import": "./array/mapPrimitive.js",
+            "import": {
+                "default": "./array/mapPrimitive.js",
+                "types": "./array/mapPrimitive.d.ts"
+            },
+            "require": {
+                "default": "./array/mapPrimitive.js",
+                "types": "./array/mapPrimitive.d.ts"
+            },
+            "default": "./array/mapPrimitive.js",
             "types": "./array/mapPrimitive.d.ts"
         },
         "./array/shuffle": {
-            "import": "./array/shuffle.js",
+            "import": {
+                "default": "./array/shuffle.js",
+                "types": "./array/shuffle.d.ts"
+            },
+            "require": {
+                "default": "./array/shuffle.js",
+                "types": "./array/shuffle.d.ts"
+            },
+            "default": "./array/shuffle.js",
             "types": "./array/shuffle.d.ts"
         },
         "./array/sort": {
-            "import": "./array/sort.js",
+            "import": {
+                "default": "./array/sort.js",
+                "types": "./array/sort.d.ts"
+            },
+            "require": {
+                "default": "./array/sort.js",
+                "types": "./array/sort.d.ts"
+            },
+            "default": "./array/sort.js",
             "types": "./array/sort.d.ts"
         },
         "./array/split": {
-            "import": "./array/split.js",
+            "import": {
+                "default": "./array/split.js",
+                "types": "./array/split.d.ts"
+            },
+            "require": {
+                "default": "./array/split.js",
+                "types": "./array/split.d.ts"
+            },
+            "default": "./array/split.js",
             "types": "./array/split.d.ts"
         },
         "./boolean": {
-            "import": "./boolean/index.js",
+            "import": {
+                "default": "./boolean/index.js",
+                "types": "./boolean/index.d.ts"
+            },
+            "require": {
+                "default": "./boolean/index.js",
+                "types": "./boolean/index.d.ts"
+            },
+            "default": "./boolean/index.js",
             "types": "./boolean/index.d.ts"
         },
         "./boolean/is": {
-            "import": "./boolean/is.js",
+            "import": {
+                "default": "./boolean/is.js",
+                "types": "./boolean/is.d.ts"
+            },
+            "require": {
+                "default": "./boolean/is.js",
+                "types": "./boolean/is.d.ts"
+            },
+            "default": "./boolean/is.js",
             "types": "./boolean/is.d.ts"
         },
         "./caching": {
-            "import": "./caching/index.js",
+            "import": {
+                "default": "./caching/index.js",
+                "types": "./caching/index.d.ts"
+            },
+            "require": {
+                "default": "./caching/index.js",
+                "types": "./caching/index.d.ts"
+            },
+            "default": "./caching/index.js",
             "types": "./caching/index.d.ts"
         },
         "./caching/LRU": {
-            "import": "./caching/LRU.js",
+            "import": {
+                "default": "./caching/LRU.js",
+                "types": "./caching/LRU.d.ts"
+            },
+            "require": {
+                "default": "./caching/LRU.js",
+                "types": "./caching/LRU.d.ts"
+            },
+            "default": "./caching/LRU.js",
             "types": "./caching/LRU.d.ts"
         },
         "./caching/memoize": {
-            "import": "./caching/memoize.js",
+            "import": {
+                "default": "./caching/memoize.js",
+                "types": "./caching/memoize.d.ts"
+            },
+            "require": {
+                "default": "./caching/memoize.js",
+                "types": "./caching/memoize.d.ts"
+            },
+            "default": "./caching/memoize.js",
             "types": "./caching/memoize.d.ts"
         },
         "./date": {
-            "import": "./date/index.js",
+            "import": {
+                "default": "./date/index.js",
+                "types": "./date/index.d.ts"
+            },
+            "require": {
+                "default": "./date/index.js",
+                "types": "./date/index.d.ts"
+            },
+            "default": "./date/index.js",
             "types": "./date/index.d.ts"
         },
         "./date/addUTC": {
-            "import": "./date/addUTC.js",
+            "import": {
+                "default": "./date/addUTC.js",
+                "types": "./date/addUTC.d.ts"
+            },
+            "require": {
+                "default": "./date/addUTC.js",
+                "types": "./date/addUTC.d.ts"
+            },
+            "default": "./date/addUTC.js",
             "types": "./date/addUTC.d.ts"
         },
         "./date/convertToDate": {
-            "import": "./date/convertToDate.js",
+            "import": {
+                "default": "./date/convertToDate.js",
+                "types": "./date/convertToDate.d.ts"
+            },
+            "require": {
+                "default": "./date/convertToDate.js",
+                "types": "./date/convertToDate.d.ts"
+            },
+            "default": "./date/convertToDate.js",
             "types": "./date/convertToDate.d.ts"
         },
         "./date/diff": {
-            "import": "./date/diff.js",
+            "import": {
+                "default": "./date/diff.js",
+                "types": "./date/diff.d.ts"
+            },
+            "require": {
+                "default": "./date/diff.js",
+                "types": "./date/diff.d.ts"
+            },
+            "default": "./date/diff.js",
             "types": "./date/diff.d.ts"
         },
         "./date/endOfUTC": {
-            "import": "./date/endOfUTC.js",
+            "import": {
+                "default": "./date/endOfUTC.js",
+                "types": "./date/endOfUTC.d.ts"
+            },
+            "require": {
+                "default": "./date/endOfUTC.js",
+                "types": "./date/endOfUTC.d.ts"
+            },
+            "default": "./date/endOfUTC.js",
             "types": "./date/endOfUTC.d.ts"
         },
         "./date/format": {
-            "import": "./date/format.js",
+            "import": {
+                "default": "./date/format.js",
+                "types": "./date/format.d.ts"
+            },
+            "require": {
+                "default": "./date/format.js",
+                "types": "./date/format.d.ts"
+            },
+            "default": "./date/format.js",
             "types": "./date/format.d.ts"
         },
         "./date/is": {
-            "import": "./date/is.js",
+            "import": {
+                "default": "./date/is.js",
+                "types": "./date/is.d.ts"
+            },
+            "require": {
+                "default": "./date/is.js",
+                "types": "./date/is.d.ts"
+            },
+            "default": "./date/is.js",
             "types": "./date/is.d.ts"
         },
         "./date/isFormat": {
-            "import": "./date/isFormat.js",
+            "import": {
+                "default": "./date/isFormat.js",
+                "types": "./date/isFormat.d.ts"
+            },
+            "require": {
+                "default": "./date/isFormat.js",
+                "types": "./date/isFormat.d.ts"
+            },
+            "default": "./date/isFormat.js",
             "types": "./date/isFormat.d.ts"
         },
         "./date/isLeap": {
-            "import": "./date/isLeap.js",
+            "import": {
+                "default": "./date/isLeap.js",
+                "types": "./date/isLeap.d.ts"
+            },
+            "require": {
+                "default": "./date/isLeap.js",
+                "types": "./date/isLeap.d.ts"
+            },
+            "default": "./date/isLeap.js",
             "types": "./date/isLeap.d.ts"
         },
         "./date/nowUnix": {
-            "import": "./date/nowUnix.js",
+            "import": {
+                "default": "./date/nowUnix.js",
+                "types": "./date/nowUnix.d.ts"
+            },
+            "require": {
+                "default": "./date/nowUnix.js",
+                "types": "./date/nowUnix.d.ts"
+            },
+            "default": "./date/nowUnix.js",
             "types": "./date/nowUnix.d.ts"
         },
         "./date/nowUnixMs": {
-            "import": "./date/nowUnixMs.js",
+            "import": {
+                "default": "./date/nowUnixMs.js",
+                "types": "./date/nowUnixMs.d.ts"
+            },
+            "require": {
+                "default": "./date/nowUnixMs.js",
+                "types": "./date/nowUnixMs.d.ts"
+            },
+            "default": "./date/nowUnixMs.js",
             "types": "./date/nowUnixMs.d.ts"
         },
         "./date/setTimeUTC": {
-            "import": "./date/setTimeUTC.js",
+            "import": {
+                "default": "./date/setTimeUTC.js",
+                "types": "./date/setTimeUTC.d.ts"
+            },
+            "require": {
+                "default": "./date/setTimeUTC.js",
+                "types": "./date/setTimeUTC.d.ts"
+            },
+            "default": "./date/setTimeUTC.js",
             "types": "./date/setTimeUTC.d.ts"
         },
         "./date/startOfUTC": {
-            "import": "./date/startOfUTC.js",
+            "import": {
+                "default": "./date/startOfUTC.js",
+                "types": "./date/startOfUTC.d.ts"
+            },
+            "require": {
+                "default": "./date/startOfUTC.js",
+                "types": "./date/startOfUTC.d.ts"
+            },
+            "default": "./date/startOfUTC.js",
             "types": "./date/startOfUTC.d.ts"
         },
         "./date/toUnix": {
-            "import": "./date/toUnix.js",
+            "import": {
+                "default": "./date/toUnix.js",
+                "types": "./date/toUnix.d.ts"
+            },
+            "require": {
+                "default": "./date/toUnix.js",
+                "types": "./date/toUnix.d.ts"
+            },
+            "default": "./date/toUnix.js",
             "types": "./date/toUnix.d.ts"
         },
         "./date/toUTC": {
-            "import": "./date/toUTC.js",
+            "import": {
+                "default": "./date/toUTC.js",
+                "types": "./date/toUTC.d.ts"
+            },
+            "require": {
+                "default": "./date/toUTC.js",
+                "types": "./date/toUTC.d.ts"
+            },
+            "default": "./date/toUTC.js",
             "types": "./date/toUTC.d.ts"
         },
         "./deep": {
-            "import": "./deep/index.js",
+            "import": {
+                "default": "./deep/index.js",
+                "types": "./deep/index.d.ts"
+            },
+            "require": {
+                "default": "./deep/index.js",
+                "types": "./deep/index.d.ts"
+            },
+            "default": "./deep/index.js",
             "types": "./deep/index.d.ts"
         },
         "./deep/freeze": {
-            "import": "./deep/freeze.js",
+            "import": {
+                "default": "./deep/freeze.js",
+                "types": "./deep/freeze.d.ts"
+            },
+            "require": {
+                "default": "./deep/freeze.js",
+                "types": "./deep/freeze.d.ts"
+            },
+            "default": "./deep/freeze.js",
             "types": "./deep/freeze.d.ts"
         },
         "./deep/get": {
-            "import": "./deep/get.js",
+            "import": {
+                "default": "./deep/get.js",
+                "types": "./deep/get.d.ts"
+            },
+            "require": {
+                "default": "./deep/get.js",
+                "types": "./deep/get.d.ts"
+            },
+            "default": "./deep/get.js",
             "types": "./deep/get.d.ts"
         },
         "./deep/seal": {
-            "import": "./deep/seal.js",
+            "import": {
+                "default": "./deep/seal.js",
+                "types": "./deep/seal.d.ts"
+            },
+            "require": {
+                "default": "./deep/seal.js",
+                "types": "./deep/seal.d.ts"
+            },
+            "default": "./deep/seal.js",
             "types": "./deep/seal.d.ts"
         },
         "./deep/set": {
-            "import": "./deep/set.js",
+            "import": {
+                "default": "./deep/set.js",
+                "types": "./deep/set.d.ts"
+            },
+            "require": {
+                "default": "./deep/set.js",
+                "types": "./deep/set.d.ts"
+            },
+            "default": "./deep/set.js",
             "types": "./deep/set.d.ts"
         },
         "./formdata": {
-            "import": "./formdata/index.js",
+            "import": {
+                "default": "./formdata/index.js",
+                "types": "./formdata/index.d.ts"
+            },
+            "require": {
+                "default": "./formdata/index.js",
+                "types": "./formdata/index.d.ts"
+            },
+            "default": "./formdata/index.js",
             "types": "./formdata/index.d.ts"
         },
         "./formdata/is": {
-            "import": "./formdata/is.js",
+            "import": {
+                "default": "./formdata/is.js",
+                "types": "./formdata/is.d.ts"
+            },
+            "require": {
+                "default": "./formdata/is.js",
+                "types": "./formdata/is.d.ts"
+            },
+            "default": "./formdata/is.js",
             "types": "./formdata/is.d.ts"
         },
         "./formdata/toObject": {
-            "import": "./formdata/toObject.js",
+            "import": {
+                "default": "./formdata/toObject.js",
+                "types": "./formdata/toObject.d.ts"
+            },
+            "require": {
+                "default": "./formdata/toObject.js",
+                "types": "./formdata/toObject.d.ts"
+            },
+            "default": "./formdata/toObject.js",
             "types": "./formdata/toObject.d.ts"
         },
         "./function": {
-            "import": "./function/index.js",
+            "import": {
+                "default": "./function/index.js",
+                "types": "./function/index.d.ts"
+            },
+            "require": {
+                "default": "./function/index.js",
+                "types": "./function/index.d.ts"
+            },
+            "default": "./function/index.js",
             "types": "./function/index.d.ts"
         },
         "./function/debounce": {
-            "import": "./function/debounce.js",
+            "import": {
+                "default": "./function/debounce.js",
+                "types": "./function/debounce.d.ts"
+            },
+            "require": {
+                "default": "./function/debounce.js",
+                "types": "./function/debounce.d.ts"
+            },
+            "default": "./function/debounce.js",
             "types": "./function/debounce.d.ts"
         },
         "./function/is": {
-            "import": "./function/is.js",
+            "import": {
+                "default": "./function/is.js",
+                "types": "./function/is.d.ts"
+            },
+            "require": {
+                "default": "./function/is.js",
+                "types": "./function/is.d.ts"
+            },
+            "default": "./function/is.js",
             "types": "./function/is.d.ts"
         },
         "./function/isAsync": {
-            "import": "./function/isAsync.js",
+            "import": {
+                "default": "./function/isAsync.js",
+                "types": "./function/isAsync.d.ts"
+            },
+            "require": {
+                "default": "./function/isAsync.js",
+                "types": "./function/isAsync.d.ts"
+            },
+            "default": "./function/isAsync.js",
             "types": "./function/isAsync.d.ts"
         },
         "./function/noop": {
-            "import": "./function/noop.js",
+            "import": {
+                "default": "./function/noop.js",
+                "types": "./function/noop.d.ts"
+            },
+            "require": {
+                "default": "./function/noop.js",
+                "types": "./function/noop.d.ts"
+            },
+            "default": "./function/noop.js",
             "types": "./function/noop.d.ts"
         },
         "./function/noopresolve": {
-            "import": "./function/noopresolve.js",
+            "import": {
+                "default": "./function/noopresolve.js",
+                "types": "./function/noopresolve.d.ts"
+            },
+            "require": {
+                "default": "./function/noopresolve.js",
+                "types": "./function/noopresolve.d.ts"
+            },
+            "default": "./function/noopresolve.js",
             "types": "./function/noopresolve.d.ts"
         },
         "./function/noopreturn": {
-            "import": "./function/noopreturn.js",
+            "import": {
+                "default": "./function/noopreturn.js",
+                "types": "./function/noopreturn.d.ts"
+            },
+            "require": {
+                "default": "./function/noopreturn.js",
+                "types": "./function/noopreturn.d.ts"
+            },
+            "default": "./function/noopreturn.js",
             "types": "./function/noopreturn.d.ts"
         },
         "./function/sleep": {
-            "import": "./function/sleep.js",
+            "import": {
+                "default": "./function/sleep.js",
+                "types": "./function/sleep.d.ts"
+            },
+            "require": {
+                "default": "./function/sleep.js",
+                "types": "./function/sleep.d.ts"
+            },
+            "default": "./function/sleep.js",
             "types": "./function/sleep.d.ts"
         },
         "./hash": {
-            "import": "./hash/index.js",
+            "import": {
+                "default": "./hash/index.js",
+                "types": "./hash/index.d.ts"
+            },
+            "require": {
+                "default": "./hash/index.js",
+                "types": "./hash/index.d.ts"
+            },
+            "default": "./hash/index.js",
             "types": "./hash/index.d.ts"
         },
         "./hash/fnv1A": {
-            "import": "./hash/fnv1A.js",
+            "import": {
+                "default": "./hash/fnv1A.js",
+                "types": "./hash/fnv1A.d.ts"
+            },
+            "require": {
+                "default": "./hash/fnv1A.js",
+                "types": "./hash/fnv1A.d.ts"
+            },
+            "default": "./hash/fnv1A.js",
             "types": "./hash/fnv1A.d.ts"
         },
         "./hash/guid": {
-            "import": "./hash/guid.js",
+            "import": {
+                "default": "./hash/guid.js",
+                "types": "./hash/guid.d.ts"
+            },
+            "require": {
+                "default": "./hash/guid.js",
+                "types": "./hash/guid.d.ts"
+            },
+            "default": "./hash/guid.js",
             "types": "./hash/guid.d.ts"
         },
         "./number": {
-            "import": "./number/index.js",
+            "import": {
+                "default": "./number/index.js",
+                "types": "./number/index.d.ts"
+            },
+            "require": {
+                "default": "./number/index.js",
+                "types": "./number/index.d.ts"
+            },
+            "default": "./number/index.js",
             "types": "./number/index.d.ts"
         },
         "./number/is": {
-            "import": "./number/is.js",
+            "import": {
+                "default": "./number/is.js",
+                "types": "./number/is.d.ts"
+            },
+            "require": {
+                "default": "./number/is.js",
+                "types": "./number/is.d.ts"
+            },
+            "default": "./number/is.js",
             "types": "./number/is.d.ts"
         },
         "./number/isAbove": {
-            "import": "./number/isAbove.js",
+            "import": {
+                "default": "./number/isAbove.js",
+                "types": "./number/isAbove.d.ts"
+            },
+            "require": {
+                "default": "./number/isAbove.js",
+                "types": "./number/isAbove.d.ts"
+            },
+            "default": "./number/isAbove.js",
             "types": "./number/isAbove.d.ts"
         },
         "./number/isAboveOrEqual": {
-            "import": "./number/isAboveOrEqual.js",
+            "import": {
+                "default": "./number/isAboveOrEqual.js",
+                "types": "./number/isAboveOrEqual.d.ts"
+            },
+            "require": {
+                "default": "./number/isAboveOrEqual.js",
+                "types": "./number/isAboveOrEqual.d.ts"
+            },
+            "default": "./number/isAboveOrEqual.js",
             "types": "./number/isAboveOrEqual.d.ts"
         },
         "./number/isBelow": {
-            "import": "./number/isBelow.js",
+            "import": {
+                "default": "./number/isBelow.js",
+                "types": "./number/isBelow.d.ts"
+            },
+            "require": {
+                "default": "./number/isBelow.js",
+                "types": "./number/isBelow.d.ts"
+            },
+            "default": "./number/isBelow.js",
             "types": "./number/isBelow.d.ts"
         },
         "./number/isBelowOrEqual": {
-            "import": "./number/isBelowOrEqual.js",
+            "import": {
+                "default": "./number/isBelowOrEqual.js",
+                "types": "./number/isBelowOrEqual.d.ts"
+            },
+            "require": {
+                "default": "./number/isBelowOrEqual.js",
+                "types": "./number/isBelowOrEqual.d.ts"
+            },
+            "default": "./number/isBelowOrEqual.js",
             "types": "./number/isBelowOrEqual.d.ts"
         },
         "./number/isBetween": {
-            "import": "./number/isBetween.js",
+            "import": {
+                "default": "./number/isBetween.js",
+                "types": "./number/isBetween.d.ts"
+            },
+            "require": {
+                "default": "./number/isBetween.js",
+                "types": "./number/isBetween.d.ts"
+            },
+            "default": "./number/isBetween.js",
             "types": "./number/isBetween.d.ts"
         },
         "./number/isInteger": {
-            "import": "./number/isInteger.js",
+            "import": {
+                "default": "./number/isInteger.js",
+                "types": "./number/isInteger.d.ts"
+            },
+            "require": {
+                "default": "./number/isInteger.js",
+                "types": "./number/isInteger.d.ts"
+            },
+            "default": "./number/isInteger.js",
             "types": "./number/isInteger.d.ts"
         },
         "./number/isIntegerAbove": {
-            "import": "./number/isIntegerAbove.js",
+            "import": {
+                "default": "./number/isIntegerAbove.js",
+                "types": "./number/isIntegerAbove.d.ts"
+            },
+            "require": {
+                "default": "./number/isIntegerAbove.js",
+                "types": "./number/isIntegerAbove.d.ts"
+            },
+            "default": "./number/isIntegerAbove.js",
             "types": "./number/isIntegerAbove.d.ts"
         },
         "./number/isIntegerAboveOrEqual": {
-            "import": "./number/isIntegerAboveOrEqual.js",
+            "import": {
+                "default": "./number/isIntegerAboveOrEqual.js",
+                "types": "./number/isIntegerAboveOrEqual.d.ts"
+            },
+            "require": {
+                "default": "./number/isIntegerAboveOrEqual.js",
+                "types": "./number/isIntegerAboveOrEqual.d.ts"
+            },
+            "default": "./number/isIntegerAboveOrEqual.js",
             "types": "./number/isIntegerAboveOrEqual.d.ts"
         },
         "./number/isIntegerBelow": {
-            "import": "./number/isIntegerBelow.js",
+            "import": {
+                "default": "./number/isIntegerBelow.js",
+                "types": "./number/isIntegerBelow.d.ts"
+            },
+            "require": {
+                "default": "./number/isIntegerBelow.js",
+                "types": "./number/isIntegerBelow.d.ts"
+            },
+            "default": "./number/isIntegerBelow.js",
             "types": "./number/isIntegerBelow.d.ts"
         },
         "./number/isIntegerBelowOrEqual": {
-            "import": "./number/isIntegerBelowOrEqual.js",
+            "import": {
+                "default": "./number/isIntegerBelowOrEqual.js",
+                "types": "./number/isIntegerBelowOrEqual.d.ts"
+            },
+            "require": {
+                "default": "./number/isIntegerBelowOrEqual.js",
+                "types": "./number/isIntegerBelowOrEqual.d.ts"
+            },
+            "default": "./number/isIntegerBelowOrEqual.js",
             "types": "./number/isIntegerBelowOrEqual.d.ts"
         },
         "./number/isIntegerBetween": {
-            "import": "./number/isIntegerBetween.js",
+            "import": {
+                "default": "./number/isIntegerBetween.js",
+                "types": "./number/isIntegerBetween.d.ts"
+            },
+            "require": {
+                "default": "./number/isIntegerBetween.js",
+                "types": "./number/isIntegerBetween.d.ts"
+            },
+            "default": "./number/isIntegerBetween.js",
             "types": "./number/isIntegerBetween.d.ts"
         },
         "./number/isNumericalNaN": {
-            "import": "./number/isNumericalNaN.js",
+            "import": {
+                "default": "./number/isNumericalNaN.js",
+                "types": "./number/isNumericalNaN.d.ts"
+            },
+            "require": {
+                "default": "./number/isNumericalNaN.js",
+                "types": "./number/isNumericalNaN.d.ts"
+            },
+            "default": "./number/isNumericalNaN.js",
             "types": "./number/isNumericalNaN.d.ts"
         },
         "./number/randomBetween": {
-            "import": "./number/randomBetween.js",
+            "import": {
+                "default": "./number/randomBetween.js",
+                "types": "./number/randomBetween.d.ts"
+            },
+            "require": {
+                "default": "./number/randomBetween.js",
+                "types": "./number/randomBetween.d.ts"
+            },
+            "default": "./number/randomBetween.js",
             "types": "./number/randomBetween.d.ts"
         },
         "./number/randomIntBetween": {
-            "import": "./number/randomIntBetween.js",
+            "import": {
+                "default": "./number/randomIntBetween.js",
+                "types": "./number/randomIntBetween.d.ts"
+            },
+            "require": {
+                "default": "./number/randomIntBetween.js",
+                "types": "./number/randomIntBetween.d.ts"
+            },
+            "default": "./number/randomIntBetween.js",
             "types": "./number/randomIntBetween.d.ts"
         },
         "./number/round": {
-            "import": "./number/round.js",
+            "import": {
+                "default": "./number/round.js",
+                "types": "./number/round.d.ts"
+            },
+            "require": {
+                "default": "./number/round.js",
+                "types": "./number/round.d.ts"
+            },
+            "default": "./number/round.js",
             "types": "./number/round.d.ts"
         },
         "./number/toPercentage": {
-            "import": "./number/toPercentage.js",
+            "import": {
+                "default": "./number/toPercentage.js",
+                "types": "./number/toPercentage.d.ts"
+            },
+            "require": {
+                "default": "./number/toPercentage.js",
+                "types": "./number/toPercentage.d.ts"
+            },
+            "default": "./number/toPercentage.js",
             "types": "./number/toPercentage.d.ts"
         },
         "./object": {
-            "import": "./object/index.js",
+            "import": {
+                "default": "./object/index.js",
+                "types": "./object/index.d.ts"
+            },
+            "require": {
+                "default": "./object/index.js",
+                "types": "./object/index.d.ts"
+            },
+            "default": "./object/index.js",
             "types": "./object/index.d.ts"
         },
         "./object/define": {
-            "import": "./object/define.js",
+            "import": {
+                "default": "./object/define.js",
+                "types": "./object/define.d.ts"
+            },
+            "require": {
+                "default": "./object/define.js",
+                "types": "./object/define.d.ts"
+            },
+            "default": "./object/define.js",
             "types": "./object/define.d.ts"
         },
         "./object/is": {
-            "import": "./object/is.js",
+            "import": {
+                "default": "./object/is.js",
+                "types": "./object/is.d.ts"
+            },
+            "require": {
+                "default": "./object/is.js",
+                "types": "./object/is.d.ts"
+            },
+            "default": "./object/is.js",
             "types": "./object/is.d.ts"
         },
         "./object/isNotEmpty": {
-            "import": "./object/isNotEmpty.js",
+            "import": {
+                "default": "./object/isNotEmpty.js",
+                "types": "./object/isNotEmpty.d.ts"
+            },
+            "require": {
+                "default": "./object/isNotEmpty.js",
+                "types": "./object/isNotEmpty.d.ts"
+            },
+            "default": "./object/isNotEmpty.js",
             "types": "./object/isNotEmpty.d.ts"
         },
         "./object/merge": {
-            "import": "./object/merge.js",
+            "import": {
+                "default": "./object/merge.js",
+                "types": "./object/merge.d.ts"
+            },
+            "require": {
+                "default": "./object/merge.js",
+                "types": "./object/merge.d.ts"
+            },
+            "default": "./object/merge.js",
             "types": "./object/merge.d.ts"
         },
         "./object/omit": {
-            "import": "./object/omit.js",
+            "import": {
+                "default": "./object/omit.js",
+                "types": "./object/omit.d.ts"
+            },
+            "require": {
+                "default": "./object/omit.js",
+                "types": "./object/omit.d.ts"
+            },
+            "default": "./object/omit.js",
             "types": "./object/omit.d.ts"
         },
         "./object/pick": {
-            "import": "./object/pick.js",
+            "import": {
+                "default": "./object/pick.js",
+                "types": "./object/pick.d.ts"
+            },
+            "require": {
+                "default": "./object/pick.js",
+                "types": "./object/pick.d.ts"
+            },
+            "default": "./object/pick.js",
             "types": "./object/pick.d.ts"
         },
         "./regexp": {
-            "import": "./regexp/index.js",
+            "import": {
+                "default": "./regexp/index.js",
+                "types": "./regexp/index.d.ts"
+            },
+            "require": {
+                "default": "./regexp/index.js",
+                "types": "./regexp/index.d.ts"
+            },
+            "default": "./regexp/index.js",
             "types": "./regexp/index.d.ts"
         },
         "./regexp/is": {
-            "import": "./regexp/is.js",
+            "import": {
+                "default": "./regexp/is.js",
+                "types": "./regexp/is.d.ts"
+            },
+            "require": {
+                "default": "./regexp/is.js",
+                "types": "./regexp/is.d.ts"
+            },
+            "default": "./regexp/is.js",
             "types": "./regexp/is.d.ts"
         },
         "./regexp/sanitize": {
-            "import": "./regexp/sanitize.js",
+            "import": {
+                "default": "./regexp/sanitize.js",
+                "types": "./regexp/sanitize.d.ts"
+            },
+            "require": {
+                "default": "./regexp/sanitize.js",
+                "types": "./regexp/sanitize.d.ts"
+            },
+            "default": "./regexp/sanitize.js",
             "types": "./regexp/sanitize.d.ts"
         },
         "./string": {
-            "import": "./string/index.js",
+            "import": {
+                "default": "./string/index.js",
+                "types": "./string/index.d.ts"
+            },
+            "require": {
+                "default": "./string/index.js",
+                "types": "./string/index.d.ts"
+            },
+            "default": "./string/index.js",
             "types": "./string/index.d.ts"
         },
         "./string/humanizeBytes": {
-            "import": "./string/humanizeBytes.js",
+            "import": {
+                "default": "./string/humanizeBytes.js",
+                "types": "./string/humanizeBytes.d.ts"
+            },
+            "require": {
+                "default": "./string/humanizeBytes.js",
+                "types": "./string/humanizeBytes.d.ts"
+            },
+            "default": "./string/humanizeBytes.js",
             "types": "./string/humanizeBytes.d.ts"
         },
         "./string/humanizeNumber": {
-            "import": "./string/humanizeNumber.js",
+            "import": {
+                "default": "./string/humanizeNumber.js",
+                "types": "./string/humanizeNumber.d.ts"
+            },
+            "require": {
+                "default": "./string/humanizeNumber.js",
+                "types": "./string/humanizeNumber.d.ts"
+            },
+            "default": "./string/humanizeNumber.js",
             "types": "./string/humanizeNumber.d.ts"
         },
         "./string/is": {
-            "import": "./string/is.js",
+            "import": {
+                "default": "./string/is.js",
+                "types": "./string/is.d.ts"
+            },
+            "require": {
+                "default": "./string/is.js",
+                "types": "./string/is.d.ts"
+            },
+            "default": "./string/is.js",
             "types": "./string/is.d.ts"
         },
         "./string/isBetween": {
-            "import": "./string/isBetween.js",
+            "import": {
+                "default": "./string/isBetween.js",
+                "types": "./string/isBetween.d.ts"
+            },
+            "require": {
+                "default": "./string/isBetween.js",
+                "types": "./string/isBetween.d.ts"
+            },
+            "default": "./string/isBetween.js",
             "types": "./string/isBetween.d.ts"
         },
         "./string/isNotEmpty": {
-            "import": "./string/isNotEmpty.js",
+            "import": {
+                "default": "./string/isNotEmpty.js",
+                "types": "./string/isNotEmpty.d.ts"
+            },
+            "require": {
+                "default": "./string/isNotEmpty.js",
+                "types": "./string/isNotEmpty.d.ts"
+            },
+            "default": "./string/isNotEmpty.js",
             "types": "./string/isNotEmpty.d.ts"
         },
         "./string/shorten": {
-            "import": "./string/shorten.js",
+            "import": {
+                "default": "./string/shorten.js",
+                "types": "./string/shorten.d.ts"
+            },
+            "require": {
+                "default": "./string/shorten.js",
+                "types": "./string/shorten.d.ts"
+            },
+            "default": "./string/shorten.js",
             "types": "./string/shorten.d.ts"
         }
     },

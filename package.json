@@ -75,6 +75,14 @@
             "types": "./is.d.ts"
         },
         "./array": {
+            "import": {
+                "default": "./array/index.js",
+                "types": "./array/index.d.ts"
+            },
+            "require": {
+                "default": "./array/index.js",
+                "types": "./array/index.d.ts"
+            },
             "default": "./array/index.js",
             "types": "./array/index.d.ts"
         },

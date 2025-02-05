@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.31.1] - 2025-02-05
+### Fixed
+- **misc**: Add missing require/import split for ./array
+
 ## [12.31.0] - 2025-02-05
 ### Improved
 - **misc**: Split up exports block in require/import behavior to also support cjs/esm diff

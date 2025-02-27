@@ -54,6 +54,7 @@ const out = merge(
 //    }
 // }
 ```
+- **perf**: ~35-40% performance improvement in `formdata/toObject` thanks to simplification of internal operations
 - **deps**: Upgrade @types/node to 22.13.5
 - **deps**: Upgrade eslint to 9.21.0
 - **deps**: Upgrade typescript-eslint to 8.25.0

@@ -5,10 +5,10 @@ import isDateFormat     from '../../../lib/date/isFormat';
 
 describe('Date - isDateFormat', () => {
     it('Throw when passed a non-string for val', () => {
-        for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
+        for (const el of CONSTANTS.NOT_STRING) {
             assert.throws(
                 () => isDateFormat(el, 'YYYY-MM-DD'),
-                new TypeError('isDateFormat: input must be a non-empty string')
+                new TypeError('isDateFormat: input must be a string')
             );
         }
     });

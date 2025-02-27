@@ -117,13 +117,9 @@ function compileSpec (spec:string, is_chunk:boolean = false) {
  * @param {string} spec - Spec to validate (Eg: 'YYYY-MM-DD')
  */
 function isDateFormat (input: unknown, spec: string): input is string {
-    if (typeof input !== 'string' || input.trim().length === 0) {
-        throw new TypeError('isDateFormat: input must be a non-empty string');
-    }
+    if (typeof input !== 'string') throw new TypeError('isDateFormat: input must be a string');
 
-    if (typeof spec !== 'string') {
-        throw new TypeError('isDateFormat: spec must be a string');
-    }
+    if (typeof spec !== 'string') throw new TypeError('isDateFormat: spec must be a string');
 
     /* Check for alias specs */
     const {tokens,rgx} = compileSpec(SPEC_ALIASES[spec] || spec);

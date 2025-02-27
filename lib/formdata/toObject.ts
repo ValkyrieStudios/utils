@@ -23,12 +23,16 @@ type ToObjectConfig = {
     normalize_number?: boolean;
 }
 
-const RGX_CLOSE = /\]/g;
-const RGX_DIGIT = /^\d+$/;
+const RGX_TOKENS = /[^.[\]]+/g;
 
-function assignValue (acc: Record<string, unknown>, rawkey: string, value: unknown, single:Set<string>): void {
+function assign (
+    acc: Record<string, unknown>,
+    rawkey: string,
+    value: unknown,
+    single:Set<string>
+): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
-    const keys = rawkey.replace(RGX_CLOSE, '').split(/\[|\./);
+    const keys = rawkey.match(RGX_TOKENS) || [];
     const keys_len = keys.length;
     for (let i = 0; i < keys_len; i++) {
         const key:string = keys[i];
@@ -38,9 +42,7 @@ function assignValue (acc: Record<string, unknown>, rawkey: string, value: unkno
             const n_key: string | number = Array.isArray(cursor) ? Number(key) : key;
 
             /* Create array or object only if it doesn't exist */
-            if (!cursor[n_key]) {
-                cursor[n_key] = RGX_DIGIT.test(keys[i + 1]) ? [] : {};
-            }
+            if (!cursor[n_key]) cursor[n_key] = Number.isInteger(+keys[i + 1]) ? [] : {};
 
             cursor = cursor[n_key] as Record<string, unknown>;
         } else if (!(key in cursor) || single.has(key)) {
@@ -82,36 +84,37 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
 
     const acc:Record<string, unknown> = {};
     form.forEach((value, key) => {
-        if (set !== true && typeof value === 'string' && value !== '' && !set.has(key)) {
+        if (set !== true && value !== '' && typeof value === 'string' && !set.has(key)) {
             /* Bool normalization */
             if (nBool) {
-                const lower = value.toLowerCase();
-                if (lower === 'true') {
-                    assignValue(acc, key, true, single);
-                    return;
-                } else if (lower === 'false') {
-                    assignValue(acc, key, false, single);
-                    return;
+                switch (value) {
+                    case 'true':
+                    case 'TRUE':
+                    case 'True':
+                        return assign(acc, key, true, single);
+                    case 'false':
+                    case 'FALSE':
+                    case 'False':
+                        return assign(acc, key, false, single);
+                    default:
+                        break;
                 }
             }
 
             /* Number normalization */
             if (nNumber) {
                 const nVal = Number(value);
-                if (!isNaN(nVal)) {
-                    assignValue(acc, key, nVal, single);
-                    return;
-                }
+                if (!isNaN(nVal)) return assign(acc, key, nVal, single);
             }
 
             /* Date normalization */
-            if (nDate && isDateFormat(value, 'ISO')) {
-                assignValue(acc, key, new Date(value), single);
-                return;
-            }
+            if (
+                nDate &&
+                isDateFormat(value, 'ISO')
+            ) return assign(acc, key, new Date(value), single);
         }
 
-        assignValue(acc, key, value, single);
+        assign(acc, key, value, single);
     });
     return acc as T;
 }

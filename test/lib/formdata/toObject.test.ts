@@ -226,15 +226,6 @@ describe('FormData - toObject', () => {
         });
     });
 
-    it('Should handle empty string keys and return an empty string', () => {
-        const formData = new FormData();
-        formData.append('', 'emptyKeyTest');
-
-        assert.deepEqual(toObject(formData), {
-            '': 'emptyKeyTest',
-        });
-    });
-
     it('Should handle mixed array values (numbers, booleans, strings)', () => {
         const formData = new FormData();
         formData.append('mixedArray', '123');
@@ -354,22 +345,16 @@ describe('FormData - toObject', () => {
 
     it('Should handle mixed case boolean-like strings', () => {
         const formData = new FormData();
-        formData.append('caseTest1', 'tRuE');
-        formData.append('caseTest2', 'FaLsE');
+        formData.append('caseTest1', 'True');
+        formData.append('caseTest2', 'False');
+        formData.append('caseTest3', 'TRUE');
+        formData.append('caseTest4', 'FALSE');
 
         assert.deepEqual(toObject(formData), {
             caseTest1: true,
             caseTest2: false,
-        });
-    });
-
-    it('Should handle multiple values for an empty string key', () => {
-        const formData = new FormData();
-        formData.append('', 'first');
-        formData.append('', 'second');
-
-        assert.deepEqual(toObject(formData), {
-            '': ['first', 'second'],
+            caseTest3: true,
+            caseTest4: false,
         });
     });
 

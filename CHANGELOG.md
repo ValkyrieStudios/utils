@@ -7,6 +7,53 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **dx**: The return type for `object/merge` is now correctly computed as the merge of the provided objects and will no longer be `Record<string, any>`
+```typescript
+/* Non-union merge */
+const out = merge(
+    {first_name: "Valkyrie", last_name: null},
+    {first_name: "Valkyrie", last_name: "Studios", secret: true}
+);
+// Resulting type is: {first_name:string; last_name: string}
+
+/* Union merge */
+const out = merge(
+    {first_name: "Valkyrie", last_name: null},
+    {last_name: "Studios", secret: true},
+    {union: true}
+);
+// Resulting type is: {first_name: string; last_name: string; secret: boolean}
+
+/* Array Non-union merge */
+const out = merge(
+    {a: null},
+    [{a: 2, b: null}, {a: false}]
+);
+// Resulting type is {a: boolean}
+
+/* Array Union merge */
+const out = merge(
+    {
+        first_name: 'Valkyrie',
+        last_name: 'Studios',
+        details: {isEnabled: true}
+    },
+    [
+        {details: {isEnabled: true, isActive: true}},
+        {email: 'contact@valkyriestudios.be'},
+    ],
+    {union: true}
+);
+// Resulting type is  {
+//    first_name: string;
+//    last_name: string;
+//    email: string;
+//    details: {
+//      isEnabled: boolean;
+//      isActive: boolean;
+//    }
+// }
+```
 - **deps**: Upgrade @types/node to 22.13.5
 - **deps**: Upgrade eslint to 9.21.0
 - **deps**: Upgrade typescript-eslint to 8.25.0

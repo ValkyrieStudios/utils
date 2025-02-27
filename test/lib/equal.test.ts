@@ -416,6 +416,10 @@ describe('Equal', () => {
             /* @ts-ignore */
             const d = new Map([['a', {x: 2}], ['b', 2]]);
             assert.equal(equal(c, d), false);
+
+            const f = new Map([['a', 1], ['b', 2]]);
+            const g = new Map([['a', 1], ['b', 2], ['c', 3]]);
+            assert.equal(equal(f, g), false);
         });
     });
 

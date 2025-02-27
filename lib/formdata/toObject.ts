@@ -32,17 +32,17 @@ function assign (
     single:Set<string>
 ): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
-    const keys = rawkey.match(RGX_TOKENS) || [];
-    const keys_len = keys.length;
+    const keys = rawkey.match(RGX_TOKENS);
+    const keys_len = keys!.length;
     for (let i = 0; i < keys_len; i++) {
-        const key:string = keys[i];
+        const key:string = keys![i];
 
         /* If more values */
         if (i < (keys_len - 1)) {
             const n_key: string | number = Array.isArray(cursor) ? Number(key) : key;
 
             /* Create array or object only if it doesn't exist */
-            if (!cursor[n_key]) cursor[n_key] = Number.isInteger(+keys[i + 1]) ? [] : {};
+            if (!cursor[n_key]) cursor[n_key] = Number.isInteger(+keys![i + 1]) ? [] : {};
 
             cursor = cursor[n_key] as Record<string, unknown>;
         } else if (!(key in cursor) || single.has(key)) {

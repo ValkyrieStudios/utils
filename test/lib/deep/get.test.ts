@@ -188,6 +188,8 @@ describe('Deep - get', () => {
         assert.equal(deepGet(val, 'list[2].id'), '789');
         assert.equal(deepGet(val, 'list[0].foo'), undefined);
         assert.equal(deepGet(val, 'list[2].name'), 'User 3');
+        assert.equal(deepGet(val, 'list[3].name'), undefined);
+        assert.equal(deepGet(val, 'list[2].name.name'), undefined);
     });
 
     it('Handles deeply nested missing keys without throwing', () => {

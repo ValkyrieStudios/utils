@@ -104,8 +104,6 @@ function deepGet<
                     node = node[key];
                     nodes.push(node);
                     if (node === undefined) return undefined;
-                } else {
-                    return undefined;
                 }
                 key = '';
                 break;

@@ -1010,6 +1010,97 @@ These functions are the following:
 - **Is.Equal**
 - **Is.Eq**
 
+### modules/PubSub
+A lightweight fire-and-forget publish–subscribe utility that supports both synchronous and asynchronous subscribers, with built‑in support for storing the last published data for each event.
+
+This feature lets new subscribers immediately receive the most recent value for specific events.
+
+The default storage behavior is configurable via the constructor or can be overridden on a per‑publish basis.
+
+##### Usage
+Simple fire-and-foreget without storage:
+```typescript
+import { PubSub } from '@valkyriestudios/utils/modules/PubSub';
+
+const relay = new PubSub({ name: 'MyPubSub', store: true });
+
+/* Subscribe to events. */
+relay.subscribe({
+  onDataUpdate: (data) => ...,
+  onModalOpen: (...) => ...,
+}, 'client1');
+
+/* Subscribe to events. */
+const client2 = relay.subscribe({
+  onUserUpdate: (...) => ...,
+}); /* If not passing a client id a client id will be generated and returned */
+
+/* Publish events. Since storage is enabled, the data is saved */
+relay.publish('onDataUpdate', {foo: 'bar'});
+relay.publish('onUserUpdate', {language: 'nl'});
+
+/* When not necessary anymore */
+relay.unsubscribe(client2);
+```
+
+In-Memory storage included:
+```typescript
+import { PubSub } from '@valkyriestudios/utils/modules/PubSub';
+
+/* Create a PubSub instance that stores published data by default */
+const relay = new PubSub({ name: 'MyPubSub', store: true });
+
+/* Subscribe to events. */
+relay.subscribe({
+  dataUpdate: (data) => console.log('Subscriber 1 received dataUpdate:', data),
+  /* This event will automatically unsubscribe after the first time its called */
+  onceEvent: {
+    run: (data) => console.log('This runs only once:', data),
+    once: true,
+  },
+}, 'client1');
+
+/* Publish events. Since storage is enabled, the data is saved */
+relay.publish('dataUpdate', { foo: 'bar' });
+relay.publish('onceEvent', 'only once');
+
+/* Later, a new subscriber immediately gets the last published value */
+relay.subscribe({
+  dataUpdate: (data) => console.log('Late subscriber received dataUpdate:', data)
+}, 'client2');
+```
+
+##### API Overview
+- **new PubSub(options?: { logger?: LogFn; name?: string; store?: boolean })**
+Creates a new PubSub instance.
+-- **logger (optional)**: Custom logging function to capture errors.
+-- **name (optional)**: A non‑empty string to name the instance.
+-- **store (optional)**: A boolean to set the default behavior for storing published data (default is false).
+- **publish(event: string, data?: unknown, store?: boolean): void**
+Publishes data for a specific event.
+-- If storage is enabled (via the default or the store override), the published data is stored for that event.
+-- All subscribers for the event are invoked.
+-- Supports both synchronous and asynchronous subscriber functions. Asynchronous errors are caught and logged.
+- **subscribe(events: RawEvents, client_id?: string, override?: boolean): string | null**
+Subscribes a client to one or more events.
+-- Returns a client ID (either provided or generated) which can later be used to unsubscribe.
+-- If stored data exists for an event, the new subscriber is immediately invoked with that data.
+-- The override flag (defaults to true) determines whether existing subscriptions for the same client are replaced.
+- **unsubscribe(client_id: string, event?: string | string[]): void**
+Unsubscribes a client from the specified event(s) or all events if none are provided.
+- **clientIds(event?: string | string[]): Set<string>**
+Retrieves a set of client IDs subscribed to one or more events.
+- **clear(event?: string | string[]): void**
+Clears subscriptions for specific event(s) or all events if no event is specified.
+
+##### Notes:
+- **Data Storage:**
+When storage is enabled, the last published value is tied to an event’s subscription entry. If there are no subscribers left, the stored value is automatically cleaned up.
+- **Error Handling:**
+Both synchronous and asynchronous errors are logged via the custom logger (if provided). The utility checks for thenables by verifying that the returned object has both then and catch methods.
+- **Flexibility:**
+The storage behavior can be controlled globally through the constructor or overridden for individual publish calls.
+
 ### number/is(val:unknown)
 Check if a variable is a number
 ```typescript

@@ -95,15 +95,16 @@ function deepGet<
                         const extracted = [];
                         for (let y = 0; y < node.length; y++) {
                             const el = deepGet(node[y], key);
-                            if (el !== undefined) extracted.push(el);
+                            if (el !== undefined) {
+                                extracted.push(...Array.isArray(el) ? el : [el]);
+                            }
                         }
-                        node = extracted.length ? extracted : undefined;
+                        node = extracted;
                         nodes.push(node);
                     }
                 } else if (typeof node === 'object' && node !== null) {
                     node = node[key];
                     nodes.push(node);
-                    if (node === undefined) return undefined;
                 }
                 key = '';
                 break;
@@ -126,7 +127,7 @@ function deepGet<
                 const extracted = [];
                 for (let i = 0; i < node.length; i++) {
                     const val = node[i]?.[key];
-                    if (val !== undefined) extracted.push(val);
+                    if (val !== undefined) extracted.push(...Array.isArray(val) ? val : [val]);
                 }
                 node = extracted.length ? extracted : undefined;
                 nodes.push(node);

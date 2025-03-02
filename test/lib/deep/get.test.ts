@@ -192,6 +192,119 @@ describe('Deep - get', () => {
         assert.equal(deepGet(val, 'list[2].name.name'), undefined);
     });
 
+    it('Handles deeply nested missing array keys without throwing', () => {
+        assert.equal(deepGet({
+            deepNestedArray: [
+                {list: [
+                    {id: 123},
+                    {id: 234},
+                    {id: 345},
+                ]},
+                {list: [
+                    {id: 456},
+                    {id: 567},
+                ]},
+                {list: [
+                    {id: 678},
+                    {id: 789},
+                ]},
+            ],
+        }, 'deepNestedArray.list.job'), undefined);
+
+        assert.deepEqual(deepGet({
+            deepNestedArray: [
+                {list: [
+                    {id: 123},
+                    {id: 234},
+                    {id: 345},
+                ]},
+                {list: [
+                    {id: 456},
+                    {id: 567},
+                ]},
+                {list: [
+                    {id: 678},
+                    {id: 789},
+                ]},
+            ],
+        }, 'deepNestedArray.list.id'), [123, 234, 345, 456, 567, 678, 789]);
+
+        assert.deepEqual(deepGet({
+            deepNestedArray: [
+                {list: [
+                    {users: [{id: 123}, {id: 234}]},
+                    {users: [{id: 345}, {id: 456}]},
+                ]},
+                {list: [
+                    {users: [{id: 567}, {id: 678}]},
+                ]},
+                {list: [
+                    {users: [{id: 789}, {id: 890}]},
+                ]},
+            ],
+        }, 'deepNestedArray.list.users.id'), [123, 234, 345, 456, 567, 678, 789, 890]);
+
+        assert.deepEqual(deepGet({
+            deepNestedArray: [
+                {list: [
+                    {users: [{id: 123}, {id: 234}]},
+                    {users: [{id: 345}, {id: 456}]},
+                ]},
+                {list: [
+                    {users: [{job: 'Engineer'}, {id: 678}]},
+                ]},
+                {list: [
+                    {users: [{id: 789}, {id: 890}]},
+                ]},
+            ],
+        }, 'deepNestedArray.list.users.id'), [123, 234, 345, 456, 678, 789, 890]);
+
+        assert.deepEqual(deepGet({
+            deepNestedArray: [
+                {list: [
+                    {users: [{id: 123}, {id: 234}]},
+                    {users: [{id: 345}, {id: 456}]},
+                ]},
+                {list: [
+                    {users: [{job: 'Engineer'}, {id: 678}]},
+                ]},
+                {list: [
+                    {users: [{id: 789}, {id: 890}]},
+                ]},
+            ],
+        }, 'deepNestedArray.list.users.job'), ['Engineer']);
+
+        assert.deepEqual(deepGet({
+            deepNestedArray: [
+                {list: [
+                    {users: [{id: 123}, {id: 234}]},
+                    {users: [{id: 345}, {id: 456}]},
+                ]},
+                {list: [
+                    {users: [{job: 'Engineer'}, {id: 678}]},
+                ]},
+                {list: [
+                    {users: [{id: 789}, {id: 890}]},
+                ]},
+            ],
+        }, 'deepNestedArray.list.users'), [{id: 123}, {id: 234}, {id: 345}, {id: 456}, {job: 'Engineer'}, {id: 678}, {id: 789}, {id: 890}]);
+
+        assert.deepEqual(deepGet({
+            deepNestedArray: [
+                {list: [
+                    {users: [{id: 123}, {id: 234}]},
+                    {users: [{id: 345}, {id: 456}]},
+                ]},
+                {list: [
+                    {users: [{job: 'Engineer'}, {id: 678}]},
+                ]},
+                {list: [
+                    {users: [{id: 789}, {id: 890}]},
+                ]},
+            ],
+        }, 'deepNestedArray.list.users.isActive'), undefined);
+    });
+
     it('Handles deeply nested missing keys without throwing', () => {
         assert.equal(deepGet(subject, 'deepNestedArray.a.b.z'), undefined);
     });

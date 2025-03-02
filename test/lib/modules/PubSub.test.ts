@@ -36,6 +36,16 @@ describe('Modules - PubSub', () => {
             }
         });
 
+        it('Should throw when passed a non-boolean store', () => {
+            for (const el of CONSTANTS.NOT_BOOLEAN) {
+                if (el === undefined) continue;
+                assert.throws(
+                    () => new PubSub({store: el}),
+                    new Error('PubSub@ctor: store should be a boolean')
+                );
+            }
+        });
+
         it('Should have the correct name when passed in the config', () => {
             const relay = new PubSub({name: 'Relay'});
             assert.equal(relay.name, 'Relay');
@@ -115,6 +125,81 @@ describe('Modules - PubSub', () => {
             relay.publish('onceEvent');
             relay.publish('onceEvent');
             assert.equal(call_count, 1);
+        });
+
+        it('Should store for future subscribers when passed store', () => {
+            const relay = new PubSub();
+            relay.publish('userSettings', {isActive: true}, true);
+
+            let data:unknown = null;
+            relay.subscribe({userSettings: val => data = val}, 'client1');
+            assert.deepEqual(data, {isActive: true});
+            relay.publish('userSettings', {isActive: false}, true);
+            assert.deepEqual(data, {isActive: false});
+
+            let data2:unknown = null;
+            relay.subscribe({userSettings: val => data2 = val}, 'client2');
+            assert.deepEqual(data2, {isActive: false});
+        });
+
+        it('Should store for future subscribers AND if an event comes along without store NOT override the value in storage', () => {
+            const relay = new PubSub();
+            relay.publish('userSettings', {isActive: true}, true);
+
+            let data:unknown = null;
+            relay.subscribe({userSettings: val => data = val}, 'client1');
+            assert.deepEqual(data, {isActive: true});
+            relay.publish('userSettings', {isActive: false}); /* Store not passed so fallback to default */
+            assert.deepEqual(data, {isActive: false});
+
+            let data2:unknown = null;
+            relay.subscribe({userSettings: val => data2 = val}, 'client2');
+            assert.deepEqual(data2, {isActive: true});
+        });
+
+        it('store=default: Should store for future subscribers when default on store', () => {
+            const relay = new PubSub({store: true});
+            relay.publish('userSettings', {isActive: true});
+
+            let data:unknown = null;
+            relay.subscribe({userSettings: val => data = val}, 'client1');
+            assert.deepEqual(data, {isActive: true});
+            relay.publish('userSettings', {isActive: false});
+            assert.deepEqual(data, {isActive: false});
+
+            let data2:unknown = null;
+            relay.subscribe({userSettings: val => data2 = val}, 'client2');
+            assert.deepEqual(data2, {isActive: false});
+        });
+
+        it('store=default: Should store for future subscribers AND if event comes without store override the value in storage', () => {
+            const relay = new PubSub({store: true});
+            relay.publish('userSettings', {isActive: true});
+
+            let data:unknown = null;
+            relay.subscribe({userSettings: val => data = val}, 'client1');
+            assert.deepEqual(data, {isActive: true});
+            relay.publish('userSettings', {isActive: false}); /* Store not passed so fallback to default */
+            assert.deepEqual(data, {isActive: false});
+
+            let data2:unknown = null;
+            relay.subscribe({userSettings: val => data2 = val}, 'client2');
+            assert.deepEqual(data2, {isActive: false});
+        });
+
+        it('store=default: Should store for future subscribers AND if event comes along with store:false NOT override storage', () => {
+            const relay = new PubSub({store: true});
+            relay.publish('userSettings', {isActive: true});
+
+            let data:unknown = null;
+            relay.subscribe({userSettings: val => data = val}, 'client1');
+            assert.deepEqual(data, {isActive: true});
+            relay.publish('userSettings', {isActive: false}, false); /* Store passed as false */
+            assert.deepEqual(data, {isActive: false});
+
+            let data2:unknown = null;
+            relay.subscribe({userSettings: val => data2 = val}, 'client2');
+            assert.deepEqual(data2, {isActive: true});
         });
 
         it('Should not override existing subscribers if override is passed as false', () => {
@@ -372,6 +457,21 @@ describe('Modules - PubSub', () => {
             const all_ids = relay.clientIds();
             assert.equal(all_ids.size, 0);
         });
+
+        it('Should not keep storage around if an event is cleared', () => {
+            const relay = new PubSub({store: true});
+            relay.publish('event', {hello: 'world'});
+
+            let data:unknown = null;
+            relay.subscribe({event: val => data = val}, 'client1');
+            assert.deepEqual(data, {hello: 'world'});
+
+            relay.clear('event');
+
+            let data2:unknown = null;
+            relay.subscribe({event: val => data2 = val}, 'client1');
+            assert.equal(data2, null);
+        });
     });
 
     describe('logging', () => {
@@ -404,6 +504,35 @@ describe('Modules - PubSub', () => {
             ]);
         });
 
+        it('Should log synchronous subscriber errors and fallback to unknown error', () => {
+            const now = new Date();
+            const logs: LogObject[] = [];
+            const logger: LogFn = (log: LogObject) => {
+                assert.ok(log.on instanceof Date);
+                assert.ok(log.on >= now);
+                log.on = now;
+                logs.push(log);
+            };
+            const relay = new PubSub({logger});
+            relay.subscribe({
+                errorEvent: () => {
+                    throw new Error();
+                },
+            }, 'clientSync');
+            relay.publish('errorEvent', 'errorData');
+            assert.deepEqual(logs, [
+                {
+                    client_id: 'clientSync',
+                    data: 'errorData',
+                    err: new Error(),
+                    event: 'errorEvent',
+                    msg: '[sync] PubSub@publish: Unknown Error',
+                    name: 'PubSub',
+                    on: now,
+                },
+            ]);
+        });
+
         it('Should log asynchronous subscriber errors', async () => {
             const now = new Date();
             const logs: LogObject[] = [];
@@ -430,6 +559,38 @@ describe('Modules - PubSub', () => {
                     data: 'errorData',
                     event: 'asyncError',
                     msg: '[async] PubSub@publish: async error',
+                    name: 'PubSub',
+                    on: now,
+                },
+            ]);
+        });
+
+        it('Should log asynchronous subscriber errors and fallback to unknown error', async () => {
+            const now = new Date();
+            const logs: LogObject[] = [];
+            const logger: LogFn = (log: LogObject) => {
+                assert.ok(log.on instanceof Date);
+                assert.ok(log.on >= now);
+                log.on = now;
+                assert.ok(log.err instanceof Error);
+                assert.equal(log.err.message, '');
+                delete log.err;
+                logs.push(log);
+            };
+            const relay = new PubSub({logger});
+            relay.subscribe({
+                asyncError: async () => {
+                    throw new Error();
+                },
+            }, 'clientAsync');
+            relay.publish('asyncError', 'errorData');
+            await sleep(10);
+            assert.deepEqual(logs, [
+                {
+                    client_id: 'clientAsync',
+                    data: 'errorData',
+                    event: 'asyncError',
+                    msg: '[async] PubSub@publish: Unknown Error',
                     name: 'PubSub',
                     on: now,
                 },

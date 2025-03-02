@@ -686,6 +686,18 @@
             "default": "./hash/guid.js",
             "types": "./hash/guid.d.ts"
         },
+        "./modules/PubSub": {
+            "import": {
+                "default": "./modules/PubSub.js",
+                "types": "./modules/PubSub.d.ts"
+            },
+            "require": {
+                "default": "./modules/PubSub.js",
+                "types": "./modules/PubSub.d.ts"
+            },
+            "default": "./modules/PubSub.js",
+            "types": "./modules/PubSub.d.ts"
+        },
         "./number": {
             "import": {
                 "default": "./number/index.js",

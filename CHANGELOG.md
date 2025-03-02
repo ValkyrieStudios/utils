@@ -5,6 +5,150 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- **feat** modules/PubSub - A lightweight publish-subscribe module
+Simple fire-and-foreget without storage:
+```typescript
+import { PubSub } from '@valkyriestudios/utils/modules/PubSub';
+
+const relay = new PubSub({ name: 'MyPubSub', store: true });
+
+/* Subscribe to events. */
+relay.subscribe({
+  onDataUpdate: (data) => ...,
+  onModalOpen: (...) => ...,
+}, 'client1');
+
+/* Subscribe to events. */
+const client2 = relay.subscribe({
+  onUserUpdate: (...) => ...,
+}); /* If not passing a client id a client id will be generated and returned */
+
+/* Publish events. Since storage is enabled, the data is saved */
+relay.publish('onDataUpdate', {foo: 'bar'});
+relay.publish('onUserUpdate', {language: 'nl'});
+
+/* When not necessary anymore */
+relay.unsubscribe(client2);
+```
+
+In-Memory storage included:
+```typescript
+import { PubSub } from '@valkyriestudios/utils/modules/PubSub';
+
+/* Create a PubSub instance that stores published data by default */
+const relay = new PubSub({ name: 'MyPubSub', store: true });
+
+/* Subscribe to events. */
+relay.subscribe({
+  dataUpdate: (data) => console.log('Subscriber 1 received dataUpdate:', data),
+  /* This event will automatically unsubscribe after the first time its called */
+  onceEvent: {
+    run: (data) => console.log('This runs only once:', data),
+    once: true,
+  },
+}, 'client1');
+
+/* Publish events. Since storage is enabled, the data is saved */
+relay.publish('dataUpdate', { foo: 'bar' });
+relay.publish('onceEvent', 'only once');
+
+/* Later, a new subscriber immediately gets the last published value */
+relay.subscribe({
+  dataUpdate: (data) => console.log('Late subscriber received dataUpdate:', data)
+}, 'client2');
+```
+
+### Improved
+- **feat**: deep/get is now even more powerful and can fetch lists of information from multiple levels of deeply nested object arrays, eg:
+```typescript
+deepGet({
+    deepNestedArray: [
+        {list: [
+            {users: [{id: 123}, {id: 234}]},
+            {users: [{id: 345}, {id: 456}]},
+        ]},
+        {list: [
+            {users: [{id: 567}, {id: 678}]},
+        ]},
+        {list: [
+            {users: [{id: 789}, {id: 890}]},
+        ]},
+    ],
+}, 'deepNestedArray.list.users.id');
+
+// Output: [123, 234, 345, 456, 567, 678, 789, 890]
+
+deepGet({
+    deepNestedArray: [
+        {list: [
+            {users: [{id: 123}, {id: 234}]},
+            {users: [{id: 345}, {id: 456}]},
+        ]},
+        {list: [
+            {users: [{job: 'Engineer'}, {id: 678}]},
+        ]},
+        {list: [
+            {users: [{id: 789}, {id: 890}]},
+        ]},
+    ],
+}, 'deepNestedArray.list.users.id');
+
+// Output: [123, 234, 345, 456, 678, 789, 890]
+
+deepGet({
+    deepNestedArray: [
+        {list: [
+            {users: [{id: 123}, {id: 234}]},
+            {users: [{id: 345}, {id: 456}]},
+        ]},
+        {list: [
+            {users: [{job: 'Engineer'}, {id: 678}]},
+        ]},
+        {list: [
+            {users: [{id: 789}, {id: 890}]},
+        ]},
+    ],
+}, 'deepNestedArray.list.users.job');
+
+// Output: ['Engineer']
+
+deepGet({
+    deepNestedArray: [
+        {list: [
+            {users: [{id: 123}, {id: 234}]},
+            {users: [{id: 345}, {id: 456}]},
+        ]},
+        {list: [
+            {users: [{job: 'Engineer'}, {id: 678}]},
+        ]},
+        {list: [
+            {users: [{id: 789}, {id: 890}]},
+        ]},
+    ],
+}, 'deepNestedArray.list.users');
+
+//  Output: [{id: 123}, {id: 234}, {id: 345}, {id: 456}, {job: 'Engineer'}, {id: 678}, {id: 789}, {id: 890}]
+
+deepGet({
+    deepNestedArray: [
+        {list: [
+            {users: [{id: 123}, {id: 234}]},
+            {users: [{id: 345}, {id: 456}]},
+        ]},
+        {list: [
+            {users: [{job: 'Engineer'}, {id: 678}]},
+        ]},
+        {list: [
+            {users: [{id: 789}, {id: 890}]},
+        ]},
+    ],
+}, 'deepNestedArray.list.users.isActive');
+
+//  Output: undefined
+```
+
 ## [12.32.0] - 2025-02-27
 ### Improved
 - **dx**: The return type for `object/merge` is now correctly computed as the merge of the provided objects and will no longer be `Record<string, any>`

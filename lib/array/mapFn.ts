@@ -41,19 +41,20 @@ function mapFn <T extends Record<string, any>> (arr:T[], fn:MapFn<T>, opts?:MapO
     const MERGE = opts?.merge === true;
 
     const map:Record<string, T> = {};
-    let hash:(string|number|boolean) = false;
     for (let i = 0; i < arr.length; i++) {
         const el = arr[i];
         if (Object.prototype.toString.call(el) !== '[object Object]') continue;
 
         /* Get hash */
-        hash = fn(el);
-        if (!Number.isFinite(hash) && !(typeof hash === 'string' && hash.trim().length)) continue;
-
-        /* Normalize hash to string */
-        hash = hash + '';
-
-        map[hash] = (MERGE && hash in map ? merge(map[hash], el, {union: true}) : el) as T;
+        let hash = fn(el);
+        if (
+            Number.isFinite(hash) ||
+            (typeof hash === 'string' && hash.length)
+        ) {
+            /* Normalize hash to string */
+            hash = hash + '';
+            map[hash] = MERGE && hash in map ? merge(map[hash], el, {union: true}) : el;
+        }
     }
 
     return map;

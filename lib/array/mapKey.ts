@@ -31,34 +31,36 @@ type MapOptions<T> = {
  * @param {Record<string,any>[]} val - Array to map
  * @param {string} key - Key to map by
  * @param {MapOptions?} opts - Options object to override built-in defaults
- *
- * @returns {Record<string, T>} KV-Map object
  */
-function mapKey <T extends Record<string, any>> (arr:T[], key:string, opts?:MapOptions<T>):Record<string, T> {
-    if (!Array.isArray(arr) || typeof key !== 'string') return {};
-
-    const len = arr.length;
-    if (!len) return {};
-
-    const key_s = key.trim();
-    if (!key_s.length) return {};
+function mapKey <
+    T extends Record<string, any>,
+    TKey extends keyof T,
+> (
+    arr:T[],
+    key:TKey,
+    opts?:MapOptions<T>
+):Record<string, T> {
+    if (
+        !Array.isArray(arr) ||
+        !arr.length ||
+        typeof key !== 'string' ||
+        !key.length
+    ) return {};
 
     /* Check options */
     const FILTER_FN = opts?.filter_fn;
     const MERGE = opts?.merge === true;
 
     const map:Record<string, T> = {};
-    for (let i = 0; i < len; i++) {
+    for (let i = 0; i < arr.length; i++) {
         const el = arr[i];
 
         /* Key check */
-        const el_key = el?.[key_s];
-        if (el_key === undefined) continue;
-
-        /* Filter */
-        if (FILTER_FN && !FILTER_FN(el)) continue;
-
-        map[el_key] = (MERGE && el_key in map ? merge(map[el_key], el, {union: true}) : el) as T;
+        const el_key = el?.[key];
+        if (
+            el_key !== undefined &&
+            (!FILTER_FN || FILTER_FN(el))
+        ) map[el_key] = (MERGE && el_key in map ? merge(map[el_key], el, {union: true}) : el) as T;
     }
 
     return map;

@@ -7,6 +7,22 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **dx**: array/mapKey will now infer the type of the provided key as needing to be a key of the objects in the array being mapped
+```typescript
+const arr = [
+    {uid: '123', name: 'Peter', isActive: true, lastName: 'V'},
+    {uid: '456', name: 'Jake', isActive: false},
+];
+
+/* Good */
+const map = mapKey(arr, 'uid', {filter_fn: el => el.isActive});
+
+/* Good as lastName exists on our objects  */
+const map = mapKey(arr, 'lastName', {filter_fn: el => el.isActive});
+
+/* Bad as 'oid' does not exist on our arr, typescript will hint for this */
+const map = mapKey(arr, 'oid', {filter_fn: el => el.isActive});
+```
 - **dx**: Reduce internal overloads in object/merge to allow easier typing
 - **deps**: Upgrade @types/node to 22.13.10
 - **deps**: Upgrade eslint to 9.22.0

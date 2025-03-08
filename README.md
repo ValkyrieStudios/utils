@@ -31,7 +31,11 @@ isNotEmptyArray([0, 1, 2]); // TRUE
 ```
 
 ### array/mapKey(val:Record[], key:string, opts?:{merge?:boolean;filter_fn?:(el:T) => boolean})
-Map a non-primitive object array into an object map by key
+Map a non-primitive object array into an object map by key.
+
+**Take Note**: The function `array/mapKeyAsMap` has the same behavior as the mapKey function with the sole difference being that it returns a
+**Map** instead of an object.
+
 ```typescript
 import mapKey from '@valkyriestudios/utils/array/mapKey';
 mapKey([
@@ -114,6 +118,9 @@ mapKey([
 }
 ```
 
+### array/mapKeyAsMap(val:Record[], key:string, opts?:{merge?:boolean;filter_fn?:(el:T) => boolean})
+Same behavior as mapKey but returns a Map instead of an object
+
 ### array/mapFn(val:Record[], key:Function, opts:object={})
 Same behavior as mapKey but instead of a key, a function is passed to generate your own key. Eg:
 
@@ -133,6 +140,9 @@ mapFn([
 ```
 
 options are the same as the mapKey function
+
+### array/mapFnAsMap(val:Record[], key:Function, opts:object={})
+Same behavior as mapFn but returns a Map instead of an object
 
 ### array/mapPrimitive(val:any[], opts?:{valtrim:false;keyround:false;valround:false;filter_fn:(el)=>boolean})
 Map an array of primitives (number/string)

@@ -158,6 +158,18 @@
             "default": "./array/mapFn.js",
             "types": "./array/mapFn.d.ts"
         },
+        "./array/mapFnAsMap": {
+            "import": {
+                "default": "./array/mapFnAsMap.js",
+                "types": "./array/mapFnAsMap.d.ts"
+            },
+            "require": {
+                "default": "./array/mapFnAsMap.js",
+                "types": "./array/mapFnAsMap.d.ts"
+            },
+            "default": "./array/mapFnAsMap.js",
+            "types": "./array/mapFnAsMap.d.ts"
+        },
         "./array/mapKey": {
             "import": {
                 "default": "./array/mapKey.js",
@@ -169,6 +181,18 @@
             },
             "default": "./array/mapKey.js",
             "types": "./array/mapKey.d.ts"
+        },
+        "./array/mapKeyAsMap": {
+            "import": {
+                "default": "./array/mapKeyAsMap.js",
+                "types": "./array/mapKeyAsMap.d.ts"
+            },
+            "require": {
+                "default": "./array/mapKeyAsMap.js",
+                "types": "./array/mapKeyAsMap.d.ts"
+            },
+            "default": "./array/mapKeyAsMap.js",
+            "types": "./array/mapKeyAsMap.d.ts"
         },
         "./array/mapPrimitive": {
             "import": {

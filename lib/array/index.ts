@@ -3,7 +3,9 @@ import {isArray}            from './is';
 import {isNotEmptyArray}    from './isNotEmpty';
 import {join}               from './join';
 import {mapFn}              from './mapFn';
+import {mapFnAsMap}         from './mapFnAsMap';
 import {mapKey}             from './mapKey';
+import {mapKeyAsMap}        from './mapKeyAsMap';
 import {mapPrimitive}       from './mapPrimitive';
 import {groupBy}            from './groupBy';
 import {shuffle}            from './shuffle';
@@ -20,7 +22,9 @@ export {
     isNotEmptyArray as isNe,
     join,
     mapFn,
+    mapFnAsMap,
     mapKey,
+    mapKeyAsMap,
     mapPrimitive,
     groupBy,
     shuffle,

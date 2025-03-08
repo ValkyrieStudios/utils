@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: `array/mapFnAsMap` (this has the same behavior as `array/mapFn` but returns a Map instead of an object, Maps were not prevalent back when these functions were originally written)
+- **feat**: `array/mapKeyAsMap` (this has the same behavior as `array/mapKey` but returns a Map instead of an object, Maps were not prevalent back when these functions were originally written)
+
 ### Improved
 - **dx**: array/mapKey will now infer the type of the provided key as needing to be a key of the objects in the array being mapped
 ```typescript

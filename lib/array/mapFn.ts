@@ -29,8 +29,6 @@ type MapFn<T extends Record<string, any>>= (entry:T) => (string|number|boolean);
  * @param {Record<string, any>[]} val - Array to map
  * @param {MapFn} fn - Handler function which is run for each of the objects and should return a string or number
  * @param {MapOptions?} opts - Options object to override built-in defaults
- *
- * @returns {Record<string, T>} KV-Map object
  */
 function mapFn <T extends Record<string, any>> (arr:T[], fn:MapFn<T>, opts?:MapOptions):Record<string, T> {
     if (

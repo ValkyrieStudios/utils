@@ -6,7 +6,9 @@ import is               from '../../../lib/array/is';
 import isNotEmpty       from '../../../lib/array/isNotEmpty';
 import join             from '../../../lib/array/join';
 import mapFn            from '../../../lib/array/mapFn';
+import mapFnAsMap       from '../../../lib/array/mapFnAsMap';
 import mapKey           from '../../../lib/array/mapKey';
+import mapKeyAsMap      from '../../../lib/array/mapKeyAsMap';
 import mapPrimitive     from '../../../lib/array/mapPrimitive';
 import groupBy          from '../../../lib/array/groupBy';
 import shuffle          from '../../../lib/array/shuffle';
@@ -25,7 +27,9 @@ describe('Array - *', () => {
             isNe: isNotEmpty,
             join,
             mapFn,
+            mapFnAsMap,
             mapKey,
+            mapKeyAsMap,
             mapPrimitive,
             groupBy,
             shuffle,

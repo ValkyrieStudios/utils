@@ -144,7 +144,7 @@ function deepGet<
     /* Cut last part if get_parent */
     if (get_parent) nodes.pop();
 
-    return nodes.length ? nodes.pop() : obj;
+    return nodes.length ? nodes.pop() : obj as DeepGetResult<T, P>;
 }
 
 export {deepGet, deepGet as default};

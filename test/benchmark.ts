@@ -5,7 +5,9 @@ import isArray                  from '../dist/array/is';
 import isNotEmptyArray          from '../dist/array/isNotEmpty';
 import join                     from '../dist/array/join';
 import mapFn                    from '../dist/array/mapFn';
+import mapFnAsMap               from '../dist/array/mapFnAsMap';
 import mapKey                   from '../dist/array/mapKey';
+import mapKeyAsMap              from '../dist/array/mapKeyAsMap';
 import mapPrimitive             from '../dist/array/mapPrimitive';
 import groupBy                  from '../dist/array/groupBy';
 import shuffle                  from '../dist/array/shuffle';
@@ -178,6 +180,11 @@ for (const el of [
         lbl: 'array/mapFn',
         fn: () => mapFn(MAP_OBJECTS_EXAMPLE, val => val.uid),
     },
+    /* Array - mapFnAsMap */
+    {
+        lbl: 'array/mapFnAsMap',
+        fn: () => mapFnAsMap(MAP_OBJECTS_EXAMPLE, val => val.uid),
+    },
     /* Array - mapKey */
     {
         lbl: 'array/mapKey',
@@ -186,6 +193,15 @@ for (const el of [
     {
         lbl: 'array/mapKey w/ filter',
         fn: () => mapKey(MAP_OBJECTS_EXAMPLE, 'uid', {filter_fn: el => el?.isActive}),
+    },
+    /* Array - mapKeyAsMap */
+    {
+        lbl: 'array/mapKeyAsMap',
+        fn: () => mapKeyAsMap(MAP_OBJECTS_EXAMPLE, 'uid'),
+    },
+    {
+        lbl: 'array/mapKeyAsMap w/ filter',
+        fn: () => mapKeyAsMap(MAP_OBJECTS_EXAMPLE, 'uid', {filter_fn: el => el?.isActive}),
     },
     /* Array - mapPrimitive */
     {

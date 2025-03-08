@@ -37,21 +37,23 @@ type MergeArray<T, U extends Record<string, unknown>[], Union extends boolean> =
         : T
     : T;
 
-type MergeOptions = {
-    /**
-     * Defaults to false, when passed as true it ensures all keys from both objects
-     * are available in the merged object
-     */
-    union?: boolean;
-}
+type Merged<
+    T extends Record<string, unknown>,
+    U extends Record<string, unknown> | Record<string, unknown>[],
+    Union extends boolean
+> = U extends any[]
+    ? MergeArray<T, U, Union>
+    : Union extends true
+        ? Merge<T, U>
+        : MergeNonUnion<T, U>;
 
 const PROTO_OBJ = '[object Object]';
 
-function innerMerge (target:{[key:string]:any},source:{[key:string]:any}, UNION:boolean) {
+function innerMerge (target:Record<string, unknown>,source:Record<string, unknown>, UNION:boolean) {
     const origin = UNION ? source : target;
     for (const key in origin) {
-        const t_key = target[key];
-        const s_key = source[key];
+        const t_key = target[key] as Record<string, unknown>;
+        const s_key = source[key] as Record<string, unknown>;
         if (
             Object.prototype.toString.call(t_key) === PROTO_OBJ &&
             Object.prototype.toString.call(s_key) === PROTO_OBJ
@@ -65,47 +67,29 @@ function innerMerge (target:{[key:string]:any},source:{[key:string]:any}, UNION:
     return target;
 }
 
-/* Single source: When union is true: the result includes keys from target and source */
-function merge<T extends Record<string, unknown>, U extends Record<string, unknown>>(
-    target: T,
-    source: U,
-    opts: { union: true }
-): Merge<T, U>;
-
-/* Single source: When union is false (or omitted): only target keys are retained. */
-function merge<T extends Record<string, unknown>, U extends Record<string, unknown>>(
-    target: T,
-    source: U,
-    opts?: { union?: false }
-): MergeNonUnion<T, U>;
-
-/* Array source: For an array of sources with union true: the result includes the merge of all objects with types being tail-types */
-function merge<T extends Record<string, unknown>, U extends Record<string, unknown>[]>(
-    target: T,
-    sources: [...U],
-    opts: { union: true }
-): MergeArray<T, U, true>;
-
-/* Array source: For an array of sources with union false (or omitted): only target keys are retained but tail-types are used */
-function merge<T extends Record<string, unknown>, U extends Record<string, unknown>[]>(
-    target: T,
-    sources: [...U],
-    opts?: { union?: false }
-): MergeArray<T, U, false>;
-
 /**
  * Deep merge two objects together while ensuring nested objects also get merged,
  * take note: this does not merge onto passed objects by reference but instead
  * returns a new object
  *
- * @param {Record<string,any>} target - Base Object
- * @param {Record<string,any>|Record<string,any>[]} source - (default={}) Object to merge onto base object
+ * @param {Record<string,unknown>} target - Base Object
+ * @param {Record<string,unknown>|Record<string,unknown>[]} source - (default={}) Object to merge onto base object
  */
-function merge (
-    target:Record<string, any>,
-    source:Record<string, any>|Record<string,any>[] = {},
-    opts: MergeOptions  = {}
-):Record<string, any> {
+function merge  <
+    T extends Record<string, unknown>,
+    U extends Record<string, unknown> | [Record<string, unknown>, ...Record<string, unknown>[]],
+    Union extends boolean = false
+> (
+    target:T,
+    source:U,
+    opts: {
+        /**
+         * Defaults to false, when passed as true it ensures all keys from both objects
+         * are available in the merged object
+         */
+        union?: Union
+    } = {}
+):Merged<T, U, Union> {
     if (
         Object.prototype.toString.call(target) !== PROTO_OBJ
     ) throw new Error('object/merge: Please ensure valid target/source is passed');
@@ -117,14 +101,14 @@ function merge (
     const sources = Array.isArray(source) ? source : [source];
 
     /* Merge */
-    let acc = {...target};
+    let acc:Record<string, unknown> = {...target};
     for (let i = 0; i < sources.length; i++) {
         const el = sources[i];
-        if (Object.prototype.toString.call(el) !== PROTO_OBJ) continue;
+        if (!el || Object.prototype.toString.call(el) !== PROTO_OBJ) continue;
         acc = innerMerge(acc, el, union);
     }
 
-    return acc;
+    return acc as Merged<T, U, Union>;
 }
 
 export {merge, merge as default};

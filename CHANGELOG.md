@@ -8,7 +8,29 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - **feat**: `array/mapFnAsMap` (this has the same behavior as `array/mapFn` but returns a Map instead of an object, Maps were not prevalent back when these functions were originally written)
+```typescript
+import {mapFnAsMap} from "@valkyriestudios/utils/array";
+
+mapFnAsMap([{uid: 12, name: 'Peter'}, {uid: 15, name: 'Jonas'}], el => el.uid);
+
+/* Output */
+new Map([
+    [12, {uid: 12, name: 'Peter'}],
+    [15, {uid: 15, name: 'Jonas'}],
+]);
+```
 - **feat**: `array/mapKeyAsMap` (this has the same behavior as `array/mapKey` but returns a Map instead of an object, Maps were not prevalent back when these functions were originally written)
+```typescript
+import {mapKeyAsMap} from "@valkyriestudios/utils/array";
+
+mapKeyAsMap([{uid: 12, name: 'Peter'}, {uid: 15, name: 'Jonas'}], 'uid');
+
+/* Output */
+new Map([
+    [12, {uid: 12, name: 'Peter'}],
+    [15, {uid: 15, name: 'Jonas'}],
+]);
+```
 
 ### Improved
 - **dx**: array/mapKey will now infer the type of the provided key as needing to be a key of the objects in the array being mapped

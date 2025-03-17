@@ -30,7 +30,7 @@ isNotEmptyArray([]); // FALSE
 isNotEmptyArray([0, 1, 2]); // TRUE
 ```
 
-### array/mapKey(val:Record[], key:string, opts?:{merge?:boolean;filter_fn?:(el:T) => boolean})
+### array/mapKey(val:Record[], key:string, opts?:{merge?:boolean;filter_fn?:(el:T) => boolean;transform_fn?:(el:T) => U})
 Map a non-primitive object array into an object map by key.
 
 **Take Note**: The function `array/mapKeyAsMap` has the same behavior as the mapKey function with the sole difference being that it returns a
@@ -110,11 +110,29 @@ mapKey([
     {name: 'Alana', isActive: true},
     {uid: 87, name: 'Josh', isActive: false},
     {uid: 12, name: 'Farah', isActive: false},
-], 'uid', {merge: true})
+], 'uid', {merge: true, filter_fn: el => el.isActive})
 /* Expected output: */
 {
     12: {uid: 12, name: 'Peter', isActive: true},
     15: {uid: 15, name: 'Jonas', dob: '2022-02-07'},
+}
+```
+
+also allows transforming objects at the same time with a custom transform_fn. Take Note that all of these operations are run in O(n):
+```typescript
+import mapKey from '@valkyriestudios/utils/array/mapKey';
+mapKey([
+    {uid: 12, name: 'Peter', isActive: true},
+    {uid: 15, name: 'Jonas', dob: '2022-02-07', isActive: true},
+    {uid: 15, name: 'Bob', isActive: false},
+    {name: 'Alana', isActive: true},
+    {uid: 87, name: 'Josh', isActive: false},
+    {uid: 12, name: 'Farah', isActive: false},
+], 'uid', {merge: true, filter_fn: el => el.isActive, transform_fn: el => pick(el, ["name"])})
+/* Expected output: */
+{
+    12: {name: 'Peter'},
+    15: {name: 'Jonas'},
 }
 ```
 
@@ -560,6 +578,7 @@ Format a date according to a spec/locale and zone
 | `L` | Locale-Specific date | 15 jul 2024 |
 | `t` | Locale-specific short time | 10:28 AM |
 | `T` | Locale-specific time with seconds | 10:28:30 AM |
+| `ISO` | Alias for `YYYY-MM-DD[T]HH:mm:ss.SSS[Z]` | 2025-03-16T14:24:59.010Z |
 
 **Additional**:
 Format has several additional functions defined which help usage inside of an ecosystem (eg: webapp) by **overriding the global defaults** used by format.

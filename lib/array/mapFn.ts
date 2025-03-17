@@ -1,6 +1,6 @@
 import {merge} from '../object/merge';
 
-type MapOptions = {
+type MapOptions<T, U = T> = {
     /**
      * Allow merging existing keys or not, if not keys will be overriden if they exist
      * (default=false)
@@ -13,6 +13,11 @@ type MapOptions = {
      *  {12: {uid: 12, b: 'ho'}}
      */
     merge?:boolean;
+    /**
+     * A custom transform function that is applied to each element before mapping.
+     * Its output type `U` becomes the value type of the resulting map.
+     */
+    transform_fn?: (el: T) => U;
 }
 
 type MapFn<T extends Record<string, any>>= (entry:T) => (string|number|boolean);
@@ -30,28 +35,30 @@ type MapFn<T extends Record<string, any>>= (entry:T) => (string|number|boolean);
  * @param {MapFn} fn - Handler function which is run for each of the objects and should return a string or number
  * @param {MapOptions?} opts - Options object to override built-in defaults
  */
-function mapFn <T extends Record<string, any>> (arr:T[], fn:MapFn<T>, opts?:MapOptions):Record<string, T> {
+function mapFn<T extends Record<string, any>, U extends Record<string, any> = T> (
+    arr:T[],
+    fn:MapFn<T>,
+    opts?:MapOptions<T, U>
+):Record<string, U> {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof fn !== 'function'
     ) return {};
 
     const MERGE = opts?.merge === true;
+    const TRANSFORM_FN = opts?.transform_fn;
 
-    const map:Record<string, T> = {};
+    const map:Record<string, U> = {};
     for (let i = 0; i < arr.length; i++) {
         const el = arr[i];
         if (Object.prototype.toString.call(el) !== '[object Object]') continue;
 
         /* Get hash */
         let hash = fn(el);
-        if (
-            Number.isFinite(hash) ||
-            (typeof hash === 'string' && hash.length)
-        ) {
-            /* Normalize hash to string */
+        if (Number.isFinite(hash) || (typeof hash === 'string' && hash.length)) {
             hash = hash + '';
-            map[hash] = MERGE && hash in map ? merge(map[hash], el, {union: true}) : el;
+            const transformed: U = TRANSFORM_FN ? TRANSFORM_FN(el) : (el as unknown as U);
+            map[hash] = MERGE && hash in map ? merge(map[hash], transformed, {union: true}) : transformed;
         }
     }
 

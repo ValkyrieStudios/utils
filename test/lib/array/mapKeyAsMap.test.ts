@@ -2,6 +2,7 @@ import {describe, it}   from 'node:test';
 import * as assert      from 'node:assert/strict';
 import CONSTANTS        from '../../constants';
 import mapKeyAsMap      from '../../../lib/array/mapKeyAsMap';
+import pick             from '../../../lib/object/pick';
 
 describe('Array - mapKeyAsMap', () => {
     it('Returns an empty map when passing nothing', () => {
@@ -222,6 +223,64 @@ describe('Array - mapKeyAsMap', () => {
             new Map([
                 [12, {uid: 12, name: 'Peter', isActive: true}],
                 [15, {uid: 15, name: 'Bob', isActive: true}],
+            ])
+        );
+    });
+
+    it('Should apply transformer to each element before mapping', () => {
+        const arr = [
+            {uid: 1, name: 'Alice', age: 25},
+            {uid: 2, name: 'Bob', age: 30},
+            {uid: 3, name: 'Charlie', age: 35},
+        ];
+        assert.deepEqual(
+            mapKeyAsMap(arr, 'uid', {transform_fn: el => ({name: el.name.toUpperCase()})}),
+            new Map([
+                [1, {name: 'ALICE'}],
+                [2, {name: 'BOB'}],
+                [3, {name: 'CHARLIE'}],
+            ])
+        );
+    });
+
+    it('Should correctly merge transformed objects when duplicates exist with merge true', () => {
+        const arr = [
+            {uid: 1, name: 'Alice', details: {score: 50}},
+            {uid: 1, name: 'Alice', details: {passed: true}},
+        ];
+        assert.deepEqual(
+            mapKeyAsMap(arr, 'uid', {merge: true, transform_fn: el => el.details}),
+            new Map([
+                [1, {score: 50, passed: true}],
+            ])
+        );
+    });
+
+    it('Should automatically remove anything that does not match my filter function and run transformer', () => {
+        assert.deepEqual(
+            mapKeyAsMap([
+                /* @ts-ignore */
+                0,
+                {uid: 12, name: 'Peter', isActive: true},
+                /* @ts-ignore */
+                false,
+                /* @ts-ignore */
+                'foobar',
+                {uid: 15, name: 'Jonas', dob: '2022-02-07'},
+                [{hi: 'there'}],
+                {uid: 15, name: 'Bob', isActive: true},
+                /* @ts-ignore */
+                null,
+                /* @ts-ignore */
+                undefined,
+                {name: 'Alana'},
+                new Date(),
+                {uid: 87, name: 'Josh'},
+                {uid: 12, name: 'Farah', isActive: false},
+            ], 'uid', {merge: true, filter_fn: el => el?.isActive, transform_fn: el => pick(el, ['name', 'isActive'])}),
+            new Map([
+                [12, {name: 'Peter', isActive: true}],
+                [15, {name: 'Bob', isActive: true}],
             ])
         );
     });

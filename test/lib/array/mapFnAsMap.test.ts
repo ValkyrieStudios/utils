@@ -234,4 +234,33 @@ describe('Array - mapFnAsMap', () => {
             new Map()
         );
     });
+
+    it('Should apply transformer to each element before mapping', () => {
+        const arr = [
+            {uid: 1, name: 'Alice', age: 25},
+            {uid: 2, name: 'Bob', age: 30},
+            {uid: 3, name: 'Charlie', age: 35},
+        ];
+        assert.deepEqual(
+            mapFnAsMap(arr, el => el.uid, {transform_fn: el => ({name: el.name.toUpperCase()})}),
+            new Map([
+                [1, {name: 'ALICE'}],
+                [2, {name: 'BOB'}],
+                [3, {name: 'CHARLIE'}],
+            ])
+        );
+    });
+
+    it('Should correctly merge transformed objects when duplicates exist with merge true', () => {
+        const arr = [
+            {uid: 1, name: 'Alice', details: {score: 50}},
+            {uid: 1, name: 'Alice', details: {passed: true}},
+        ];
+        assert.deepEqual(
+            mapFnAsMap(arr, el => el.uid, {merge: true, transform_fn: el => el.details}),
+            new Map([
+                [1, {score: 50, passed: true}],
+            ])
+        );
+    });
 });

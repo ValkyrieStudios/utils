@@ -1,6 +1,6 @@
 import {merge} from '../object/merge';
 
-type MapOptions = {
+type MapOptions<T, U = T> = {
     /**
      * Allow merging existing keys or not, if not keys will be overriden if they exist
      * (default=false)
@@ -13,6 +13,11 @@ type MapOptions = {
      *  {12: {uid: 12, b: 'ho'}}
      */
     merge?:boolean;
+    /**
+     * A custom transform function that is applied to each element before mapping.
+     * Its output type `U` becomes the value type of the resulting map.
+     */
+    transform_fn?: (el: T) => U;
 }
 
 type MapFn<T extends Record<string, any>>= (entry:T) => string|number|null;
@@ -35,26 +40,28 @@ type MapFn<T extends Record<string, any>>= (entry:T) => string|number|null;
  */
 function mapFnAsMap <
     T extends Record<string, any>,
-    TFN extends MapFn<T>
-> (arr:T[], fn:TFN, opts?:MapOptions):Map<NonNullable<ReturnType<TFN>>, T> {
+    TFN extends MapFn<T>,
+    U extends Record<string, any> = T,
+> (arr:T[], fn:TFN, opts?:MapOptions<T, U>):Map<NonNullable<ReturnType<TFN>>, U> {
     if (
         (!Array.isArray(arr) || !arr.length) ||
         typeof fn !== 'function'
     ) return new Map();
 
     const MERGE = opts?.merge === true;
+    const TRANSFORM_FN = opts?.transform_fn;
 
-    const map:Map<NonNullable<ReturnType<TFN>>, T> = new Map();
+    const map:Map<NonNullable<ReturnType<TFN>>, U> = new Map();
     for (let i = 0; i < arr.length; i++) {
         const el = arr[i];
         if (Object.prototype.toString.call(el) !== '[object Object]') continue;
 
         /* Get hash */
         const hash = fn(el) as NonNullable<ReturnType<TFN>>;
-        if (
-            Number.isFinite(hash) ||
-            (typeof hash === 'string' && hash.trim().length)
-        ) map.set(hash, MERGE && map.has(hash) ? merge(map.get(hash)!, el, {union: true}) : el);
+        if (Number.isFinite(hash) || (typeof hash === 'string' && hash.trim().length)) {
+            const transformed: U = TRANSFORM_FN ? TRANSFORM_FN(el) : (el as unknown as U);
+            map.set(hash, MERGE && map.has(hash) ? merge(map.get(hash)!, transformed, {union: true}) : transformed);
+        }
     }
 
     return map;

@@ -8,6 +8,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - **date/format**: Add support for 'ISO' as spec alias this is a shorthand for `YYYY-MM-DD[T]HH:mm:ss.SSS[Z]` as spec
+- **array/mapFn**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)
+- **array/mapFnAsMap**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)
+- **array/mapKey**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)
+- **array/mapKeyAsMap**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)
 
 ## [12.34.0] - 2025-03-08
 ### Added

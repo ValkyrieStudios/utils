@@ -1,6 +1,6 @@
 import {merge} from '../object/merge';
 
-type MapOptions<T> = {
+type MapOptions<T, U = T> = {
     /**
      * Allow merging existing keys or not, if not keys will be overriden if they exist
      * (default=false)
@@ -17,6 +17,11 @@ type MapOptions<T> = {
      * Pass a custom filter function which will be run in O(n) while iterating
      */
     filter_fn?: (el: T) => boolean;
+    /**
+     * A custom transformer function to modify each element before mapping.
+     * Its output type `U` becomes the value type of the resulting map.
+     */
+    transform_fn?: (el: T) => U;
 }
 
 /**
@@ -34,12 +39,13 @@ type MapOptions<T> = {
  */
 function mapKey <
     T extends Record<string, any>,
-    TKey extends keyof T,
+    U extends Record<string, any> = T,
+    TKey extends keyof T = string,
 > (
     arr:T[],
     key:TKey,
-    opts?:MapOptions<T>
-):Record<string, T> {
+    opts?:MapOptions<T, U>
+):Record<string, U> {
     if (
         !Array.isArray(arr) ||
         !arr.length ||
@@ -50,17 +56,18 @@ function mapKey <
     /* Check options */
     const FILTER_FN = opts?.filter_fn;
     const MERGE = opts?.merge === true;
+    const TRANSFORMER = opts?.transform_fn;
 
-    const map:Record<string, T> = {};
+    const map:Record<string, U> = {};
     for (let i = 0; i < arr.length; i++) {
         const el = arr[i];
 
         /* Key check */
         const el_key = el?.[key];
-        if (
-            el_key !== undefined &&
-            (!FILTER_FN || FILTER_FN(el))
-        ) map[el_key] = (MERGE && el_key in map ? merge(map[el_key], el, {union: true}) : el) as T;
+        if (el_key !== undefined && (!FILTER_FN || FILTER_FN(el))) {
+            const transformed: U = TRANSFORMER ? TRANSFORMER(el) : (el as unknown as U);
+            map[el_key] = MERGE && el_key in map ? merge(map[el_key], transformed, {union: true}) : transformed;
+        }
     }
 
     return map;

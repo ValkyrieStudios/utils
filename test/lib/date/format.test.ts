@@ -255,6 +255,7 @@ describe('Date - format', () => {
             {s: 'dddd, [Year] Q Q M D [à] hh:mm A [string]', i: '2022-07-14T16:40:30Z', o: 'jeudi, Year 3 3 7 14 à 04:40 PM string'},
             {s: 'YYYY [esc] Q Q M D [chars]', i: '2022-01-01T08:00:00Z', o: '2022 esc 1 1 1 1 chars'},
             {s: 'dddd, [Year] Q Q M D [à] hh:mm A [string]', i: '2022-07-14T16:40:30Z', o: 'jeudi, Year 3 3 7 14 à 04:40 PM string'},
+            {s: 'ISO', i: '2022-07-14T16:40:30Z', o: '2022-07-14T16:40:30.000Z'},
         ]) {
             assert.equal(format(new Date(el.i), el.s, 'fr', 'UTC'), el.o);
             assert.equal(format(el.i, el.s, 'fr', 'UTC'), el.o);
@@ -413,6 +414,11 @@ describe('Date - format', () => {
                 i: '2022-07-14T16:40:30Z',
                 o: 'vendredi, Year 3 3 7 15 à 12:40 AM string',
                 tz: 'Asia/Singapore',
+            }, {
+                s: 'ISO',
+                i: '2022-07-14T16:40:30Z',
+                o: '2022-07-15T00:40:30.000Z',
+                tz: 'Asia/Singapore',
             },
         ]) {
             assert.equal(format(new Date(el.i), el.s, 'fr', el.tz), el.o);
@@ -435,6 +441,18 @@ describe('Date - format', () => {
                 i: '2021-07-07T21:08:15-04:00',
                 o: 'jul 7, 2021 à 09:08 PM',
                 tz: 'America/Toronto',
+            },
+            {
+                s: 'ISO',
+                i: '2021-07-07T21:08:15-04:00',
+                o: '2021-07-07T21:08:15.000Z',
+                tz: 'America/Toronto',
+            },
+            {
+                s: 'ISO',
+                i: '2022-05-25T12:15:45Z',
+                o: '2022-05-25T17:45:45.000Z',
+                tz: 'Asia/Kolkata',
             },
         ]) {
             assert.equal(format(new Date(el.i), el.s, 'nl', el.tz), el.o);

@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **date/format**: Add support for 'ISO' as spec alias this is a shorthand for `YYYY-MM-DD[T]HH:mm:ss.SSS[Z]` as spec
+
 ## [12.34.0] - 2025-03-08
 ### Added
 - **feat**: `array/mapFnAsMap` (this has the same behavior as `array/mapFn` but returns a Map instead of an object, Maps were not prevalent back when these functions were originally written)

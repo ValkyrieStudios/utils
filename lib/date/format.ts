@@ -317,6 +317,11 @@ function getSpecChain (spec:string):SpecCacheEntry {
     return result;
 }
 
+/* Pre-defined specs */
+const SPEC_ALIASES:Record<string, string> = {
+    ISO: 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]',
+};
+
 /**
  * Formats the provided date according to a specific spec
  *
@@ -348,7 +353,7 @@ function format (
     if (typeof zone !== 'string') throw new TypeError('format: zone must be a string');
 
     /* Get spec chain, this is the chain of token tuples that need to be executed for the spec */
-    const n_spec = getSpecChain(spec);
+    const n_spec = getSpecChain(SPEC_ALIASES[spec] || spec);
     if (!n_spec) return n_val.toISOString();
 
     /* Convert date to zone if necessary */

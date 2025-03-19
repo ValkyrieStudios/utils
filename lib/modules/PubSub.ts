@@ -99,7 +99,7 @@ class PubSub {
         try {
             const out = sub.run(data);
             if (sub.once) map.subscribers.delete(client_id);
-            if (out && isFunction(out?.catch) && isFunction(out?.then)) {
+            if (isFunction(out?.catch) && isFunction(out?.then)) {
                 Promise.resolve(out).catch(err => {
                     this.#log({
                         name: this.#name,

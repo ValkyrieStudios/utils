@@ -722,6 +722,18 @@
             "default": "./modules/PubSub.js",
             "types": "./modules/PubSub.d.ts"
         },
+        "./modules/Scheduler": {
+            "import": {
+                "default": "./modules/Scheduler.js",
+                "types": "./modules/Scheduler.d.ts"
+            },
+            "require": {
+                "default": "./modules/Scheduler.js",
+                "types": "./modules/Scheduler.d.ts"
+            },
+            "default": "./modules/Scheduler.js",
+            "types": "./modules/Scheduler.d.ts"
+        },
         "./number": {
             "import": {
                 "default": "./number/index.js",

@@ -50,9 +50,18 @@ describe('Modules - Scheduler', () => {
             assert.equal(myScheduler.name, 'HappyScheduler');
         });
 
-        it('Should by default be called PubSub', () => {
+        it('Should by default be called Scheduler', () => {
             const myScheduler = new Scheduler();
             assert.equal(myScheduler.name, 'Scheduler');
+        });
+
+        it('Should be able to receive the full option-set and successfully instantiate', () => {
+            const myScheduler = new Scheduler({
+                name: 'HappyScheduler',
+                timeZone: 'Europe/Brussels',
+                logger: obj => `${obj.name}: ${obj.msg} (${obj.on})`,
+            });
+            assert.equal(myScheduler.name, 'HappyScheduler');
         });
     });
 
@@ -126,6 +135,14 @@ describe('Modules - Scheduler', () => {
                 assert.ok(Scheduler.isCronSchedule('10-50/10 0 1 1 0'));
             });
 
+            it('Should return true for a valid range with step', () => {
+                assert.ok(Scheduler.isCronSchedule('10-50/10 0 1 1 0'));
+            });
+
+            it('Should return true for a valid stepper with both base and step as number', () => {
+                assert.ok(Scheduler.isCronSchedule('4/2 0 1 1 0'));
+            });
+
             it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('60 0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('61 0 1 1 0'));
@@ -133,6 +150,10 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('-1 0 1 1 0'));
+            });
+
+            it('Should return false for invalid comma separated values', () => {
+                assert.ok(!Scheduler.isCronSchedule('0,x,2 1 1 1 1'));
             });
 
             it('Should return false for an invalid step expression (step of zero)', () => {
@@ -145,6 +166,20 @@ describe('Modules - Scheduler', () => {
                 assert.ok(!Scheduler.isCronSchedule('10-20/68 0 1 1 0'));
             });
 
+            it('Should return false for an invalid range (missing or invalid start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('-10 0 1 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('x-10 0 1 1 0'));
+            });
+
+            it('Should return false for an invalid range (missing or invalid end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('10- 0 1 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('10-x 0 1 1 0'));
+            });
+
+            it('Should return false for an invalid range (more than 2 in range)', () => {
+                assert.ok(!Scheduler.isCronSchedule('10-20-30 0 1 1 0'));
+            });
+
             it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('50-10 0 1 1 0'));
             });
@@ -155,6 +190,23 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('90-100 0 1 1 0'));
+            });
+
+            it('Should return false for an invalid range part with step', () => {
+                assert.ok(!Scheduler.isCronSchedule('x-10/5 0 1 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('10-x/5 0 1 1 0'));
+            });
+
+            it('Should return false for an invalid range with step (start greater than end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('50-10/5 0 1 1 0'));
+            });
+
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0-3/4 1 1 1 1'));
+            });
+
+            it('Should return false for an invalid range with step (more than 2)', () => {
+                assert.ok(!Scheduler.isCronSchedule('1-3-5/2 1 1 1 1'));
             });
         });
 
@@ -185,6 +237,14 @@ describe('Modules - Scheduler', () => {
                 assert.ok(Scheduler.isCronSchedule('0 12-20/2 1 1 0'));
             });
 
+            it('Should return true for a valid range with step', () => {
+                assert.ok(Scheduler.isCronSchedule('0 6-18/3 1 1 0'));
+            });
+
+            it('Should return true for a valid stepper with both base and step as number', () => {
+                assert.ok(Scheduler.isCronSchedule('0 4/2 1 1 0'));
+            });
+
             it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 24 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 32 0 1 0'));
@@ -192,6 +252,10 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 -1 1 1 0'));
+            });
+
+            it('Should return false for invalid comma separated values', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1,x,2 1 1 1'));
             });
 
             it('Should return false for an invalid step expression (step of zero)', () => {
@@ -204,6 +268,20 @@ describe('Modules - Scheduler', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 10-20/68 1 1 0'));
             });
 
+            it('Should return false for an invalid range (missing or invalid start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 -10 1 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 x-10 1 1 0'));
+            });
+
+            it('Should return false for an invalid range (missing or invalid end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 10- 1 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 10-x 1 1 0'));
+            });
+
+            it('Should return false for an invalid range (more than 2 in range)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 5-8-12 1 1 0'));
+            });
+
             it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 23-10 1 1 0'));
             });
@@ -214,6 +292,23 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 90-100 1 1 0'));
+            });
+
+            it('Should return false for an invalid range part with step', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 20-x/3 1 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 x-10/3 1 1 0'));
+            });
+
+            it('Should return false for an invalid range with step (start greater than end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 20-10/3 1 1 0'));
+            });
+
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1-3/4 1 1 1'));
+            });
+
+            it('Should return false for an invalid range with step (more than 2)', () => {
+                assert.ok(!Scheduler.isCronSchedule('1 1-3-5/2 1 1 1'));
             });
         });
 
@@ -244,6 +339,14 @@ describe('Modules - Scheduler', () => {
                 assert.ok(Scheduler.isCronSchedule('0 2 12-20/2 1 0'));
             });
 
+            it('Should return true for a valid range with step', () => {
+                assert.ok(Scheduler.isCronSchedule('0 1 1-31/7 1 0'));
+            });
+
+            it('Should return true for a valid stepper with both base and step as number', () => {
+                assert.ok(Scheduler.isCronSchedule('0 0 4/2 1 0'));
+            });
+
             it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 32 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 64 1 0'));
@@ -251,6 +354,10 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 -1 1 0'));
+            });
+
+            it('Should return false for invalid comma separated values', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1,x,2 1 1'));
             });
 
             it('Should return false for zero', () => {
@@ -267,6 +374,20 @@ describe('Modules - Scheduler', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 10-20/68 1 0'));
             });
 
+            it('Should return false for an invalid range (missing or invalid start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 -10 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 x-10 1 0'));
+            });
+
+            it('Should return false for an invalid range (missing or invalid end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 10- 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 10-x 1 0'));
+            });
+
+            it('Should return false for an invalid range (more than 2 in range)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 5-8-12 1 0'));
+            });
+
             it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 23-10 1 0'));
             });
@@ -277,6 +398,23 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 90-100 1 0'));
+            });
+
+            it('Should return false for an invalid range part with step', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 x-1/7 1 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 20-x/7 1 0'));
+            });
+
+            it('Should return false for an invalid range with step (start greater than end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 31-1/7 1 0'));
+            });
+
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1-3/4 1 1'));
+            });
+
+            it('Should return false for an invalid range with step (more than 2)', () => {
+                assert.ok(!Scheduler.isCronSchedule('1 1 1-3-5/2 1 1'));
             });
         });
 
@@ -307,6 +445,14 @@ describe('Modules - Scheduler', () => {
                 assert.ok(Scheduler.isCronSchedule('0 2 1 6-9/1 0'));
             });
 
+            it('Should return true for a valid range with step', () => {
+                assert.ok(Scheduler.isCronSchedule('0 1 1 3-11/2 0'));
+            });
+
+            it('Should return true for a valid stepper with both base and step as number', () => {
+                assert.ok(Scheduler.isCronSchedule('0 0 1 4/1 0'));
+            });
+
             it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 13 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 20 0'));
@@ -314,6 +460,10 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 -1 0'));
+            });
+
+            it('Should return false for invalid comma separated values', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1,x,2 1'));
             });
 
             it('Should return false for zero', () => {
@@ -330,6 +480,20 @@ describe('Modules - Scheduler', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 6-12/68 0'));
             });
 
+            it('Should return false for an invalid range (missing or invalid start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 -10 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 x-10 0'));
+            });
+
+            it('Should return false for an invalid range (missing or invalid end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 10- 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 10-x 0'));
+            });
+
+            it('Should return false for an invalid range (more than 2 in range)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 5-8-12 0'));
+            });
+
             it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 9-6 0'));
             });
@@ -340,6 +504,23 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 90-100 0'));
+            });
+
+            it('Should return false for an invalid range part with step', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 x-3/2 0'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 11-x/2 0'));
+            });
+
+            it('Should return false for an invalid range with step (start greater than end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 11-3/2 0'));
+            });
+
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1-3/4 1'));
+            });
+
+            it('Should return false for an invalid range with step (more than 2)', () => {
+                assert.ok(!Scheduler.isCronSchedule('1 1 1 1-3-5/2 1'));
             });
         });
 
@@ -370,6 +551,14 @@ describe('Modules - Scheduler', () => {
                 assert.ok(Scheduler.isCronSchedule('0 2 1 1 3-6/1'));
             });
 
+            it('Should return true for a valid range with step', () => {
+                assert.ok(Scheduler.isCronSchedule('0 1 1 1 1-7/2'));
+            });
+
+            it('Should return true for a valid stepper with both base and step as number', () => {
+                assert.ok(Scheduler.isCronSchedule('0 0 1 1 4/1'));
+            });
+
             it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 8'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 9'));
@@ -377,6 +566,10 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 -1'));
+            });
+
+            it('Should return false for invalid comma separated values', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 1,x,2'));
             });
 
             it('Should return false for an invalid step expression (step of zero)', () => {
@@ -388,6 +581,21 @@ describe('Modules - Scheduler', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 1 4-6/8'));
             });
 
+            it('Should return false for an invalid range (missing or invalid start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 -10'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 x-10'));
+            });
+
+            it('Should return false for an invalid range (missing or invalid end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 10-'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 10-x'));
+            });
+
+            it('Should return false for an invalid range (more than 2 in range)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 2-4-6'));
+            });
+
+
             it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 1 8-6'));
             });
@@ -398,6 +606,23 @@ describe('Modules - Scheduler', () => {
 
             it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 1 90-100'));
+            });
+
+            it('Should return false for an invalid range part with step', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 x-2/2'));
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 1-x/2'));
+            });
+
+            it('Should return false for an invalid range with step (start greater than end)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 7-1/2'));
+            });
+
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
+                assert.ok(!Scheduler.isCronSchedule('0 1 1 1 1-3/4'));
+            });
+
+            it('Should return false for an invalid range with step (more than 2)', () => {
+                assert.ok(!Scheduler.isCronSchedule('1 1 1 1 1-3-5/2'));
             });
         });
     });

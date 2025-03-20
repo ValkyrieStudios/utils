@@ -109,29 +109,6 @@ function convertPart (part: string, min: number, max: number): '*' | Set<number>
 }
 
 /**
- * Helper which converts a cron schedule to a map for easy processing down the line
- *
- * @param {string} schedule - Raw cron schedule to process
- */
-function convertToMap (schedule:string):CronMap {
-    const parts = schedule.split(' ');
-    const map:CronMap = {
-        minute: convertPart(parts[0], 0, 59),
-        hour: convertPart(parts[1], 0, 23),
-        day_of_month: convertPart(parts[2], 1, 31),
-        month: convertPart(parts[3], 1, 12),
-        day_of_week: convertPart(parts[4], 0, 7),
-    };
-
-    /* 7 is non-standard for day of week but allowed in the schedule, we convert this to 0 */
-    if (map.day_of_week instanceof Set && map.day_of_week.has(7)) {
-        map.day_of_week.add(0);
-        map.day_of_week.delete(7);
-    }
-    return map;
-}
-
-/**
  * Checks a cron subpart (eg part of a range) and returns it as a number if valid, otherwise returns null
  *
  * @param {string} part - Raw part
@@ -160,25 +137,26 @@ function isCronPart (part:string, min:number, max:number): boolean {
         if (!isIntegerAbove(step, 0) || !isIntegerBetween(step, min, max)) return false;
 
         /* Validate the base part */
-        if (base === '*') {
-            return true;
-        } else if (base.indexOf('-') > -1) {
-            const chunks = base.split('-', 2);
+        if (base === '*') return true;
+
+        let start:number|null = min;
+        let end:number|null = max;
+        if (base.indexOf('-') > -1) {
+            const chunks = base.split('-');
             if (chunks.length !== 2) return false;
-            const start = isCronSubpart(chunks[0], min, max);
-            const end = isCronSubpart(chunks[1], min, max);
-            if (start === null || end === null) return false;
-            if (start > end) return false;
-            if (step > (end - start)) return false;
-            return true;
+            start = isCronSubpart(chunks[0], min, max);
+            end = isCronSubpart(chunks[1], min, max);
         } else {
-            return isCronSubpart(base, min, max) !== null;
+            start = isCronSubpart(base, min, max);
         }
+
+        if (start === null || end === null) return false;
+        if (start > end) return false;
+        if (step > (end - start)) return false;
+        return true;
     } else if (part.indexOf('-') > -1) {
         /* Range (eg: 10-30) */
-        const chunks = part.split('-', 2);
-
-        /* Range has start and end, if a valid range is not provided return false */
+        const chunks = part.split('-');
         if (chunks.length !== 2) return false;
 
         /* The start and end need to be valid cron parts */
@@ -197,54 +175,6 @@ function isCronPart (part:string, min:number, max:number): boolean {
     } else {
         return isCronSubpart(part, min, max) !== null;
     }
-}
-
-/**
- * Returns the current time in the provided zone as an object of parts
- *
- * @param {string|null} timeZone - Zone to use
- */
-function getTimeAsParts (timeZone:string | null):TimeMap {
-    const now = toUTC(timeZone !== null
-        ? new Date(format(new Date(), 'ISO', 'en-US', timeZone))
-        : new Date()
-    );
-
-    return {
-        minute: now.getUTCMinutes(),
-        hour: now.getUTCHours(),
-        day_of_month: now.getUTCDate(),
-        month: now.getUTCMonth() + 1,
-        day_of_week: now.getUTCDay(),
-    };
-}
-
-/**
- * Checks the processed time against the processed map and returns true/false if matches or not
- *
- * @param {CronMap} map - Cron Map
- * @param {TimeMap} time - Time Map
- * @returns {boolean}
- */
-function checkTimeAgainstMap (map:CronMap, time:TimeMap) {
-    const {minute, hour, day_of_month, month, day_of_week} = map;
-
-    /* Minute */
-    if (minute !== '*' && !minute.has(time.minute)) return false;
-
-    /* Hour */
-    if (hour !== '*' && !hour.has(time.hour)) return false;
-
-    /* Day of Month */
-    if (day_of_month !== '*' && !day_of_month.has(time.day_of_month)) return false;
-
-    /* Month */
-    if (month !== '*' && !month.has(time.month)) return false;
-
-    /* Day of Week */
-    if (day_of_week !== '*' && !day_of_week.has(time.day_of_week)) return false;
-
-    return true;
 }
 
 /**
@@ -321,7 +251,7 @@ class Scheduler {
 
         this.#jobs.push({
             schedule: job.schedule,
-            map: convertToMap(job.schedule),
+            map: Scheduler.convertToMap(job.schedule),
             fn: job.fn,
             timeZone: isNotEmptyString(job.timeZone) ? job.timeZone! : this.#timeZone,
             ...isNotEmptyString(job.name) && {name: job.name},
@@ -336,10 +266,10 @@ class Scheduler {
         const promises = [];
         for (let i = 0; i < this.#jobs.length; i++) {
             const job = this.#jobs[i];
-            const time = getTimeAsParts(job.timeZone);
+            const time = Scheduler.getTimeAsParts(job.timeZone);
 
             /* Only if the job's processed cron map matches our current time do we run it */
-            if (checkTimeAgainstMap(job.map, time)) {
+            if (Scheduler.checkTimeAgainstMap(job.map, time)) {
                 try {
                     /* Run the job handle */
                     const result = job.fn();
@@ -369,6 +299,85 @@ class Scheduler {
         /* If promise array has content, await them */
         if (promises.length) await Promise.all(promises);
     }
+
+/**
+ * MARK: Private
+ */
+
+    /**
+     * Helper which converts a cron schedule to a map for easy processing down the line
+     *
+     * @param {string} schedule - Raw cron schedule to process
+     */
+    private static convertToMap (schedule:string):CronMap {
+        const parts = schedule.split(' ');
+        const map:CronMap = {
+            minute: convertPart(parts[0], 0, 59),
+            hour: convertPart(parts[1], 0, 23),
+            day_of_month: convertPart(parts[2], 1, 31),
+            month: convertPart(parts[3], 1, 12),
+            day_of_week: convertPart(parts[4], 0, 7),
+        };
+
+        /* 7 is non-standard for day of week but allowed in the schedule, we convert this to 0 */
+        if (map.day_of_week instanceof Set && map.day_of_week.has(7)) {
+            map.day_of_week.add(0);
+            map.day_of_week.delete(7);
+        }
+        return map;
+    }
+
+    /**
+     * Returns the current time in the provided zone as an object of parts
+     *
+     * @param {string|null} timeZone - Zone to use
+     */
+    private static getTimeAsParts (timeZone:string | null):TimeMap {
+        const now = toUTC(timeZone !== null
+            ? new Date(format(new Date(), 'ISO', 'en-US', timeZone))
+            : new Date()
+        );
+
+        return {
+            minute: now.getUTCMinutes(),
+            hour: now.getUTCHours(),
+            day_of_month: now.getUTCDate(),
+            month: now.getUTCMonth() + 1,
+            day_of_week: now.getUTCDay(),
+        };
+    }
+
+    /**
+     * Checks the processed time against the processed map and returns true/false if matches or not
+     *
+     * @param {CronMap} map - Cron Map
+     * @param {TimeMap} time - Time Map
+     * @returns {boolean}
+     */
+    private static checkTimeAgainstMap (map:CronMap, time:TimeMap) {
+        const {minute, hour, day_of_month, month, day_of_week} = map;
+
+        /* Minute */
+        if (minute !== '*' && !minute.has(time.minute)) return false;
+
+        /* Hour */
+        if (hour !== '*' && !hour.has(time.hour)) return false;
+
+        /* Day of Month */
+        if (day_of_month !== '*' && !day_of_month.has(time.day_of_month)) return false;
+
+        /* Month */
+        if (month !== '*' && !month.has(time.month)) return false;
+
+        /* Day of Week */
+        if (day_of_week !== '*' && !day_of_week.has(time.day_of_week)) return false;
+
+        return true;
+    }
+
+/**
+ * MARK: Static
+ */
 
     /**
      * Checks if a string is a valid cron schedule
@@ -404,9 +413,9 @@ class Scheduler {
     static cronShouldRun (schedule:string, timeZone: string | null = null) {
         if (!Scheduler.isCronSchedule(schedule)) return false;
 
-        const map = convertToMap(schedule);
-        const time = getTimeAsParts(isNotEmptyString(timeZone) ? timeZone : null);
-        return checkTimeAgainstMap(map, time);
+        const map = Scheduler.convertToMap(schedule);
+        const time = Scheduler.getTimeAsParts(isNotEmptyString(timeZone) ? timeZone : null);
+        return Scheduler.checkTimeAgainstMap(map, time);
     }
 
 }

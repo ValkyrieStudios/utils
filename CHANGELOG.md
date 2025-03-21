@@ -12,6 +12,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **array/mapFnAsMap**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)
 - **array/mapKey**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)
 - **array/mapKeyAsMap**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)
+- **deps**: Upgrade @types/node to 22.13.11
+- **deps**: Upgrade eslint to 9.23.0
+- **deps**: Upgrade typescript-eslint to 8.27.0
 
 ## [12.34.0] - 2025-03-08
 ### Added

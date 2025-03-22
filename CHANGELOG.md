@@ -6,6 +6,146 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat** modules/Scheduler - A lightweight Scheduler module
+Supports baseline operation:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+const mySchedule = new Scheduler({name: 'MyScheduler'});
+
+mySchedule.add({schedule: '0 * * * *', name: 'send_emails', fn: Handlers.SendEmails});
+mySchedule.add({schedule: '0 */3 * * *', name: 'cleanup', fn: Handlers.Cleanup});
+mySchedule.add({schedule: '0,15,30,45 * * * *', name: 'synchronize', fn: Handlers.Synchronize});
+await mySchedule.run();
+```
+
+Let's say you need to send something out in different timezones:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({name: 'MyScheduler'});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+    });
+}
+
+await mySchedule.run();
+```
+
+Too much flooding! let's turn off parallelization and have it run them in linear fashion:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: false, /* By setting parallel to false we will ensure one at a time */
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+    });
+}
+
+await mySchedule.run();
+```
+
+Okay we can actually send 3 at a time, let's set that up:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: 3, /* By setting parallel to a specific integer above 0 we will run X jobs in parallel at a time */
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+    });
+}
+
+await mySchedule.run();
+```
+
+Oh no the emails aren't going out to the right user because we didn't pass our data:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: 3,
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+        data: user, /* You will have automatic type hinting on this with the first val of SendEmail handler */
+    });
+}
+
+await mySchedule.run();
+```
+
+I want this to run continuously so that I can just leave it running on a server:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: 3,
+    auto: true, /* By enabling this the schedule will automatically check once per minute which ones it needs to run */
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone,
+        data: user,
+    });
+}
+
+await mySchedule.run();
+```
+
 ### Improved
 - **date/format**: Add support for 'ISO' as spec alias this is a shorthand for `YYYY-MM-DD[T]HH:mm:ss.SSS[Z]` as spec
 - **array/mapFn**: Now supports passing a `transform_fn` as part of the options to also transform the objects that eventually end up in the map (Take Note that the output still needs to be an object)

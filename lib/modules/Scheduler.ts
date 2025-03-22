@@ -6,6 +6,7 @@ import {isIntegerAbove, isIntegerBetween} from '../number';
 import {isObject, pick} from '../object';
 import {noop} from '../function';
 import {isBoolean} from '../boolean';
+import {split} from '../array';
 
 export type LogObject = {
     name: string;
@@ -33,7 +34,11 @@ export type SchedulerOptions = {
     /**
      * Whether or not to run async jobs in parallel or not (defaults to true)
      */
-    parallel?: boolean;
+    parallel?: boolean | number;
+    /**
+     * If set to true will automatically run the schedule every 60 seconds (defaults to false)
+     */
+    auto?: boolean;
 };
 
 type SchedulerJobFn = ((data: any) => void | Promise<void>);
@@ -226,7 +231,12 @@ class Scheduler {
     /**
      * Whether or not promises during run should be run in parallel or not (default=true)
      */
-    #parallel:boolean = true;
+    #parallel:boolean|number = true;
+
+    /**
+     * Interval which automatically runs the schedule if set
+     */
+    #timer: ReturnType<typeof setInterval> | null = null;
 
     constructor (options:SchedulerOptions = {}) {
         if (!isObject(options)) throw new Error('Scheduler@ctor: options should be an object');
@@ -250,9 +260,14 @@ class Scheduler {
         }
 
         if ('parallel' in options) {
-            if (!isBoolean(options.parallel)) throw new Error('Scheduler@ctor: parallel should be passed as a boolean');
+            if (
+                !isBoolean(options.parallel) &&
+                !isIntegerAbove(options.parallel, 0)
+            ) throw new Error('Scheduler@ctor: parallel should be passed as a boolean or int above 0');
             this.#parallel = options.parallel;
         }
+
+        if (options.auto === true) this.startAutomaticRun();
     }
 
     /**
@@ -274,6 +289,13 @@ class Scheduler {
      */
     get parallel () {
         return this.#parallel;
+    }
+
+    /**
+     * Getter returning whether or not the schedule is automatically running every 60 seconds
+     */
+    get isAutomatic () {
+        return this.#timer !== null;
     }
 
     /**
@@ -373,23 +395,43 @@ class Scheduler {
         }
 
         /* If promise array has content, await them */
-        if (promises.length) {
-            await Promise.allSettled([
-                ...promises,
-            ].map(el => (async () => {
-                try {
-                    await el.fn(el.data);
-                } catch (err) {
-                    this.#log({
-                        name: this.#name,
-                        msg: `${el.name}: ${(err as Error).message}`,
-                        on: new Date(),
-                        data: pick(el, ['schedule', 'timeZone', 'name', 'data']),
-                        err: err as Error,
-                    });
-                }
-            })()));
+        if (this.#parallel && promises.length) {
+            const batches = this.#parallel === true
+                ? [promises]
+                : split(promises, this.#parallel);
+            for (const batch of batches) {
+                await Promise.allSettled(batch.map(el => (async () => {
+                    try {
+                        await el.fn(el.data);
+                    } catch (err) {
+                        this.#log({
+                            name: this.#name,
+                            msg: `${el.name}: ${(err as Error).message}`,
+                            on: new Date(),
+                            data: pick(el, ['schedule', 'timeZone', 'name', 'data']),
+                            err: err as Error,
+                        });
+                    }
+                })()));
+            }
         }
+    }
+
+    /**
+     * Stops automatic running of the schedule
+     */
+    stopAutomaticRun () {
+        if (!this.#timer) return;
+        clearInterval(this.#timer);
+        this.#timer = null;
+    }
+
+    /**
+     * Starts automatic running of the schedule
+     */
+    startAutomaticRun () {
+        this.stopAutomaticRun();
+        this.#timer = setInterval(this.run.bind(this), 60_000);
     }
 
 /**

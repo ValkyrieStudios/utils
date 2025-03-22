@@ -6,9 +6,9 @@ import {LogObject, Scheduler} from '../../../lib/modules/Scheduler';
 import CONSTANTS from '../../constants';
 import MockFn from '../../MockFn';
 
-describe.only('Modules - Scheduler', () => {
-    describe.only('ctor', () => {
-        it.only('Should throw when passed a non object', () => {
+describe('Modules - Scheduler', () => {
+    describe('ctor', () => {
+        it('Should throw when passed a non object', () => {
             for (const el of CONSTANTS.NOT_OBJECT) {
                 if (el === undefined) continue;
                 assert.throws(
@@ -18,7 +18,7 @@ describe.only('Modules - Scheduler', () => {
             }
         });
 
-        it.only('Should throw when passed a non function logger', () => {
+        it('Should throw when passed a non function logger', () => {
             for (const el of CONSTANTS.NOT_FUNCTION) {
                 if (el === undefined) continue;
                 assert.throws(
@@ -28,7 +28,7 @@ describe.only('Modules - Scheduler', () => {
             }
         });
 
-        it.only('Should throw when passed a non/empty string name', () => {
+        it('Should throw when passed a non/empty string name', () => {
             for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
                 if (el === undefined) continue;
                 assert.throws(
@@ -38,7 +38,7 @@ describe.only('Modules - Scheduler', () => {
             }
         });
 
-        it.only('Should throw when passed a non-null non/empty string timeZone', () => {
+        it('Should throw when passed a non-null non/empty string timeZone', () => {
             for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
                 if (el === undefined || el === null) continue;
                 assert.throws(
@@ -48,43 +48,55 @@ describe.only('Modules - Scheduler', () => {
             }
         });
 
-        it.only('Should throw when passed a non-boolean parallel', () => {
+        it('Should throw when passed a non-boolean non-int parallel', () => {
             for (const el of CONSTANTS.NOT_BOOLEAN) {
-                if (el === undefined) continue;
+                if (el === undefined || Number.isInteger(el)) continue;
                 assert.throws(
                     () => new Scheduler({parallel: el}),
-                    new Error('Scheduler@ctor: parallel should be passed as a boolean')
+                    new Error('Scheduler@ctor: parallel should be passed as a boolean or int above 0')
+                );
+            }
+
+            for (const el of [...CONSTANTS.NOT_INTEGER, 0, -10]) {
+                if (el === undefined || el === false || el === true) continue;
+                assert.throws(
+                    () => new Scheduler({parallel: el}),
+                    new Error('Scheduler@ctor: parallel should be passed as a boolean or int above 0')
                 );
             }
         });
 
-        it.only('Should have the correct name when passed in the config', () => {
+        it('Should have the correct name when passed in the config', () => {
             const myScheduler = new Scheduler({name: 'HappyScheduler'});
             assert.equal(myScheduler.name, 'HappyScheduler');
         });
 
-        it.only('Should by default be called Scheduler', () => {
+        it('Should by default be called Scheduler', () => {
             const myScheduler = new Scheduler();
             assert.equal(myScheduler.name, 'Scheduler');
             assert.equal(myScheduler.timeZone, null);
             assert.equal(myScheduler.parallel, true);
+            assert.equal(myScheduler.isAutomatic, false);
         });
 
-        it.only('Should be able to receive the full option-set and successfully instantiate', () => {
+        it('Should be able to receive the full option-set and successfully instantiate', () => {
             const myScheduler = new Scheduler({
                 name: 'HappyScheduler',
                 timeZone: 'Europe/Brussels',
                 logger: obj => `${obj.name}: ${obj.msg} (${obj.on})`,
                 parallel: false,
+                auto: true,
             });
             assert.equal(myScheduler.name, 'HappyScheduler');
             assert.equal(myScheduler.timeZone, 'Europe/Brussels');
             assert.equal(myScheduler.parallel, false);
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.stopAutomaticRun();
         });
     });
 
-    describe.only('add', () => {
-        it.only('Should throw an error if passed a non/empty string job schedule', () => {
+    describe('add', () => {
+        it('Should throw an error if passed a non/empty string job schedule', () => {
             let logs:LogObject[] = [];
             const scheduler = new Scheduler({
                 logger: el => logs.push(el),
@@ -103,7 +115,7 @@ describe.only('Modules - Scheduler', () => {
             assert.deepEqual(scheduler.jobs, []);
         });
 
-        it.only('Should throw an error if job schedule is invalid', () => {
+        it('Should throw an error if job schedule is invalid', () => {
             let logs:LogObject[] = [];
             const scheduler = new Scheduler({
                 logger: el => logs.push(el),
@@ -120,7 +132,7 @@ describe.only('Modules - Scheduler', () => {
             assert.deepEqual(scheduler.jobs, []);
         });
 
-        it.only('Should throw an error if passed a non function job fn', () => {
+        it('Should throw an error if passed a non function job fn', () => {
             let logs:LogObject[] = [];
             const scheduler = new Scheduler({
                 logger: el => logs.push(el),
@@ -139,7 +151,7 @@ describe.only('Modules - Scheduler', () => {
             assert.deepEqual(scheduler.jobs, []);
         });
 
-        it.only('Should throw an error if passed a non function job fn', () => {
+        it('Should throw an error if passed a non function job fn', () => {
             let logs:LogObject[] = [];
             const scheduler = new Scheduler({
                 name: 'MyScheduler',
@@ -159,7 +171,7 @@ describe.only('Modules - Scheduler', () => {
             assert.deepEqual(scheduler.jobs, []);
         });
 
-        it.only('Should throw an error if passed a non/empty string for job name', () => {
+        it('Should throw an error if passed a non/empty string for job name', () => {
             let logs:LogObject[] = [];
             const scheduler = new Scheduler({
                 name: 'MyScheduler',
@@ -179,7 +191,7 @@ describe.only('Modules - Scheduler', () => {
             assert.deepEqual(scheduler.jobs, []);
         });
 
-        it.only('Should throw an error if passed a non object for job data', () => {
+        it('Should throw an error if passed a non object for job data', () => {
             let logs:LogObject[] = [];
             const scheduler = new Scheduler({
                 name: 'MyScheduler',
@@ -200,7 +212,7 @@ describe.only('Modules - Scheduler', () => {
             assert.deepEqual(scheduler.jobs, []);
         });
 
-        it.only('Should add the job to our jobs array and fallback to null as timeZone', () => {
+        it('Should add the job to our jobs array and fallback to null as timeZone', () => {
             const logs:LogObject[] = [];
             const happyFunc = () => {};
             const scheduler = new Scheduler({
@@ -223,7 +235,7 @@ describe.only('Modules - Scheduler', () => {
             ]);
         });
 
-        it.only('Should add the job to our jobs array and fallback to our configured timeZone', () => {
+        it('Should add the job to our jobs array and fallback to our configured timeZone', () => {
             const logs:LogObject[] = [];
             const happyFunc = () => {};
             const scheduler = new Scheduler({
@@ -247,7 +259,7 @@ describe.only('Modules - Scheduler', () => {
             ]);
         });
 
-        it.only('Should add the job to our jobs array and use the provided timeZone', () => {
+        it('Should add the job to our jobs array and use the provided timeZone', () => {
             const logs:LogObject[] = [];
             const happyFunc = () => {};
             const scheduler = new Scheduler({
@@ -272,7 +284,7 @@ describe.only('Modules - Scheduler', () => {
             ]);
         });
 
-        it.only('Should add the job to our jobs array and configure the provided data', () => {
+        it('Should add the job to our jobs array and configure the provided data', () => {
             const logs:LogObject[] = [];
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const happyFunc = (val:{hello:string}) => {};
@@ -301,8 +313,8 @@ describe.only('Modules - Scheduler', () => {
         });
     });
 
-    describe.only('remove', () => {
-        it.only('Should allow removing a job by name', () => {
+    describe('remove', () => {
+        it('Should allow removing a job by name', () => {
             const scheduler = new Scheduler();
             scheduler.add({schedule: '0 * * * *', name: 'happy_job', fn: () => {}});
             scheduler.add({schedule: '0 * * * *', name: 'happy_job_2', fn: () => {}});
@@ -331,7 +343,7 @@ describe.only('Modules - Scheduler', () => {
             ]);
         });
 
-        it.only('Should allow removing a job by passing an array of names', () => {
+        it('Should allow removing a job by passing an array of names', () => {
             const scheduler = new Scheduler();
             scheduler.add({schedule: '0 * * * *', name: 'happy_job', fn: () => {}});
             scheduler.add({schedule: '0 * * * *', name: 'happy_job_2', fn: () => {}});
@@ -351,7 +363,7 @@ describe.only('Modules - Scheduler', () => {
             assert.deepEqual(scheduler.jobs, []);
         });
 
-        it.only('Should do nothing if not passed a string/array', () => {
+        it('Should do nothing if not passed a string/array', () => {
             const scheduler = new Scheduler();
             scheduler.add({schedule: '0 * * * *', name: 'happy_job', fn: () => {}});
             scheduler.add({schedule: '0 * * * *', name: 'happy_job_2', fn: () => {}});
@@ -374,7 +386,7 @@ describe.only('Modules - Scheduler', () => {
         });
     });
 
-    describe.only('run', () => {
+    describe('run', () => {
         const mockCheckTimeAgainstMap = new MockFn();
         const mockGetTimeParts = new MockFn();
 
@@ -390,7 +402,7 @@ describe.only('Modules - Scheduler', () => {
             mockGetTimeParts.restore();
         });
 
-        it.only('should execute a synchronous job whose schedule matches', async () => {
+        it('should execute a synchronous job whose schedule matches', async () => {
             let executed = false;
             const scheduler = new Scheduler();
             scheduler.add({
@@ -405,7 +417,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 1);
         });
 
-        it.only('should not execute a job whose schedule does not match', async () => {
+        it('should not execute a job whose schedule does not match', async () => {
             mockCheckTimeAgainstMap.return = false;
             let executed = false;
             const scheduler = new Scheduler();
@@ -421,7 +433,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 1);
         });
 
-        it.only('should not execute a job whose schedule does not match', async () => {
+        it('should not execute a job whose schedule does not match', async () => {
             mockCheckTimeAgainstMap.return = false;
             let executed = false;
             const scheduler = new Scheduler();
@@ -437,7 +449,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 1);
         });
 
-        it.only('should log an error if a synchronous job throws', async () => {
+        it('should log an error if a synchronous job throws', async () => {
             let errorLogged = false;
             const logger = () => {
                 errorLogged = true;
@@ -455,7 +467,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 1);
         });
 
-        it.only('should wait for async jobs to complete', async () => {
+        it('should wait for async jobs to complete', async () => {
             let resolved = false;
             const scheduler = new Scheduler();
             scheduler.add({
@@ -471,7 +483,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 1);
         });
 
-        it.only('should log an error if an asynchronous job throws', async () => {
+        it('should log an error if an asynchronous job throws', async () => {
             const messages:string[] = [];
             const logger = el => messages.push(el.msg);
             const scheduler = new Scheduler({logger});
@@ -488,7 +500,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 1);
         });
 
-        it.only('should run async jobs in parallel when parallel is true (default)', async () => {
+        it('should run async jobs in parallel when parallel is true (default)', async () => {
             const scheduler = new Scheduler({parallel: true});
             let count = 0;
             const job = async () => {
@@ -513,7 +525,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 2);
         });
 
-        it.only('should run async jobs sequentially when parallel is false', async () => {
+        it('should run async jobs sequentially when parallel is false', async () => {
             const scheduler = new Scheduler({parallel: false});
             let count = 0;
             const job = async () => {
@@ -538,7 +550,7 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 2);
         });
 
-        it.only('should run async jobs sequentially when parallel is false and catch independent errors', async () => {
+        it('should run async jobs sequentially when parallel is false and catch independent errors', async () => {
             const logs:string[] = [];
             const scheduler = new Scheduler({parallel: false, logger: el => logs.push(el.msg)});
             let count = 0;
@@ -566,13 +578,103 @@ describe.only('Modules - Scheduler', () => {
             assert.equal(mockCheckTimeAgainstMap.calls.length, 2);
             assert.deepEqual(logs, ['job2: Oh No']);
         });
+
+        it('should run async jobs 2 at a time when parallel is 2 and catch independent errors', async () => {
+            const logs:string[] = [];
+            const scheduler = new Scheduler({parallel: 2, logger: el => logs.push(el.msg)});
+            let count = 0;
+            scheduler.add({
+                name: 'job1',
+                schedule: '* * * * *',
+                fn: async () => {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    count++;
+                },
+            });
+            scheduler.add({
+                name: 'job1',
+                schedule: '* * * * *',
+                fn: async () => {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    count++;
+                },
+            });
+            scheduler.add({
+                name: 'job2',
+                schedule: '* * * * *',
+                fn: async () => {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    throw new Error('Oh No');
+                },
+            });
+            const start = Date.now();
+            await scheduler.run();
+            const elapsed = Date.now() - start;
+            assert.equal(count, 2);
+            assert.ok(elapsed >= 190);
+            assert.equal(mockCheckTimeAgainstMap.calls.length, 3);
+            assert.deepEqual(logs, ['job2: Oh No']);
+        });
     });
 
-    describe.only('convertToMap', () => {
+    describe('stopAutomaticRun', () => {
+        it('Should do nothing if scheduler is not on automatic run', () => {
+            const myScheduler = new Scheduler({auto: false});
+            assert.equal(myScheduler.isAutomatic, false);
+            myScheduler.stopAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, false);
+        });
+
+        it('Should turn off automatic run if scheduler is auto by default', () => {
+            const myScheduler = new Scheduler({auto: true});
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.stopAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, false);
+        });
+
+        it('Should turn off automatic run if scheduler is not auto by default but was made auto', () => {
+            const myScheduler = new Scheduler({auto: false});
+            assert.equal(myScheduler.isAutomatic, false);
+            myScheduler.startAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.stopAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, false);
+        });
+    });
+
+    describe('startAutomaticRun', () => {
+        it('Should do nothing if scheduler is on automatic run', () => {
+            const myScheduler = new Scheduler({auto: true});
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.startAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.stopAutomaticRun();
+        });
+
+        it('Should turn on automatic run if scheduler is not auto by default', () => {
+            const myScheduler = new Scheduler({auto: false});
+            assert.equal(myScheduler.isAutomatic, false);
+            myScheduler.startAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.stopAutomaticRun();
+        });
+
+        it('Should turn on automatic run if scheduler is auto by default but was turned off', () => {
+            const myScheduler = new Scheduler({auto: true});
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.stopAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, false);
+            myScheduler.startAutomaticRun();
+            assert.equal(myScheduler.isAutomatic, true);
+            myScheduler.stopAutomaticRun();
+        });
+    });
+
+    describe('convertToMap', () => {
         /* @ts-ignore */
         const fn = Scheduler.convertToMap;
 
-        it.only('Should return the correct map for different schedules', () => {
+        it('Should return the correct map for different schedules', () => {
             for (const el of [
                 ['0 * * * *', {
                     minute: new Set([0]),
@@ -710,8 +812,8 @@ describe.only('Modules - Scheduler', () => {
             ]) assert.deepEqual(fn(el[0] as string), el[1], `${el[0]} is invalid`);
         });
 
-        describe.only('minute', () => {
-            it.only('Should return the correct map if passed as wildcard', () => {
+        describe('minute', () => {
+            it('Should return the correct map if passed as wildcard', () => {
                 assert.deepEqual(fn('* 0 1 1 0'), {
                     minute: '*',
                     hour: new Set([0]),
@@ -721,7 +823,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for valid single values', () => {
+            it('Should return the correct map for valid single values', () => {
                 for (let i = 0; i <= 59; i++) {
                     assert.deepEqual(fn(`${i} 0 1 1 0`), {
                         minute: new Set([i]),
@@ -733,7 +835,7 @@ describe.only('Modules - Scheduler', () => {
                 }
             });
 
-            it.only('Should return the correct map for a valid comma-separated list', () => {
+            it('Should return the correct map for a valid comma-separated list', () => {
                 assert.deepEqual(fn('0,15,30,45 0 1 1 0'), {
                     minute: new Set([0,15,30,45]),
                     hour: new Set([0]),
@@ -743,7 +845,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range', () => {
+            it('Should return the correct map for a valid range', () => {
                 assert.deepEqual(fn('10-20 0 1 1 0'), {
                     minute: new Set([10,11,12,13,14,15,16,17,18,19,20]),
                     hour: new Set([0]),
@@ -753,7 +855,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with wildcard', () => {
+            it('Should return the correct map for a valid step expression with wildcard', () => {
                 assert.deepEqual(fn('*/5 0 1 1 0'), {
                     minute: new Set([0,5,10,15,20,25,30,35,40,45,50,55]),
                     hour: new Set([0]),
@@ -763,7 +865,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with range', () => {
+            it('Should return the correct map for a valid step expression with range', () => {
                 assert.deepEqual(fn('10-50/10 0 1 1 0'), {
                     minute: new Set([10,20,30,40,50]),
                     hour: new Set([0]),
@@ -773,7 +875,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid stepper with both base and step as number', () => {
+            it('Should return the correct map for a valid stepper with both base and step as number', () => {
                 assert.deepEqual(fn('4/2 0 1 1 0'), {
                     minute: new Set([4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58]),
                     hour: new Set([0]),
@@ -784,8 +886,8 @@ describe.only('Modules - Scheduler', () => {
             });
         });
 
-        describe.only('hour', () => {
-            it.only('Should return the correct map if passed as wildcard', () => {
+        describe('hour', () => {
+            it('Should return the correct map if passed as wildcard', () => {
                 assert.deepEqual(fn('0 * 1 1 0'), {
                     minute: new Set([0]),
                     hour: '*',
@@ -795,7 +897,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for valid single values', () => {
+            it('Should return the correct map for valid single values', () => {
                 for (let i = 0; i <= 23; i++) {
                     assert.deepEqual(fn(`0 ${i} 1 1 0`), {
                         minute: new Set([0]),
@@ -807,7 +909,7 @@ describe.only('Modules - Scheduler', () => {
                 }
             });
 
-            it.only('Should return the correct map for a valid comma-separated list', () => {
+            it('Should return the correct map for a valid comma-separated list', () => {
                 assert.deepEqual(fn('0 0,1,2,3,12,13,14,20,21,22 1 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([0,1,2,3,12,13,14,20,21,22]),
@@ -817,7 +919,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range', () => {
+            it('Should return the correct map for a valid range', () => {
                 assert.deepEqual(fn('0 6-9 1 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([6,7,8,9]),
@@ -827,7 +929,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with wildcard', () => {
+            it('Should return the correct map for a valid step expression with wildcard', () => {
                 assert.deepEqual(fn('0 */5 1 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([0,5,10,15,20]),
@@ -837,7 +939,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with range', () => {
+            it('Should return the correct map for a valid step expression with range', () => {
                 assert.deepEqual(fn('0 12-20/2 1 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([12,14,16,18,20]),
@@ -847,7 +949,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range with step', () => {
+            it('Should return the correct map for a valid range with step', () => {
                 assert.deepEqual(fn('0 6-18/3 1 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([6,9,12,15,18]),
@@ -857,7 +959,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid stepper with both base and step as number', () => {
+            it('Should return the correct map for a valid stepper with both base and step as number', () => {
                 assert.deepEqual(fn('0 4/2 1 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([4,6,8,10,12,14,16,18,20,22]),
@@ -868,8 +970,8 @@ describe.only('Modules - Scheduler', () => {
             });
         });
 
-        describe.only('day_of_month', () => {
-            it.only('Should return the correct map if passed as wildcard', () => {
+        describe('day_of_month', () => {
+            it('Should return the correct map if passed as wildcard', () => {
                 assert.deepEqual(fn('0 1 * 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -879,7 +981,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for valid single values', () => {
+            it('Should return the correct map for valid single values', () => {
                 for (let i = 1; i <= 31; i++) {
                     assert.deepEqual(fn(`0 1 ${i} 1 0`), {
                         minute: new Set([0]),
@@ -891,7 +993,7 @@ describe.only('Modules - Scheduler', () => {
                 }
             });
 
-            it.only('Should return the correct map for a valid comma-separated list', () => {
+            it('Should return the correct map for a valid comma-separated list', () => {
                 assert.deepEqual(fn('0 1 1,2,3,12,13,14,20,21,22,28,29,30 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -901,7 +1003,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range', () => {
+            it('Should return the correct map for a valid range', () => {
                 assert.deepEqual(fn('0 0 6-9 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([0]),
@@ -911,7 +1013,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with wildcard', () => {
+            it('Should return the correct map for a valid step expression with wildcard', () => {
                 assert.deepEqual(fn('0 1 */5 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -921,7 +1023,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with range', () => {
+            it('Should return the correct map for a valid step expression with range', () => {
                 assert.deepEqual(fn('0 2 12-20/2 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([2]),
@@ -931,7 +1033,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range with step', () => {
+            it('Should return the correct map for a valid range with step', () => {
                 assert.deepEqual(fn('0 1 1-31/7 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -941,7 +1043,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid stepper with both base and step as number', () => {
+            it('Should return the correct map for a valid stepper with both base and step as number', () => {
                 assert.deepEqual(fn('0 0 4/2 1 0'), {
                     minute: new Set([0]),
                     hour: new Set([0]),
@@ -952,8 +1054,8 @@ describe.only('Modules - Scheduler', () => {
             });
         });
 
-        describe.only('month', () => {
-            it.only('Should return the correct map if passed as wildcard', () => {
+        describe('month', () => {
+            it('Should return the correct map if passed as wildcard', () => {
                 assert.deepEqual(fn('0 1 1 * 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -963,7 +1065,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for valid single values', () => {
+            it('Should return the correct map for valid single values', () => {
                 for (let i = 1; i <= 12; i++) {
                     assert.deepEqual(fn(`0 1 1 ${i} 0`), {
                         minute: new Set([0]),
@@ -975,7 +1077,7 @@ describe.only('Modules - Scheduler', () => {
                 }
             });
 
-            it.only('Should return the correct map for a valid comma-separated list', () => {
+            it('Should return the correct map for a valid comma-separated list', () => {
                 assert.deepEqual(fn('0 1 1 1,2,3,9,10,11,12,8 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -985,7 +1087,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range', () => {
+            it('Should return the correct map for a valid range', () => {
                 assert.deepEqual(fn('0 0 1 6-9 0'), {
                     minute: new Set([0]),
                     hour: new Set([0]),
@@ -995,7 +1097,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with wildcard', () => {
+            it('Should return the correct map for a valid step expression with wildcard', () => {
                 assert.deepEqual(fn('0 1 1 */5 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -1005,7 +1107,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with range', () => {
+            it('Should return the correct map for a valid step expression with range', () => {
                 assert.deepEqual(fn('0 2 1 6-9/1 0'), {
                     minute: new Set([0]),
                     hour: new Set([2]),
@@ -1015,7 +1117,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range with step', () => {
+            it('Should return the correct map for a valid range with step', () => {
                 assert.deepEqual(fn('0 1 1 3-11/2 0'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -1025,7 +1127,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid stepper with both base and step as number', () => {
+            it('Should return the correct map for a valid stepper with both base and step as number', () => {
                 assert.deepEqual(fn('0 0 1 4/1 0'), {
                     minute: new Set([0]),
                     hour: new Set([0]),
@@ -1036,8 +1138,8 @@ describe.only('Modules - Scheduler', () => {
             });
         });
 
-        describe.only('day_of_week', () => {
-            it.only('Should return the correct map if passed as wildcard', () => {
+        describe('day_of_week', () => {
+            it('Should return the correct map if passed as wildcard', () => {
                 assert.deepEqual(fn('0 1 1 1 *'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -1047,7 +1149,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for valid single values', () => {
+            it('Should return the correct map for valid single values', () => {
                 for (let i = 0; i <= 6; i++) {
                     assert.deepEqual(fn(`0 1 1 1 ${i}`), {
                         minute: new Set([0]),
@@ -1059,7 +1161,7 @@ describe.only('Modules - Scheduler', () => {
                 }
             });
 
-            it.only('Should return the correct map for a valid comma-separated list', () => {
+            it('Should return the correct map for a valid comma-separated list', () => {
                 assert.deepEqual(fn('0 1 1 1 1,2,3,4,5,6'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -1069,7 +1171,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range', () => {
+            it('Should return the correct map for a valid range', () => {
                 assert.deepEqual(fn('0 0 1 1 0-3'), {
                     minute: new Set([0]),
                     hour: new Set([0]),
@@ -1079,7 +1181,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with wildcard', () => {
+            it('Should return the correct map for a valid step expression with wildcard', () => {
                 assert.deepEqual(fn('0 1 1 1 */2'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -1089,7 +1191,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid step expression with range', () => {
+            it('Should return the correct map for a valid step expression with range', () => {
                 assert.deepEqual(fn('0 2 1 1 3-6/1'), {
                     minute: new Set([0]),
                     hour: new Set([2]),
@@ -1099,7 +1201,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid range with step', () => {
+            it('Should return the correct map for a valid range with step', () => {
                 assert.deepEqual(fn('0 1 1 1 1-6/2'), {
                     minute: new Set([0]),
                     hour: new Set([1]),
@@ -1109,7 +1211,7 @@ describe.only('Modules - Scheduler', () => {
                 });
             });
 
-            it.only('Should return the correct map for a valid stepper with both base and step as number', () => {
+            it('Should return the correct map for a valid stepper with both base and step as number', () => {
                 assert.deepEqual(fn('0 0 1 1 4/1'), {
                     minute: new Set([0]),
                     hour: new Set([0]),
@@ -1121,8 +1223,8 @@ describe.only('Modules - Scheduler', () => {
         });
     });
 
-    describe.only('getTimeParts', () => {
-        it.only('Should return the time as its parts when passing null', () => {
+    describe('getTimeParts', () => {
+        it('Should return the time as its parts when passing null', () => {
             const now = new Date();
             assert.deepEqual(
                 /* @ts-ignore */
@@ -1137,7 +1239,7 @@ describe.only('Modules - Scheduler', () => {
             );
         });
 
-        it.only('Should return the provided time as its parts when passing null', () => {
+        it('Should return the provided time as its parts when passing null', () => {
             assert.deepEqual(
                 /* @ts-ignore */
                 Scheduler.getTimeParts(new Date('2022-06-12T23:59:59.999Z'), null),
@@ -1151,7 +1253,7 @@ describe.only('Modules - Scheduler', () => {
             );
         });
 
-        it.only('Should return the provided time as its parts when passing a timezone that would not change it', () => {
+        it('Should return the provided time as its parts when passing a timezone that would not change it', () => {
             const date = new Date('2022-06-12T18:30:00.000Z');
             const expectedTimeParts = {
                 minute: 30,
@@ -1168,7 +1270,7 @@ describe.only('Modules - Scheduler', () => {
             );
         });
 
-        it.only('Should return the provided time as its parts when passing a timezone that would take it to the next hour', () => {
+        it('Should return the provided time as its parts when passing a timezone that would take it to the next hour', () => {
             const date = new Date('2022-06-12T18:30:00.000Z');
             const expectedTimeParts = {
                 minute: 30,
@@ -1185,7 +1287,7 @@ describe.only('Modules - Scheduler', () => {
             );
         });
 
-        it.only('Should return the provided time as its parts when passing a timezone that would take it to the next day', () => {
+        it('Should return the provided time as its parts when passing a timezone that would take it to the next day', () => {
             const date = new Date('2022-06-12T18:30:00.000Z');
             const expectedTimeParts = {
                 minute: 30,
@@ -1202,7 +1304,7 @@ describe.only('Modules - Scheduler', () => {
             );
         });
 
-        it.only('should return correct time parts for the same date across multiple timeZones', () => {
+        it('should return correct time parts for the same date across multiple timeZones', () => {
             const date = new Date('2022-06-12T18:00:00.000Z');
             for (const el of [
                 {tz: 'UTC', out: {minute: 0, hour: 18, day_of_month: 12, month: 6, day_of_week: 0}},
@@ -1267,11 +1369,11 @@ describe.only('Modules - Scheduler', () => {
         });
     });
 
-    describe.only('checkTimeAgainstMap', () => {
+    describe('checkTimeAgainstMap', () => {
         /* @ts-ignore */
         const fn = Scheduler.checkTimeAgainstMap;
 
-        it.only('should return true when all cron map fields are wildcards', () => {
+        it('should return true when all cron map fields are wildcards', () => {
             assert.ok(fn(
                 {
                     minute: '*',
@@ -1284,7 +1386,7 @@ describe.only('Modules - Scheduler', () => {
             ), 'All wildcard fields should always match');
         });
 
-        it.only('should return true when all fields are sets and match the time map', () => {
+        it('should return true when all fields are sets and match the time map', () => {
             assert.ok(fn(
                 {
                     minute: new Set([23]),
@@ -1297,7 +1399,7 @@ describe.only('Modules - Scheduler', () => {
             ), 'Matching set fields should return true');
         });
 
-        it.only('should return false when one set field does not match the time map', () => {
+        it('should return false when one set field does not match the time map', () => {
             assert.ok(!fn(
                 {
                     minute: new Set([23]),
@@ -1310,7 +1412,7 @@ describe.only('Modules - Scheduler', () => {
             ), 'Mismatch in day_of_week should return false');
         });
 
-        it.only('should return true when mixing wildcards and sets with matching values', () => {
+        it('should return true when mixing wildcards and sets with matching values', () => {
             assert.ok(fn(
                 {
                     minute: new Set([10, 20, 30]),
@@ -1323,7 +1425,7 @@ describe.only('Modules - Scheduler', () => {
             ), 'Mixed wildcards and sets matching should return true');
         });
 
-        it.only('should return false when mixing wildcards and sets with one non-matching field', () => {
+        it('should return false when mixing wildcards and sets with one non-matching field', () => {
             assert.ok(!fn(
                 {
                     minute: new Set([10, 20, 30]),
@@ -1336,8 +1438,8 @@ describe.only('Modules - Scheduler', () => {
             ), 'Mixed fields with one mismatch should return false');
         });
 
-        describe.only('individual field validation', () => {
-            it.only('should validate the minute field correctly', () => {
+        describe('individual field validation', () => {
+            it('should validate the minute field correctly', () => {
                 assert.ok(fn(
                     {
                         minute: new Set([0, 30, 59]),
@@ -1360,7 +1462,7 @@ describe.only('Modules - Scheduler', () => {
                 ), 'Minute 15 is not in the set [0,30,59]');
             });
 
-            it.only('should validate the hour field correctly', () => {
+            it('should validate the hour field correctly', () => {
                 assert.ok(fn(
                     {
                         minute: '*',
@@ -1383,7 +1485,7 @@ describe.only('Modules - Scheduler', () => {
                 ), 'Hour 5 is not in the set [0,12,23]');
             });
 
-            it.only('should validate the day_of_month field correctly', () => {
+            it('should validate the day_of_month field correctly', () => {
                 assert.ok(fn(
                     {
                         minute: '*',
@@ -1406,7 +1508,7 @@ describe.only('Modules - Scheduler', () => {
                 ), 'Day 10 is not in the set [1,15,31]');
             });
 
-            it.only('should validate the month field correctly', () => {
+            it('should validate the month field correctly', () => {
                 assert.ok(fn(
                     {
                         minute: '*',
@@ -1429,7 +1531,7 @@ describe.only('Modules - Scheduler', () => {
                 ), 'Month 7 is not in the set [1,6,12]');
             });
 
-            it.only('should validate the day_of_week field correctly', () => {
+            it('should validate the day_of_week field correctly', () => {
                 assert.ok(fn(
                     {
                         minute: '*',
@@ -1453,7 +1555,7 @@ describe.only('Modules - Scheduler', () => {
             });
         });
 
-        it.only('should return true for lower boundary value', () => {
+        it('should return true for lower boundary value', () => {
             assert.ok(fn(
                 {
                     minute: new Set([0, 59]),
@@ -1466,7 +1568,7 @@ describe.only('Modules - Scheduler', () => {
             ));
         });
 
-        it.only('should return true for upper boundary value', () => {
+        it('should return true for upper boundary value', () => {
             assert.ok(fn(
                 {
                     minute: new Set([0, 59]),
@@ -1479,7 +1581,7 @@ describe.only('Modules - Scheduler', () => {
             ));
         });
 
-        it.only('should return false for non-boundary values not in the set', () => {
+        it('should return false for non-boundary values not in the set', () => {
             assert.ok(!fn(
                 {
                     minute: new Set([0, 59]),
@@ -1493,14 +1595,14 @@ describe.only('Modules - Scheduler', () => {
         });
     });
 
-    describe.only('isCronSchedule', () => {
-        it.only('Should return false if passed a non/empty string', () => {
+    describe('isCronSchedule', () => {
+        it('Should return false if passed a non/empty string', () => {
             for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
                 assert.ok(!Scheduler.isCronSchedule(el as string));
             }
         });
 
-        it.only('Should return true if passed valid schedules', () => {
+        it('Should return true if passed valid schedules', () => {
             for (const el of [
                 '0 * * * *',
                 '0 * * * 2',
@@ -1524,7 +1626,7 @@ describe.only('Modules - Scheduler', () => {
             ]) assert.ok(Scheduler.isCronSchedule(el));
         });
 
-        it.only('Should return false if passed a wrong schedule', () => {
+        it('Should return false if passed a wrong schedule', () => {
             for (const el of [
                 'a b c d e',
                 '| | | | |',
@@ -1536,527 +1638,527 @@ describe.only('Modules - Scheduler', () => {
             ]) assert.ok(!Scheduler.isCronSchedule(el));
         });
 
-        describe.only('minute', () => {
-            it.only('Should return true if passed as wildcard', () => {
+        describe('minute', () => {
+            it('Should return true if passed as wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('* 0 1 1 0'));
             });
 
-            it.only('Should return true for valid single values', () => {
+            it('Should return true for valid single values', () => {
                 for (let i = 0; i <= 59; i++) {
                     assert.ok(Scheduler.isCronSchedule(`${i} 0 1 1 0`));
                 }
             });
 
-            it.only('Should return true when at lower bound', () => {
+            it('Should return true when at lower bound', () => {
                 assert.ok(Scheduler.isCronSchedule('0 * * * *'));
             });
 
-            it.only('Should return true for a valid comma-separated list', () => {
+            it('Should return true for a valid comma-separated list', () => {
                 assert.ok(Scheduler.isCronSchedule('0,15,30,45 0 1 1 0'));
             });
 
-            it.only('Should return true for a valid range', () => {
+            it('Should return true for a valid range', () => {
                 assert.ok(Scheduler.isCronSchedule('10-20 0 1 1 0'));
             });
 
-            it.only('Should return true for a valid step expression with wildcard', () => {
+            it('Should return true for a valid step expression with wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('*/5 0 1 1 0'));
             });
 
-            it.only('Should return true for a valid step expression with range', () => {
+            it('Should return true for a valid step expression with range', () => {
                 assert.ok(Scheduler.isCronSchedule('10-50/10 0 1 1 0'));
             });
 
-            it.only('Should return true for a valid stepper with both base and step as number', () => {
+            it('Should return true for a valid stepper with both base and step as number', () => {
                 assert.ok(Scheduler.isCronSchedule('4/2 0 1 1 0'));
             });
 
-            it.only('Should return false for values that exceed the valid range', () => {
+            it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('60 0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('61 0 1 1 0'));
             });
 
-            it.only('Should return false for negative values', () => {
+            it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('-1 0 1 1 0'));
             });
 
-            it.only('Should return false for invalid comma separated values', () => {
+            it('Should return false for invalid comma separated values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0,x,2 1 1 1 1'));
             });
 
-            it.only('Should return false for an invalid step expression (step of zero)', () => {
+            it('Should return false for an invalid step expression (step of zero)', () => {
                 assert.ok(!Scheduler.isCronSchedule('*/0 0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('10-20/0 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid step expression (step outside of bounds)', () => {
+            it('Should return false for an invalid step expression (step outside of bounds)', () => {
                 assert.ok(!Scheduler.isCronSchedule('*/0 0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('10-20/68 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid start)', () => {
+            it('Should return false for an invalid range (missing or invalid start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('-10 0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('x-10 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid end)', () => {
+            it('Should return false for an invalid range (missing or invalid end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('10- 0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('10-x 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (more than 2 in range)', () => {
+            it('Should return false for an invalid range (more than 2 in range)', () => {
                 assert.ok(!Scheduler.isCronSchedule('10-20-30 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (start greater than end)', () => {
+            it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('50-10 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds end)', () => {
+            it('Should return false for an invalid range (out-of-bounds end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('10-100 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds start)', () => {
+            it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('90-100 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range part with step', () => {
+            it('Should return false for an invalid range part with step', () => {
                 assert.ok(!Scheduler.isCronSchedule('x-10/5 0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('10-x/5 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range with step (start greater than end)', () => {
+            it('Should return false for an invalid range with step (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('50-10/5 0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range with step (step greater than end-start)', () => {
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0-3/4 1 1 1 1'));
             });
 
-            it.only('Should return false for an invalid range with step (more than 2)', () => {
+            it('Should return false for an invalid range with step (more than 2)', () => {
                 assert.ok(!Scheduler.isCronSchedule('1-3-5/2 1 1 1 1'));
             });
         });
 
-        describe.only('hour', () => {
-            it.only('Should return true if passed as wildcard', () => {
+        describe('hour', () => {
+            it('Should return true if passed as wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 * 1 1 0'));
             });
 
-            it.only('Should return true for valid single values', () => {
+            it('Should return true for valid single values', () => {
                 for (let i = 0; i <= 23; i++) {
                     assert.ok(Scheduler.isCronSchedule(`0 ${i} 1 1 0`));
                 }
             });
 
-            it.only('Should return true for a valid comma-separated list', () => {
+            it('Should return true for a valid comma-separated list', () => {
                 assert.ok(Scheduler.isCronSchedule('0 0,1,2,3,12,13,14,20,21,22 1 1 0'));
             });
 
-            it.only('Should return true for a valid range', () => {
+            it('Should return true for a valid range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 6-9 1 1 0'));
             });
 
-            it.only('Should return true for a valid step expression with wildcard', () => {
+            it('Should return true for a valid step expression with wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 */5 1 1 0'));
             });
 
-            it.only('Should return true for a valid step expression with range', () => {
+            it('Should return true for a valid step expression with range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 12-20/2 1 1 0'));
             });
 
-            it.only('Should return true for a valid range with step', () => {
+            it('Should return true for a valid range with step', () => {
                 assert.ok(Scheduler.isCronSchedule('0 6-18/3 1 1 0'));
             });
 
-            it.only('Should return true for a valid stepper with both base and step as number', () => {
+            it('Should return true for a valid stepper with both base and step as number', () => {
                 assert.ok(Scheduler.isCronSchedule('0 4/2 1 1 0'));
             });
 
-            it.only('Should return false for values that exceed the valid range', () => {
+            it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 24 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 32 0 1 0'));
             });
 
-            it.only('Should return false for negative values', () => {
+            it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 -1 1 1 0'));
             });
 
-            it.only('Should return false for invalid comma separated values', () => {
+            it('Should return false for invalid comma separated values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1,x,2 1 1 1'));
             });
 
-            it.only('Should return false for an invalid step expression (step of zero)', () => {
+            it('Should return false for an invalid step expression (step of zero)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 */0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 10-20/0 1 1 0'));
             });
 
-            it.only('Should return false for an invalid step expression (step outside of bounds)', () => {
+            it('Should return false for an invalid step expression (step outside of bounds)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 */0 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 10-20/68 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid start)', () => {
+            it('Should return false for an invalid range (missing or invalid start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 -10 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 x-10 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid end)', () => {
+            it('Should return false for an invalid range (missing or invalid end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 10- 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 10-x 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (more than 2 in range)', () => {
+            it('Should return false for an invalid range (more than 2 in range)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 5-8-12 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (start greater than end)', () => {
+            it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 23-10 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds end)', () => {
+            it('Should return false for an invalid range (out-of-bounds end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 10-30 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds start)', () => {
+            it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 90-100 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range part with step', () => {
+            it('Should return false for an invalid range part with step', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 20-x/3 1 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 x-10/3 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range with step (start greater than end)', () => {
+            it('Should return false for an invalid range with step (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 20-10/3 1 1 0'));
             });
 
-            it.only('Should return false for an invalid range with step (step greater than end-start)', () => {
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1-3/4 1 1 1'));
             });
 
-            it.only('Should return false for an invalid range with step (more than 2)', () => {
+            it('Should return false for an invalid range with step (more than 2)', () => {
                 assert.ok(!Scheduler.isCronSchedule('1 1-3-5/2 1 1 1'));
             });
         });
 
-        describe.only('day_of_month', () => {
-            it.only('Should return true if passed as wildcard', () => {
+        describe('day_of_month', () => {
+            it('Should return true if passed as wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 * 1 0'));
             });
 
-            it.only('Should return true for valid single values', () => {
+            it('Should return true for valid single values', () => {
                 for (let i = 1; i <= 31; i++) {
                     assert.ok(Scheduler.isCronSchedule(`0 1 ${i} 1 0`));
                 }
             });
 
-            it.only('Should return true for a valid comma-separated list', () => {
+            it('Should return true for a valid comma-separated list', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1,2,3,12,13,14,20,21,22 1 0'));
             });
 
-            it.only('Should return true for a valid range', () => {
+            it('Should return true for a valid range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 0 6-9 1 0'));
             });
 
-            it.only('Should return true for a valid step expression with wildcard', () => {
+            it('Should return true for a valid step expression with wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 */5 1 0'));
             });
 
-            it.only('Should return true for a valid step expression with range', () => {
+            it('Should return true for a valid step expression with range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 2 12-20/2 1 0'));
             });
 
-            it.only('Should return true for a valid range with step', () => {
+            it('Should return true for a valid range with step', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1-31/7 1 0'));
             });
 
-            it.only('Should return true for a valid stepper with both base and step as number', () => {
+            it('Should return true for a valid stepper with both base and step as number', () => {
                 assert.ok(Scheduler.isCronSchedule('0 0 4/2 1 0'));
             });
 
-            it.only('Should return false for values that exceed the valid range', () => {
+            it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 32 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 64 1 0'));
             });
 
-            it.only('Should return false for negative values', () => {
+            it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 -1 1 0'));
             });
 
-            it.only('Should return false for invalid comma separated values', () => {
+            it('Should return false for invalid comma separated values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1,x,2 1 1'));
             });
 
-            it.only('Should return false for zero', () => {
+            it('Should return false for zero', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 0 1 0'));
             });
 
-            it.only('Should return false for an invalid step expression (step of zero)', () => {
+            it('Should return false for an invalid step expression (step of zero)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 */0 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 10-20/0 1 0'));
             });
 
-            it.only('Should return false for an invalid step expression (step outside of bounds)', () => {
+            it('Should return false for an invalid step expression (step outside of bounds)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 */0 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 2 10-20/68 1 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid start)', () => {
+            it('Should return false for an invalid range (missing or invalid start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 -10 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 x-10 1 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid end)', () => {
+            it('Should return false for an invalid range (missing or invalid end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 10- 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 10-x 1 0'));
             });
 
-            it.only('Should return false for an invalid range (more than 2 in range)', () => {
+            it('Should return false for an invalid range (more than 2 in range)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 5-8-12 1 0'));
             });
 
-            it.only('Should return false for an invalid range (start greater than end)', () => {
+            it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 23-10 1 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds end)', () => {
+            it('Should return false for an invalid range (out-of-bounds end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 10-33 1 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds start)', () => {
+            it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 90-100 1 0'));
             });
 
-            it.only('Should return false for an invalid range part with step', () => {
+            it('Should return false for an invalid range part with step', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 x-1/7 1 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 20-x/7 1 0'));
             });
 
-            it.only('Should return false for an invalid range with step (start greater than end)', () => {
+            it('Should return false for an invalid range with step (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 31-1/7 1 0'));
             });
 
-            it.only('Should return false for an invalid range with step (step greater than end-start)', () => {
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1-3/4 1 1'));
             });
 
-            it.only('Should return false for an invalid range with step (more than 2)', () => {
+            it('Should return false for an invalid range with step (more than 2)', () => {
                 assert.ok(!Scheduler.isCronSchedule('1 1 1-3-5/2 1 1'));
             });
         });
 
-        describe.only('month', () => {
-            it.only('Should return true if passed as wildcard', () => {
+        describe('month', () => {
+            it('Should return true if passed as wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 * 0'));
             });
 
-            it.only('Should return true for valid single values', () => {
+            it('Should return true for valid single values', () => {
                 for (let i = 1; i <= 12; i++) {
                     assert.ok(Scheduler.isCronSchedule(`0 1 1 ${i} 0`));
                 }
             });
 
-            it.only('Should return true for a valid comma-separated list', () => {
+            it('Should return true for a valid comma-separated list', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 1,2,3,9,10,11,12,8 0'));
             });
 
-            it.only('Should return true for a valid range', () => {
+            it('Should return true for a valid range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 0 1 6-9 0'));
             });
 
-            it.only('Should return true for a valid step expression with wildcard', () => {
+            it('Should return true for a valid step expression with wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 */5 0'));
             });
 
-            it.only('Should return true for a valid step expression with range', () => {
+            it('Should return true for a valid step expression with range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 2 1 6-9/1 0'));
             });
 
-            it.only('Should return true for a valid range with step', () => {
+            it('Should return true for a valid range with step', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 3-11/2 0'));
             });
 
-            it.only('Should return true for a valid stepper with both base and step as number', () => {
+            it('Should return true for a valid stepper with both base and step as number', () => {
                 assert.ok(Scheduler.isCronSchedule('0 0 1 4/1 0'));
             });
 
-            it.only('Should return false for values that exceed the valid range', () => {
+            it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 13 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 20 0'));
             });
 
-            it.only('Should return false for negative values', () => {
+            it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 -1 0'));
             });
 
-            it.only('Should return false for invalid comma separated values', () => {
+            it('Should return false for invalid comma separated values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1,x,2 1'));
             });
 
-            it.only('Should return false for zero', () => {
+            it('Should return false for zero', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 0 0'));
             });
 
-            it.only('Should return false for an invalid step expression (step of zero)', () => {
+            it('Should return false for an invalid step expression (step of zero)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 */0 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 6-12/0 0'));
             });
 
-            it.only('Should return false for an invalid step expression (step outside of bounds)', () => {
+            it('Should return false for an invalid step expression (step outside of bounds)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 */0 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 6-12/68 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid start)', () => {
+            it('Should return false for an invalid range (missing or invalid start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 -10 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 x-10 0'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid end)', () => {
+            it('Should return false for an invalid range (missing or invalid end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 10- 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 10-x 0'));
             });
 
-            it.only('Should return false for an invalid range (more than 2 in range)', () => {
+            it('Should return false for an invalid range (more than 2 in range)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 5-8-12 0'));
             });
 
-            it.only('Should return false for an invalid range (start greater than end)', () => {
+            it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 9-6 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds end)', () => {
+            it('Should return false for an invalid range (out-of-bounds end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 6-33 0'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds start)', () => {
+            it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 90-100 0'));
             });
 
-            it.only('Should return false for an invalid range part with step', () => {
+            it('Should return false for an invalid range part with step', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 x-3/2 0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 11-x/2 0'));
             });
 
-            it.only('Should return false for an invalid range with step (start greater than end)', () => {
+            it('Should return false for an invalid range with step (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 11-3/2 0'));
             });
 
-            it.only('Should return false for an invalid range with step (step greater than end-start)', () => {
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1-3/4 1'));
             });
 
-            it.only('Should return false for an invalid range with step (more than 2)', () => {
+            it('Should return false for an invalid range with step (more than 2)', () => {
                 assert.ok(!Scheduler.isCronSchedule('1 1 1 1-3-5/2 1'));
             });
         });
 
-        describe.only('day_of_week', () => {
-            it.only('Should return true if passed as wildcard', () => {
+        describe('day_of_week', () => {
+            it('Should return true if passed as wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 1 *'));
             });
 
-            it.only('Should return true for valid single values', () => {
+            it('Should return true for valid single values', () => {
                 for (let i = 0; i <= 6; i++) {
                     assert.ok(Scheduler.isCronSchedule(`0 1 1 1 ${i}`));
                 }
             });
 
-            it.only('Should return true for a valid comma-separated list', () => {
+            it('Should return true for a valid comma-separated list', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 1 1,2,3,4,5'));
             });
 
-            it.only('Should return true for a valid range', () => {
+            it('Should return true for a valid range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 0 1 1 0-3'));
             });
 
-            it.only('Should return true for a valid step expression with wildcard', () => {
+            it('Should return true for a valid step expression with wildcard', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 1 */2'));
             });
 
-            it.only('Should return true for a valid step expression with range', () => {
+            it('Should return true for a valid step expression with range', () => {
                 assert.ok(Scheduler.isCronSchedule('0 2 1 1 3-6/1'));
             });
 
-            it.only('Should return true for a valid range with step', () => {
+            it('Should return true for a valid range with step', () => {
                 assert.ok(Scheduler.isCronSchedule('0 1 1 1 1-6/2'));
             });
 
-            it.only('Should return true for a valid stepper with both base and step as number', () => {
+            it('Should return true for a valid stepper with both base and step as number', () => {
                 assert.ok(Scheduler.isCronSchedule('0 0 1 1 4/1'));
             });
 
-            it.only('Should return false for values that exceed the valid range', () => {
+            it('Should return false for values that exceed the valid range', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 7'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 8'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 9'));
             });
 
-            it.only('Should return false for negative values', () => {
+            it('Should return false for negative values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 -1'));
             });
 
-            it.only('Should return false for invalid comma separated values', () => {
+            it('Should return false for invalid comma separated values', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 1,x,2'));
             });
 
-            it.only('Should return false for an invalid step expression (step of zero)', () => {
+            it('Should return false for an invalid step expression (step of zero)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 */0'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 3-5/0'));
             });
 
-            it.only('Should return false for an invalid step expression (step outside of bounds)', () => {
+            it('Should return false for an invalid step expression (step outside of bounds)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 1 4-6/8'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid start)', () => {
+            it('Should return false for an invalid range (missing or invalid start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 -10'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 x-10'));
             });
 
-            it.only('Should return false for an invalid range (missing or invalid end)', () => {
+            it('Should return false for an invalid range (missing or invalid end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 10-'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 10-x'));
             });
 
-            it.only('Should return false for an invalid range (more than 2 in range)', () => {
+            it('Should return false for an invalid range (more than 2 in range)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 2-4-6'));
             });
 
 
-            it.only('Should return false for an invalid range (start greater than end)', () => {
+            it('Should return false for an invalid range (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 1 8-6'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds end)', () => {
+            it('Should return false for an invalid range (out-of-bounds end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 1 6-33'));
             });
 
-            it.only('Should return false for an invalid range (out-of-bounds start)', () => {
+            it('Should return false for an invalid range (out-of-bounds start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 2 1 1 90-100'));
             });
 
-            it.only('Should return false for an invalid range part with step', () => {
+            it('Should return false for an invalid range part with step', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 x-2/2'));
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 1-x/2'));
             });
 
-            it.only('Should return false for an invalid range with step (start greater than end)', () => {
+            it('Should return false for an invalid range with step (start greater than end)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 7-1/2'));
             });
 
-            it.only('Should return false for an invalid range with step (step greater than end-start)', () => {
+            it('Should return false for an invalid range with step (step greater than end-start)', () => {
                 assert.ok(!Scheduler.isCronSchedule('0 1 1 1 1-3/4'));
             });
 
-            it.only('Should return false for an invalid range with step (more than 2)', () => {
+            it('Should return false for an invalid range with step (more than 2)', () => {
                 assert.ok(!Scheduler.isCronSchedule('1 1 1 1 1-3-5/2'));
             });
         });
     });
 
-    describe.only('cronShouldRun', () => {
+    describe('cronShouldRun', () => {
         const mockIsCronSchedule = new MockFn();
         const mockConvertToMap = new MockFn();
         const mockGetTimeParts = new MockFn();
@@ -2079,7 +2181,7 @@ describe.only('Modules - Scheduler', () => {
             mockCheckTimeAgainstMap.restore();
         });
 
-        it.only('Should return false if isCronSchedule returns false', () => {
+        it('Should return false if isCronSchedule returns false', () => {
             mockIsCronSchedule.return = false;
             assert.ok(!fn('0 1 1 1 1', 'Europe/Brussels'));
             assert.deepEqual(mockIsCronSchedule.calls, [['0 1 1 1 1']]);
@@ -2088,7 +2190,7 @@ describe.only('Modules - Scheduler', () => {
             assert.ok(mockCheckTimeAgainstMap.isEmpty);
         });
 
-        it.only('Should return false if checkTimeAgainstMap returns false', () => {
+        it('Should return false if checkTimeAgainstMap returns false', () => {
             mockIsCronSchedule.return = true;
             mockCheckTimeAgainstMap.return = false;
             mockGetTimeParts.return = {hello: 'World'};
@@ -2112,7 +2214,7 @@ describe.only('Modules - Scheduler', () => {
             ]]);
         });
 
-        it.only('Should return true if checkTimeAgainstMap returns true', () => {
+        it('Should return true if checkTimeAgainstMap returns true', () => {
             mockIsCronSchedule.return = true;
             mockCheckTimeAgainstMap.return = true;
             mockGetTimeParts.return = {hello: 'World'};
@@ -2136,7 +2238,7 @@ describe.only('Modules - Scheduler', () => {
             ]]);
         });
 
-        it.only('Should pass null if passed a non/empty string TimeZone', () => {
+        it('Should pass null if passed a non/empty string TimeZone', () => {
             for (const el of CONSTANTS.NOT_STRING_WITH_EMPTY) {
                 mockIsCronSchedule.return = true;
                 mockCheckTimeAgainstMap.return = true;

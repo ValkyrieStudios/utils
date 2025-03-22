@@ -1130,6 +1130,182 @@ Both synchronous and asynchronous errors are logged via the custom logger (if pr
 - **Flexibility:**
 The storage behavior can be controlled globally through the constructor or overridden for individual publish calls.
 
+### modules/Scheduler
+A Lightweight scheduler module that works with a cron-like syntax and can be easily configured/run at runtime.
+
+**Take Note**: This does **not replace** cron, it is a module that runs at runtime and could be used to simulate cron-like behavior, but it is **not a replacement**.
+
+##### Usage
+Supports baseline operation:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+const mySchedule = new Scheduler({name: 'MyScheduler'});
+
+mySchedule.add({schedule: '0 * * * *', name: 'send_emails', fn: Handlers.SendEmails});
+mySchedule.add({schedule: '0 */3 * * *', name: 'cleanup', fn: Handlers.Cleanup});
+mySchedule.add({schedule: '0,15,30,45 * * * *', name: 'synchronize', fn: Handlers.Synchronize});
+await mySchedule.run();
+```
+
+Let's say you need to send something out in different timezones:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({name: 'MyScheduler'});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+    });
+}
+
+await mySchedule.run();
+```
+
+Too much flooding! let's turn off parallelization and have it run them in linear fashion:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: false, /* By setting parallel to false we will ensure one at a time */
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+    });
+}
+
+await mySchedule.run();
+```
+
+Okay we can actually send 3 at a time, let's set that up:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: 3, /* By setting parallel to a specific integer above 0 we will run X jobs in parallel at a time */
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+    });
+}
+
+await mySchedule.run();
+```
+
+Oh no the emails aren't going out to the right user because we didn't pass our data:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: 3,
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone, /* Given a user has a timezone */
+        data: user, /* You will have automatic type hinting on this with the first val of SendEmail handler */
+    });
+}
+
+await mySchedule.run();
+```
+
+I want this to run continuously so that I can just leave it running on a server:
+```typescript
+import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import * as Handlers from "..."; /* Example methods */
+
+...
+
+const mySchedule = new Scheduler({
+    name: 'MyScheduler',
+    parallel: 3,
+    auto: true, /* By enabling this the schedule will automatically check once per minute which ones it needs to run */
+});
+
+/* This is an example */
+for (const user of users) {
+    mySchedule.add({
+        schedule: '0 * * * *',
+        name: 'send_emails',
+        fn: Handlers.SendEmail,
+        timeZone: user.timeZone,
+        data: user,
+    });
+}
+
+await mySchedule.run();
+```
+
+##### API Overview
+- **new Scheduler(options?: { logger?: LogFn; name?: string; timeZone?: string|null; parallel?:boolean|number; auto?: boolean })**
+Creates a new Scheduler instance.
+-- **logger (optional)**: Custom logging function to capture errors.
+-- **name (optional)**: A non‑empty string to name the instance.
+-- **timeZone (optional)**: (default=local timezone) The default timeZone the scheduler is run in
+-- **parallel (optional)**: (default=true) Scheduler will run jobs that need to run in parallel, set to false to run linear, set to a number to run X jobs in parallel
+-- **auto (optional)**: (default=false) Set to true to automatically run the schedule every 60 seconds 
+- **add(job: {name:string; schedule:string; fn: Function; timeZone?: string | null; data?: unknown}): boolean**
+Add a job to the schedule
+-- If a timeZone is passed we will automatically check against local time in that timeZone on whether or not the job needs to run.
+-- If a data object is passed we will pass this data object to the provided function when run.
+-- Schedule uses cron-like schedule and is compatible with most of the standard cron formats.
+- **remove(name:string|string[]):void**
+Removes one or multiple jobs by name from the schedule.
+- **run(): Promise<void>**
+Runs the schedule.
+- **stopAutomaticRun():void**
+Stops automatic running (if enabled)
+- **startAutomaticRun():void**
+Start automatic running (if not enabled)
+- **static isCronSchedule(val:string):boolean**
+Returns true if the provided value is a valid cron schedule, false if it isnt
+- **static cronShouldRun(val:string, timeZone: string|null):boolean**
+Given a cron schedule and an optional timeZone returns whether or not the cron schedule should be run now
+
+##### Notes:
+- **cron:**
+This is not a cron replacement but rather a module that can be used at runtime to handle cron-like schedules in a seamless way.
+- **auto:**
+If running this on a system that is replicated it **is highly advised** to not turn on automatic runs but rather build a way to trigger the schedule on a single instance into your networking.
+
 ### number/is(val:unknown)
 Check if a variable is a number
 ```typescript

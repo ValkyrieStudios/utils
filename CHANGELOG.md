@@ -10,7 +10,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **feat** modules/Scheduler - A lightweight Scheduler module
 Supports baseline operation:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 const mySchedule = new Scheduler({name: 'MyScheduler'});
@@ -23,7 +23,7 @@ await mySchedule.run();
 
 Let's say you need to send something out in different timezones:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -45,7 +45,7 @@ await mySchedule.run();
 
 Too much flooding! let's turn off parallelization and have it run them in linear fashion:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -70,7 +70,7 @@ await mySchedule.run();
 
 Okay we can actually send 3 at a time, let's set that up:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -95,7 +95,7 @@ await mySchedule.run();
 
 Oh no the emails aren't going out to the right user because we didn't pass our data:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -121,7 +121,7 @@ await mySchedule.run();
 
 I want this to run continuously so that I can just leave it running on a server:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...

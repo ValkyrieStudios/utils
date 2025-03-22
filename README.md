@@ -1138,7 +1138,7 @@ A Lightweight scheduler module that works with a cron-like syntax and can be eas
 ##### Usage
 Supports baseline operation:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 const mySchedule = new Scheduler({name: 'MyScheduler'});
@@ -1151,7 +1151,7 @@ await mySchedule.run();
 
 Let's say you need to send something out in different timezones:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -1173,7 +1173,7 @@ await mySchedule.run();
 
 Too much flooding! let's turn off parallelization and have it run them in linear fashion:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -1198,7 +1198,7 @@ await mySchedule.run();
 
 Okay we can actually send 3 at a time, let's set that up:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -1223,7 +1223,7 @@ await mySchedule.run();
 
 Oh no the emails aren't going out to the right user because we didn't pass our data:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -1249,7 +1249,7 @@ await mySchedule.run();
 
 I want this to run continuously so that I can just leave it running on a server:
 ```typescript
-import { Scheduler } from '@valkyriestudios/utils/modules/PubSub';
+import { Scheduler } from '@valkyriestudios/utils/modules/Scheduler';
 import * as Handlers from "..."; /* Example methods */
 
 ...
@@ -1281,7 +1281,7 @@ Creates a new Scheduler instance.
 -- **name (optional)**: A non‑empty string to name the instance.
 -- **timeZone (optional)**: (default=local timezone) The default timeZone the scheduler is run in
 -- **parallel (optional)**: (default=true) Scheduler will run jobs that need to run in parallel, set to false to run linear, set to a number to run X jobs in parallel
--- **auto (optional)**: (default=false) Set to true to automatically run the schedule every 60 seconds 
+-- **auto (optional)**: (default=false) Set to true to automatically run the schedule every 60 seconds
 - **add(job: {name:string; schedule:string; fn: Function; timeZone?: string | null; data?: unknown}): boolean**
 Add a job to the schedule
 -- If a timeZone is passed we will automatically check against local time in that timeZone on whether or not the job needs to run.

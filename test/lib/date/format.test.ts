@@ -1,9 +1,9 @@
 /* eslint-disable max-lines,max-statements */
 
 import {describe, it, afterEach}   from 'node:test';
-import * as assert      from 'node:assert/strict';
-import CONSTANTS        from '../../constants';
-import format           from '../../../lib/date/format';
+import * as assert from 'node:assert/strict';
+import CONSTANTS from '../../constants';
+import format, {type WEEK_START} from '../../../lib/date/format';
 
 describe('Date - format', () => {
     it('Throw when passed a non-date for val', () => {
@@ -158,7 +158,7 @@ describe('Date - format', () => {
 
         it('should set and return the default start of the week when a valid value is provided', () => {
             for (const el of ['mon', 'sat', 'sun']) {
-                format.setStartOfWeek(el);
+                format.setStartOfWeek(el as WEEK_START);
                 assert.equal(format.getStartOfWeek(), el);
             }
         });

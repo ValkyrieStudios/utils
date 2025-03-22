@@ -3,8 +3,9 @@ import {toUTC} from '../date/toUTC';
 import {isNotEmptyString} from '../string/isNotEmpty';
 import {isFunction} from '../function/is';
 import {isIntegerAbove, isIntegerBetween} from '../number';
-import {isObject} from '../object';
+import {isObject, pick} from '../object';
 import {noop} from '../function';
+import {isBoolean} from '../boolean';
 
 export type LogObject = {
     name: string;
@@ -29,13 +30,23 @@ export type SchedulerOptions = {
      * Default timeZone to use
      */
     timeZone?: string|null;
+    /**
+     * Whether or not to run async jobs in parallel or not (defaults to true)
+     */
+    parallel?: boolean;
 };
 
-export type SchedulerJob = {
-    name?: string;
+type SchedulerJobFn = ((data: any) => void | Promise<void>);
+type SchedulerJobFnDefault = (data: unknown) => void | Promise<void>;
+
+export type SchedulerJob <
+    T extends SchedulerJobFn = SchedulerJobFnDefault
+> = {
+    name: string;
     schedule: string;
-    fn: () => void|Promise<void>;
     timeZone?: string | null;
+    fn: T;
+    data?: Parameters<T>[0];
 };
 
 /**
@@ -61,6 +72,13 @@ type TimeMap = {
 }
 
 const RGX_DIGITS = /^\d+$/;
+const LIMITS = {
+    minute: [0,59],
+    hour: [0,23],
+    day_of_month: [1,31],
+    month: [1,12],
+    day_of_week: [0, 6],
+};
 
 /**
  * Converts a sub-part (eg: '*' in '* 0,5,10 * * *') to a wildcard or set of numbers
@@ -188,13 +206,7 @@ class Scheduler {
     /**
      * Internal array of Jobs
      */
-    #jobs:{
-        schedule: string;
-        map: CronMap;
-        fn: () => void|Promise<void>;
-        timeZone: string | null;
-        name?: string;
-    }[] = [];
+    #jobs:(SchedulerJob & {timeZone: string | null; map: CronMap})[] = [];
 
     /**
      * Name of the instance
@@ -210,6 +222,11 @@ class Scheduler {
      * Internal Default Timezone
      */
     #timeZone:string|null = null;
+
+    /**
+     * Whether or not promises during run should be run in parallel or not (default=true)
+     */
+    #parallel:boolean = true;
 
     constructor (options:SchedulerOptions = {}) {
         if (!isObject(options)) throw new Error('Scheduler@ctor: options should be an object');
@@ -231,6 +248,11 @@ class Scheduler {
             ) throw new Error('Scheduler@ctor: timeZone should be null or a non-empty string');
             this.#timeZone = options.timeZone;
         }
+
+        if ('parallel' in options) {
+            if (!isBoolean(options.parallel)) throw new Error('Scheduler@ctor: parallel should be passed as a boolean');
+            this.#parallel = options.parallel;
+        }
     }
 
     /**
@@ -241,21 +263,82 @@ class Scheduler {
     }
 
     /**
-     * Add a task to the scheduler.
+     * Getter returning the scheduler's timeZone setting
+     */
+    get timeZone () {
+        return this.#timeZone;
+    }
+
+    /**
+     * Getter returning the scheduler's parallel setting
+     */
+    get parallel () {
+        return this.#parallel;
+    }
+
+    /**
+     * Returns the configured jobs array (bar fn/internals) to allow for introspection and debugging
+     */
+    get jobs () {
+        const acc = [];
+        for (let i = 0; i < this.#jobs.length; i++) {
+            const {name, schedule, timeZone, data = null} = this.#jobs[i];
+            acc.push({
+                name,
+                schedule,
+                timeZone,
+                ...data !== null && {data: {...data}},
+            });
+        }
+        return acc;
+    }
+
+    /**
+     * Add a job to the scheduler.
      *
      * @param {SchedulerJob} job - Raw job object to be added to the jobs list
      */
-    add (job:SchedulerJob): void {
-        if (!Scheduler.isCronSchedule(job?.schedule)) throw new Error(`${this.#name}@add: Invalid cron schedule`);
-        if (!isFunction(job?.fn)) throw new Error(`${this.#name}@add: Invalid function for job`);
+    add <T extends SchedulerJobFn> (job:SchedulerJob<T>): boolean {
+        try {
+            if (!Scheduler.isCronSchedule(job?.schedule)) throw new Error(`${this.#name}@add: Invalid cron schedule`);
+            if (!isFunction(job.fn)) throw new Error(`${this.#name}@add: Invalid function for job`);
+            if (!isNotEmptyString(job.name)) throw new Error(`${this.#name}@add: Invalid name for job`);
+            if ('data' in job && !isObject(job.data))  throw new Error(`${this.#name}@add: Job data should be an object`);
 
-        this.#jobs.push({
-            schedule: job.schedule,
-            map: Scheduler.convertToMap(job.schedule),
-            fn: job.fn,
-            timeZone: isNotEmptyString(job.timeZone) ? job.timeZone! : this.#timeZone,
-            ...isNotEmptyString(job.name) && {name: job.name},
-        });
+            this.#jobs.push({
+                name: job.name,
+                schedule: job.schedule,
+                fn: job.fn,
+                timeZone: isNotEmptyString(job.timeZone) ? job.timeZone! : this.#timeZone,
+                map: Scheduler.convertToMap(job.schedule),
+                ...job.data ? {data: job.data} : {},
+            });
+            return true;
+        } catch (err) {
+            this.#log({
+                name: this.#name,
+                msg: (err as Error).message,
+                on: new Date(),
+                data: job,
+                err: err as Error,
+            });
+            return false;
+        }
+    }
+
+    /**
+     * Remove a job from the schedule by name
+     *
+     * @param {string|string[]} name - Name or array of names of the job(s) to remove
+     */
+    remove (name:string|string[]) {
+        const names = new Set(isNotEmptyString(name) ? [name] : Array.isArray(name) ? name : []);
+        const jobs = [];
+        for (let i = 0; i < this.#jobs.length; i++) {
+            const el = this.#jobs[i];
+            if (!names.has(el.name)) jobs.push(el);
+        }
+        this.#jobs = jobs;
     }
 
     /**
@@ -266,30 +349,23 @@ class Scheduler {
         const promises = [];
         for (let i = 0; i < this.#jobs.length; i++) {
             const job = this.#jobs[i];
-            const time = Scheduler.getTimeAsParts(job.timeZone);
+            const time = Scheduler.getTimeParts(new Date(), job.timeZone);
 
             /* Only if the job's processed cron map matches our current time do we run it */
             if (Scheduler.checkTimeAgainstMap(job.map, time)) {
                 try {
-                    /* Run the job handle */
-                    const result = job.fn();
-
                     /* If the job was asynchronous we need to push it into our promises array for execution */
-                    if (isFunction(result?.then) && isFunction(result?.catch)) {
-                        promises.push(result.catch((err: Error) => this.#log({
-                            name: this.#name,
-                            msg: `${job.name || 'Async job'} error: ${err.message || 'Unknown error'}`,
-                            on: new Date(),
-                            data: {schedule: job.schedule, timeZone: job.timeZone, ...job.name && {job: job.name}},
-                            err,
-                        })));
+                    if (this.#parallel) {
+                        promises.push(job);
+                    } else {
+                        await job.fn(job.data);
                     }
                 } catch (err: any) {
                     this.#log({
                         name: this.#name,
-                        msg: `${job.name || 'Sync job'} error: ${err.message || 'Unknown error'}`,
+                        msg: `${job.name}: ${(err as Error).message}`,
                         on: new Date(),
-                        data: {schedule: job.schedule, timeZone: job.timeZone, ...job.name && {job: job.name}},
+                        data: pick(job, ['schedule', 'timeZone', 'name', 'data']),
                         err,
                     });
                 }
@@ -297,7 +373,23 @@ class Scheduler {
         }
 
         /* If promise array has content, await them */
-        if (promises.length) await Promise.all(promises);
+        if (promises.length) {
+            await Promise.allSettled([
+                ...promises,
+            ].map(el => (async () => {
+                try {
+                    await el.fn(el.data);
+                } catch (err) {
+                    this.#log({
+                        name: this.#name,
+                        msg: `${el.name}: ${(err as Error).message}`,
+                        on: new Date(),
+                        data: pick(el, ['schedule', 'timeZone', 'name', 'data']),
+                        err: err as Error,
+                    });
+                }
+            })()));
+        }
     }
 
 /**
@@ -311,31 +403,25 @@ class Scheduler {
      */
     private static convertToMap (schedule:string):CronMap {
         const parts = schedule.split(' ');
-        const map:CronMap = {
-            minute: convertPart(parts[0], 0, 59),
-            hour: convertPart(parts[1], 0, 23),
-            day_of_month: convertPart(parts[2], 1, 31),
-            month: convertPart(parts[3], 1, 12),
-            day_of_week: convertPart(parts[4], 0, 7),
+        return {
+            minute: convertPart(parts[0], LIMITS.minute[0], LIMITS.minute[1]),
+            hour: convertPart(parts[1], LIMITS.hour[0], LIMITS.hour[1]),
+            day_of_month: convertPart(parts[2], LIMITS.day_of_month[0], LIMITS.day_of_month[1]),
+            month: convertPart(parts[3], LIMITS.month[0], LIMITS.month[1]),
+            day_of_week: convertPart(parts[4], LIMITS.day_of_week[0], LIMITS.day_of_week[1]),
         };
-
-        /* 7 is non-standard for day of week but allowed in the schedule, we convert this to 0 */
-        if (map.day_of_week instanceof Set && map.day_of_week.has(7)) {
-            map.day_of_week.add(0);
-            map.day_of_week.delete(7);
-        }
-        return map;
     }
 
     /**
-     * Returns the current time in the provided zone as an object of parts
+     * Returns the time in the provided zone as an object of parts
      *
+     * @param {Date} date - Date to get parts from
      * @param {string|null} timeZone - Zone to use
      */
-    private static getTimeAsParts (timeZone:string | null):TimeMap {
+    private static getTimeParts (date:Date, timeZone:string | null):TimeMap {
         const now = toUTC(timeZone !== null
-            ? new Date(format(new Date(), 'ISO', 'en-US', timeZone))
-            : new Date()
+            ? new Date(format(date, 'ISO', 'en-US', timeZone))
+            : date
         );
 
         return {
@@ -352,9 +438,8 @@ class Scheduler {
      *
      * @param {CronMap} map - Cron Map
      * @param {TimeMap} time - Time Map
-     * @returns {boolean}
      */
-    private static checkTimeAgainstMap (map:CronMap, time:TimeMap) {
+    private static checkTimeAgainstMap (map:CronMap, time:TimeMap):boolean {
         const {minute, hour, day_of_month, month, day_of_week} = map;
 
         /* Minute */
@@ -391,15 +476,15 @@ class Scheduler {
         return (
             parts.length === 5 &&
             /* Minute */
-            isCronPart(parts[0], 0, 59) &&
+            isCronPart(parts[0], LIMITS.minute[0], LIMITS.minute[1]) &&
             /* Hour */
-            isCronPart(parts[1], 0, 23) &&
+            isCronPart(parts[1], LIMITS.hour[0], LIMITS.hour[1]) &&
             /* Day of month */
-            isCronPart(parts[2], 1, 31) &&
+            isCronPart(parts[2], LIMITS.day_of_month[0], LIMITS.day_of_month[1]) &&
             /* Month */
-            isCronPart(parts[3], 1, 12) &&
+            isCronPart(parts[3], LIMITS.month[0], LIMITS.month[1]) &&
             /* Day of week */
-            isCronPart(parts[4], 0, 7)
+            isCronPart(parts[4], LIMITS.day_of_week[0], LIMITS.day_of_week[1])
         );
     }
 
@@ -413,9 +498,10 @@ class Scheduler {
     static cronShouldRun (schedule:string, timeZone: string | null = null) {
         if (!Scheduler.isCronSchedule(schedule)) return false;
 
-        const map = Scheduler.convertToMap(schedule);
-        const time = Scheduler.getTimeAsParts(isNotEmptyString(timeZone) ? timeZone : null);
-        return Scheduler.checkTimeAgainstMap(map, time);
+        return Scheduler.checkTimeAgainstMap(
+            Scheduler.convertToMap(schedule),
+            Scheduler.getTimeParts(new Date(), isNotEmptyString(timeZone) ? timeZone : null)
+        );
     }
 
 }

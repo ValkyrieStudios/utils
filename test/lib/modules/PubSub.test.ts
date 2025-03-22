@@ -204,10 +204,10 @@ describe('Modules - PubSub', () => {
 
         it('Should not override existing subscribers if override is passed as false', () => {
             const relay = new PubSub();
-            const vals = [];
-            const vals2 = [];
-            const vals3 = [];
-            const vals4 = [];
+            const vals:unknown[] = [];
+            const vals2:unknown[] = [];
+            const vals3:unknown[] = [];
+            const vals4:unknown[] = [];
             relay.subscribe({event: data => vals.push(data)}, 'client1');
             relay.subscribe({event: data => vals3.push(data)}, 'client2');
 

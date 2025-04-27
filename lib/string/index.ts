@@ -1,13 +1,15 @@
-import {humanizeBytes}      from './humanizeBytes';
-import {humanizeNumber}     from './humanizeNumber';
+/* Aliases needed - import first */
 import {isString}           from './is';
 import {isNotEmptyString}   from './isNotEmpty';
 import {isStringBetween}    from './isBetween';
-import {shorten}            from './shorten';
 
+/* 1:1 Re-exports */
+export {humanizeBytes}      from './humanizeBytes';
+export {humanizeNumber}     from './humanizeNumber';
+export {shorten}            from './shorten';
+
+/* Manual export block for aliasing */
 export {
-    humanizeBytes,
-    humanizeNumber,
     isString,
     isString as is,
     isNotEmptyString,
@@ -15,6 +17,5 @@ export {
     isNotEmptyString as isNeString,
     isNotEmptyString as isNe,
     isStringBetween,
-    isStringBetween as isBetween,
-    shorten
+    isStringBetween as isBetween
 };

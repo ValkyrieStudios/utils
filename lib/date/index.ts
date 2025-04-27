@@ -1,33 +1,25 @@
-import {addUTC}         from './addUTC';
-import {convertToDate}  from './convertToDate';
-import {diff}           from './diff';
-import {endOfUTC}       from './endOfUTC';
-import {format}         from './format';
+/* Aliases needed - import first */
 import {isDateFormat}   from './isFormat';
 import {isDate}         from './is';
-import {isLeap}         from './isLeap';
-import {nowUnix}        from './nowUnix';
-import {nowUnixMs}      from './nowUnixMs';
-import {setTimeUTC}     from './setTimeUTC';
-import {startOfUTC}     from './startOfUTC';
-import {toUnix}         from './toUnix';
-import {toUTC}          from './toUTC';
 
+/* 1:1 Re-exports */
+export {addUTC}         from './addUTC';
+export {convertToDate}  from './convertToDate';
+export {diff}           from './diff';
+export {endOfUTC}       from './endOfUTC';
+export {format}         from './format';
+export {isLeap}         from './isLeap';
+export {nowUnix}        from './nowUnix';
+export {nowUnixMs}      from './nowUnixMs';
+export {setTimeUTC}     from './setTimeUTC';
+export {startOfUTC}     from './startOfUTC';
+export {toUnix}         from './toUnix';
+export {toUTC}          from './toUTC';
+
+/* Manual export block for aliasing */
 export {
-    addUTC,
-    convertToDate,
-    diff,
-    endOfUTC,
-    format,
     isDateFormat as isFormat,
     isDateFormat,
     isDate,
-    isDate as is,
-    isLeap,
-    nowUnix,
-    nowUnixMs,
-    setTimeUTC,
-    startOfUTC,
-    toUnix,
-    toUTC
+    isDate as is
 };

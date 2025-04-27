@@ -1,19 +1,19 @@
-import {define}             from './define';
+/* Aliases needed - import first */
 import {isObject}           from './is';
 import {isNotEmptyObject}   from './isNotEmpty';
-import {merge}              from './merge';
-import {pick}               from './pick';
-import {omit}               from './omit';
 
+/* 1:1 Re-exports */
+export {define}             from './define';
+export {merge}              from './merge';
+export {pick}               from './pick';
+export {omit}               from './omit';
+
+/* Manual export block for aliasing */
 export {
-    define,
     isObject,
     isObject as is,
     isNotEmptyObject,
     isNotEmptyObject as isNotEmpty,
     isNotEmptyObject as isNeObject,
-    isNotEmptyObject as isNe,
-    merge,
-    pick,
-    omit
+    isNotEmptyObject as isNe
 };

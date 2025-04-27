@@ -710,6 +710,18 @@
             "default": "./hash/guid.js",
             "types": "./hash/guid.d.ts"
         },
+        "./modules": {
+            "import": {
+                "default": "./modules/index.js",
+                "types": "./modules/index.d.ts"
+            },
+            "require": {
+                "default": "./modules/index.js",
+                "types": "./modules/index.d.ts"
+            },
+            "default": "./modules/index.js",
+            "types": "./modules/index.d.ts"
+        },
         "./modules/PubSub": {
             "import": {
                 "default": "./modules/PubSub.js",

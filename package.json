@@ -1156,11 +1156,11 @@
         }
     },
     "devDependencies": {
-        "@types/node": "^22.13.11",
+        "@types/node": "^22.15.2",
         "esbuild-register": "^3.6.0",
-        "eslint": "^9.23.0",
+        "eslint": "^9.25.1",
         "nyc": "^17.1.0",
-        "typescript": "^5.8.2",
-        "typescript-eslint": "^8.27.0"
+        "typescript": "^5.8.3",
+        "typescript-eslint": "^8.31.0"
     }
 }

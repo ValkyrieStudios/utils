@@ -8,10 +8,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - **perf**: Improved on barrel export approach for some most-used parts allowing for better tree-shaking
-- **deps**: Upgrade @types/node to 22.15.2
-- **deps**: Upgrade eslint to 9.25.1
+- **deps**: Upgrade @types/node to 22.15.12
+- **deps**: Upgrade eslint to 9.26.0
 - **deps**: Upgrade typescript to 5.8.3
-- **deps**: Upgrade typescript-eslint to 8.31.0
+- **deps**: Upgrade typescript-eslint to 8.32.0
 
 ## [12.35.0] - 2025-03-22
 ### Added

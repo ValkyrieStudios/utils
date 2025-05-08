@@ -22,17 +22,13 @@ type sortByFunction = (el:Record<string, any>) => string;
 
 const INSERTION_SORT_THRESHOLD = 10;
 
-function partition (arr: [any, Record<string, any>][], low: number, high: number) {
+function partitionAsc (arr: [any, Record<string, any>][], low: number, high: number) {
     const pivot = arr[(low + high) >> 1][0];
     let i = low;
     let j = high;
     while (i <= j) {
-        while (arr[i][0] < pivot) {
-            i++;
-        }
-        while (arr[j][0] > pivot) {
-            j--;
-        }
+        while (arr[i][0] < pivot) i++;
+        while (arr[j][0] > pivot) j--;
         if (i <= j) {
             [arr[i], arr[j]] = [arr[j], arr[i]];
             i++;
@@ -42,7 +38,7 @@ function partition (arr: [any, Record<string, any>][], low: number, high: number
     return i;
 }
 
-function quickSort (arr: [any, Record<string, any>][]) {
+function quickSortAsc (arr: [any, Record<string, any>][]) {
     const stack = [[0, arr.length - 1]];
     while (stack.length) {
         const [low, high] = stack.pop() as number[];
@@ -57,7 +53,47 @@ function quickSort (arr: [any, Record<string, any>][]) {
                 arr[j + 1] = key;
             }
         } else {
-            const p = partition(arr, low, high);
+            const p = partitionAsc(arr, low, high);
+            if (p - 1 > low) stack.push([low, p - 1]);
+            if (p < high) stack.push([p, high]);
+        }
+    }
+}
+
+function partitionDesc (arr: [any, Record<string, any>][], low: number, high: number) {
+    const pivot = arr[(low + high) >> 1][0];
+    let i = low;
+    let j = high;
+
+    while (i <= j) {
+        while (arr[i][0] > pivot) i++;
+        while (arr[j][0] < pivot) j--;
+
+        if (i <= j) {
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+
+function quickSortDesc (arr: [any, Record<string, any>][]) {
+    const stack = [[0, arr.length - 1]];
+    while (stack.length) {
+        const [low, high] = stack.pop() as number[];
+        if (high - low <= INSERTION_SORT_THRESHOLD) {
+            for (let i = low + 1; i <= high; i++) {
+                const key = arr[i];
+                let j = i - 1;
+                while (j >= low && arr[j][0] < key[0]) {
+                    arr[j + 1] = arr[j];
+                    j--;
+                }
+                arr[j + 1] = key;
+            }
+        } else {
+            const p = partitionDesc(arr, low, high);
             if (p - 1 > low) stack.push([low, p - 1]);
             if (p < high) stack.push([p, high]);
         }
@@ -125,51 +161,44 @@ function sort <T extends {[key:string]:any}> (
         FILTER_FN = (el => isObject(el) && fn(el)) as (val:unknown) => val is {[key:string]:any};
     }
 
+    /* Determine sort by behavior */
+    const by_type = typeof by;
+    let BY_FN:sortByFunction;
+    switch (by_type) {
+        case 'function':
+            BY_FN = by as sortByFunction;
+            break;
+        case 'string':
+            if (!by.length) throw new Error('Sort by as string should contain content');
+            BY_FN = ((val:T) => val?.[by as string]) as sortByFunction;
+            break;
+        default:
+            throw new Error('Sort by should either be a string with content or a function');
+    }
+
     /* Prepare for sort */
-    const prepared_arr:[any,Record<string,any>][] = [];
-    const nokey_arr     = [];
-    if (typeof by === 'string') {
-        const by_s = by.trim();
-        if (!by_s.length) throw new Error('Sort by as string should contain content');
-
-        for (let i = 0; i < len; i++) {
-            const el = arr[i];
-            if (!FILTER_FN(el)) continue;
-
-            const key = el?.[by_s];
-            if (key === undefined) {
-                nokey_arr.push(el);
-            } else {
-                prepared_arr.push([key, el]);
-            }
+    const tosort_arr:[any,T][] = [];
+    const noval_arr:T[] = [];
+    for (let i = 0; i < len; i++) {
+        const el = arr[i];
+        if (FILTER_FN(el)) {
+            const val = BY_FN(el);
+            if (val === undefined) noval_arr.push(el);
+            else tosort_arr.push([val, el]);
         }
-    } else if (typeof by === 'function') {
-        for (let i = 0; i < len; i++) {
-            const el = arr[i];
-            if (!FILTER_FN(el)) continue;
-
-            const key = by(el);
-            if (key === undefined) {
-                nokey_arr.push(el);
-            } else {
-                prepared_arr.push([key, el]);
-            }
-        }
-    } else {
-        throw new Error('Sort by should either be a string with content or a function');
     }
 
     /* Sort */
-    quickSort(prepared_arr);
-    if (dir === 'desc') prepared_arr.reverse();
+    if (dir === 'desc') quickSortDesc(tosort_arr);
+    else quickSortAsc(tosort_arr);
 
     /* Construct Result */
     const rslt = [];
-    if (!NOKEY_HIDE && !NOKEY_AT_END) rslt.push(...nokey_arr);
-    for (let i = 0; i < prepared_arr.length; i++) rslt.push(prepared_arr[i][1]);
-    if (!NOKEY_HIDE && NOKEY_AT_END) rslt.push(...nokey_arr);
+    if (!NOKEY_HIDE && !NOKEY_AT_END) rslt.push(...noval_arr);
+    for (let i = 0; i < tosort_arr.length; i++) rslt.push(tosort_arr[i][1]);
+    if (!NOKEY_HIDE && NOKEY_AT_END) rslt.push(...noval_arr);
 
-    return rslt as unknown as T[];
+    return rslt as T[];
 }
 
 export {sort, sort as default};

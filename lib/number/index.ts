@@ -1,57 +1,37 @@
-import {isNumber}               from './is';
-import {isNumberAbove}          from './isAbove';
-import {isNumberAboveOrEqual}   from './isAboveOrEqual';
-import {isNumberBelow}          from './isBelow';
-import {isNumberBelowOrEqual}   from './isBelowOrEqual';
-import {isNumberBetween}        from './isBetween';
-import {isInteger}              from './isInteger';
-import {isIntegerAbove}         from './isIntegerAbove';
-import {isIntegerAboveOrEqual}  from './isIntegerAboveOrEqual';
-import {isIntegerBelow}         from './isIntegerBelow';
-import {isIntegerBelowOrEqual}  from './isIntegerBelowOrEqual';
-import {isIntegerBetween}       from './isIntegerBetween';
-import {isNumericalNaN}         from './isNumericalNaN';
-import {randomBetween}          from './randomBetween';
-import {randomIntBetween}       from './randomIntBetween';
-import {round}                  from './round';
-import {toPercentage}           from './toPercentage';
-
-export {
-    isNumber,
-    isNumber as is,
-    isNumber as isNum,
-    isNumberAbove,
-    isNumberAbove as isNumGt,
-    isNumberAbove as isGt,
-    isNumberAboveOrEqual,
-    isNumberAboveOrEqual as isNumGte,
-    isNumberAboveOrEqual as isGte,
-    isNumberBelow,
-    isNumberBelow as isNumLt,
-    isNumberBelow as isLt,
-    isNumberBelowOrEqual,
-    isNumberBelowOrEqual as isNumLte,
-    isNumberBelowOrEqual as isLte,
-    isNumberBetween,
-    isNumberBetween as isNumBetween,
-    isInteger,
-    isInteger as isInt,
-    isIntegerAbove,
-    isIntegerAbove as isIntGt,
-    isIntegerAboveOrEqual,
-    isIntegerAboveOrEqual as isIntGte,
-    isIntegerBelow,
-    isIntegerBelow as isIntLt,
-    isIntegerBelowOrEqual,
-    isIntegerBelowOrEqual as isIntLte,
-    isIntegerBetween,
-    isIntegerBetween as isIntBetween,
-    isNumericalNaN,
-    randomBetween,
-    randomBetween as randBetween,
-    randomIntBetween,
-    randomIntBetween as randIntBetween,
-    round,
-    toPercentage,
-    toPercentage as toPct
-};
+export {isNumber} from './is';
+export {isNumber as isNum} from './is';
+export {isNumberAbove} from './isAbove';
+export {isNumberAbove as isNumGt} from './isAbove';
+export {isNumberAbove as isGt} from './isAbove';
+export {isNumberAboveOrEqual} from './isAboveOrEqual';
+export {isNumberAboveOrEqual as isNumGte} from './isAboveOrEqual';
+export {isNumberAboveOrEqual as isGte} from './isAboveOrEqual';
+export {isNumberBelow} from './isBelow';
+export {isNumberBelow as isNumLt} from './isBelow';
+export {isNumberBelow as isLt} from './isBelow';
+export {isNumberBelowOrEqual} from './isBelowOrEqual';
+export {isNumberBelowOrEqual as isNumLte} from './isBelowOrEqual';
+export {isNumberBelowOrEqual as isLte} from './isBelowOrEqual';
+export {isNumberBetween} from './isBetween';
+export {isNumberBetween as isNumBetween} from './isBetween';
+export {isNumberBetween as isBetween} from './isBetween';
+export {isInteger} from './isInteger';
+export {isInteger as isInt} from './isInteger';
+export {isIntegerAbove} from './isIntegerAbove';
+export {isIntegerAbove as isIntGt} from './isIntegerAbove';
+export {isIntegerAboveOrEqual} from './isIntegerAboveOrEqual';
+export {isIntegerAboveOrEqual as isIntGte} from './isIntegerAboveOrEqual';
+export {isIntegerBelow} from './isIntegerBelow';
+export {isIntegerBelow as isIntLt} from './isIntegerBelow';
+export {isIntegerBelowOrEqual} from './isIntegerBelowOrEqual';
+export {isIntegerBelowOrEqual as isIntLte} from './isIntegerBelowOrEqual';
+export {isIntegerBetween} from './isIntegerBetween';
+export {isIntegerBetween as isIntBetween} from './isIntegerBetween';
+export {isNumericalNaN} from './isNumericalNaN';
+export {randomBetween} from './randomBetween';
+export {randomBetween as randBetween} from './randomBetween';
+export {randomIntBetween} from './randomIntBetween';
+export {randomIntBetween as randIntBetween} from './randomIntBetween';
+export {round} from './round';
+export {toPercentage} from './toPercentage';
+export {toPercentage as toPct} from './toPercentage';

@@ -13,10 +13,8 @@ describe('Function - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibFunction, {
             debounce,
-            is,
             isFunction: is,
             isFn: is,
-            isAsync,
             isAsyncFunction: isAsync,
             isAsyncFn: isAsync,
             noop,

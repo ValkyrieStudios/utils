@@ -1,9 +1,3 @@
-import {isRegExp} from './is';
-import {sanitizeRegExp} from './sanitize';
-
-export {
-    isRegExp,
-    isRegExp as is,
-    sanitizeRegExp,
-    sanitizeRegExp as sanitize
-};
+export {isRegExp} from './is';
+export {sanitizeRegExp} from './sanitize';
+export {sanitizeRegExp as sanitize} from './sanitize';

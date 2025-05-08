@@ -11,13 +11,9 @@ import shorten          from '../../../lib/string/shorten';
 describe('String - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibString, {
-            is,
             isString: is,
-            isNe: isNotEmpty,
             isNeString: isNotEmpty,
-            isNotEmpty: isNotEmpty,
             isNotEmptyString: isNotEmpty,
-            isBetween,
             isStringBetween: isBetween,
             humanizeBytes,
             humanizeNumber,

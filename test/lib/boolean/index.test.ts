@@ -6,7 +6,6 @@ import is               from '../../../lib/boolean/is';
 describe('Boolean - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibBoolean, {
-            is,
             isBoolean: is,
         });
     });

@@ -1,15 +1,8 @@
-import {deepFreeze} from './freeze';
-import {deepGet}    from './get';
-import {deepSeal}   from './seal';
-import {deepSet}    from './set';
-
-export {
-    deepFreeze as freeze,
-    deepFreeze,
-    deepGet as get,
-    deepGet,
-    deepSeal as seal,
-    deepSeal,
-    deepSet as set,
-    deepSet
-};
+export {deepFreeze as freeze} from './freeze';
+export {deepFreeze} from './freeze';
+export {deepGet as get} from './get';
+export {deepGet} from './get';
+export {deepSeal as seal} from './seal';
+export {deepSeal} from './seal';
+export {deepSet as set} from './set';
+export {deepSet} from './set';

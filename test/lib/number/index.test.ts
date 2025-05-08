@@ -22,11 +22,11 @@ import toPercentage         from '../../../lib/number/toPercentage';
 describe('Number- *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibNum, {
-            is,
             isGt: isAbove,
             isGte: isAboveOrEqual,
             isLt: isBelow,
             isLte: isBelowOrEqual,
+            isBetween: isBetween,
             isInt,
             isIntBetween: isIntBetween,
             isIntGt: isIntAbove,

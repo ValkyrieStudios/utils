@@ -11,11 +11,8 @@ import omit             from '../../../lib/object/omit';
 describe('Object - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibObject, {
-            is,
             isObject: is,
-            isNe: isNotEmpty,
             isNeObject: isNotEmpty,
-            isNotEmpty: isNotEmpty,
             isNotEmptyObject: isNotEmpty,
             define,
             merge,

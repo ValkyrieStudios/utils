@@ -7,7 +7,6 @@ import sanitize         from '../../../lib/regexp/sanitize';
 describe('RegExp - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibRegExp, {
-            is,
             isRegExp: is,
             sanitizeRegExp: sanitize,
             sanitize,

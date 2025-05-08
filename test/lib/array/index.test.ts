@@ -19,12 +19,9 @@ describe('Array - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibArray, {
             dedupe: dedupe,
-            is,
             isArray: is,
             isNotEmptyArray: isNotEmpty,
-            isNotEmpty,
             isNeArray: isNotEmpty,
-            isNe: isNotEmpty,
             join,
             mapFn,
             mapFnAsMap,

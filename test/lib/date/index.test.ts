@@ -20,7 +20,6 @@ describe('Date - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibDate, {
             isDate: is,
-            is,
             isDateFormat,
             isFormat: isDateFormat,
             isLeap,

@@ -8,7 +8,6 @@ describe('FormData - *', () => {
     it('Should be a correct export', () => {
         assert.deepEqual(LibFormData, {
             isFormData: is,
-            is,
             toObject,
         });
     });

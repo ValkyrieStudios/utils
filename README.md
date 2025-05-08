@@ -2,8 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CodeCov](https://codecov.io/gh/ValkyrieStudios/utils/branch/main/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
-[![Test](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml)
-[![Lint](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml)
+[![CI](https://github.com/ValkyrieStudios/utils/actions/workflows/ci.yml/badge.svg)](https://github.com/ValkyrieStudios/utils/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/github-code-scanning/codeql)
 [![npm](https://img.shields.io/npm/v/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)
 [![npm](https://img.shields.io/npm/dm/@valkyriestudios/utils.svg)](https://www.npmjs.com/package/@valkyriestudios/utils)

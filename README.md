@@ -1,5 +1,6 @@
 # @valkyriestudios/utils
 
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CodeCov](https://codecov.io/gh/ValkyrieStudios/utils/branch/main/graph/badge.svg)](https://codecov.io/gh/ValkyrieStudios/utils)
 [![Test](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/test.yml)
 [![Lint](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/ValkyrieStudios/utils/actions/workflows/lint.yml)

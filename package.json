@@ -1168,7 +1168,7 @@
         }
     },
     "devDependencies": {
-        "@types/node": "^22.15.12",
+        "@types/node": "^22.15.16",
         "esbuild-register": "^3.6.0",
         "eslint": "^9.26.0",
         "nyc": "^17.1.0",

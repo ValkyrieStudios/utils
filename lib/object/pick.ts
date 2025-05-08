@@ -37,24 +37,19 @@ function pick<T extends Record<string, any>, K extends readonly DottedKeys<T>[]>
 ): UnionToIntersection<PickFromObject<T, K[number]>> {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' ||
-        !Array.isArray(keys) ||
-        !keys.length
+        !Array.isArray(keys)
     ) throw new TypeError('Please pass an object to pick from and a keys array');
 
     const map: any = {};
     let val;
-    let sanitized;
     for (let i = 0; i < keys.length; i++) {
         const key:string = keys[i];
-        if (typeof key !== 'string') continue;
+        if (typeof key !== 'string' || !key) continue;
 
-        sanitized = key.trim();
-        if (!sanitized) continue;
-
-        if (sanitized.indexOf('.') >= 0) {
-            val = deepGet(obj, sanitized);
+        if (key.indexOf('.') >= 0) {
+            val = deepGet(obj, key);
             if (val === undefined) continue;
-            const parts = sanitized.split('.');
+            const parts = key.split('.');
             const parts_len = parts.length;
             let cursor = map;
             for (let y = 0; y < parts_len - 1; y++) {
@@ -63,8 +58,8 @@ function pick<T extends Record<string, any>, K extends readonly DottedKeys<T>[]>
                 cursor = cursor[part];
             }
             cursor[parts[parts_len - 1].trim()] = val;
-        } else if (sanitized in obj) {
-            map[sanitized] = obj[sanitized];
+        } else if (key in obj) {
+            map[key] = obj[key];
         }
     }
     return map as UnionToIntersection<PickFromObject<T, K[number]>>;

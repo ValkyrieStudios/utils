@@ -54,51 +54,7 @@ describe('Object - pick', () => {
         );
     });
 
-    it('Correctly trim keys when picking', () => {
-        const subject = {
-            a: 100,
-            b: 200,
-            c: {
-                d: 5,
-                bar: true,
-                f: [0, 1, 2],
-            },
-        };
-
-        assert.deepEqual(
-            pick(subject, [
-                'a',
-                '  c.bar',
-                '  c.d     ',
-                'b    ',
-            ]),
-            {a: 100, b: 200, c: {bar: true, d: 5}}
-        );
-    });
-
-    it('Correctly filters out keys that are empty after trimming', () => {
-        const subject = {
-            a: 100,
-            b: 200,
-            c: {
-                d: 5,
-                bar: true,
-                f: [0, 1, 2],
-            },
-        };
-
-        assert.deepEqual(
-            pick(subject, [
-                'a',
-                '  ',
-                '  c.d     ',
-                'b    ',
-            ]),
-            {a: 100, b: 200, c: {d: 5}}
-        );
-    });
-
-    it('Correctly filters out keys that are empty after trimming and for which deep retrieval cant find them', () => {
+    it('Correctly filters out keys for which deep retrieval cant find them', () => {
         const subject = {
             a: 100,
             b: 200,
@@ -113,8 +69,8 @@ describe('Object - pick', () => {
             pick(subject, [
                 'a',
                 '  ',
-                '  c.d     ',
-                'b    ',
+                'c.d',
+                'b',
             ]),
             {a: 100, b: 200}
         );
@@ -129,8 +85,8 @@ describe('Object - pick', () => {
         }
     });
 
-    it('Throws a type error when passed something else than an array with content as keys', () => {
-        for (const el of CONSTANTS.NOT_ARRAY_WITH_EMPTY) {
+    it('Throws a type error when passed something else than an array as keys', () => {
+        for (const el of CONSTANTS.NOT_ARRAY) {
             assert.throws(
                 () => pick({a: 'hello'}, el),
                 new TypeError('Please pass an object to pick from and a keys array')

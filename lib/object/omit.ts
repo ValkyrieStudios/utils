@@ -24,24 +24,25 @@ function innerOmit (obj:Record<string, any>, keys:string[]) {
     /* Group keys by top-level property */
     const groups: Record<string, string[]> = {};
     for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        if (typeof key !== 'string') continue;
+        if (typeof keys[i] === 'string') {
+            const [root, ...rest] = keys[i].split('.');
 
-        const [root, ...rest] = key.trim().split('.');
-
-        if (rest.length) {
-            if (!groups[root]) groups[root] = [];
-            groups[root].push(rest.join('.'));
-        } else {
-            /* Remove top-level prop */
-            delete result[root];
+            if (rest.length) {
+                if (!groups[root]) groups[root] = [];
+                groups[root].push(rest.join('.'));
+            } else {
+                /* Remove top-level prop */
+                delete result[root];
+            }
         }
     }
 
     /* Process each top-level property group */
     for (const root in groups) {
-        if (typeof result[root] !== 'object' || result[root] === null) continue;
-        result[root] = innerOmit(result[root], groups[root]);
+        if (
+            typeof result[root] === 'object' &&
+            result[root] !== null
+        ) result[root] = innerOmit(result[root], groups[root]);
     }
 
     return result;
@@ -59,8 +60,7 @@ function omit<T extends Record<string, any>, K extends readonly DottedKeys<T>[]>
 ): OmitFromObject<T, K[number]> {
     if (
         Object.prototype.toString.call(obj) !== '[object Object]' ||
-        !Array.isArray(keys) ||
-        !keys.length
+        !Array.isArray(keys)
     ) throw new TypeError('Please pass an object to omit from and a keys array');
 
     return innerOmit(obj, keys) as OmitFromObject<T, K[number]>;

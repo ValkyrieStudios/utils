@@ -7,6 +7,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **perf**: Minor performance gain in object/pick and object/omit thanks to reduction of internal operations.
 - **perf**: Improved on barrel export approach allowing for better tree-shaking
 - **misc**: Updated license to include all contributors portion and add license badge to readme
 - **deps**: Upgrade @types/node to 22.15.16

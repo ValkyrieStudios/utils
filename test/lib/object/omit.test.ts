@@ -54,51 +54,7 @@ describe('Object - omit', () => {
         );
     });
 
-    it('Correctly trims keys when omitting', () => {
-        const subject = {
-            a: 100,
-            b: 200,
-            c: {
-                d: 5,
-                bar: true,
-                f: [0, 1, 2],
-            },
-        };
-
-        assert.deepEqual(
-            omit(subject, [
-                'a',
-                '  c.bar',
-                '  c.d     ',
-                'b    ',
-            ]),
-            {c: {f: [0, 1, 2]}}
-        );
-    });
-
-    it('Correctly filters out keys that are empty after trimming', () => {
-        const subject = {
-            a: 100,
-            b: 200,
-            c: {
-                d: 5,
-                bar: true,
-                f: [0, 1, 2],
-            },
-        };
-
-        assert.deepEqual(
-            omit(subject, [
-                'a',
-                '  ',
-                '  c.d     ',
-                'b    ',
-            ]),
-            {c: {bar: true, f: [0, 1, 2]}}
-        );
-    });
-
-    it('Correctly filters out keys that are empty after trimming and for which deep retrieval can’t find them', () => {
+    it('Correctly filters out keys for which deep retrieval can’t find them', () => {
         const subject = {
             a: 100,
             b: 200,
@@ -113,8 +69,8 @@ describe('Object - omit', () => {
             omit(subject, [
                 'a',
                 '  ',
-                '  c.d     ',
-                'b    ',
+                'c.d',
+                'b',
             ]),
             {c: {j: 5, bar: true, f: [0, 1, 2]}}
         );
@@ -135,9 +91,9 @@ describe('Object - omit', () => {
             omit(subject, [
                 'a',
                 '  ',
-                '  c.d     ',
+                'c.d',
                 'd.f',
-                'b    ',
+                'b',
             ]),
             {c: {j: 5, bar: true, f: [0, 1, 2]}}
         );
@@ -176,8 +132,8 @@ describe('Object - omit', () => {
         }
     });
 
-    it('Throws a type error when passed something other than a non-empty array as keys', () => {
-        for (const el of CONSTANTS.NOT_ARRAY_WITH_EMPTY) {
+    it('Throws a type error when passed something other than an array as keys', () => {
+        for (const el of CONSTANTS.NOT_ARRAY) {
             assert.throws(
                 () => omit({a: 'hello'}, el),
                 new TypeError('Please pass an object to omit from and a keys array')

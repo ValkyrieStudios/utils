@@ -5,11 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [12.36.0] - 2025-05-08
 ### Improved
+- **perf**: Reduced memory usage of sort method when working with descending order, previously this would use `.reverse` (which internally clones the array)
 - **perf**: Minor performance gain in object/pick and object/omit thanks to reduction of internal operations.
 - **perf**: Improved on barrel export approach allowing for better tree-shaking
 - **misc**: Updated license to include all contributors portion and add license badge to readme
+- **misc**: Improved on CI, bundle existing lint/coverage/test workflows in one ci workflow, add types, audit, publish jobs
 - **deps**: Upgrade @types/node to 22.15.16
 - **deps**: Upgrade eslint to 9.26.0
 - **deps**: Upgrade typescript to 5.8.3

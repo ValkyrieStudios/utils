@@ -1,3 +1,5 @@
+/* eslint-disable complexity */
+
 import {isDateFormat} from '../date/isFormat';
 
 type ToObjectConfig = {
@@ -33,7 +35,7 @@ function assign (
     acc: Record<string, unknown>,
     rawkey: string,
     value: unknown,
-    single:Set<string>
+    single:Set<string>|null
 ): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
     const keys = rawkey.match(RGX_TOKENS);
@@ -44,17 +46,17 @@ function assign (
             case '__proto__':
             case 'constructor':
             case 'prototype':
-                break;
+                return;
             default: {
                 /* If more values */
                 if (i < (keys_len - 1)) {
-                    const n_key: string | number = Array.isArray(cursor) ? Number(key) : key;
+                    const n_key:string|number = Array.isArray(cursor) ? Number(key) : key;
 
                     /* Create array or object only if it doesn't exist */
                     if (!cursor[n_key]) cursor[n_key] = Number.isInteger(+keys![i + 1]) ? [] : {};
 
                     cursor = cursor[n_key] as Record<string, unknown>;
-                } else if (!(key in cursor) || single.has(key)) {
+                } else if (!(key in cursor) || (single && single.has(key))) {
                     (cursor as Record<string, unknown>)[key] = value;
                 } else {
                     const cursor_val = (cursor as Record<string, unknown>)[key];
@@ -87,58 +89,58 @@ function assign (
 function toObject <T extends Record<string, unknown>> (form:FormData, config?:ToObjectConfig):T {
     if (!(form instanceof FormData)) throw new Error('formdata/toObject: Value is not an instance of FormData');
 
-    const set:Set<string>|true = config?.raw === true ? true : new Set(Array.isArray(config?.raw) ? config?.raw : []);
-    const single = new Set(Array.isArray(config?.single) ? config!.single : []);
+    const set:Set<string>|null = config?.raw === true ? null : new Set(Array.isArray(config?.raw) ? config?.raw : []);
+    const set_guard:boolean = !!(set && set.size > 0);
+    const single = Array.isArray(config?.single) ? new Set(config!.single) : null;
     const nBool = config?.normalize_bool !== false;
     const nNull = config?.normalize_null !== false;
     const nDate = config?.normalize_date !== false;
     const nNumber = config?.normalize_number !== false;
 
     const acc:Record<string, unknown> = {};
-    form.forEach((value, key) => {
-        if (set !== true && value !== '' && typeof value === 'string' && !set.has(key)) {
-            /* Bool normalization */
-            if (nBool) {
-                switch (value) {
-                    case 'true':
-                    case 'TRUE':
-                    case 'True':
-                        return assign(acc, key, true, single);
-                    case 'false':
-                    case 'FALSE':
-                    case 'False':
-                        return assign(acc, key, false, single);
-                    default:
-                        break;
+    if (set === null) {
+        form.forEach((value, key) => assign(acc, key, value, single));
+    } else {
+        form.forEach((value, key) => {
+            if (set_guard && set!.has(key)) return assign(acc, key, value, single);
+
+            switch (value) {
+                /* Bool true normalization */
+                case 'true':
+                case 'TRUE':
+                case 'True':
+                    assign(acc, key, nBool ? true : value, single);
+                    break;
+                /* Bool false normalization */
+                case 'false':
+                case 'FALSE':
+                case 'False':
+                    assign(acc, key, nBool ? false : value, single);
+                    break;
+                case 'null':
+                case 'NULL':
+                case 'Null':
+                    assign(acc, key, nNull ? null : value, single);
+                    break;
+                default: {
+                    if (typeof value === 'string' && value.length) {
+                        /* Number normalization */
+                        if (nNumber) {
+                            const nVal = Number(value);
+                            if (!isNaN(nVal)) return assign(acc, key, nVal, single);
+                        }
+
+                        /* Date normalization */
+                        if (
+                            nDate &&
+                            isDateFormat(value, 'ISO')
+                        ) return assign(acc, key, new Date(value), single);
+                    }
+                    assign(acc, key, value, single);
                 }
             }
-
-            /* null normalization */
-            if (nNull) {
-                switch (value) {
-                    case 'null':
-                    case 'NULL':
-                        return assign(acc, key, null, single);
-                    default:
-                        break;
-                }
-            }
-
-            /* Number normalization */
-            if (nNumber) {
-                const nVal = Number(value);
-                if (!isNaN(nVal)) return assign(acc, key, nVal, single);
-            }
-
-            /* Date normalization */
-            if (
-                nDate &&
-                isDateFormat(value, 'ISO')
-            ) return assign(acc, key, new Date(value), single);
-        }
-
-        assign(acc, key, value, single);
-    });
+        });
+    }
     return acc as T;
 }
 

@@ -543,6 +543,63 @@ describe('FormData - toObject', () => {
         });
     });
 
+    it('Should ignore __proto__', () => {
+        const formData = new FormData();
+        formData.append('count', '20');
+        formData.append('isValid', 'true');
+        formData.append('rawString', '10');
+        formData.append('rawBoolean', 'false');
+        formData.append('__proto__', 'false');
+        formData.append('__proto__.hacked', 'false');
+        formData.append('bla.__proto__.yup', 'false');
+
+        assert.deepEqual(toObject(formData, {raw: true}), {
+            count: '20',
+            isValid: 'true',
+            rawString: '10',
+            rawBoolean: 'false',
+            bla: {},
+        });
+    });
+
+    it('Should ignore prototype', () => {
+        const formData = new FormData();
+        formData.append('count', '20');
+        formData.append('isValid', 'true');
+        formData.append('rawString', '10');
+        formData.append('rawBoolean', 'false');
+        formData.append('prototype', 'false');
+        formData.append('prototype.hacked', 'false');
+        formData.append('bla.prototype.yup', 'false');
+
+        assert.deepEqual(toObject(formData, {raw: true}), {
+            count: '20',
+            isValid: 'true',
+            rawString: '10',
+            rawBoolean: 'false',
+            bla: {},
+        });
+    });
+
+    it('Should ignore constructor', () => {
+        const formData = new FormData();
+        formData.append('count', '20');
+        formData.append('isValid', 'true');
+        formData.append('rawString', '10');
+        formData.append('rawBoolean', 'false');
+        formData.append('constructor', 'false');
+        formData.append('constructor.hacked', 'false');
+        formData.append('bla.constructor.yup', 'false');
+
+        assert.deepEqual(toObject(formData, {raw: true}), {
+            count: '20',
+            isValid: 'true',
+            rawString: '10',
+            rawBoolean: 'false',
+            bla: {},
+        });
+    });
+
     describe('single option', () => {
         it('Should ensure the "single" option keeps a single value even with multiple form entries', () => {
             const formData = new FormData();

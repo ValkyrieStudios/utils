@@ -58,7 +58,7 @@ function mapFnAsMap <
 
         /* Get hash */
         const hash = fn(el) as NonNullable<ReturnType<TFN>>;
-        if (Number.isFinite(hash) || (typeof hash === 'string' && hash.trim().length)) {
+        if (Number.isFinite(hash) || (typeof hash === 'string' && hash.length > 0)) {
             const transformed: U = TRANSFORM_FN ? TRANSFORM_FN(el) : (el as unknown as U);
             map.set(hash, MERGE && map.has(hash) ? merge(map.get(hash)!, transformed, {union: true}) : transformed);
         }

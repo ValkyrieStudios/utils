@@ -53,11 +53,11 @@ function pick<T extends Record<string, any>, K extends readonly DottedKeys<T>[]>
             const parts_len = parts.length;
             let cursor = map;
             for (let y = 0; y < parts_len - 1; y++) {
-                const part = parts[y].trim();
+                const part = parts[y];
                 if (!(part in cursor)) cursor[part] = {};
                 cursor = cursor[part];
             }
-            cursor[parts[parts_len - 1].trim()] = val;
+            cursor[parts[parts_len - 1]] = val;
         } else if (key in obj) {
             map[key] = obj[key];
         }

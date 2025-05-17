@@ -4,12 +4,9 @@ import CONSTANTS        from '../../constants';
 import isDateFormat     from '../../../lib/date/isFormat';
 
 describe('Date - isDateFormat', () => {
-    it('Throw when passed a non-string for val', () => {
+    it('Return false when passed a non-string for val', () => {
         for (const el of CONSTANTS.NOT_STRING) {
-            assert.throws(
-                () => isDateFormat(el, 'YYYY-MM-DD'),
-                new TypeError('isDateFormat: input must be a string')
-            );
+            assert.equal(isDateFormat(el, 'YYYY-MM-DD'), false);
         }
     });
 

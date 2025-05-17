@@ -401,8 +401,9 @@ format.getLocale = function () {
  * @param {string} locale - Locale to use
  */
 format.setLocale = function (locale:string) {
-    if (typeof locale !== 'string' || !locale.trim().length) throw new Error('format/setLocale: locale should be a string');
-    DEFAULT_LOCALE = locale.trim();
+    const normalized = typeof locale === 'string' ? locale.trim() : false;
+    if (!normalized) throw new Error('format/setLocale: locale should be a string');
+    DEFAULT_LOCALE = normalized;
 };
 
 /**

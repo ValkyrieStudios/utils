@@ -53,7 +53,7 @@ interface humanizeNumberOptions {
  */
 function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):string {
     const DELIM:string = typeof options?.delim === 'string' ? options.delim : ',';
-    const SEPARATOR:string = typeof options?.separator === 'string' && options.separator.trim().length ? options.separator : '.';
+    const SEPARATOR:string = typeof options?.separator === 'string' && options.separator.length ? options.separator : '.';
     const PRECISION:number = Number.isInteger(options?.precision) && options.precision! >= 0 ? options.precision! : 2;
     const DIVIDER:number = Number.isInteger(options?.divider) && options.divider! >= 2 ? options.divider! : 1000;
     const REAL:boolean = options?.real === true;
@@ -64,7 +64,7 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):
             : DEFAULT_UNITS;
 
     /* Normalize to a numerical value */
-    let normalized = typeof val === 'string' ? parseFloat(val.trim()) : val;
+    let normalized = typeof val === 'string' ? parseFloat(val) : val;
 
     if (!Number.isFinite(normalized) || normalized === 0) return UNITS ? '0'+UNITS[0] : '0';
 

@@ -6,7 +6,21 @@
  */
 function isNotEmptyString (val:unknown, trimmed:boolean=true):val is string {
     if (typeof val !== 'string') return false;
-    return (trimmed === true ? val.trim() : val).length > 0;
+    if (trimmed) {
+        for (let i = 0; i < val.length; i++) {
+            switch (val[i]) {
+                case ' ':
+                case '\t':
+                case '\n':
+                case '\r':
+                    break;
+                default:
+                    return true;
+            }
+        }
+        return false;
+    }
+    return val.length > 0;
 }
 
 export {isNotEmptyString, isNotEmptyString as default};

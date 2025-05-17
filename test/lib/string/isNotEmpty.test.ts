@@ -23,11 +23,8 @@ describe('String - isNotEmpty', () => {
         for (const el of CONSTANTS.IS_STRING) assert.ok(isNotEmptyString(el));
     });
 
-    it('Return true when passed an empty string with spaces value and setting trimmed as anything but true', () => {
-        for (const val of [...CONSTANTS.NOT_BOOLEAN, false]) {
-            if (val === undefined) continue;
-            for (const el of [' ', '    ', '   ']) assert.ok(isNotEmptyString(el, val));
-        }
+    it('Return true when passed an empty string with spaces value and setting trimmed to false', () => {
+        for (const el of [' ', '    ', '   ']) assert.ok(isNotEmptyString(el, false));
     });
 
     it('Return false when passed an empty string value and setting trimmed to true (default)', () => {

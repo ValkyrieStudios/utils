@@ -14,6 +14,10 @@ type ToObjectConfig = {
      */
     normalize_bool?: boolean;
     /**
+     * Whether or not we should normalize null, defaults to true if not set
+     */
+    normalize_null?: boolean;
+    /**
      * Whether or not we should normalize dates, defaults to true if not set
      */
     normalize_date?: boolean;
@@ -36,23 +40,30 @@ function assign (
     const keys_len = keys!.length;
     for (let i = 0; i < keys_len; i++) {
         const key:string = keys![i];
+        switch (key) {
+            case '__proto__':
+            case 'constructor':
+            case 'prototype':
+                break;
+            default: {
+                /* If more values */
+                if (i < (keys_len - 1)) {
+                    const n_key: string | number = Array.isArray(cursor) ? Number(key) : key;
 
-        /* If more values */
-        if (i < (keys_len - 1)) {
-            const n_key: string | number = Array.isArray(cursor) ? Number(key) : key;
+                    /* Create array or object only if it doesn't exist */
+                    if (!cursor[n_key]) cursor[n_key] = Number.isInteger(+keys![i + 1]) ? [] : {};
 
-            /* Create array or object only if it doesn't exist */
-            if (!cursor[n_key]) cursor[n_key] = Number.isInteger(+keys![i + 1]) ? [] : {};
-
-            cursor = cursor[n_key] as Record<string, unknown>;
-        } else if (!(key in cursor) || single.has(key)) {
-            (cursor as Record<string, unknown>)[key] = value;
-        } else {
-            const cursor_val = (cursor as Record<string, unknown>)[key];
-            if (Array.isArray(cursor_val)) {
-                cursor_val.push(value);
-            } else {
-                (cursor as Record<string, unknown>)[key] = [cursor_val, value];
+                    cursor = cursor[n_key] as Record<string, unknown>;
+                } else if (!(key in cursor) || single.has(key)) {
+                    (cursor as Record<string, unknown>)[key] = value;
+                } else {
+                    const cursor_val = (cursor as Record<string, unknown>)[key];
+                    if (Array.isArray(cursor_val)) {
+                        cursor_val.push(value);
+                    } else {
+                        (cursor as Record<string, unknown>)[key] = [cursor_val, value];
+                    }
+                }
             }
         }
     }
@@ -79,6 +90,7 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
     const set:Set<string>|true = config?.raw === true ? true : new Set(Array.isArray(config?.raw) ? config?.raw : []);
     const single = new Set(Array.isArray(config?.single) ? config!.single : []);
     const nBool = config?.normalize_bool !== false;
+    const nNull = config?.normalize_null !== false;
     const nDate = config?.normalize_date !== false;
     const nNumber = config?.normalize_number !== false;
 
@@ -96,6 +108,17 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
                     case 'FALSE':
                     case 'False':
                         return assign(acc, key, false, single);
+                    default:
+                        break;
+                }
+            }
+
+            /* null normalization */
+            if (nNull) {
+                switch (value) {
+                    case 'null':
+                    case 'NULL':
+                        return assign(acc, key, null, single);
                     default:
                         break;
                 }

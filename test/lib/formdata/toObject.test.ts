@@ -116,14 +116,27 @@ describe('FormData - toObject', () => {
         });
     });
 
+    it('Should correctly convert strings that represent null', () => {
+        const formData = new FormData();
+        formData.append('level', 'null');
+        formData.append('height', 'NULL');
+
+        assert.deepEqual(toObject(formData), {
+            level: null,
+            height: null,
+        });
+    });
+
     // Handling mixed types
-    it('Should handle mixed values (strings, numbers, booleans)', () => {
+    it('Should handle mixed values (strings, numbers, booleans, nulls)', () => {
         const formData = new FormData();
         formData.append('username', 'john_doe');
         formData.append('isAdmin', 'true');
         formData.append('age', '45');
         formData.append('score', '89.2');
         formData.append('emptyField', '');
+        formData.append('nullfield', 'NULL');
+        formData.append('null2field', 'null');
 
         assert.deepEqual(toObject(formData), {
             username: 'john_doe',
@@ -131,6 +144,8 @@ describe('FormData - toObject', () => {
             age: 45,
             score: 89.2,
             emptyField: '',
+            nullfield: null,
+            null2field: null,
         });
     });
 
@@ -324,11 +339,12 @@ describe('FormData - toObject', () => {
         const formData = new FormData();
         formData.append('level1[0].level2[0].value', 'deep');
         formData.append('level1[0].level2[1].value', 'deeper');
+        formData.append('level1[0].level2[2].value', 'null');
         formData.append('level1[1].level2[0].value', 'deepest');
 
         assert.deepEqual(toObject(formData), {
             level1: [
-                {level2: [{value: 'deep'}, {value: 'deeper'}]},
+                {level2: [{value: 'deep'}, {value: 'deeper'}, {value: null}]},
                 {level2: [{value: 'deepest'}]},
             ],
         });
@@ -501,12 +517,14 @@ describe('FormData - toObject', () => {
         formData.append('isValid', 'true');
         formData.append('rawString', '10');
         formData.append('rawBoolean', 'false');
+        formData.append('rawNull', 'null');
 
         assert.deepEqual(toObject(formData, {raw: ['rawString', 'rawBoolean']}), {
             count: 20,
             isValid: true,
             rawString: '10',
             rawBoolean: 'false',
+            rawNull: null,
         });
     });
 
@@ -599,6 +617,25 @@ describe('FormData - toObject', () => {
             assert.deepEqual(toObject(formData, {normalize_date: false}), {
                 startDate: '2023-12-25',
                 endDate: '2023-12-31T12:00:00.987Z',
+            });
+        });
+
+        it('Should correctly handle normalization of null', () => {
+            const formData = new FormData();
+            formData.append('isActive', 'null');
+            formData.append('isEnabled', 'NULL');
+            formData.append('isNormal', 'NOLL');
+
+            assert.deepEqual(toObject(formData, {normalize_null: true}), {
+                isActive: null,
+                isEnabled: null,
+                isNormal: 'NOLL',
+            });
+
+            assert.deepEqual(toObject(formData, {normalize_null: false}), {
+                isActive: 'null',
+                isEnabled: 'NULL',
+                isNormal: 'NOLL',
             });
         });
 

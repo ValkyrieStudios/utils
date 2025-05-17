@@ -31,7 +31,7 @@ function shorten (val:string, length:number, postfix:string='...', truncate_word
         end--;
     }
 
-    return sanitized.substring(0, end).trim() + postfix;
+    return sanitized.substring(0, end).trimEnd() + postfix;
 }
 
 export {shorten, shorten as default};

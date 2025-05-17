@@ -24,8 +24,6 @@ try {
     DEFAULT_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
 } catch {
     /* NOOP: If this doesn't work we simply work with UTC as default */
-} finally {
-    if (typeof DEFAULT_TZ !== 'string') DEFAULT_TZ = 'UTC';
 }
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */

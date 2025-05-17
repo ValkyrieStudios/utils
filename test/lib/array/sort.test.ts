@@ -38,6 +38,14 @@ describe('Array - sort', () => {
         }
     });
 
+    it('Throws an error when passed a string by but its empty', () => {
+        assert.throws(
+            /* @ts-ignore */
+            () => sort([{test: 'hello'}], ''),
+            new Error('Sort by as string should contain content')
+        );
+    });
+
     it('Sorts correctly when passed an array of objects with a string to sort by and default dir', () => {
         const out = sort([
             {test: 'Peter'},

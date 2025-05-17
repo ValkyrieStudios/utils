@@ -47,7 +47,7 @@ function debounce<T extends (...args: any[]) => any> (
     };
 
     const debouncedFn = function (this: any, ...args: any[]) {
-        self = this; /* eslint-disable-line no-invalid-this,@typescript-eslint/no-this-alias */
+        self = this; /* eslint-disable-line @typescript-eslint/no-this-alias */
         current_args = args;
 
         clear();

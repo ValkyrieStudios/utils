@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- **feat**: `formData/toObject` will now normalize `"null"`, `"NULL"`, `"Null"` to `null`, this behavior can be turned off by passing `normalize_null: false` as part of the options for toObject.
+```typescript
+const form = new FormData();
+form.append('pincode', '0123');
+form.append('enabled', 'false');
+form.append('config.isGood', 'true');
+form.append('config.amount', ' 50 ');
+form.append('config.createdAt', '2024-02-09T12:34:56Z');
+form.append('config.isEnabled', 'null');
+
+toObject(form, {raw: ['pincode']});
+
+/* Output would be  */
+{
+    pincode: '0123',
+    enabled: false,
+    config: {
+        isGood: true,
+        amount: 50,
+        createdAt: new Date('2024-02-09T12:34:56Z'),
+        isEnabled: null,
+    },
+}
+```
+
+### Improved
+- **feat**: `formData/toObject` will now ignore keys that are equal to `__proto__`, `prototype` or `constructor` to prevent malicious prototype pollution
+- **feat**: `date/isFormat` will no longer throw and instead return `false` if provided a non-string input
+- **perf**: Improved on performance for `array/mapFnAsMap` by reducing internal operations
+- **perf**: Improved on performance for `object/pick` by reducing internal operations
+- **perf**: Improved on performance for `string/humanizeNumber` by reducing internal operations
+- **perf**: Improved on performance for `string/shorten` by swapping out trim for trimEnd
+- **perf**: Improved on performance for `string/isNotEmpty` by ~20% due to using scans instead of trim (which under the hood also assigns a new string in memory)
+- **deps**: Upgrade @types/node to 22.15.18
+- **deps**: Upgrade eslint to 9.27.0
+- **deps**: Upgrade typescript-eslint to 8.32.1
+
 ## [12.36.0] - 2025-05-08
 ### Improved
 - **perf**: Reduced memory usage of sort method when working with descending order, previously this would use `.reverse` (which internally clones the array)

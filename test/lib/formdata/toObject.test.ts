@@ -789,6 +789,7 @@ describe('FormData - toObject', () => {
             form.append('config.isGood', 'true');
             form.append('config.amount', ' 50 ');
             form.append('config.createdAt', '2024-02-09T12:34:56Z');
+            form.append('config.isEnabled', 'null');
 
             assert.deepEqual(toObject(form, {raw: ['pincode']}), {
                 pincode: '0123',
@@ -797,6 +798,7 @@ describe('FormData - toObject', () => {
                     isGood: true,
                     amount: 50,
                     createdAt: new Date('2024-02-09T12:34:56Z'),
+                    isEnabled: null,
                 },
             });
 
@@ -807,6 +809,7 @@ describe('FormData - toObject', () => {
                     isGood: 'true',
                     amount: 50,
                     createdAt: new Date('2024-02-09T12:34:56Z'),
+                    isEnabled: null,
                 },
             });
 
@@ -817,6 +820,7 @@ describe('FormData - toObject', () => {
                     isGood: 'true',
                     amount: ' 50 ',
                     createdAt: new Date('2024-02-09T12:34:56Z'),
+                    isEnabled: null,
                 },
             });
 
@@ -827,6 +831,23 @@ describe('FormData - toObject', () => {
                     isGood: 'true',
                     amount: ' 50 ',
                     createdAt: '2024-02-09T12:34:56Z',
+                    isEnabled: null,
+                },
+            });
+
+            assert.deepEqual(toObject(form, {
+                normalize_bool: false,
+                normalize_number: false,
+                normalize_date: false,
+                normalize_null: false,
+            }), {
+                pincode: '0123',
+                enabled: 'false',
+                config: {
+                    isGood: 'true',
+                    amount: ' 50 ',
+                    createdAt: '2024-02-09T12:34:56Z',
+                    isEnabled: 'null',
                 },
             });
         });

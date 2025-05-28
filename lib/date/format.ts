@@ -30,14 +30,14 @@ try {
 const ESCAPE_RGX = /\[[\s\S]+?]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
-const intl_formatters = new LRU<string, Intl.DateTimeFormat>({max_size: 100});
+const intl_formatters = new LRU<Intl.DateTimeFormat>({max_size: 100});
 
 /* Memoize specs passed and their function chain */
 type SpecCacheEntry = {base:string; chain: TokenTuple[]; chain_len:number; repl: [string, string][]}|null;
-const spec_cache = new LRU<string, SpecCacheEntry>({max_size: 100});
+const spec_cache = new LRU<SpecCacheEntry>({max_size: 100});
 
 /* Memoize TZ offsets */
-const zone_offset_cache = new LRU<string, number>({max_size: 100});
+const zone_offset_cache = new LRU<number>({max_size: 100});
 
 /**
  * Get the week number for a particular date

@@ -1,4 +1,5 @@
 import isAsyncFunction from '../function/isAsync';
+import fnv1A from '../hash/fnv1A';
 import isIntegerGt from '../number/isIntegerAbove';
 import LRU from './LRU';
 
@@ -20,12 +21,13 @@ function memoize <T extends (...args:any[]) => unknown> (
     cache_max_size:number = 100
 ):T {
     const cache_duration = isIntegerGt(cache_duration_ms, 0) ? cache_duration_ms : false;
-    const cache = new LRU<any, {r:ReturnType<T>; ts:number}>({max_size: cache_max_size});
+    const cache = new LRU<{r:ReturnType<T>; ts:number}>({max_size: cache_max_size});
 
     const isResolverFn = typeof resolver === 'function';
     const memoized = isAsyncFunction(fn)
         ? async function (...args:Parameters<T>) {
-            const key = isResolverFn ? resolver(...args) : args[0];
+            let key = isResolverFn ? resolver(...args) : args[0];
+            key = typeof key === 'string' ? key : Number.isFinite(key) ? String(key) : String(fnv1A(key));
             const cached_val = cache.get(key);
 
             const now = Date.now();
@@ -38,7 +40,8 @@ function memoize <T extends (...args:any[]) => unknown> (
             return result;
         }
         : function (...args:Parameters<T>) {
-            const key = isResolverFn ? resolver(...args) : args[0];
+            let key = isResolverFn ? resolver(...args) : args[0];
+            key = typeof key === 'string' ? key : Number.isFinite(key) ? String(key) : String(fnv1A(key));
             const cached_val = cache.get(key);
 
             const now = Date.now();

@@ -6,7 +6,7 @@ import CONSTANTS from '../../constants';
 describe('LRUCache', () => {
     describe('general', () => {
         it('Should set and get values from the cache', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             cache.set('a', 1);
             cache.set('b', 2);
@@ -16,7 +16,7 @@ describe('LRUCache', () => {
         });
 
         it('Should evict the least recently used item when the cache exceeds max size', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             cache.set('a', 1);
             cache.set('b', 2);
@@ -33,7 +33,7 @@ describe('LRUCache', () => {
         });
 
         it('Should remove an item when using the del method', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             cache.set('a', 1);
             cache.set('b', 2);
@@ -46,7 +46,7 @@ describe('LRUCache', () => {
         });
 
         it('Should clear the entire cache when calling clear', () => {
-            const cache = new LRUCache<string, number>({max_size: 3});
+            const cache = new LRUCache<number>({max_size: 3});
 
             cache.set('a', 1);
             cache.set('b', 2);
@@ -60,7 +60,7 @@ describe('LRUCache', () => {
         });
 
         it('Should respect the max_size and evict when exceeded', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             cache.set('a', 1);
             cache.set('b', 2);
@@ -72,7 +72,7 @@ describe('LRUCache', () => {
         });
 
         it('Should allow reconfiguring the max_size', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             cache.set('a', 1);
             cache.set('b', 2);
@@ -88,7 +88,7 @@ describe('LRUCache', () => {
         });
 
         it('Should throw an error if an invalid max_size is set', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             assert.throws(() => {
                 cache.max_size = -1; // Invalid max_size
@@ -96,7 +96,7 @@ describe('LRUCache', () => {
         });
 
         it('Should handle non-existent keys gracefully', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             cache.set('a', 1);
 
@@ -104,7 +104,7 @@ describe('LRUCache', () => {
         });
 
         it('Should maintain correct eviction order based on usage', () => {
-            const cache = new LRUCache<string, number>({max_size: 2});
+            const cache = new LRUCache<number>({max_size: 2});
 
             cache.set('a', 1);
             cache.set('b', 2);
@@ -175,51 +175,51 @@ describe('LRUCache', () => {
 
         it('Should allow setting and automatically clear cache the moment something goes beyond size of cache', () => {
             const instance = new LRUCache({max_size: 20});
-            for (let i = 1; i < 100; i++) instance.set(i, i);
-           
+            for (let i = 1; i < 100; i++) instance.set(String(i), i);
+
             /* 1 -> 80 should not be found */
-            for (let i = 1; i < 80; i++) assert.ok(!instance.has(i));
+            for (let i = 1; i < 80; i++) assert.ok(!instance.has(String(i)));
 
             /* 81 -> 99 should be found */
-            for (let i = 81; i < 100; i++) assert.ok(instance.has(i));
+            for (let i = 81; i < 100; i++) assert.ok(instance.has(String(i)));
         });
     });
 
     describe('set max_size', () => {
         it('Should allow reconfiguring instance max size', () => {
             const instance = new LRUCache({max_size: 3});
-            instance.set(1, true);
-            instance.set(2, true);
-            instance.set(3, true);
-            assert.ok(instance.has(1));
-            instance.set(4, true);
-            assert.ok(!instance.has(1));
-            
+            instance.set(String(1), true);
+            instance.set(String(2), true);
+            instance.set(String(3), true);
+            assert.ok(instance.has(String(1)));
+            instance.set(String(4), true);
+            assert.ok(!instance.has(String(1)));
+
             /* Reconfigured to 4 */
             const instance2 = new LRUCache({max_size: 3});
-            instance2.set(1, true);
-            instance2.set(2, true);
-            instance2.set(3, true);
-            assert.ok(instance2.has(1));
+            instance2.set(String(1), true);
+            instance2.set(String(2), true);
+            instance2.set(String(3), true);
+            assert.ok(instance2.has(String(1)));
             instance2.max_size = 20;
-            instance2.set(4, true);
-            assert.ok(instance2.has(1));
+            instance2.set(String(4), true);
+            assert.ok(instance2.has(String(1)));
         });
 
         it('Should allow reconfiguring instance max size to a lower count', () => {
             const instance = new LRUCache({max_size: 3});
-            instance.set(1, true);
-            instance.set(2, true);
-            instance.set(3, true);
-            assert.ok(instance.has(1));
+            instance.set(String(1), true);
+            instance.set(String(2), true);
+            instance.set(String(3), true);
+            assert.ok(instance.has(String(1)));
             /* Reconfigured to 1 */
             instance.max_size = 1;
-            assert.ok(!instance.has(1));
-            assert.ok(!instance.has(2));
-            assert.ok(instance.has(3));
-            instance.set(4, true);
-            assert.ok(instance.has(4));
-            assert.ok(!instance.has(3));
+            assert.ok(!instance.has(String(1)));
+            assert.ok(!instance.has(String(2)));
+            assert.ok(instance.has(String(3)));
+            instance.set(String(4), true);
+            assert.ok(instance.has(String(4)));
+            assert.ok(!instance.has(String(3)));
         });
     });
 

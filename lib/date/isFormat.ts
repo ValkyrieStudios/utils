@@ -51,7 +51,7 @@ const SPEC_ALIASES:Record<string, string> = {
 };
 
 /* Cache for specs that have already been compiled */
-const spec_pat_cache = new LRU<string, {rgx:RegExp;tokens:number[]}>({max_size: 100});
+const spec_pat_cache = new LRU<{rgx:RegExp;tokens:number[]}>({max_size: 100});
 
 /**
  * Compiles a spec and stores it on the spec cache

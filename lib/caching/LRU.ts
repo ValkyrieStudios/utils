@@ -1,6 +1,13 @@
 import isObject     from '../object/is';
 import isIntegerGt  from '../number/isIntegerAbove';
 
+type LRUNode< V> = {
+    key:string;
+    value:V;
+    prev:LRUNode< V> | null;
+    next:LRUNode< V> | null;
+};
+
 export type LRUCacheOptions = {
     /**
      * Maximum amount of entries the cache can have
@@ -12,16 +19,22 @@ export type LRUCacheOptions = {
 /**
  * Least-Recently-Used (LRU) Cache
  */
-class LRUCache<K, V> {
+class LRUCache<V> {
 
-    #cache: Map<K, V>;
+    #map:Record<string, LRUNode<V>>;
 
-    #max_size: number;
+    #head:LRUNode<V> | null = null;
+
+    #tail:LRUNode<V> | null = null;
+
+    #max_size:number;
+
+    #size:number = 0;
 
     constructor (opts:LRUCacheOptions = {}) {
         const {max_size = 100} = isObject(opts) ? opts : {};
 
-        this.#cache = new Map<K, V>();
+        this.#map = Object.create(null);
         this.#max_size = isIntegerGt(max_size, 0) ? max_size : 100;
     }
 
@@ -41,77 +54,120 @@ class LRUCache<K, V> {
         if (!isIntegerGt(max_size, 0)) throw new Error('max_size must be a positive integer');
 
         this.#max_size = max_size;
-        if (this.#cache.size > max_size) {
-            const excess = this.#cache.size - max_size;
-            const keys = [...this.#cache.keys()];
-            for (let i = 0; i < excess; i++) {
-                this.#cache.delete(keys[i]);
-            }
-        }
+        while (this.#size > max_size) this.evictTail();
     }
 
     /**
      * Returns whether or not a key exists in cache
      *
-     * @param {K} key - Key to retrieve
+     * @param {string} key - Key to retrieve
      */
-    has (key: K):boolean {
-        return this.#cache.has(key);
+    has (key:string):boolean {
+        return key in this.#map;
     }
 
     /**
      * Retrieves a value from the cache
      *
-     * @param {K} key - Key to retrieve
-     * @returns {V | undefined} Either the found value or undefined
+     * @param {string} key - Key to retrieve
      */
-    get (key: K): V | undefined {
-        const value = this.#cache.get(key);
-        if (value === undefined) return undefined;
+    get (key:string):V|undefined {
+        const node = this.#map[key];
+        if (!node) return undefined;
 
-        /* Delete from cache */
-        this.#cache.delete(key);
-
-        /**
-         * Re-insert into cache, map keys work with insertion-order,
-         * as such the least recently used entries' keys will eventually get deleted
-         */
-        this.#cache.set(key, value);
-
-        return value;
+        this.moveToFront(node);
+        return node.value;
     }
 
     /**
      * Sets a value on to the cache
      *
-     * @param {K} key - Key to set
+     * @param {string} key - Key to set
      * @param {V} value - Value to set for the key
      */
-    set (key: K, value: V) {
-        if (this.#cache.has(key)) {
-            this.#cache.delete(key);
-        } else if (this.#cache.size >= this.max_size) {
-            this.#cache.delete(this.#cache.keys().next().value!);
-        }
+    set (key:string, value: V): void {
+        let node = this.#map[key];
 
-        this.#cache.set(key, value);
+        if (node !== undefined) {
+            node.value = value;
+            this.moveToFront(node);
+        } else {
+            node = {key, value, prev: null, next: null};
+            this.#map[key] = node;
+            this.addToFront(node);
+            this.#size++;
+
+            if (this.#size > this.#max_size) {
+                this.evictTail();
+            }
+        }
     }
 
     /**
      * Removes a single value from the cache
      *
-     * @param {K} key - Key to remove
+     * @param {string} key - Key to remove
      */
-    del (key: K) {
-        if (key === undefined || !this.#cache.has(key)) return;
-        this.#cache.delete(key);
+    del (key:string) {
+        const node = this.#map[key];
+        if (!node) return;
+
+        this.removeNode(node);
+        delete this.#map[key];
+        this.#size--;
     }
 
     /**
      * Clears all contents of the cache
      */
     clear () {
-        this.#cache.clear();
+        this.#map = Object.create(null);
+        this.#head = null;
+        this.#tail = null;
+        this.#size = 0;
+    }
+
+    /**
+     * MARK: Private
+     */
+
+    private addToFront (node:LRUNode<V>):void {
+        node.next = this.#head;
+        node.prev = null;
+
+        if (this.#head) {
+            this.#head.prev = node;
+        }
+        this.#head = node;
+
+        if (!this.#tail) {
+            this.#tail = node;
+        }
+    }
+
+    private removeNode (node:LRUNode<V>):void {
+        if (node.prev) node.prev.next = node.next;
+        else this.#head = node.next;
+
+        if (node.next) node.next.prev = node.prev;
+        else this.#tail = node.prev;
+
+        node.prev = null;
+        node.next = null;
+    }
+
+    private moveToFront (node:LRUNode<V>):void {
+        if (this.#head === node) return;
+        this.removeNode(node);
+        this.addToFront(node);
+    }
+
+    private evictTail (): void {
+        if (!this.#tail) return;
+        const old_tail = this.#tail;
+        this.removeNode(old_tail);
+        delete this.#map[old_tail.key];
+        this.#size--;
     }
 
 }

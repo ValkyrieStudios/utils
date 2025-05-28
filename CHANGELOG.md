@@ -41,6 +41,8 @@ groupBy(new Set([
 } */
 ```
 - **perf**: `caching/LRU` no longer works with a Map and internally applies a doubly-linked-list approach, reducing memory overhead and improving performance (eg: `date/isFormat` has seen an approximate ~5-10% performance improvement because of this)
+- **deps**: Upgrade @types/node to 22.15.24
+- **deps**: Upgrade typescript-eslint to 8.33.0
 - **cicd**: Utils now has two builds, one for cjs and esm, this ensures further tree shaking can take place in runtimes/build systems that support this while ensuring legacy systems using CommonJS are not impacted
 
 ## [12.37.0] - 2025-05-17

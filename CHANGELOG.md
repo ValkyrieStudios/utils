@@ -12,6 +12,15 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 split(new Set([1, 2, 3, 4, 5, 6, 7]), 3);
 // [[1, 2, 3], [4, 5, 6], [7]]
 ```
+- **feat**: `array/join` now supports passing a Set. All existing options work the same.
+```typescript
+join(new Set(
+    ['   hello     world    ',
+    ' this    is',
+    '   peter   from    valkyrie'
+]), {delim: ' ', innertrim: true});
+// 'hello world this is peter from valkyrie'
+```
 - **feat**: `array/groupBy` now supports passing a Set. All existing options work the same.
 ```typescript
 groupBy(new Set([

@@ -1,3 +1,5 @@
+/* eslint-disable max-statements,complexity */
+
 import {round} from '../number/round';
 import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
@@ -45,11 +47,20 @@ interface joinOptions {
 /**
  * Join an array of values while autofiltering any non-string/non-number elements
  *
- * @param {unknown[]} val - Array of values to join
+ * @param {T[]|Set<T>} val - Array or Set of values to join
  * @param {joinOptions?} opts - Join options
  */
-function join (val:unknown[], opts?:joinOptions):string {
-    if (!Array.isArray(val) || !val.length) return '';
+function join <T> (val:T[]|Set<T>, opts?:joinOptions):string {
+    let normalized:T[];
+    if (Array.isArray(val)) {
+        if (!val.length) return '';
+        normalized = val;
+    } else if (val instanceof Set) {
+        if (!val.size) return '';
+        normalized = [...val];
+    } else {
+        return '';
+    }
 
     const DELIM:string = typeof opts?.delim === 'string' ? opts.delim : ' ';
     const DEDUPE: Set<string|number> | null = opts?.dedupe === true ? new Set() : null;
@@ -59,8 +70,8 @@ function join (val:unknown[], opts?:joinOptions):string {
 
     let result:string= '';
     let has_val:boolean = false;
-    for (let i = 0; i < val.length; i++) {
-        const el = val[i];
+    for (let i = 0; i < normalized.length; i++) {
+        const el = normalized[i];
         let n_el:string;
         if (typeof el === 'string') {
             const trimmed = el.trim();

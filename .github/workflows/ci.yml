@@ -116,7 +116,8 @@ jobs:
         run: |
           rm -rf ./dist
           mkdir ./dist
-          npx tsc -p ./tsconfig.build.json
+          npx tsc -p ./tsconfig.build.cjs.json
+          npx tsc -p ./tsconfig.build.esm.json
           npx tsc -p ./tsconfig.types.json
           npx tsc -p ./tsconfig.types_all.json
           cp package.json README.md LICENSE.md .npmignore ./dist

@@ -7,6 +7,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **feat**: `array/split` now supports passing a Set. All existing options work the same.
+```typescript
+split(new Set([1, 2, 3, 4, 5, 6, 7]), 3);
+// [[1, 2, 3], [4, 5, 6], [7]]
+```
 - **perf**: `caching/LRU` no longer works with a Map and internally applies a doubly-linked-list approach, reducing memory overhead and improving performance (eg: `date/isFormat` has seen an approximate ~5-10% performance improvement because of this)
 
 ## [12.37.0] - 2025-05-17

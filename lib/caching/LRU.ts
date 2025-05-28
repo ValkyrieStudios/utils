@@ -97,7 +97,7 @@ class LRUCache<V> {
             this.addToFront(node);
             this.#size++;
 
-            if (this.#size > this.#max_size) {
+            if (this.#tail && this.#size > this.#max_size) {
                 this.evictTail();
             }
         }
@@ -163,8 +163,7 @@ class LRUCache<V> {
     }
 
     private evictTail (): void {
-        if (!this.#tail) return;
-        const old_tail = this.#tail;
+        const old_tail = this.#tail!;
         this.removeNode(old_tail);
         delete this.#map[old_tail.key];
         this.#size--;

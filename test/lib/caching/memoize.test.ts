@@ -117,6 +117,30 @@ describe('Caching - memoize', () => {
         assert.equal(memoized_fn.cache.get(6).r, fnv1A(cases[6]));
     });
 
+    it('Should memoize sync function receiving object with id', () => {
+        let calls = 0;
+
+        function getUserById (user: { id: string }) {
+            calls++;
+            return {id: user.id, name: 'Peter'};
+        }
+
+        const memoized = memoize(getUserById);
+
+        const userA = {id: '123'};
+        const userB = {id: '456'};
+
+        // First call — runs original
+        assert.deepEqual(memoized(userA), {id: '123', name: 'Peter'});
+        assert.deepEqual(memoized(userB), {id: '456', name: 'Peter'});
+
+        // Second call — should hit cache
+        assert.deepEqual(memoized({id: '123'}), {id: '123', name: 'Peter'});
+        assert.deepEqual(memoized({id: '456'}), {id: '456', name: 'Peter'});
+
+        assert.equal(calls, 2);
+    });
+
     describe('async', () => {
         it('Should work with async functions', async () => {
             const retrieveUser = async function getUser (userId:string) {
@@ -249,6 +273,31 @@ describe('Caching - memoize', () => {
 
             /* @ts-ignore */
             assert.equal(memoized_fn.cache.get(6).r, fnv1A(cases[6]));
+        });
+
+        it('Should memoize async function receiving object with id', async () => {
+            let calls = 0;
+
+            const getUserById = async (user: { id: string }) => {
+                calls++;
+                await sleep(50);
+                return {id: user.id, name: 'Peter'};
+            };
+
+            const memoized = memoize(getUserById);
+
+            const userA = {id: '123'};
+            const userB = {id: '456'};
+
+            // First call — original runs
+            assert.deepEqual(await memoized(userA), {id: '123', name: 'Peter'});
+            assert.deepEqual(await memoized(userB), {id: '456', name: 'Peter'});
+
+            // Second call — should hit cache
+            assert.deepEqual(await memoized({id: '123'}), {id: '123', name: 'Peter'});
+            assert.deepEqual(await memoized({id: '456'}), {id: '456', name: 'Peter'});
+
+            assert.equal(calls, 2);
         });
     });
 });

@@ -12,6 +12,25 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 split(new Set([1, 2, 3, 4, 5, 6, 7]), 3);
 // [[1, 2, 3], [4, 5, 6], [7]]
 ```
+- **feat**: `array/groupBy` now supports passing a Set. All existing options work the same.
+```typescript
+groupBy(new Set([
+    {status: 1, id: 12345, role: 'user'},
+    {status: 2, id: 23456, role: 'admin'},
+    {status: 2, id: 34567, role: 'owner'},
+    {status: 1, id: 45678, role: 'owner'},
+]), el => el.status)
+/* {
+    1: [
+        {status: 1, id: 12345, role: 'user'},
+        {status: 1, id: 45678, role: 'owner'},
+    ],
+    2: [
+        {status: 2, id: 23456, role: 'admin'},
+        {status: 2, id: 34567, role: 'owner'},
+    ],
+} */
+```
 - **perf**: `caching/LRU` no longer works with a Map and internally applies a doubly-linked-list approach, reducing memory overhead and improving performance (eg: `date/isFormat` has seen an approximate ~5-10% performance improvement because of this)
 
 ## [12.37.0] - 2025-05-17

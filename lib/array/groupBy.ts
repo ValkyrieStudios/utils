@@ -1,6 +1,6 @@
 import {isNotEmptyObject} from '../object/isNotEmpty';
 
-type Handler <T> = (val:T) => string|number|boolean;
+type Handler <T> = (val:T) => string|number|boolean|undefined;
 
 const FALLBACK = '_';
 const defaultHandler = () => FALLBACK;
@@ -21,14 +21,23 @@ const defaultHandler = () => FALLBACK;
  *      true: [{tally: 20, name: 'Peter'}, {tally: 40, name: 'Jake'}],
  *  }
  *
- * @param {T[]} arr - Array to group
+ * @param {T[]} val - Array or Set to group
  * @param {Handler<T>|keyof T} handler - String or a function, determines what to group by
  */
 function groupBy <T extends Record<string, any>> (
-    arr:T[],
+    val:T[]|Set<T>,
     handler:Handler<T>|keyof T
 ):Record<string, T[]> {
-    if (!Array.isArray(arr)) return {};
+    let normalized:T[];
+    if (Array.isArray(val)) {
+        if (!val.length) return {};
+        normalized = val;
+    } else if (val instanceof Set) {
+        if (!val.size) return {};
+        normalized = [...val];
+    } else {
+        return {};
+    }
 
     const acc:Record<string, T[]> = {};
     const n_handler:Handler<T> = typeof handler === 'function'
@@ -39,8 +48,8 @@ function groupBy <T extends Record<string, any>> (
 
     let key;
     let el;
-    for (let i = 0; i < arr.length; i++) {
-        el = arr[i];
+    for (let i = 0; i < normalized.length; i++) {
+        el = normalized[i];
         if (!isNotEmptyObject(el)) continue;
 
         /* Fetch key, if doesnt exist use fallback */

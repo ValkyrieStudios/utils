@@ -1,0 +1,58 @@
+import {describe, it, expect} from 'vitest';
+import CONSTANTS from '../../constants';
+import isBelowOrEqual from '../../../lib/number/isBelowOrEqual';
+
+describe('Number - isBelowOrEqual', () => {
+    it('Returns false when passing nothing', () => {
+        // @ts-ignore
+        expect(isBelowOrEqual()).toBe(false);
+    });
+
+    it('Return false if passed a non-numeric value', () => {
+        for (const el of CONSTANTS.NOT_NUMERIC) {
+            expect(isBelowOrEqual(el, 0)).toBe(false);
+        }
+    });
+
+    it('Return false if passed a numerical nan value', () => {
+        expect(isBelowOrEqual(1 / 0, 0)).toBe(false);
+    });
+
+    it('Return false if passed a non-numeric comparator', () => {
+        for (const el of CONSTANTS.NOT_NUMERIC) {
+            expect(isBelowOrEqual(0, el)).toBe(false);
+        }
+    });
+
+    it('Return false if passed a numerical nan comparator', () => {
+        expect(isBelowOrEqual(0, 1 / 0)).toBe(false);
+    });
+
+    it('Treat numeric values below max correctly', () => {
+        for (const el of [
+            [0, 1],
+            [-32, -10],
+            [3, 9],
+            [0.1, 0.2],
+        ]) {
+            expect(isBelowOrEqual(el[0], el[1])).toBeTruthy();
+        }
+    });
+
+    it('Treat numeric values above max as false', () => {
+        for (const el of [
+            [1, 0],
+            [-99, -100],
+            [9, 1],
+            [-0.05, -0.1],
+        ]) {
+            expect(isBelowOrEqual(el[0], el[1])).toBe(false);
+        }
+    });
+
+    it('Treat numeric values at max as true', () => {
+        for (const el of [0, -100, 1, 0, 0.56, 0.89]) {
+            expect(isBelowOrEqual(el, el)).toBeTruthy();
+        }
+    });
+});

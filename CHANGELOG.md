@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- **deps**: (dev) vitest@3.1.4
+- **deps**: (dev) @vitest/coverage-v8@3.1.4
+
+### Improved
+- **sys**: Migrate to vitest
+- **cicd**: Utils will now run lint/types/test jobs against the latest bun runtime as well (in addition to already testing node 20 and 22)
+- **misc**: `package.json` exports block will now set types above import/require
+
+### Removed
+- **deps**: nyc
+
 ## [12.38.0] - 2025-05-28
 ### Improved
 - **feat**: `array/split` now supports passing a Set. All existing options work the same.

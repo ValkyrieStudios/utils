@@ -16,15 +16,8 @@ type RawTuple = [string, Formatter];
 type TokenTuple = [string, Formatter, number];
 
 let DEFAULT_LOCALE          = 'en-US';
-let DEFAULT_TZ              = 'UTC';
+let DEFAULT_TZ              = Intl?.DateTimeFormat?.().resolvedOptions?.().timeZone || 'UTC';
 let DEFAULT_SOW:WEEK_START  = 'mon';
-
-/* Try to get default timezone */
-try {
-    DEFAULT_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
-} catch {
-    /* NOOP: If this doesn't work we simply work with UTC as default */
-}
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
 const ESCAPE_RGX = /\[[\s\S]+?]/g;

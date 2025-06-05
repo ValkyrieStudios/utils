@@ -12,6 +12,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: Improved performance of `formdata/toObject` by an approximate **5-10%** thanks to internal improvements regarding index recognition, reduction of operations and improvements in downstream utils (such as isDateFormat)
 - **perf**: Improved performance of `deep/get` by an approximate **20-25%** thanks to internal improvements regarding index recognition by using binary operands.
 - **perf**: Improved performance of `date/isFormat` by anywhere from **10 to 100%** thanks to internal improvements regarding integer parsing by using binary operands and simplifying day validity checks preventing new date construction.
+- **deps**: Upgrade @types/node to 22.15.29
+- **deps**: Upgrade @vitest/coverage-v8 to 3.2.1
+- **deps**: Upgrade eslint to 9.28.0
+- **deps**: Upgrade typescript-eslint to 8.33.1
+- **deps**: Upgrade vitest to 3.2.1
 
 ## [12.39.0] - 2025-05-29
 ### Added

@@ -1,6 +1,7 @@
 /* eslint-disable no-confusing-arrow */
 
 import {convertToDate} from './convertToDate';
+import {MONTHS, MONTHS_LEAP} from './isFormat';
 import LRU from '../caching/LRU';
 
 const WEEK_STARTS = {
@@ -103,7 +104,7 @@ function toZone (d:Date, zone:string):Date {
     const time = d.getTime();
 
     /* Precomputed days in each month for a non-leap year */
-    const daysInMonths = [31, (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const daysInMonths = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? MONTHS_LEAP : MONTHS;
 
     /* Calculate day of the year (DOY) */
     let doy = day;

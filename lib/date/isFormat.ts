@@ -6,19 +6,19 @@ const SPECIAL_CHARS = /[.*+?^${}()|[\]\\]/g;
 
 const TOKENS: Token[] = [
     ['YYYY', /\d{4}/.source, (raw, context) => {
-        context.year = parseInt(raw, 10);
+        context.year = (raw as unknown as number) | 0;
         return context.year > 0;
     }],
     ['MM', /(?:0[1-9]|1[0-2])/.source, (raw, context) => {
-        context.month = parseInt(raw, 10);
+        context.month = (raw as unknown as number) | 0;
         return context.month >= 1 && context.month <= 12;
     }],
     ['DD', /(?:0[1-9]|[12][0-9]|3[01])/.source, (raw, context) => {
-        context.day = parseInt(raw, 10);
+        context.day = (raw as unknown as number) | 0;
         return context.day >= 1 && context.day <= 31;
     }],
     ['HH', /(?:[01][0-9]|2[0-3])/.source, (raw,context) => {
-        context.hour = parseInt(raw, 10);
+        context.hour = (raw as unknown as number) | 0;
         return context.hour >= 0 && context.hour <= 23;
     }],
     ['mm', /[0-5][0-9]/.source, () => true],
@@ -36,10 +36,10 @@ const TOKENS: Token[] = [
     ['Z', /Z|[+-](?:0[0-9]|1[0-4]):[0-5][0-9]/.source, raw => {
         if (raw === 'Z') return true;
 
-        let hour = parseInt(raw[1] + raw[2], 10);
+        let hour = ((raw[1] + raw[2]) as unknown as number) | 0;
         if (raw[0] === '-') hour = -hour;
 
-        const minutes = parseInt(raw[4] + raw[5], 10);
+        const minutes = ((raw[4] + raw[5]) as unknown as number) | 0;
 
         if (hour === 14 || hour === -12) return minutes === 0;
         return hour >= -11 && hour < 14 && [0, 15, 30, 45].indexOf(minutes) >= 0;
@@ -52,6 +52,16 @@ const SPEC_ALIASES:Record<string, string> = {
 
 /* Cache for specs that have already been compiled */
 const spec_pat_cache = new LRU<{rgx:RegExp;tokens:number[]}>({max_size: 100});
+
+export const MONTHS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+export const MONTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+function isValidDay (year:number, month:number, day:number):boolean {
+    return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)
+        ? day <= MONTHS_LEAP[month - 1]
+        : day <= MONTHS[month - 1];
+}
 
 /**
  * Compiles a spec and stores it on the spec cache
@@ -102,7 +112,7 @@ function compileSpec (spec:string, is_chunk:boolean = false) {
         }
     }
 
-    cached = {rgx: is_chunk ? RegExp(pat) : RegExp('^' + pat + '$'), tokens};
+    cached = {rgx: is_chunk ? new RegExp(pat) : new RegExp('^' + pat + '$'), tokens};
     spec_pat_cache.set(spec, cached);
     return cached;
 }
@@ -143,10 +153,7 @@ function isDateFormat (input: unknown, spec: string): input is string {
      * eg: '2024-04-31' is not valid as there is no 31st day in april
      */
     const {is12,day,month,year} = context;
-    if (day && month) {
-        const date = new Date(year || 2024, month - 1, day);
-        if (date.getDate() !== day || date.getMonth() !== month - 1) return false;
-    }
+    if (day && month && !isValidDay(year || 2024, month, day)) return false;
 
     /* Hour check in AM/PM */
     if (is12 && 'hour' in context && context.hour > 11) return false;

@@ -100,32 +100,32 @@ function convertPart (part: string, min: number, max: number): '*' | Set<number>
     if (part.indexOf('/') > -1) {
         /* Step expressions: e.g. "*\/5" or "10-20/2" */
         const [base, raw_step] = part.split('/', 2);
-        const step = parseInt(raw_step, 10);
+        const step = (raw_step as unknown as number) | 0;
         let start: number;
         let end: number = max;
         if (base === '*') {
             start = min;
         } else if (base.indexOf('-') > -1) {
             const chunks = base.split('-', 2);
-            start = parseInt(chunks[0], 10);
-            end = parseInt(chunks[1], 10);
+            start = (chunks[0] as unknown as number) | 0;
+            end = (chunks[1] as unknown as number) | 0;
         } else {
-            start = parseInt(base, 10);
+            start = (base as unknown as number) | 0;
         }
         for (let i = start; i <= end; i += step) set.add(i);
     } else if (part.indexOf('-') > -1) {
         /* Range without step */
         const chunks = part.split('-', 2);
-        const start = parseInt(chunks[0], 10);
-        const end = parseInt(chunks[1], 10);
+        const start = (chunks[0] as unknown as number) | 0;
+        const end = (chunks[1] as unknown as number) | 0;
         for (let i = start; i <= end; i++) set.add(i);
     } else if (part.indexOf(',') > -1) {
         /* Csv list (Eg: 5,10,15) */
         const chunks = part.split(',');
-        for (let i = 0; i < chunks.length; i++) set.add(parseInt(chunks[i], 10));
+        for (let i = 0; i < chunks.length; i++) set.add((chunks[i] as unknown as number) | 0);
     } else {
         /* Single number */
-        set.add(parseInt(part, 10));
+        set.add((part as unknown as number) | 0);
     }
 
     return set;

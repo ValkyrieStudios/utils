@@ -47,20 +47,16 @@ type Merged<
         ? Merge<T, U>
         : MergeNonUnion<T, U>;
 
-const PROTO_OBJ = '[object Object]';
-
 function innerMerge (target:Record<string, unknown>,source:Record<string, unknown>, UNION:boolean) {
     const origin = UNION ? source : target;
     for (const key in origin) {
-        const t_key = target[key] as Record<string, unknown>;
-        const s_key = source[key] as Record<string, unknown>;
-        if (
-            Object.prototype.toString.call(t_key) === PROTO_OBJ &&
-            Object.prototype.toString.call(s_key) === PROTO_OBJ
-        ) {
-            target[key] = innerMerge({...t_key}, s_key, UNION);
-        } else {
-            target[key] = s_key !== undefined ? s_key : t_key;
+        const t_val = target[key];
+        const s_val = source[key];
+        if (s_val !== undefined && t_val !== s_val) {
+            target[key] = Object.prototype.toString.call(t_val) === '[object Object]' &&
+                Object.prototype.toString.call(s_val) === '[object Object]'
+                ? innerMerge(t_val as Record<string, unknown>, s_val as Record<string, unknown>, UNION)
+                : s_val;
         }
     }
 
@@ -91,7 +87,7 @@ function merge  <
     } = {}
 ):Merged<T, U, Union> {
     if (
-        Object.prototype.toString.call(target) !== PROTO_OBJ
+        Object.prototype.toString.call(target) !== '[object Object]'
     ) throw new Error('object/merge: Please ensure valid target/source is passed');
 
     /* Define union */
@@ -104,8 +100,10 @@ function merge  <
     let acc:Record<string, unknown> = {...target};
     for (let i = 0; i < sources.length; i++) {
         const el = sources[i];
-        if (!el || Object.prototype.toString.call(el) !== PROTO_OBJ) continue;
-        acc = innerMerge(acc, el, union);
+        if (
+            el &&
+            Object.prototype.toString.call(el) === '[object Object]'
+        ) acc = innerMerge(acc, el, union);
     }
 
     return acc as Merged<T, U, Union>;

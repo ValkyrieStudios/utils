@@ -85,8 +85,9 @@ function deepGet<
             case '.':
                 if (!key) break;
                 if (Array.isArray(node)) {
-                    if (!isNaN(Number(key))) {
-                        const ix = parseInt(key, 10);
+                    let ix = Number(key);
+                    if (!isNaN(ix)) {
+                        ix = ix | 0;
                         if (ix < 0 || ix > node.length - 1) return undefined;
                         node = node[ix];
                         nodes.push(node);
@@ -117,8 +118,9 @@ function deepGet<
     /* Push any remaining part */
     if (key) {
         if (Array.isArray(node)) {
-            if (!isNaN(Number(key))) {
-                const ix = parseInt(key, 10);
+            let ix = Number(key);
+            if (!isNaN(ix)) {
+                ix = ix | 0;
                 if (ix < 0 || ix > node.length - 1) return undefined;
                 node = node[ix];
                 nodes.push(node);

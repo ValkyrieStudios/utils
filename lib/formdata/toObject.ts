@@ -38,7 +38,8 @@ function assign (
     single:Set<string>|null
 ): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
-    const keys = rawkey.match(RGX_TOKENS);
+
+    const keys = rawkey.match(RGX_TOKENS)! || [];
     const keys_len = keys!.length;
     for (let i = 0; i < keys_len; i++) {
         const key:string = keys![i];
@@ -53,7 +54,7 @@ function assign (
                     const n_key:string|number = Array.isArray(cursor) ? Number(key) : key;
 
                     /* Create array or object only if it doesn't exist */
-                    if (!cursor[n_key]) cursor[n_key] = Number.isInteger(+keys![i + 1]) ? [] : {};
+                    if (!cursor[n_key]) cursor[n_key] = isNaN(Number(keys![i + 1])) ? {} : [];
 
                     cursor = cursor[n_key] as Record<string, unknown>;
                 } else if (!(key in cursor) || (single && single.has(key))) {
@@ -99,11 +100,18 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
 
     const acc:Record<string, unknown> = {};
     if (set === null) {
-        form.forEach((value, key) => assign(acc, key, value, single));
-    } else {
-        form.forEach((value, key) => {
-            if (set_guard && set!.has(key)) return assign(acc, key, value, single);
+        /* @ts-expect-error We're targeting node 20+ usage */
+        for (const [key, value] of form) {
+            assign(acc, key, value, single);
+        }
+        return acc as T;
+    }
 
+    /* @ts-expect-error We're targeting node 20+ usage */
+    for (const [key, value] of form) {
+        if (set_guard && set!.has(key)) {
+            assign(acc, key, value, single);
+        } else {
             switch (value) {
                 /* Bool true normalization */
                 case 'true':
@@ -117,29 +125,34 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
                 case 'False':
                     assign(acc, key, nBool ? false : value, single);
                     break;
+                /* Null normalization */
                 case 'null':
                 case 'NULL':
                 case 'Null':
                     assign(acc, key, nNull ? null : value, single);
                     break;
                 default: {
-                    if (typeof value === 'string' && value.length) {
+                    if (typeof value === 'string' && value) {
                         /* Number normalization */
                         if (nNumber) {
                             const nVal = Number(value);
-                            if (!isNaN(nVal)) return assign(acc, key, nVal, single);
+                            /* eslint-disable-next-line max-depth */
+                            if (!isNaN(nVal)) {
+                                assign(acc, key, nVal, single);
+                                continue;
+                            }
                         }
 
                         /* Date normalization */
-                        if (
-                            nDate &&
-                            isDateFormat(value, 'ISO')
-                        ) return assign(acc, key, new Date(value), single);
+                        if (nDate && isDateFormat(value, 'ISO')) {
+                            assign(acc, key, new Date(value), single);
+                            continue;
+                        }
                     }
                     assign(acc, key, value, single);
                 }
             }
-        });
+        }
     }
     return acc as T;
 }

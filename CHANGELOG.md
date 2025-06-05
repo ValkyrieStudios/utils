@@ -9,6 +9,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - **perf**: Improved performance of `object/merge` by an approximate **~5-10%** thanks to micro-optimizations regarding lookups and reducing unnecessary operations
 - **perf**: Improved performance of `object/omit` by an approximate **~50-60%** thanks to an alternative implementation regarding key grouping for nested keys and reducing unnecessary operations
+- **perf**: Improved performance of `formdata/toObject` by an approximate **5-10%** thanks to internal improvements regarding index recognition, reduction of operations and improvements in downstream utils (such as isDateFormat)
 
 ## [12.39.0] - 2025-05-29
 ### Added

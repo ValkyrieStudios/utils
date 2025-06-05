@@ -8,6 +8,7 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - **perf**: Improved performance of `object/merge` by an approximate **~5-10%** thanks to micro-optimizations regarding lookups and reducing unnecessary operations
+- **perf**: Improved performance of `object/omit` by an approximate **~50-60%** thanks to an alternative implementation regarding key grouping for nested keys and reducing unnecessary operations
 
 ## [12.39.0] - 2025-05-29
 ### Added

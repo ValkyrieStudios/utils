@@ -19,30 +19,30 @@ type OmitFromObject<T, K extends string> = K extends `${infer Key}.${infer Rest}
   : Omit<T, K>;
 
 function innerOmit (obj:Record<string, any>, keys:string[]) {
-    const result: any = {...obj};
+    const result: Record<string, any> = {...obj};
 
-    /* Group keys by top-level property */
-    const groups: Record<string, string[]> = {};
     for (let i = 0; i < keys.length; i++) {
-        if (typeof keys[i] === 'string') {
-            const [root, ...rest] = keys[i].split('.');
+        const key = keys[i];
+        if (typeof key !== 'string') continue;
 
-            if (rest.length) {
-                if (!groups[root]) groups[root] = [];
-                groups[root].push(rest.join('.'));
-            } else {
-                /* Remove top-level prop */
-                delete result[root];
+        let target = result;
+        const parts = key.split('.');
+        const last = parts.length - 1;
+        for (let j = 0; j < last; j++) {
+            const part = parts[j];
+            const val = target[part];
+
+            if (Object.prototype.toString.call(val) === '[object Object]') {
+                /* clone along path if necessary */
+                if (target[part] === obj[part]) {
+                    target[part] = {...val};
+                }
+
+                target = target[part];
             }
         }
-    }
 
-    /* Process each top-level property group */
-    for (const root in groups) {
-        if (
-            typeof result[root] === 'object' &&
-            result[root] !== null
-        ) result[root] = innerOmit(result[root], groups[root]);
+        delete target[parts[last]];
     }
 
     return result;

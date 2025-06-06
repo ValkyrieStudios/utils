@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.41.1] - 2025-06-06
+### Fixed
+- Add missing barrel export for scramble on object index
+
 ## [12.41.0] - 2025-06-06
 ### Added
 - **feat**: Added a new `object/scramble` util. This scramble util works exactly the same as `object/omit`, with the exception that instead of **omitting** it **replaces** the found values.

@@ -57,6 +57,7 @@ import toPercentage             from '../dist/esm/number/toPercentage';
 import merge                    from '../dist/esm/object/merge';
 import pick                     from '../dist/esm/object/pick';
 import omit                     from '../dist/esm/object/omit';
+import scramble                 from '../dist/esm/object/scramble';
 import isObject                 from '../dist/esm/object/is';
 import isNotEmptyObject         from '../dist/esm/object/isNotEmpty';
 import isRegExp                 from '../dist/esm/regexp/is';
@@ -1003,6 +1004,15 @@ for (const el of [
     {
         lbl: 'object/omit wildcard',
         fn: () => omit({a: true, b: {c: 1, d: "Peter", e: "Hello"}}, ['b.c', '*.e']),
+    },
+    /* Object - scramble */
+    {
+        lbl: 'object/scramble',
+        fn: () => scramble({a: true, b: {c: 1, d: "Peter", e: "Hello"}}, ['b.c', 'b.e']),
+    },
+    {
+        lbl: 'object/scramble wildcard',
+        fn: () => scramble({a: true, b: {c: 1, d: "Peter", e: "Hello"}}, ['b.c', '*.e']),
     },
     /* RegExp - is */
     {

@@ -457,6 +457,11 @@
             "import": "./esm/object/pick.js",
             "require": "./cjs/object/pick.js"
         },
+        "./object/scramble": {
+            "types": "./object/scramble.d.ts",
+            "import": "./esm/object/scramble.js",
+            "require": "./cjs/object/scramble.js"
+        },
         "./regexp": {
             "types": "./regexp/index.d.ts",
             "import": "./esm/regexp/index.js",

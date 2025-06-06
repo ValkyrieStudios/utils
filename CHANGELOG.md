@@ -6,6 +6,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: Added a new `object/scramble` util. This scramble util works exactly the same as `object/omit`, with the exception that instead of **omitting** it **replaces** the found values.
+```typescript
+import {scramble} from '@valkyriestudios/utils/object';
+
+const subject = {
+    user: {
+        name: 'Peter',
+        secret: 'Z',
+        age: 35,
+    },
+    pin: 1234,
+    data: {
+        rows: [
+            {meta: {secret: 'x', id: 1}},
+            {meta: {secret: 'y', id: 2}},
+        ],
+        accessToken: 'whadup',
+    },
+};
+
+const cleaned = omit(scramble, ['*.secret', '*.age', 'data.accessToken', 'pin']);
+
+/* Cleaned will be */
+{
+    user: {
+        name: 'Peter',
+        secret: '***',
+        age: '***',
+    },
+    pin: '***',
+    data: {
+        rows: [
+            {meta: {secret: '***', id: 1}},
+            {meta: {secret: '***', id: 2}},
+        ],
+        accessToken: '***',
+    },
+}
+```
+
 ### Improved
 - **feat**: Added support for using a wildcard prefix in `object/omit` keys arrays. You can now do for example:
 ```typescript

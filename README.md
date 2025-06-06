@@ -1547,6 +1547,61 @@ Redacted here will be:
 */
 ```
 
+### object/scramble(obj:Object={}, keys:Array[string]=[], options?:{replacement?:string})
+Returns an object with the keys provided in the keys array scrambled.
+```typescript
+import { scramble } from "@valkyriestudios/utils/object";
+const redacted = scramble({
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    age: 34,
+    details: {
+        phone: "...",
+        email: "...",
+        isActive: true,
+        password: "...",
+    },
+}, ["age", "details.phone", "details.email", "details.password"]);
+/**
+Redacted here will be:
+{
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    age: "***",
+    details: {phone: "***", email: "***", isActive: true, password: "***"}
+}
+*/
+```
+
+Also works with wildcards (take note, only as **prefix**):
+```typescript
+import { scramble } from "@valkyriestudios/utils/object";
+const redacted = scramble({
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    age: 34,
+    details: {
+        phone: "...",
+        email: "...",
+        isActive: true,
+        password: "...",
+    },
+    meta: {
+        phone: "...",
+    },
+}, ["age", "*.phone", "*.email", "*.password"]);
+/**
+Redacted here will be:
+{
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    age: "***",
+    details: {phone: "***", email: "***", isActive: true, password: "***"},
+    meta: {phone: "***"}
+}
+*/
+```
+
 ### object/merge(target:Object={},obj:Object|Object[]={}, opts?:{union?:boolean})
 Merges two objects together, with the preference over the second object.
 ```typescript

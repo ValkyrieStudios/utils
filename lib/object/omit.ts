@@ -33,12 +33,12 @@ function wildcardProp (target:any, source:any, prop:string):void {
                 delete target[key];
             } else {
                 const val = target[key];
-                const sVal = source?.[key];
-                if (typeof val === 'object' && typeof sVal === 'object' && val !== null && sVal !== null) {
-                    if (val === sVal) {
+                const s_val = source?.[key];
+                if (typeof val === 'object' && typeof s_val === 'object' && val !== null && s_val !== null) {
+                    if (val === s_val) {
                         target[key] = Array.isArray(val) ? [...val] : {...val};
                     }
-                    wildcardProp(target[key], sVal, prop);
+                    wildcardProp(target[key], s_val, prop);
                 }
             }
         }
@@ -51,14 +51,14 @@ function standardProp (target:any, source:any, path:string[]):void {
     for (let i = 0; i < last; i++) {
         const key = path[i];
         const val = target[key];
-        const srcVal = source?.[key];
+        const src_val = source?.[key];
 
         if (Array.isArray(val)) {
             target[key] = val.map((item, idx) => {
-                const srcItem = srcVal[idx];
+                const src_item = src_val[idx];
                 if (Object.prototype.toString.call(item) === '[object Object]') {
-                    const clone = item === srcItem ? {...item} : item;
-                    standardProp(clone, srcItem, path.slice(i + 1));
+                    const clone = {...item};
+                    standardProp(clone, src_item, path.slice(i + 1));
                     return clone;
                 }
                 return item;
@@ -67,11 +67,11 @@ function standardProp (target:any, source:any, path:string[]):void {
         }
 
         if (Object.prototype.toString.call(val) === '[object Object]') {
-            if (val === srcVal) {
+            if (val === src_val) {
                 target[key] = {...val};
             }
             target = target[key];
-            source = srcVal;
+            source = src_val;
         } else {
             return;
         }

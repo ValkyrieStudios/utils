@@ -39,7 +39,7 @@ function assign (
 ): void {
     let cursor: Record<string, unknown> | unknown[] = acc;
 
-    const keys = rawkey.match(RGX_TOKENS)! || [];
+    const keys = rawkey.match(RGX_TOKENS);
     const keys_len = keys!.length;
     for (let i = 0; i < keys_len; i++) {
         const key:string = keys![i];

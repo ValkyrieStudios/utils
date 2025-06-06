@@ -307,6 +307,22 @@ describe('Object - scramble', () => {
         expect(result.users[1]).not.toBe(subject.users[1]);
     });
 
+    it('Scrambles array items without cloning if not equal to source', () => {
+        const custom = [{id: 1}, {id: 2}];
+        const result = scramble({users: custom}, ['users.id'], {replacement: '[redacted]'});
+        expect(result).toEqual({users: [{id: '[redacted]'}, {id: '[redacted]'}]});
+    });
+
+    it('Ignores non-object items inside arrays during scramble', () => {
+        const input = {
+            items: ['hello', 123, true],
+        };
+
+        /* @ts-ignore */
+        const result = scramble(input, ['items.nonexistent']);
+        expect(result).toEqual(input);
+    });
+
     it('Throws a type error when passed something other than an object to scramble', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             expect(() => scramble(el, ['a', 'b'])).toThrowError(/Please pass an object to scramble and a keys array/);

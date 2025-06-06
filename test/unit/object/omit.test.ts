@@ -277,6 +277,22 @@ describe('Object - omit', () => {
         expect(result.users[1]).not.toBe(subject.users[1]);
     });
 
+    it('Skips cloning if array item is not strictly equal to source', () => {
+        const altered = [{id: 1}, {id: 2}];
+        const result = omit({users: altered}, ['users.id']);
+        expect(result).toEqual({users: [{}, {}]});
+    });
+
+    it('Ignores non-object items inside arrays during omit', () => {
+        const input = {
+            items: ['hello', 123, true],
+        };
+
+        /* @ts-ignore */
+        const result = omit(input, ['items.nonexistent']);
+        expect(result).toEqual(input);
+    });
+
     it('Throws a type error when passed something other than an object to omit from', () => {
         for (const el of CONSTANTS.NOT_OBJECT) {
             expect(() => omit(el, ['a', 'b'])).toThrowError(/Please pass an object to omit from and a keys array/);

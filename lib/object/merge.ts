@@ -55,7 +55,7 @@ function innerMerge (target:Record<string, unknown>,source:Record<string, unknow
         if (s_val !== undefined && t_val !== s_val) {
             target[key] = Object.prototype.toString.call(t_val) === '[object Object]' &&
                 Object.prototype.toString.call(s_val) === '[object Object]'
-                ? innerMerge(t_val as Record<string, unknown>, s_val as Record<string, unknown>, UNION)
+                ? innerMerge({...t_val as Record<string, unknown>}, s_val as Record<string, unknown>, UNION)
                 : s_val;
         }
     }

@@ -364,4 +364,70 @@ describe('Object - merge', () => {
             },
         });
     });
+
+    it('Should not copy nested keys in non-union mode if they do not exist on target', () => {
+        const target = {user: {name: 'Alice'}};
+        const source = {user: {name: 'Bob', email: 'bob@example.com'}};
+
+        const result = merge(target, source, {union: false});
+
+        expect(result).toEqual({user: {name: 'Bob'}});
+    });
+
+    it('Should not mutate the original target object during deep merge', () => {
+        const target = {a: {b: {c: 1}}};
+        const source = {a: {b: {d: 2}}};
+
+        const result = merge(target, source, {union: true});
+
+        expect(result).toEqual({a: {b: {c: 1, d: 2}}});
+        expect(target).toEqual({a: {b: {c: 1}}}); // original remains unchanged
+    });
+
+    it('Should preserve only matching keys in deep structure when union is false', () => {
+        const target = {a: {b: {c: true}}};
+        const source = {a: {b: {c: false, d: 'skip this'}}};
+
+        const result = merge(target, source, {union: false});
+
+        expect(result).toEqual({a: {b: {c: false}}});
+    });
+
+    it('Should copy extra nested keys in union mode', () => {
+        const target = {a: {b: {c: true}}};
+        const source = {a: {b: {c: false, d: 'included'}}};
+
+        const result = merge(target, source, {union: true});
+
+        expect(result).toEqual({a: {b: {c: false, d: 'included'}}});
+    });
+
+    it('Should skip unknown keys in non-union mode across multiple sources', () => {
+        const base = {a: 1, b: {x: 2}};
+
+        const result = merge(base, [
+            {a: 5, b: {x: 10, y: 999}},
+            {c: 123},
+        ], {union: false});
+
+        expect(result).toEqual({
+            a: 5,
+            b: {x: 10},
+        });
+    });
+
+    it('Should include all keys across multiple sources in union mode', () => {
+        const base = {a: 1, b: {x: 2}};
+
+        const result = merge(base, [
+            {a: 5, b: {x: 10, y: 999}},
+            {c: 123},
+        ], {union: true});
+
+        expect(result).toEqual({
+            a: 5,
+            b: {x: 10, y: 999},
+            c: 123,
+        });
+    });
 });

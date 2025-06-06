@@ -1,16 +1,7 @@
 import {deepGet} from '../deep/get';
+import {type DottedKeys} from './types';
 
 type ObjectType = { [key: string]: any };
-
-type DottedKeys<T> = (
-  T extends ObjectType
-    ? {
-        [K in keyof T & string]: T[K] extends ObjectType
-          ? K | `${K}.${DottedKeys<T[K]>}`
-          : K;
-      }[keyof T & string]
-    : string
-) & string;
 
 type PickFromObject<T, K extends string> = K extends `${infer Key}.${infer Rest}`
   ? Key extends keyof T

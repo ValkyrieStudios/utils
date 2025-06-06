@@ -1498,7 +1498,7 @@ pick({a: 1, b: 2, c: 3}, ['a','b']); // {a: 1, b: 2}
 ### object/omit(obj:Object={}, keys:Array[string]=[])
 Returns an object with the keys provided in the keys array stripped from the provided object.
 ```typescript
-import { omit } from "@valkyriestudios/utils/object"; /* Or @valkyriestudios/utils/object/omit; */
+import { omit } from "@valkyriestudios/utils/object";
 const redacted = omit({
     firstName: "Peter",
     lastName: "Vermeulen",
@@ -1516,6 +1516,34 @@ Redacted here will be:
 
 Its type will be
 {firstName: string; lastName: string; details: {isActive: boolean}}
+*/
+```
+
+Also works with wildcards (take note, only as **prefix**):
+```typescript
+import { omit } from "@valkyriestudios/utils/object";
+const redacted = omit({
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    age: 34,
+    details: {
+        phone: "...",
+        email: "...",
+        isActive: true,
+        password: "...",
+    },
+    meta: {
+        phone: "...",
+    },
+}, ["age", "*.phone", "*.email", "*.password"]);
+/**
+Redacted here will be:
+{
+    firstName: "Peter",
+    lastName: "Vermeulen",
+    details: {isActive: true},
+    meta: {}
+}
 */
 ```
 

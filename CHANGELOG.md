@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **feat**: Added support for using a wildcard prefix in `object/omit` keys arrays. You can now do for example:
+```typescript
+import {omit} from '@valkyriestudios/utils/object';
+
+const subject = {
+    user: {
+        name: 'Peter',
+        secret: 'Z',
+        age: 35,
+    },
+    pin: 1234,
+    data: {
+        rows: [
+            {meta: {secret: 'x', id: 1}},
+            {meta: {secret: 'y', id: 2}},
+        ],
+        accessToken: 'whadup',
+    },
+};
+
+const cleaned = omit(subject, ['*.secret', '*.age', 'data.accessToken', 'pin']);
+
+/* Cleaned will be */
+{
+    user: {
+        name: 'Peter',
+    },
+    data: {
+        rows: [
+            {meta: {id: 1}},
+            {meta: {id: 2}},
+        ],
+    },
+}
+```
+
 ## [12.40.0] - 2025-05-29
 ### Improved
 - **perf**: Improved performance of `object/merge` by an approximate **~5-10%** thanks to micro-optimizations regarding lookups and reducing unnecessary operations

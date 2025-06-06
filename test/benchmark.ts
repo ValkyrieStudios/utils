@@ -1000,6 +1000,10 @@ for (const el of [
         lbl: 'object/omit',
         fn: () => omit({a: true, b: {c: 1, d: "Peter", e: "Hello"}}, ['b.c', 'b.e']),
     },
+    {
+        lbl: 'object/omit wildcard',
+        fn: () => omit({a: true, b: {c: 1, d: "Peter", e: "Hello"}}, ['b.c', '*.e']),
+    },
     /* RegExp - is */
     {
         lbl: 'regexp/is',

@@ -22,7 +22,7 @@ function wildcardProp (target:any, source:any, prop:string):void {
         for (let i = 0; i < target.length; i++) {
             const t = target[i];
             const s = source[i];
-            if (typeof t === 'object' && t !== null && typeof s === 'object' && s !== null) {
+            if (Object.prototype.toString.call(t) === '[object Object]' || Array.isArray(t)) {
                 if (t === s) target[i] = {...t};
                 wildcardProp(target[i], s, prop);
             }
@@ -34,7 +34,7 @@ function wildcardProp (target:any, source:any, prop:string):void {
             } else {
                 const val = target[key];
                 const s_val = source?.[key];
-                if (typeof val === 'object' && typeof s_val === 'object' && val !== null && s_val !== null) {
+                if (Object.prototype.toString.call(val) === '[object Object]' || Array.isArray(val)) {
                     if (val === s_val) {
                         target[key] = Array.isArray(val) ? [...val] : {...val};
                     }
@@ -77,9 +77,7 @@ function standardProp (target:any, source:any, path:string[]):void {
         }
     }
 
-    if (target && typeof target === 'object' && path[last] in source) {
-        delete target[path[last]];
-    }
+    if (target && path[last] in source) delete target[path[last]];
 }
 
 /**

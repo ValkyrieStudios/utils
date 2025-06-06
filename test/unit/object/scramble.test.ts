@@ -138,6 +138,25 @@ describe('Object - scramble', () => {
         });
     });
 
+    it('Keeps date objects alive', () => {
+        const now = new Date();
+        const subject = {
+            id: 1,
+            account: {password: 'abc123', token: 't1'},
+            profile: {password: 'def456', name: 'peter'},
+            config: {enabled: true},
+            createdAt: now,
+        };
+
+        expect(scramble(subject, ['*.password'], {replacement: 'NO_SECRETS_FOR_YOU'})).toEqual({
+            id: 1,
+            account: {password: 'NO_SECRETS_FOR_YOU', token: 't1'},
+            profile: {password: 'NO_SECRETS_FOR_YOU', name: 'peter'},
+            config: {enabled: true},
+            createdAt: now,
+        });
+    });
+
     it('Ignores wildcard keys if sub-objects don’t contain the property', () => {
         const subject = {
             a: {name: 'foo'},

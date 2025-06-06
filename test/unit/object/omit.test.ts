@@ -263,6 +263,21 @@ describe('Object - omit', () => {
         });
     });
 
+    it('Keeps date objects alive', () => {
+        const now = new Date();
+        const subject = {
+            a: [1, 2, 3],
+            b: [{x: 1}, 'string', {x: 2}],
+            c: now,
+        };
+
+        expect(omit(subject, ['b.x'])).toEqual({
+            a: [1, 2, 3],
+            b: [{}, 'string', {}],
+            c: now,
+        });
+    });
+
     it('Does not mutate arrays while omitting from them', () => {
         const subject = {
             users: [{id: 1, token: 'abc'}, {id: 2, token: 'def'}],

@@ -1,6 +1,6 @@
 {
     "name": "@valkyriestudios/utils",
-    "version": "12.41.2",
+    "version": "12.41.3",
     "description": "A collection of single-function utilities for common tasks",
     "author": {
         "name": "Peter Vermeulen",

@@ -12,6 +12,11 @@ Zero-dependency collection of single-function utilities for common tasks
 ## Installation
 `npm install @valkyriestudios/utils`
 
+## 🧊 TriFrost is powered by utils
+Many of the utilities in this package are optimized and tested as foundational building blocks of [TriFrost](https://www.trifrost.dev) — a high-performance, type-safe framework for building fullstack TypeScript applications.
+
+If you're looking to go beyond utilities and build fully modular backends with deep type integration, check out TriFrost.
+
 ## Available Functions
 ### array/is(val:unknown)
 Check if a variable is of type Array

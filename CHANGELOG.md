@@ -83,6 +83,9 @@ const cleaned = omit(subject, ['*.secret', '*.age', 'data.accessToken', 'pin']);
     },
 }
 ```
+- **deps**: Upgrade @types/node to 22.15.30
+- **deps**: Upgrade @vitest/coverage-v8 to 3.2.2
+- **deps**: Upgrade vitest to 3.2.2
 
 ## [12.40.0] - 2025-05-29
 ### Improved

@@ -103,4 +103,4 @@ function scramble<
     return result as T;
 }
 
-export default scramble;
+export {scramble, scramble as default};

@@ -6,7 +6,7 @@ type ToObjectConfig = {
     /**
      * Pass array of keys that should not be normalized into number/bool when seen
      */
-    raw?: string[] | true;
+    raw?: string[] | boolean;
     /**
      * Pass array of keys that should only have a single value (e.g., 'action')
      */
@@ -134,7 +134,7 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
                 default: {
                     if (typeof value === 'string' && value) {
                         /* Number normalization */
-                        if (nNumber) {
+                        if (nNumber && value[0] !== '0') {
                             const nVal = Number(value);
                             /* eslint-disable-next-line max-depth */
                             if (!isNaN(nVal)) {

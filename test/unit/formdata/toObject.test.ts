@@ -269,14 +269,14 @@ describe('FormData - toObject', () => {
         });
     });
 
-    it('Should handle numeric values with leading zeros', () => {
+    it('Should handle numeric values with leading zeros as string', () => {
         const formData = new FormData();
         formData.append('zipCode', '000123');
         formData.append('phoneNumber', '0123456789');
 
         expect(toObject(formData)).toEqual({
-            zipCode: 123,
-            phoneNumber: 123456789,
+            zipCode: '000123',
+            phoneNumber: '0123456789',
         });
     });
 

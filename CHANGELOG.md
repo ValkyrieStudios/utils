@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [12.43.0] - 2025-08-31
 ### Added
 - **feat**: `hash/djb2` - An implementation of the djb2 hashing algorithm. This is a lightweight, fast non-cryptographic hash useful for deduplication, caches, and generating consistent keys.
 ```ts
@@ -31,7 +31,7 @@ const uniqueUsers = dedupe(users, { key: "id" });
 console.log(uniqueUsers);
 // => [ { id: 1, name: "Alice" }, { id: 2, name: "Bob" } ]
 ```
-- **feat**: `hash/fnv1A` - now also works with bigint and Error objects
+- **feat**: `hash/fnv1A` - now also works with **bigint**, **symbol**, **Error** objects
 - **dx**: `array/is` and `array/isNotEmpty` now allow passing a generic when in need
 ```ts
 if (isArray<MyType>(raw)) {

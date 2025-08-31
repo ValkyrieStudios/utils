@@ -1,6 +1,6 @@
 {
     "name": "@valkyriestudios/utils",
-    "version": "12.43.0",
+    "version": "12.44.0",
     "description": "A collection of single-function utilities for common tasks",
     "author": {
         "name": "Peter Vermeulen",
@@ -306,6 +306,11 @@
             "types": "./hash/index.d.ts",
             "import": "./esm/hash/index.js",
             "require": "./cjs/hash/index.js"
+        },
+        "./hash/djb2": {
+            "types": "./hash/djb2.d.ts",
+            "import": "./esm/hash/djb2.js",
+            "require": "./cjs/hash/djb2.js"
         },
         "./hash/fnv1A": {
             "types": "./hash/fnv1A.d.ts",

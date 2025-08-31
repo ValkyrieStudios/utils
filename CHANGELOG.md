@@ -5,13 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.44.0] - 2025-08-31
+### Improved
+- Add djb2 to package.json exports
+- Add djb2 to barrel export for @valkyriestudios/utils/hash
+
 ## [12.43.0] - 2025-08-31
 ### Added
 - **feat**: `hash/djb2` - An implementation of the djb2 hashing algorithm. This is a lightweight, fast non-cryptographic hash useful for deduplication, caches, and generating consistent keys.
 ```ts
 import djb2 from "@valkyriestudios/utils/hash/djb2";
 
-console.log(djb2("hello world")); 
+console.log(djb2("hello world"));
 // e.g. "35079" (stringified 32-bit unsigned integer)
 ```
 

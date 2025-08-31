@@ -143,6 +143,11 @@ describe('Hash - fnv1A', () => {
         expect(fnv1A(true)).toBe(0x4db211e5);
     });
 
+    it('Should compute hash for symbol', () => {
+        expect(fnv1A(Symbol('hello'))).toBe(fnv1A(Symbol('hello')));
+        expect(fnv1A(Symbol('hello'))).not.toBe(fnv1A(Symbol('hallo')));
+    });
+
     it('Should throw when passed a value it can’t do', () => {
         expect(() => fnv1A(new FormData())).toThrowError(new TypeError('A Hash could not be calculated for this datatype'));
     });

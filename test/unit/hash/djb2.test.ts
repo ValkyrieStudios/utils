@@ -147,6 +147,11 @@ describe('Hash - djb2', () => {
         expect(djb2(true)).toBe('2087932467');
     });
 
+    it('Should compute hash for symbol', () => {
+        expect(djb2(Symbol('hello'))).toBe(djb2(Symbol('hello')));
+        expect(djb2(Symbol('hello'))).not.toBe(djb2(Symbol('hallo')));
+    });
+
     it('Should throw when passed a value it can’t do', () => {
         expect(() => djb2(new FormData())).toThrowError(new TypeError('A Hash could not be calculated for this datatype'));
     });

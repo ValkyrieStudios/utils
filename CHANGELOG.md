@@ -38,6 +38,12 @@ if (isArray<MyType>(raw)) {
     ...
 }
 ```
+- **deps**: Upgrade @types/node to 22.18.0
+- **deps**: Upgrade @vitest/coverage-v8 to 3.2.4
+- **deps**: Upgrade eslint to 9.34.0
+- **deps**: Upgrade typescript to 5.9.2
+- **deps**: Upgrade typescript-eslint to 8.41.0
+- **deps**: Upgrade vitest to 3.2.4
 
 ## [12.42.0] - 2025-06-15
 ### Improved

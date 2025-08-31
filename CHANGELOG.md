@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **feat**: `hash/fnv1A` - now allows passing bigint as well 
+- **dx**: `array/is` and `array/isNotEmpty` now allow passing a generic when in need
+```ts
+if (isArray<MyType>(raw)) {
+    ...
+}
+```
+
 ## [12.42.0] - 2025-06-15
 ### Improved
 - **qol**: `formdata/toObject` will no longer normalize numbers starting with '0' as there's a high chance they were meant to be strings

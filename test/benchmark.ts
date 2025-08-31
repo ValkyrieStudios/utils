@@ -35,6 +35,7 @@ import deepSeal                 from '../dist/esm/deep/seal';
 import deepSet                  from '../dist/esm/deep/set';
 import isFunction               from '../dist/esm/function/is';
 import isAsyncFunction          from '../dist/esm/function/isAsync';
+import djb2                     from '../dist/esm/hash/djb2';
 import fnv1A                    from '../dist/esm/hash/fnv1A';
 import guid                     from '../dist/esm/hash/guid';
 import isNumber                 from '../dist/esm/number/is';
@@ -821,6 +822,15 @@ for (const el of [
     {
         lbl: 'function/isAsync',
         fn: () => isAsyncFunction(async () => 'hello'),
+    },
+    /* Hash - djb2 */
+    {
+        lbl: 'hash/djb2 - 10 chars',
+        fn: () => djb2('0123456789'),
+    },
+    {
+        lbl: 'hash/djb2 - 20 chars',
+        fn: () => djb2('01234567890123456789'),
     },
     /* Hash - fnv1A */
     {

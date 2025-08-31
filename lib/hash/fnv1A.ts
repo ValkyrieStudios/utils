@@ -1,11 +1,6 @@
+import {toString} from './utils';
 export const FNV_32 = 2166136261;
-export const FNV_64 = 1099511628211;
-
-const REPL_NAN      = 'nan';
-const REPL_TRUE     = 'true';
-const REPL_FALSE    = 'false';
-const REPL_UNDEF    = 'undefined';
-const REPL_NULL     = 'null';
+export const FNV_64 = 1099511628211n;
 
 /**
  * Convert a provided value into a Fowler-Noll-Vo 1A hash
@@ -15,44 +10,13 @@ const REPL_NULL     = 'null';
  * @param {number} offset - (default=2166136261) FNV prime to use
  */
 function fnv1A (data:unknown, offset:number = FNV_32):number {
-    let hash:number = offset;
-    let sanitized:any;
+    let hash = offset;
+    const normalized = toString(data);
 
-    // Convert data to a format that is hashable
-    switch (typeof data) {
-        case 'string':
-            sanitized = data;
-            break;
-        case 'number':
-            sanitized = Number.isNaN(data) || !Number.isFinite(data) ? REPL_NAN : String(data);
-            break;
-        case 'boolean':
-            sanitized = data ? REPL_TRUE : REPL_FALSE;
-            break;
-        case 'undefined':
-            sanitized = REPL_UNDEF;
-            break;
-        case 'object':
-            if (data === null) {
-                sanitized = REPL_NULL;
-            } else if (Array.isArray(data) || Object.prototype.toString.call(data) === '[object Object]') {
-                sanitized = JSON.stringify(data);
-            } else if (data instanceof RegExp) {
-                sanitized = String(data);
-            } else if (data instanceof Date) {
-                sanitized = String(data.getTime());
-            } else {
-                throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
-            }
-            break;
-        default:
-            throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
-    }
-
-    //  Calculate the hash of the sanitized data by looping over each char
-    const len = sanitized.length;
+    //  Calculate the hash of the normalized data by looping over each char
+    const len = normalized.length;
     for (let i = 0; i < len; i++) {
-        hash ^= sanitized.charCodeAt(i);
+        hash ^= normalized.charCodeAt(i);
 
         /**
          * 32-bit FNV prime: 2**24 + 2**8 + 0x93 = 16777619

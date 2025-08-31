@@ -3,7 +3,7 @@
  *
  * @param {unknown} val - Value to verify
  */
-function isArray (val:unknown):val is unknown[] {
+function isArray <T = unknown> (val:unknown):val is T[] {
     return Array.isArray(val);
 }
 

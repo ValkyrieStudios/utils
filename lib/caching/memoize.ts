@@ -1,5 +1,5 @@
 import isAsyncFunction from '../function/isAsync';
-import fnv1A from '../hash/fnv1A';
+import djb2 from '../hash/djb2';
 import isIntegerGt from '../number/isIntegerAbove';
 import LRU from './LRU';
 
@@ -7,7 +7,7 @@ import LRU from './LRU';
  * Turn a function into a memoized function. An optional resolver function can be passed which allows custom cache key generation.
  *
  * Example:
- *  const memoized_function = memoize((a) => fnv1A(a));
+ *  const memoized_function = memoize((a) => djb2(a));
  *
  * @param fn - Function to memoize
  * @param resolver - Optional resolver function to generate cache key. If not passed the first argument is used as map key
@@ -27,7 +27,7 @@ function memoize <T extends (...args:any[]) => unknown> (
     const memoized = isAsyncFunction(fn)
         ? async function (...args:Parameters<T>) {
             let key = isResolverFn ? resolver(...args) : args[0];
-            key = typeof key === 'string' ? key : Number.isFinite(key) ? String(key) : String(fnv1A(key));
+            key = typeof key === 'string' ? key : Number.isFinite(key) ? String(key) : djb2(key);
             const cached_val = cache.get(key);
 
             const now = Date.now();
@@ -41,7 +41,7 @@ function memoize <T extends (...args:any[]) => unknown> (
         }
         : function (...args:Parameters<T>) {
             let key = isResolverFn ? resolver(...args) : args[0];
-            key = typeof key === 'string' ? key : Number.isFinite(key) ? String(key) : String(fnv1A(key));
+            key = typeof key === 'string' ? key : Number.isFinite(key) ? String(key) : djb2(key);
             const cached_val = cache.get(key);
 
             const now = Date.now();

@@ -239,7 +239,7 @@ const group = groupBy([
 **Take note**: any object without the key will be added to a fallback group called '_'
 
 
-### array/dedupe(val:Array, opts?:{filter_fn})
+### array/dedupe(val:Array, opts?:{key:string; filter_fn})
 Remove all duplicates from an array, behind the scenes it uses the fnv 1A hash algorithm to performantly do comparisons.
 ```typescript
 import dedupe from '@valkyriestudios/utils/array/dedupe';
@@ -249,6 +249,22 @@ dedupe([new RegExp(/ab+c/, 'i'), new RegExp(/ab+c/, 'i')]); // [new RegExp(/ab+c
 dedupe([new Date('2012-02-02'), new Date('2012-02-02')]); // [new Date('2012-02-02')]
 dedupe(['hello', 'hello', 'world']); // ['hello', 'world']
 dedupe(['hello', 'hello', 'world', false, 'world'], {filter_fn: el => isNotEmptyString(el)}); // ['hello', 'world']
+```
+
+Also supports deduping according to a specific `key`:
+```typescript
+import dedupe from '@valkyriestudios/utils/array/dedupe';
+
+const users = [
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' },
+  { id: 1, name: 'Alicia' }, // duplicate id
+];
+
+// Deduplicate by `id`
+const uniqueUsers = dedupe(users, { key: 'id' });
+console.log(uniqueUsers);
+// => [ { id: 1, name: "Alice" }, { id: 2, name: "Bob" } ]
 ```
 
 Take Note: The filtering is applied while deduping, ensuring O(n) performance, as such this is faster than dedupe(arr.filter(...))
@@ -978,15 +994,18 @@ import guid from '@valkyriestudios/utils/hash/guid';
 guid(); // 245caf1a-86af-11e7-bb31-be2e44b06b34
 ```
 
+### hash/djb2(val:unknown)
+Generate a djb2 hash from an object/array/primitive/...
+```typescript
+import djb2 from '@valkyriestudios/utils/hash/djb2';
+djb2('hello world');
+```
+
 ### hash/fnv1A(val:unknown)
-Generate a fnv1A hash from an object, using a 32-bit prime/offset
+Generate a fnv1A hash from an object/array/primitive/...
 ```typescript
 import fnv1A from '@valkyriestudios/utils/hash/fnv1A';
-fnv1A('hello world'); // -2023343616
-fnv1A({a:1,b:2}); // 361168128
-fnv1A(4); // 1630425728
-fnv1A(new RegExp(/ab+c/, 'i')); // 2131692544
-fnv1A(new Date('2012-02-02')); // 1655579136
+fnv1A('hello world');
 ```
 
 ### Is

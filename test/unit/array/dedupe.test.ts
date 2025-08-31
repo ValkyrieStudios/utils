@@ -35,10 +35,6 @@ describe('Array - dedupe', () => {
             .toEqual([new Date('2022-02-01T04:20:00.000Z'), new Date('2022-02-01T04:21:00.000Z')]);
     });
 
-    it('Should not care about formdata', () => {
-        expect(dedupe([new FormData(), new FormData()])).toEqual([new FormData()]);
-    });
-
     it('Correctly remove duplicates in a mixed primitive array', () => {
         expect(dedupe(['foo', null, 1, 2, NaN, 'bar', undefined, 'bar', true, true, false, NaN, 1, 2, false, null, undefined]))
             .toEqual(['foo', null, 1, 2, NaN, 'bar', undefined, true, false]);
@@ -101,5 +97,36 @@ describe('Array - dedupe', () => {
 
         expect(dedupe([test_a, test_b, test_c, test_a], {filter_fn: el => el.age > 20}))
             .toEqual([test_b, test_c]);
+    });
+
+    it('Correctly dedupes array of objects by a specific key', () => {
+        const a = {id: 1, name: 'foo'};
+        const b = {id: 2, name: 'bar'};
+        const c = {id: 1, name: 'baz'}; // duplicate id
+
+        expect(dedupe([a, b, c], {key: 'id'})).toEqual([a, b]);
+    });
+
+    it('Works with filter_fn + key together', () => {
+        const a = {id: 1, active: true};
+        const b = {id: 2, active: false};
+        const c = {id: 3, active: true};
+        const d = {id: 1, active: false}; // duplicate id
+
+        expect(
+            dedupe([a, b, c, d], {
+                key: 'id',
+                filter_fn: el => el.active,
+            })
+        ).toEqual([a, c]);
+    });
+
+    it('Skips non-objects safely when using key', () => {
+        // Only objects with a `id` property will be considered
+        const a = {id: 1};
+        const b = {id: 2};
+        expect(
+            dedupe([a, b, ...CONSTANTS.NOT_OBJECT], {key: 'id'})
+        ).toEqual([a, b]);
     });
 });

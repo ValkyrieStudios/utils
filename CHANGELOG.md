@@ -7,9 +7,30 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Added
-- **feat**: `hash/djb2` - An implementation of the djb2 hashing algorithm
+- **feat**: `hash/djb2` - An implementation of the djb2 hashing algorithm. This is a lightweight, fast non-cryptographic hash useful for deduplication, caches, and generating consistent keys.
+```ts
+import djb2 from "@valkyriestudios/utils/hash/djb2";
+
+console.log(djb2("hello world")); 
+// e.g. "35079" (stringified 32-bit unsigned integer)
+```
 
 ### Improved
+- **feat**: `array/dedupe` - now supports a `key` option. This allows you to deduplicate an array of objects based on the value of a specific property, instead of comparing whole objects. The function still supports the optional `filter_fn` for more control. **Important:** When working with the `key` option we will automatically filter out anything that isn't an object by design.
+```ts
+import dedupe from "lib/array/dedupe";
+
+const users = [
+  { id: 1, name: "Alice" },
+  { id: 2, name: "Bob" },
+  { id: 1, name: "Alicia" }, // duplicate id
+];
+
+// Deduplicate by `id`
+const uniqueUsers = dedupe(users, { key: "id" });
+console.log(uniqueUsers);
+// => [ { id: 1, name: "Alice" }, { id: 2, name: "Bob" } ]
+```
 - **feat**: `hash/fnv1A` - now also works with bigint and Error objects
 - **dx**: `array/is` and `array/isNotEmpty` now allow passing a generic when in need
 ```ts

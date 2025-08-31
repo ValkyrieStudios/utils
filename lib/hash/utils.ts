@@ -24,12 +24,14 @@ export function toString (raw:unknown):string {
                 return String(raw);
             } else if (raw instanceof Date) {
                 return String(raw.getTime());
+            } else if (raw instanceof Error) {
+                return raw.name + '|' + raw.message;
             } else {
-                throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
+                throw new TypeError('A Hash could not be calculated for this datatype');
             }
         case 'symbol':
             return String(raw);
         default:
-            throw new TypeError('An FNV1A Hash could not be calculated for this datatype');
+            throw new TypeError('A Hash could not be calculated for this datatype');
     }
 }

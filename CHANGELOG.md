@@ -6,8 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
 Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- **feat**: `hash/djb2` - An implementation of the djb2 hashing algorithm
+
 ### Improved
-- **feat**: `hash/fnv1A` - now allows passing bigint as well 
+- **feat**: `hash/fnv1A` - now also works with bigint and Error objects
 - **dx**: `array/is` and `array/isNotEmpty` now allow passing a generic when in need
 ```ts
 if (isArray<MyType>(raw)) {

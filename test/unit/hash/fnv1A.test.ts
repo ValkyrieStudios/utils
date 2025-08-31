@@ -44,8 +44,8 @@ describe('Hash - fnv1A', () => {
     });
 
     it('should throw a type error when passed an unhashable value', () => {
-        expect(() => fnv1A(() => {})).toThrowError(new TypeError('An FNV1A Hash could not be calculated for this datatype'));
-        expect(() => fnv1A(new FormData())).toThrowError(new TypeError('An FNV1A Hash could not be calculated for this datatype'));
+        expect(() => fnv1A(() => {})).toThrowError(new TypeError('A Hash could not be calculated for this datatype'));
+        expect(() => fnv1A(new FormData())).toThrowError(new TypeError('A Hash could not be calculated for this datatype'));
     });
 
     it('should output values that equal the official spec (32 bit)', () => {
@@ -76,6 +76,37 @@ describe('Hash - fnv1A', () => {
 
     it('should compute same hash for undefined', () => {
         expect(fnv1A(undefined)).toBe(0x9b61ad43);
+    });
+
+    it('should compute hash for bigint', () => {
+        expect(fnv1A(BigInt(4732894))).toBe(253493650);
+    });
+
+    it('should compute same hash for bigint', () => {
+        expect(fnv1A(BigInt(4732894))).toBe(fnv1A(BigInt(4732894)));
+    });
+
+    it('should compute hash for error object', () => {
+        const err = new Error('Hello World');
+        expect(fnv1A(err)).toBe(1208468069);
+    });
+
+    it('should compute same hash for similar error objects', () => {
+        const err = new Error('Hello World');
+        const err2 = new Error('Hello World');
+        expect(fnv1A(err)).toBe(fnv1A(err2));
+    });
+
+    it('should not compute same hash for error objects with different type', () => {
+        const err = new Error('Hello World');
+        const err2 = new TypeError('Hello World');
+        expect(fnv1A(err)).not.toBe(fnv1A(err2));
+    });
+
+    it('should not compute same hash for error objects with different message', () => {
+        const err = new Error('Hello World');
+        const err2 = new Error('Hello Worldje');
+        expect(fnv1A(err)).not.toBe(fnv1A(err2));
     });
 
     it('should compute same hash for null', () => {
@@ -113,6 +144,6 @@ describe('Hash - fnv1A', () => {
     });
 
     it('Should throw when passed a value it can’t do', () => {
-        expect(() => fnv1A(new FormData())).toThrowError(new TypeError('An FNV1A Hash could not be calculated for this datatype'));
+        expect(() => fnv1A(new FormData())).toThrowError(new TypeError('A Hash could not be calculated for this datatype'));
     });
 });

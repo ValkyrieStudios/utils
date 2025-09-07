@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [12.45.0] - 2025-09-07
+### Added
+- **feat**: `hash/hexId`: Generates a cryptographically secure random hex string of arbitrary length
+```ts
+import {hexId} from '@valkyriestudios/utils/hash';
+
+// Size = number of bytes
+console.log(hexId(8));   // "7a3c1b9f8e2d4c71"
+console.log(hexId(16));  // "3f6e1b2c4a7d9f0e2b6c8d1a3e4f7b9c"
+```
+- **feat**: `hash/uuidv7`: Generate [RFC 9562-compliant](https://www.rfc-editor.org/rfc/rfc9562.html#name-uuid-version-7) timestamp-ordered v7 UUID
+```ts
+import {uuidv7} from '@valkyriestudios/utils/hash';
+
+console.log(uuidv7()); 
+// "018f4d5b-9c61-7d2f-8e3b-3a90b5f78c2d"
+```
+
+### Improved
+- **misc**: `hash/guid` now uses `crypto.getRandomValues` instead of `Math.random`, ensuring randomness even under heavy load.
+- **perf**: Approximate **~5–50%** performance improvement in `dedupe` depending on type of data in array thanks to reduction of internal operations
+- **perf**: `isObject` and `isNotEmptyObject` will now be faster in detecting if something is **not** an object.
+
 ## [12.44.0] - 2025-08-31
 ### Improved
 - Add djb2 to package.json exports

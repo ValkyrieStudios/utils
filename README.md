@@ -994,6 +994,27 @@ import guid from '@valkyriestudios/utils/hash/guid';
 guid(); // 245caf1a-86af-11e7-bb31-be2e44b06b34
 ```
 
+### hash/hexId(size:number)
+Generate a cryptographically secure random hex string.
+
+⚠️ The size parameter is in bytes, the resulting string will be size * 2 characters long
+```typescript
+import hexId from '@valkyriestudios/utils/hash/hexId';
+
+hexId(8); // "7a3c1b9f8e2d4c71"
+hexId(16); // "3f6e1b2c4a7d9f0e2b6c8d1a3e4f7b9c"
+```
+
+### hash/uuidv7()
+Generate a unique uuidv7 identifier according to [RFC 9562](https://www.rfc-editor.org/rfc/rfc9562)
+
+These IDs are **time-ordered** while still being 128-bit random identifiers.
+```typescript
+import uuidv7 from '@valkyriestudios/utils/hash/uuidv7';
+
+uuidv7(); // "018f4d5b-9c61-7d2f-8e3b-3a90b5f78c2d"
+```
+
 ### hash/djb2(val:unknown)
 Generate a djb2 hash from an object/array/primitive/...
 ```typescript

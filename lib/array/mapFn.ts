@@ -40,10 +40,7 @@ function mapFn<T extends Record<string, any>, U extends Record<string, any> = T>
     fn:MapFn<T>,
     opts?:MapOptions<T, U>
 ):Record<string, U> {
-    if (
-        (!Array.isArray(arr) || !arr.length) ||
-        typeof fn !== 'function'
-    ) return {};
+    if (!Array.isArray(arr) || typeof fn !== 'function') return {};
 
     const MERGE = opts?.merge === true;
     const TRANSFORM_FN = opts?.transform_fn;
@@ -51,14 +48,14 @@ function mapFn<T extends Record<string, any>, U extends Record<string, any> = T>
     const map:Record<string, U> = {};
     for (let i = 0; i < arr.length; i++) {
         const el = arr[i];
-        if (Object.prototype.toString.call(el) !== '[object Object]') continue;
-
-        /* Get hash */
-        let hash = fn(el);
-        if (Number.isFinite(hash) || (typeof hash === 'string' && hash.length)) {
-            hash = hash + '';
-            const transformed: U = TRANSFORM_FN ? TRANSFORM_FN(el) : (el as unknown as U);
-            map[hash] = MERGE && hash in map ? merge(map[hash], transformed, {union: true}) : transformed;
+        if (Object.prototype.toString.call(el) === '[object Object]') {
+            /* Get hash */
+            let hash = fn(el);
+            if (Number.isFinite(hash) || (typeof hash === 'string' && hash.length)) {
+                hash = String(hash);
+                const transformed: U = TRANSFORM_FN ? TRANSFORM_FN(el) : (el as unknown as U);
+                map[hash] = MERGE && hash in map ? merge(map[hash], transformed, {union: true}) : transformed;
+            }
         }
     }
 

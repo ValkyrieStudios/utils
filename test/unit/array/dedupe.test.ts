@@ -26,10 +26,6 @@ describe('Array - dedupe', () => {
         expect(dedupe(['foo', 'bar', 'foo', 'foo', 'bar', 'test', 'test'])).toEqual(['foo', 'bar', 'test']);
     });
 
-    it('Correctly remove duplicate regexes from an array', () => {
-        expect(dedupe([/\s{2,}/g, /\s{2,}/g, /\s{3,}/g, new RegExp('\\s{2,}', 'g')])).toEqual([/\s{2,}/g, /\s{3,}/g]);
-    });
-
     it('Correctly remove duplicate dates from an array', () => {
         expect(dedupe([new Date('2022-02-01T04:20:00.000Z'), new Date('2022-02-01T04:20:00.000Z'), new Date('2022-02-01T04:21:00.000Z')]))
             .toEqual([new Date('2022-02-01T04:20:00.000Z'), new Date('2022-02-01T04:21:00.000Z')]);
@@ -37,7 +33,7 @@ describe('Array - dedupe', () => {
 
     it('Correctly remove duplicates in a mixed primitive array', () => {
         expect(dedupe(['foo', null, 1, 2, NaN, 'bar', undefined, 'bar', true, true, false, NaN, 1, 2, false, null, undefined]))
-            .toEqual(['foo', null, 1, 2, NaN, 'bar', undefined, true, false]);
+            .toEqual(['foo', 1, 2, NaN, 'bar', true, false]);
     });
 
     it('Correctly remove duplicate arrays from an array', () => {

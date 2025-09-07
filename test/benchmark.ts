@@ -38,6 +38,8 @@ import isAsyncFunction          from '../dist/esm/function/isAsync';
 import djb2                     from '../dist/esm/hash/djb2';
 import fnv1A                    from '../dist/esm/hash/fnv1A';
 import guid                     from '../dist/esm/hash/guid';
+import hexId                    from '../dist/esm/hash/hexId';
+import uuidv7                   from '../dist/esm/hash/uuidv7';
 import isNumber                 from '../dist/esm/number/is';
 import isNumberAbove            from '../dist/esm/number/isAbove';
 import isNumberAboveOrEqual     from '../dist/esm/number/isAboveOrEqual';
@@ -845,6 +847,21 @@ for (const el of [
     {
         lbl: 'hash/guid',
         fn: () => guid(),
+    },
+    /* Hash - hexId 8 */
+    {
+        lbl: 'hash/hexId - 8',
+        fn: () => hexId(8),
+    },
+    /* Hash - hexId 16 */
+    {
+        lbl: 'hash/hexId - 16',
+        fn: () => hexId(16),
+    },
+    /* Hash - uuidv7 */
+    {
+        lbl: 'hash/uuidv7',
+        fn: () => uuidv7(),
     },
     /* Number - is */
     {

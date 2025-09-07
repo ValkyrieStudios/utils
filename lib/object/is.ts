@@ -4,7 +4,7 @@
  * @param {unknown} val - Value to verify
  */
 function isObject <T extends Record<string, unknown> = Record<string, unknown>> (val:T|unknown):val is T {
-    return Object.prototype.toString.call(val) === '[object Object]';
+    return typeof val === 'object' && Object.prototype.toString.call(val) === '[object Object]';
 }
 
 export {isObject, isObject as default};

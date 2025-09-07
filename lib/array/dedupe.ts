@@ -1,10 +1,10 @@
-import {toString} from '../hash/utils';
+type DedupeFilterFn<T> = (el: T) => boolean;
 
 type DedupeOptionsBase<T> = {
     /**
      * Pass a custom filter function which will be run in O(n) while deduping is going on
      */
-    filter_fn?: (el: T) => boolean;
+    filter_fn?: DedupeFilterFn<T>;
 };
 
 type DedupeOptionsWithKey<T extends Record<string, unknown>> = DedupeOptionsBase<T> & {
@@ -32,41 +32,39 @@ function dedupe<T>(val: T[], opts?: DedupeOptionsNoKey<T>): T[];
 function dedupe<T> (val: T[], opts?: DedupeOptionsBase<T> & { key?: keyof any }): T[] {
     if (!Array.isArray(val)) return [];
 
-    /* Check options */
-    const FILTER_FN = opts?.filter_fn;
-    const KEY = opts?.key;
+    const filter = opts?.filter_fn;
+    const key = opts?.key as keyof T | undefined;
 
-    const set: Set<string> = new Set();
     const acc: T[] = [];
-    let hash: string;
+    const seenPrimitives = new Set();
     const len = val.length;
-
-    if (KEY) {
-        const CUSTOM_FILTER_FN = typeof FILTER_FN === 'function'
-            ? (el:T) => el && Object.prototype.toString.call(el) === '[object Object]' && FILTER_FN!(el)
-            : (el:T) => el && Object.prototype.toString.call(el) === '[object Object]';
-
+    if (filter) {
         for (let i = 0; i < len; i++) {
             const el = val[i];
-            if (!CUSTOM_FILTER_FN(el)) continue;
-            hash = toString((el as any)[KEY]);
-            if (!set.has(hash)) {
-                set.add(hash);
-                acc.push(el);
+            const raw = key ? (el as any)?.[key] : el;
+            // eslint-disable-next-line eqeqeq, no-eq-null
+            if (raw != null && filter(el)) {
+                const hash = typeof raw !== 'object' ? raw : JSON.stringify(raw);
+                if (!seenPrimitives.has(hash)) {
+                    seenPrimitives.add(hash);
+                    acc.push(el);
+                }
             }
         }
     } else {
         for (let i = 0; i < len; i++) {
             const el = val[i];
-            if (FILTER_FN && !FILTER_FN(el)) continue;
-            hash = toString(el);
-            if (!set.has(hash)) {
-                set.add(hash);
-                acc.push(el);
+            const raw = key ? (el as any)?.[key] : el;
+            // eslint-disable-next-line eqeqeq, no-eq-null
+            if (raw != null) {
+                const hash = typeof raw !== 'object' ? raw : JSON.stringify(raw);
+                if (!seenPrimitives.has(hash)) {
+                    seenPrimitives.add(hash);
+                    acc.push(el);
+                }
             }
         }
     }
-
     return acc;
 }
 

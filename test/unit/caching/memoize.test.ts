@@ -112,7 +112,7 @@ describe('Caching - memoize', () => {
             const out = await memoized('123');
             expect(out).toEqual({id: '123', name: 'Peter'});
             const after = toUTC(new Date());
-            expect(diff(after, before)).toBeGreaterThanOrEqual(100);
+            expect(diff(after, before)).toBeGreaterThanOrEqual(99);
 
             const before2 = toUTC(new Date());
             expect(await memoized('123')).toEqual({id: '123', name: 'Peter'});

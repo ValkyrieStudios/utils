@@ -111,46 +111,46 @@ function toObject <T extends Record<string, unknown>> (form:FormData, config?:To
     for (const [key, value] of form) {
         if (set_guard && set!.has(key)) {
             assign(acc, key, value, single);
-        } else {
-            switch (value) {
-                /* Bool true normalization */
-                case 'true':
-                case 'TRUE':
-                case 'True':
-                    assign(acc, key, nBool ? true : value, single);
-                    break;
-                /* Bool false normalization */
-                case 'false':
-                case 'FALSE':
-                case 'False':
-                    assign(acc, key, nBool ? false : value, single);
-                    break;
-                /* Null normalization */
-                case 'null':
-                case 'NULL':
-                case 'Null':
-                    assign(acc, key, nNull ? null : value, single);
-                    break;
-                default: {
-                    if (typeof value === 'string' && value) {
-                        /* Number normalization */
-                        if (nNumber && value[0] !== '0') {
-                            const nVal = Number(value);
-                            /* eslint-disable-next-line max-depth */
-                            if (!isNaN(nVal)) {
-                                assign(acc, key, nVal, single);
-                                continue;
-                            }
-                        }
+            continue;
+        }
 
-                        /* Date normalization */
-                        if (nDate && isDateFormat(value, 'ISO')) {
-                            assign(acc, key, new Date(value), single);
+        switch (value) {
+            /* Bool true normalization */
+            case 'true':
+            case 'TRUE':
+            case 'True':
+                assign(acc, key, nBool ? true : value, single);
+                continue;
+            /* Bool false normalization */
+            case 'false':
+            case 'FALSE':
+            case 'False':
+                assign(acc, key, nBool ? false : value, single);
+                continue;
+            /* Null normalization */
+            case 'null':
+            case 'NULL':
+            case 'Null':
+                assign(acc, key, nNull ? null : value, single);
+                continue;
+            default: {
+                if (typeof value === 'string' && value) {
+                    /* Number normalization */
+                    if (nNumber && value[0] !== '0') {
+                        const nVal = Number(value);
+                        if (!isNaN(nVal)) {
+                            assign(acc, key, nVal, single);
                             continue;
                         }
                     }
-                    assign(acc, key, value, single);
+
+                    /* Date normalization */
+                    if (nDate && value[4] === '-' && value[7] === '-' && value[10] === 'T' && isDateFormat(value, 'ISO')) {
+                        assign(acc, key, new Date(value), single);
+                        continue;
+                    }
                 }
+                assign(acc, key, value, single);
             }
         }
     }

@@ -53,19 +53,31 @@ jobs:
         run: |
           mkdir compat-test && cd compat-test
           npm init -y
-          npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
           npm install ../tmp/*.tgz --no-save
           echo 'import { Is } from "@valkyriestudios/utils/is"; console.log(Is.Number(123));' > main.ts
-          echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
-          echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /></head><body><script type="module" src="/main.ts"></script></body></html>' > index.html
-      - name: Run Vite build
+      - name: Test Vite build
         run: |
           cd compat-test
+          npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
+          echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
+          echo '<!DOCTYPE html><html><body><script type="module" src="/main.ts"></script></body></html>' > index.html
           npx vite build
-      - name: Typescript bundler resolution check
+      - name: Test Webpack build
         run: |
-          echo '{"compilerOptions":{"module":"esnext","moduleResolution":"bundler","noEmit":true},"include":["compat-test"]}' > tsconfig.vite.json
-          npx tsc -p tsconfig.vite.json
+          cd compat-test
+          npm install webpack webpack-cli ts-loader typescript --no-save
+          echo 'const path = require("path"); module.exports = { mode:"production", entry:"./main.ts", module:{ rules:[{ test:/\\.ts$/, use:"ts-loader"}]}, resolve:{ extensions:[".ts",".js"] }, output:{ filename:"bundle.js", path:path.resolve(__dirname,"dist") }}' > webpack.config.js
+          npx webpack
+      - name: TypeScript bundler resolution
+        run: |
+          cd compat-test
+          echo '{"compilerOptions":{"module":"esnext","moduleResolution":"bundler","noEmit":true},"include":["."]}' > tsconfig.json
+          npx tsc -p tsconfig.json
+      - name: TypeScript node16 resolution
+        run: |
+          cd compat-test
+          echo '{"compilerOptions":{"module":"node16","moduleResolution":"node16","noEmit":true},"include":["."]}' > tsconfig.json
+          npx tsc -p tsconfig.json
   runtimes_node:
     name: Node
     runs-on: ubuntu-latest

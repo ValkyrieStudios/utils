@@ -48,6 +48,13 @@ jobs:
         run: |
           mkdir -p ./tmp
           npm pack ./dist --pack-destination ./tmp
+      - name: Debug packed package
+        run: |
+          tar -xvf ./tmp/*.tgz -C ./tmp/unpacked
+          echo "--- package.json exports ---"
+          cat ./tmp/unpacked/package/package.json | jq '.exports'
+          echo "--- file tree ---"
+          ls -R ./tmp/unpacked/package
       - name: Test Vite build
         run: |
           mkdir compat-test && cd compat-test

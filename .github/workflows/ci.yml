@@ -43,7 +43,7 @@ jobs:
           npx tsc -p ./tsconfig.build.esm.json
           npx tsc -p ./tsconfig.types.json
           npx tsc -p ./tsconfig.types_all.json
-          sh ./barrelize.sh
+          bash ./barrelize.sh
           cp package.json README.md LICENSE.md .npmignore ./dist
       - name: Pack library
         run: |

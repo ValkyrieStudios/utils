@@ -34,9 +34,16 @@
         "url": "https://github.com/ValkyrieStudios/utils/issues"
     },
     "homepage": "https://github.com/ValkyrieStudios/utils#readme",
-    "types": "index.d.ts",
+    "main": "./cjs/index.js",
+    "module": "./esm/index.js",
+    "types": "./index.d.ts",
     "sideEffects": false,
     "exports": {
+        ".": {
+            "types": "./index.d.ts",
+            "import": "./esm/index.js",
+            "require": "./cjs/index.js"
+        },
         "./equal": {
             "types": "./equal.d.ts",
             "import": "./esm/equal.js",

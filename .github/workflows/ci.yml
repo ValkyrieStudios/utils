@@ -33,6 +33,8 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
+      - name: Install Dependencies
+        run: npm ci
       - name: Build distribution
         run: |
           rm -rf ./dist

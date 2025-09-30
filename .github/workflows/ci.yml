@@ -22,10 +22,42 @@ jobs:
         run: npm ci
       - name: Run Audit
         run: npm audit --omit=dev --audit-level=moderate
+  compatibility:
+    name: "Compatibility"
+    runs-on: ubuntu-latest
+    needs: [audit]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          cache: 'npm'
+      - name: Pack library
+        run: |
+          npm pack --pack-destination ./tmp
+          ls -l ./tmp
+      - name: Install Vite test project
+        run: |
+          mkdir vite-test && cd vite-test
+          npm init -y
+          npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
+          npm install ../tmp/*.tgz --no-save
+          echo 'import { is } from "@valkyriestudios/utils/is"; console.log(is(123));' > main.ts
+          echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
+      - name: Run Vite build
+        run: |
+          cd vite-test
+          npx vite build
+      - name: Typescript bundler resolution check
+        run: |
+          touch tsconfig.vite.json
+          echo '{"extends":"./tsconfig.json","compilerOptions":{"moduleResolution":"bundler","noEmit":true},"include": ["vite-test"]}' > tsconfig.vite.json
+          npx tsc -p tsconfig.vite.json
   runtimes_node:
     name: Node
     runs-on: ubuntu-latest
-    needs: [audit]
+    needs: [compatibility]
     strategy:
       fail-fast: false
       matrix:
@@ -51,7 +83,7 @@ jobs:
   runtimes_bun:
     name: Bun
     runs-on: ubuntu-latest
-    needs: [audit]
+    needs: [compatibility]
     steps:
       - uses: actions/checkout@v3
       - name: Use Bun
@@ -67,39 +99,10 @@ jobs:
         run: bun run types
       - name: Run Tests
         run: bun run test
-  compatibility:
-    name: "Compatibility"
-    runs-on: ubuntu-latest
-    needs: [runtimes_bun, runtimes_node]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 22
-          cache: 'npm'
-      - name: Install Vite test project
-        run: |
-          mkdir vite-test && cd vite-test
-          npm init -y
-          npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom
-          npm pack ../ --pack-destination ./tmp
-          npm install ./tmp/*.tgz --no-save
-          echo 'import { is } from "@valkyriestudios/utils/is"; console.log(is(123));' > main.ts
-          echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
-      - name: Run Vite build
-        run: |
-          cd vite-test
-          npx vite build
-      - name: Typescript bundler resolution check
-        run: |
-          touch tsconfig.vite.json
-          echo '{"extends":"./tsconfig.json","compilerOptions":{"moduleResolution":"bundler","noEmit":true},"include": ["vite-test"]}' > tsconfig.vite.json
-          npx tsc -p tsconfig.vite.json
   coverage:
     name: Coverage
     runs-on: ubuntu-latest
-    needs: [compatibility]
+    needs: [runtimes_node, runtimes_bun]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

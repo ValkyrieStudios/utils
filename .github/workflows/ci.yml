@@ -64,7 +64,7 @@ jobs:
           npx vite build
       - name: Typescript bundler resolution check
         run: |
-          echo '{"compilerOptions":{"moduleResolution":"bundler","noEmit":true},"include":["compat-test"]}' > tsconfig.vite.json
+          echo '{"compilerOptions":{"module":"esnext","moduleResolution":"bundler","noEmit":true},"include":["compat-test"]}' > tsconfig.vite.json
           npx tsc -p tsconfig.vite.json
   runtimes_node:
     name: Node

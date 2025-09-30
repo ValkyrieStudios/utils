@@ -15,19 +15,23 @@ export type WEEK_START = keyof typeof WEEK_STARTS;
 type Formatter  = (d:Date, loc:string, sow:WEEK_START) => string;
 type RawTuple = [string, Formatter];
 type TokenTuple = [string, Formatter, number];
+type Part = {literal: string} | {token: TokenTuple};
 
 let DEFAULT_LOCALE          = 'en-US';
 let DEFAULT_TZ              = Intl?.DateTimeFormat?.().resolvedOptions?.().timeZone || 'UTC';
 let DEFAULT_SOW:WEEK_START  = 'mon';
 
 /* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
-const ESCAPE_RGX = /\[[\s\S]+?]/g;
+const ESCAPE_RGX = /\[([^\]]*)]/g;
 
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
 const intl_formatters = new LRU<Intl.DateTimeFormat>({max_size: 100});
 
 /* Memoize specs passed and their function chain */
-type SpecCacheEntry = {base:string; chain: TokenTuple[]; chain_len:number; repl: [string, string][]}|null;
+type SpecCacheEntry = {
+  parts: Part[];
+  repl: [string, string][];
+} | null;
 const spec_cache = new LRU<SpecCacheEntry>({max_size: 100});
 
 /* Memoize TZ offsets */
@@ -255,6 +259,11 @@ const Tokens:TokenTuple[] = ([
     .map(el => [el[0], el[1], el[0].length] as TokenTuple)
     .sort((a, b) => a[0].length > b[0].length ? -1 : 1);
 
+const token_map: Record<string, TokenTuple> = {};
+for (const t of Tokens) token_map[t[0]] = t;
+
+const TOKENS_RGX = new RegExp(Tokens.map(([tok]) => tok).join('|'), 'g');
+
 /**
  * Create and return spec chain if spec does not exist in spec cache, otherwise return cached spec plan
  *
@@ -276,35 +285,35 @@ function getSpecChain (spec:string):SpecCacheEntry {
     const repl:[string, string][] = [];
     let repl_len = 0;
     if (base.indexOf('[') >= 0) {
-        base = base.replace(ESCAPE_RGX, match => {
+        base = base.replace(ESCAPE_RGX, (_, inner) => {
             const escape_token = '$' + repl_len++ + '$';
-            repl.push([escape_token, match.slice(1, -1)]);
+            repl.push([escape_token, inner]);
             return escape_token;
         });
     }
 
-    const chain: TokenTuple[] = [];
-    const matched_positions: Set<number> = new Set();
+    TOKENS_RGX.lastIndex = 0;
+    const parts: Part[] = [];
+    let last_idx = 0;
+    let has_token = false;
+    let m: RegExpExecArray | null;
 
-    for (let i = 0; i < Tokens.length; i++) {
-        const [token] = Tokens[i];
-        let pos = base.indexOf(token);
-
-        const token_len = token.length;
-        while (pos !== -1) {
-            /* Check if this position has already been processed */
-            if (!matched_positions.has(pos)) {
-                chain.push(Tokens[i]);
-                /* Mark this position and the next characters as processed */
-                for (let j = 0; j < token_len; j++) {
-                    matched_positions.add(pos + j);
-                }
-            }
-            pos = base.indexOf(token, pos + 1);
+    // eslint-disable-next-line no-cond-assign
+    while (m = TOKENS_RGX.exec(base)) {
+        if (m.index > last_idx) {
+            // push literal before token
+            parts.push({literal: base.slice(last_idx, m.index)});
         }
+        parts.push({token: token_map[m[0]]});
+        has_token = true;
+        last_idx = m.index + m[0].length;
     }
-    const chain_len = chain.length;
-    const result = chain_len ? {base, chain, chain_len, repl} : null;
+
+    if (last_idx < base.length) {
+        parts.push({literal: base.slice(last_idx)});
+    }
+
+    const result = has_token ? {parts, repl} : null;
     spec_cache.set(spec, result);
     return result;
 }
@@ -350,34 +359,26 @@ function format (
 
     /* Convert date to zone if necessary */
     const d = toZone(n_val, zone);
-    let base = n_spec.base;
+    const {parts, repl} = n_spec;
 
     /* Run spec chain */
-    const repl = [...n_spec.repl];
-    let repl_len = n_spec.repl.length;
-    for (let i = 0; i < n_spec.chain_len; i++) {
-        const el = n_spec.chain[i];
-        let pos = base.indexOf(el[0]);
-        const token_val = el[1](d, locale, sow);
-        while (pos !== -1) {
-            /**
-             * We work with escaped tokens here as the output
-             * of a token formatter might contain another token.
-             */
-            const key = '$' + repl_len++ + '$';
-            repl.push([key, token_val]);
-
-            base = base.slice(0, pos) + key + base.slice(pos + el[2]);
-            pos = base.indexOf(el[0], pos + el[2]);
+    let out = '';
+    for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if ('literal' in part) {
+            out += part.literal;
+        } else {
+            out += part.token[1](d, locale, sow);
         }
     }
 
     /* Re-insert escaped tokens */
-    for (let i = 0; i < repl_len; i++) {
-        base = base.replace(repl[i][0], repl[i][1]);
+    let result = out;
+    for (let i = 0; i < repl.length; i++) {
+        result = result.replace(repl[i][0], repl[i][1]);
     }
 
-    return base;
+    return result;
 }
 
 /**

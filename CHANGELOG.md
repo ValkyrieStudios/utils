@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **perf**: Improved performance of `date/format` by ~100% due to implementing an approach which prevents unnecessary iteration for token checks at runtime, as well as optimizing regex usage.
+
+### Fixed
+- **sys**: Fixed an issue where certain vite setups have issues with importing valkyrie utils files. Added a cicd step (compatibility) to prevent this from happening in the future
+
 ## [12.46.0] - 2025-09-28
 ### Improved
 - **perf**: Improved performance of `formdata/toObject` by ~50% due to implementing a lower-cost check which early escapes for date format checks on strings

@@ -33,27 +33,36 @@ jobs:
         with:
           node-version: 22
           cache: 'npm'
+      - name: Build distribution
+        run: |
+          rm -rf ./dist
+          mkdir ./dist
+          npx tsc -p ./tsconfig.build.cjs.json
+          npx tsc -p ./tsconfig.build.esm.json
+          npx tsc -p ./tsconfig.types.json
+          npx tsc -p ./tsconfig.types_all.json
+          cp package.json README.md LICENSE.md .npmignore ./dist
       - name: Pack library
         run: |
-          mkdir ./tmp
-          npm pack --pack-destination ./tmp
+          mkdir -p ./tmp
+          npm pack ./dist --pack-destination ./tmp
           ls -l ./tmp
-      - name: Install Vite test project
+      - name: Install test project
         run: |
-          mkdir vite-test && cd vite-test
+          mkdir compat-test && cd compat-test
           npm init -y
           npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
           npm install ../tmp/*.tgz --no-save
           echo 'import { is } from "@valkyriestudios/utils/is"; console.log(is(123));' > main.ts
           echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
+          echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /></head><body><script type="module" src="/main.ts"></script></body></html>' > index.html
       - name: Run Vite build
         run: |
-          cd vite-test
+          cd compat-test
           npx vite build
       - name: Typescript bundler resolution check
         run: |
-          touch tsconfig.vite.json
-          echo '{"extends":"./tsconfig.json","compilerOptions":{"moduleResolution":"bundler","noEmit":true},"include": ["vite-test"]}' > tsconfig.vite.json
+          echo '{"compilerOptions":{"moduleResolution":"bundler","noEmit":true},"include":["compat-test"]}' > tsconfig.vite.json
           npx tsc -p tsconfig.vite.json
   runtimes_node:
     name: Node

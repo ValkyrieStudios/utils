@@ -61,11 +61,11 @@ jobs:
         run: |
           mkdir compat-test && cd compat-test
           npm init -y
+          npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
           npm install ../tmp/*.tgz --no-save
           echo 'import { Is } from "@valkyriestudios/utils/is"; console.log(Is.Number(123));' > main.ts
-          npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
           echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
-          echo '<!DOCTYPE html><html><body><script type="module" src="/main.ts"></script></body></html>' > index.html
+          echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /></head><body><script type="module" src="/main.ts"></script></body></html>' > index.html
           npx vite build
       - name: Test Webpack build
         run: |

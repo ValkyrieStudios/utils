@@ -61,7 +61,7 @@ jobs:
           mkdir compat-test && cd compat-test
           npm init -y
           npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
-          npm install ../tmp/valkyriestudios-utils-*.tgz --no-save --install-links
+          npm install ../tmp/valkyriestudios-utils-*.tgz
           echo 'import { Is } from "@valkyriestudios/utils/is"; console.log(Is.Number(123));' > main.ts
           echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
           echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /></head><body><script type="module" src="/main.ts"></script></body></html>' > index.html
@@ -71,7 +71,8 @@ jobs:
           rm -rf compat-test
           mkdir compat-test && cd compat-test
           npm init -y
-          npm install ../tmp/valkyriestudios-utils-*.tgz --no-save --install-links
+          npm install ../tmp/valkyriestudios-utils-*.tgz
+          ls node_modules/@valkyriestudios/utils
           echo 'import { Is } from "@valkyriestudios/utils/is"; console.log(Is.Number(123));' > main.ts
           npm install webpack webpack-cli ts-loader typescript --no-save
           echo 'const path = require("path"); module.exports = { mode:"production", entry:"./main.ts", module:{ rules:[{ test:/\\.ts$/, use:"ts-loader"}]}, resolve:{ extensions:[".ts",".js"] }, output:{ filename:"bundle.js", path:path.resolve(__dirname,"dist") }}' > webpack.config.js

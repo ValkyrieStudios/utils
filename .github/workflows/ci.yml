@@ -35,6 +35,7 @@ jobs:
           cache: 'npm'
       - name: Pack library
         run: |
+          mkdir ./tmp
           npm pack --pack-destination ./tmp
           ls -l ./tmp
       - name: Install Vite test project

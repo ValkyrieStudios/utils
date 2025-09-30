@@ -55,7 +55,7 @@ jobs:
           npm init -y
           npm install vite react react-dom @vitejs/plugin-react typescript @types/react @types/react-dom --no-save
           npm install ../tmp/*.tgz --no-save
-          echo 'import { is } from "@valkyriestudios/utils/is"; console.log(is(123));' > main.ts
+          echo 'import { Is } from "@valkyriestudios/utils/is"; console.log(Is.Number(123));' > main.ts
           echo 'import { defineConfig } from "vite"; export default defineConfig({});' > vite.config.ts
           echo '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8" /></head><body><script type="module" src="/main.ts"></script></body></html>' > index.html
       - name: Run Vite build

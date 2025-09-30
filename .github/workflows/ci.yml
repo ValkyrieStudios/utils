@@ -50,6 +50,7 @@ jobs:
           npm pack ./dist --pack-destination ./tmp
       - name: Debug packed package
         run: |
+          mkdir -p ./tmp/unpacked
           tar -xvf ./tmp/*.tgz -C ./tmp/unpacked
           echo "--- package.json exports ---"
           cat ./tmp/unpacked/package/package.json | jq '.exports'

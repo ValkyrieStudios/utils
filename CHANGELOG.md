@@ -9,8 +9,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ### Improved
 - **feat**: Made `hash/guid` safe to use in edge environments by working with `globalThis.crypto`
 - **feat**: Made `hash/hexId` safe to use in edge environments by working with `globalThis.crypto`
+- **feat**: Made `hash/uuidv7` safe to use in edge environments by working with `globalThis.crypto`
 - **perf**: Improved performance of `hash/guid` by ~20% by preventing creation of subarray and capturing straight from pool of randomness
 - **perf**: Improved performance of `hash/hexId` by ~20% by preventing creation of subarray and capturing straight from pool of randomness
+- **perf**: Improved performance of `hash/uuidv7` by ~100% by preventing creation of subarray and capturing straight from pool of randomness as well as removing the need to work with BigInt favoring high/low compute on date
 - **perf**: Improved performance of `date/diff` by ~5% due to working with inverse multiplication instead of division
 - **perf**: Improved performance of `deep/get` by ~3-5% in most scenarios, simplifying internal logic while reducing memory allocation
 - **perf**: Improved performance of `deep/set` by ~25% in most scenarios, simplifying internal logic while reducing memory allocation

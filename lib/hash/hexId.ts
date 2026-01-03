@@ -1,17 +1,15 @@
-/* Prebuilt hex lookup from 0 to 255 */
-const HEX:string[] = [];
+/* eslint-disable no-var */
+
+const CRYPTO = globalThis.crypto;
+
+const HEX: string[] = [];
 for (let i = 0; i < 256; i++) {
-    HEX[i] = (i < 16 ? '0' : '') + i.toString(16);
+    HEX[i] = (i + 256).toString(16).substring(1);
 }
 
-/* Pool of randomness */
-let pool = new Uint8Array(0);
-let poolIdx = 0;
-function refill (size = 16 * 1024) {
-    pool = new Uint8Array(size);
-    crypto.getRandomValues(pool);
-    poolIdx = 0;
-}
+const POOL_SIZE = 16 * 1024;
+const pool = new Uint8Array(POOL_SIZE);
+let poolIdx = POOL_SIZE; // Start at end to force initial refill
 
 /**
  * Generate a unique hex id
@@ -19,17 +17,31 @@ function refill (size = 16 * 1024) {
  * @param size number of random bytes (id length = size * 2 chars)
  */
 function hexId (size: number): string {
-    if (!Number.isInteger(size) || size <= 0) return '';
+    if (typeof size !== 'number' || size <= 0) return '';
 
-    if (poolIdx + size > pool.length) refill();
+    // If request is larger than the entire pool, skip the pool logic to avoid thrashing/multiple refills.
+    if (size > POOL_SIZE) {
+        const buf = new Uint8Array(size);
+        CRYPTO.getRandomValues(buf);
+        let out = '';
+        for (let i = 0; i < size; i++) {
+            out += HEX[buf[i]];
+        }
+        return out;
+    }
 
-    const buf = pool.subarray(poolIdx, poolIdx + size);
+    // Refill if necessary
+    if (poolIdx + size > POOL_SIZE) {
+        CRYPTO.getRandomValues(pool);
+        poolIdx = 0;
+    }
+
+    let i = poolIdx;
+    const end = i + size;
     poolIdx += size;
 
     let out = '';
-    for (let i = 0; i < buf.length; i++) {
-        out += HEX[buf[i]];
-    }
+    while (i < end) out += HEX[pool[i++]];
     return out;
 }
 

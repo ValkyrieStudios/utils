@@ -7,6 +7,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 ### Improved
+- **feat**: Made `hash/hexId` safe to use in edge environments by working with globalThis.crypto
+- **perf**: Improved performance of `hash/hexId` by ~20%
 - **perf**: Improved performance of `date/diff` by ~5% due to working with inverse multiplication instead of division
 - **perf**: Improved performance of `deep/get` by ~3-5% in most scenarios, simplifying internal logic while reducing memory allocation
 - **perf**: Improved performance of `deep/set` by ~25% in most scenarios, simplifying internal logic while reducing memory allocation
@@ -17,6 +19,9 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **deps**: Upgrade typescript to 5.9.3
 - **deps**: Upgrade typescript-eslint to 8.51.0
 - **deps**: Upgrade vitest to 4.0.16
+
+### Fixed
+- Fixed an edge case where if `hash/hexId` receives a size that is bigger than the internal pool of randomness it would not compute (internal pool is 16 * 1024)
 
 ## [12.47.0] - 2025-09-30
 ### Improved

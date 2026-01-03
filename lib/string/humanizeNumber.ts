@@ -56,6 +56,7 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):
     const SEPARATOR:string = typeof options?.separator === 'string' && options.separator.length ? options.separator : '.';
     const PRECISION:number = Number.isInteger(options?.precision) && options.precision! >= 0 ? options.precision! : 2;
     const DIVIDER:number = Number.isInteger(options?.divider) && options.divider! >= 2 ? options.divider! : 1000;
+    const INV_DIVIDER:number = 1.0 / DIVIDER;
     const REAL:boolean = options?.real === true;
     const UNITS:string[]|false = Array.isArray(options?.units) && options.units.length
         ? options.units
@@ -78,7 +79,7 @@ function humanizeNumber (val:number|string, options:humanizeNumberOptions = {}):
     let unit_ix = 0;
     if (UNITS) {
         while (normalized >= DIVIDER && unit_ix < UNITS.length - 1) {
-            normalized /= DIVIDER;
+            normalized *= INV_DIVIDER;
             unit_ix++;
         }
     }

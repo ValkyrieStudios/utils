@@ -13,11 +13,11 @@ export type DiffKey = 'week'
     | 'millisecond'
     | 'milliseconds';
 
-const SECOND_IN_MILLISECONDS    = 1000;
-const MINUTE_IN_MILLISECONDS    = SECOND_IN_MILLISECONDS * 60;
-const HOUR_IN_MILLISECONDS      = MINUTE_IN_MILLISECONDS * 60;
-const DAY_IN_MILLISECONDS       = HOUR_IN_MILLISECONDS * 24;
-const WEEK_IN_MILLISECONDS      = DAY_IN_MILLISECONDS * 7;
+const INV_SECOND_IN_MILLISECONDS    = 1.0 / 1000;
+const INV_MINUTE_IN_MILLISECONDS    = 1.0 / (60 * 1000);
+const INV_HOUR_IN_MILLISECONDS      = 1.0 / (60 * 60 * 1000);
+const INV_DAY_IN_MILLISECONDS       = 1.0 / (24 * 60 * 60 * 1000);
+const INV_WEEK_IN_MILLISECONDS      = 1.0 / (7 * 24 * 60 * 60 * 1000);
 
 /**
  * Compute the diff between two dates in the provided key
@@ -44,19 +44,19 @@ function diff (
     switch (key) {
         case 'week':
         case 'weeks':
-            return diff_in_ms/WEEK_IN_MILLISECONDS;
+            return diff_in_ms * INV_WEEK_IN_MILLISECONDS;
         case 'day':
         case 'days':
-            return diff_in_ms/DAY_IN_MILLISECONDS;
+            return diff_in_ms * INV_DAY_IN_MILLISECONDS;
         case 'hour':
         case 'hours':
-            return diff_in_ms/HOUR_IN_MILLISECONDS;
+            return diff_in_ms * INV_HOUR_IN_MILLISECONDS;
         case 'minute':
         case 'minutes':
-            return diff_in_ms/MINUTE_IN_MILLISECONDS;
+            return diff_in_ms * INV_MINUTE_IN_MILLISECONDS;
         case 'second':
         case 'seconds':
-            return diff_in_ms/SECOND_IN_MILLISECONDS;
+            return diff_in_ms * INV_SECOND_IN_MILLISECONDS;
         default:
             return diff_in_ms;
     }

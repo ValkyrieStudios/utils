@@ -1,6 +1,8 @@
+/* eslint-disable max-statements */
 /* eslint-disable complexity */
 
 import {isDateFormat} from '../date/isFormat';
+import {FORBIDDEN_KEYS} from '../string/forbiddenKeys';
 
 type ToObjectConfig = {
     /**
@@ -29,45 +31,85 @@ type ToObjectConfig = {
     normalize_number?: boolean;
 }
 
-const RGX_TOKENS = /[^.[\]]+/g;
-
 function assign (
     acc: Record<string, unknown>,
     rawkey: string,
     value: unknown,
-    single:Set<string>|null
+    single: Set<string> | null
 ): void {
-    let cursor: Record<string, unknown> | unknown[] = acc;
+    /*
+     * Most form keys are flat (e.g., "name", "email").
+     * Checking for delimiters is much faster than running the parser.
+     */
+    if (rawkey.indexOf('.') === -1 && rawkey.indexOf('[') === -1) {
+        // Prototype pollution guard for flat keys
+        if (FORBIDDEN_KEYS.has(rawkey)) return;
 
-    const keys = rawkey.match(RGX_TOKENS);
-    const keys_len = keys!.length;
+        if (single?.has(rawkey)) {
+            acc[rawkey] = value;
+            return;
+        }
+
+        const existing = acc[rawkey];
+        if (existing === undefined) {
+            acc[rawkey] = value;
+        } else if (Array.isArray(existing)) {
+            existing.push(value);
+        } else {
+            acc[rawkey] = [existing, value];
+        }
+        return;
+    }
+
+    // Manual Tokenizer
+    const keys: string[] = [];
+    let start = 0;
+    const len = rawkey.length;
+
+    for (let i = 0; i < len; i++) {
+        const code = rawkey.charCodeAt(i);
+        // Delimiters: . (46), [ (91), ] (93)
+        if (code === 46 || code === 91 || code === 93) {
+            if (i > start) keys.push(rawkey.substring(start, i));
+            start = i + 1;
+        }
+    }
+    if (start < len) keys.push(rawkey.substring(start));
+
+    // Traversal Logic
+    let cursor: any = acc;
+    const keys_len = keys.length;
+
     for (let i = 0; i < keys_len; i++) {
-        const key:string = keys![i];
-        switch (key) {
-            case '__proto__':
-            case 'constructor':
-            case 'prototype':
-                return;
-            default: {
-                /* If more values */
-                if (i < (keys_len - 1)) {
-                    const n_key:string|number = Array.isArray(cursor) ? Number(key) : key;
+        const key = keys[i];
 
-                    /* Create array or object only if it doesn't exist */
-                    if (!cursor[n_key]) cursor[n_key] = isNaN(Number(keys![i + 1])) ? {} : [];
+        // Prototype pollution guard for nested keys
+        if (FORBIDDEN_KEYS.has(key)) return;
 
-                    cursor = cursor[n_key] as Record<string, unknown>;
-                } else if (!(key in cursor) || (single && single.has(key))) {
-                    (cursor as Record<string, unknown>)[key] = value;
+        const isLast = i === keys_len - 1;
+        const cursorKey = Array.isArray(cursor) ? +key : key;
+
+        /*
+         * If we are deep in an object, we must ensure we don't access prototype props
+         * We use simple undefined check because we are creating the structure ourselves
+         */
+        if (isLast) {
+            if (cursor[cursorKey] === undefined || (single && single.has(key))) {
+                cursor[cursorKey] = value;
+            } else {
+                const existing = cursor[cursorKey];
+                if (Array.isArray(existing)) {
+                    existing.push(value);
                 } else {
-                    const cursor_val = (cursor as Record<string, unknown>)[key];
-                    if (Array.isArray(cursor_val)) {
-                        cursor_val.push(value);
-                    } else {
-                        (cursor as Record<string, unknown>)[key] = [cursor_val, value];
-                    }
+                    cursor[cursorKey] = [existing, value];
                 }
             }
+        } else {
+            // We need to go deeper, create array if next key is number, otherwise object
+            if (cursor[cursorKey] === undefined) {
+                cursor[cursorKey] = isNaN(+keys[i + 1]) ? {} : [];
+            }
+            cursor = cursor[cursorKey];
         }
     }
 }
@@ -87,73 +129,88 @@ function assign (
  * @param {FormData} val - FormData instance to convert to an object
  * @param {ToObjectConfig?} config - Config for conversion
  */
-function toObject <T extends Record<string, unknown>> (form:FormData, config?:ToObjectConfig):T {
+function toObject<T extends Record<string, unknown>> (form: FormData, config?: ToObjectConfig): T {
     if (!(form instanceof FormData)) throw new Error('formdata/toObject: Value is not an instance of FormData');
 
-    const set:Set<string>|null = config?.raw === true ? null : new Set(Array.isArray(config?.raw) ? config?.raw : []);
-    const set_guard:boolean = !!(set && set.size > 0);
+    const acc: Record<string, unknown> = {};
     const single = Array.isArray(config?.single) ? new Set(config!.single) : null;
-    const nBool = config?.normalize_bool !== false;
-    const nNull = config?.normalize_null !== false;
-    const nDate = config?.normalize_date !== false;
-    const nNumber = config?.normalize_number !== false;
 
-    const acc:Record<string, unknown> = {};
-    if (set === null) {
-        /* @ts-expect-error We're targeting node 20+ usage */
+    // If raw is true, we skip ALL normalization logic
+    if (config?.raw === true) {
+        /* @ts-expect-error Node 20+ iterator support */
         for (const [key, value] of form) {
             assign(acc, key, value, single);
         }
         return acc as T;
     }
 
-    /* @ts-expect-error We're targeting node 20+ usage */
+    const rawConfig = config?.raw;
+    const set = rawConfig ? new Set(Array.isArray(rawConfig) ? rawConfig : []) : null;
+    const hasSet = set !== null && set.size > 0;
+
+    const nBool = config?.normalize_bool !== false;
+    const nNull = config?.normalize_null !== false;
+    const nDate = config?.normalize_date !== false;
+    const nNumber = config?.normalize_number !== false;
+
+    /* @ts-expect-error Node 20+ iterator support */
     for (const [key, value] of form) {
-        if (set_guard && set!.has(key)) {
+        // 1. Skip normalization for specific keys in 'raw' array
+        if (hasSet && set!.has(key)) {
             assign(acc, key, value, single);
             continue;
         }
 
-        switch (value) {
-            /* Bool true normalization */
-            case 'true':
-            case 'TRUE':
-            case 'True':
-                assign(acc, key, nBool ? true : value, single);
-                continue;
-            /* Bool false normalization */
-            case 'false':
-            case 'FALSE':
-            case 'False':
-                assign(acc, key, nBool ? false : value, single);
-                continue;
-            /* Null normalization */
-            case 'null':
-            case 'NULL':
-            case 'Null':
-                assign(acc, key, nNull ? null : value, single);
-                continue;
-            default: {
-                if (typeof value === 'string' && value) {
-                    /* Number normalization */
-                    if (nNumber && value[0] !== '0') {
-                        const nVal = Number(value);
-                        if (!isNaN(nVal)) {
-                            assign(acc, key, nVal, single);
-                            continue;
-                        }
-                    }
+        // 2. String Normalization
+        if (typeof value === 'string') {
+            const len = value.length;
 
-                    /* Date normalization */
-                    if (nDate && value[4] === '-' && value[7] === '-' && value[10] === 'T' && isDateFormat(value, 'ISO')) {
-                        assign(acc, key, new Date(value), single);
-                        continue;
-                    }
-                }
+            // Fail fast on empty strings
+            if (len === 0) {
                 assign(acc, key, value, single);
+                continue;
+            }
+
+            // Bool / Null Normalization (length checks prevent string comparisons on long strings)
+            if (len === 4) {
+                if (nBool && (value === 'true' || value === 'TRUE' || value === 'True')) {
+                    assign(acc, key, true, single);
+                    continue;
+                }
+                if (nNull && (value === 'null' || value === 'NULL' || value === 'Null')) {
+                    assign(acc, key, null, single);
+                    continue;
+                }
+            } else if (len === 5) {
+                if (nBool && (value === 'false' || value === 'FALSE' || value === 'False')) {
+                    assign(acc, key, false, single);
+                    continue;
+                }
+            }
+
+            // Number Normalization
+            if (nNumber && value.charCodeAt(0) !== 48) { // 48 is '0'
+                const nVal = +value;
+                if (!isNaN(nVal)) {
+                    assign(acc, key, nVal, single);
+                    continue;
+                }
+            }
+
+            // Date Normalization
+            if (nDate && len >= 10 &&
+                value.charCodeAt(4) === 45 && // '-'
+                value.charCodeAt(7) === 45 && // '-'
+                isDateFormat(value, 'ISO')) {
+                assign(acc, key, new Date(value), single);
+                continue;
             }
         }
+
+        // Default
+        assign(acc, key, value, single);
     }
+
     return acc as T;
 }
 

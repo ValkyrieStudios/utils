@@ -1,3 +1,6 @@
+/* eslint-disable max-statements */
+/* eslint-disable complexity */
+
 const RGX_MALICIOUS = /__proto__|constructor|prototype/;
 
 /**
@@ -47,53 +50,103 @@ function deepSet (
         !Array.isArray(obj)
     ) throw new TypeError('Deepset is only supported for objects');
 
-    /* If no path is provided, do nothing */
+    // If no path is provided, do nothing
     if (typeof path !== 'string') throw new TypeError('No path was given');
 
-    /* Check if path contains rejected keys */
-    if (RGX_MALICIOUS.test(path)) throw new TypeError('Malicious path provided');
+    // Catch empty or whitespace-only strings
+    if (path.trim().length === 0) {
+        throw new TypeError('No path was given');
+    }
 
-    /* Check if path contains content */
-    const path_s = path.trim();
-    if (!path_s.length) throw new TypeError('No path was given');
+    // Fail before any mutation occurs
+    if (RGX_MALICIOUS.test(path)) {
+        throw new TypeError('Malicious path provided');
+    }
 
-    /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
-    const parts = path_s
-        .replace(/\[/g, '.')
-        .replace(/(\.){2,}/g, '.')
-        .replace(/(^\.|\.$|\])/g, '')
-        .split('.');
-    const last_part_ix = parts.length - 1;
+    let cursor: any = obj;
+    let keyStart = 0;
+    const len = path.length;
+    for (let i = 0; i <= len; i++) {
+        const code = i === len ? 46 : path.charCodeAt(i);
 
-    /* Build any unknown paths and set cursor */
-    for (let i = 0; i < last_part_ix; i++) {
-        if (Array.isArray(obj)) {
-            const idx = parseInt(parts[i]);
-            if (!Number.isInteger(idx) || idx < 0) throw new TypeError('Invalid path provided');
+        // Delimiters: . (46), [ (91), ] (93)
+        if (code === 46 || code === 91 || code === 93) {
+            if (i === keyStart) {
+                keyStart = i + 1;
+                continue;
+            }
 
-            if (!obj[idx]) obj[idx] = {};
-            obj = obj[idx];
-        } else {
-            if (!obj[parts[i]]) obj[parts[i]] = {};
-            obj = obj[parts[i]];
+            const key = path.substring(keyStart, i);
+            keyStart = i + 1;
+
+            // Are we at the end?
+            let isEnd = i === len;
+            if (!isEnd) {
+                // Peek ahead to skip trailing delimiters (handle "a.b.")
+                let j = i + 1;
+                isEnd = true;
+                for (; j < len; j++) {
+                    const c = path.charCodeAt(j);
+                    if (c !== 46 && c !== 91 && c !== 93) {
+                        isEnd = false;
+                        break;
+                    }
+                }
+            }
+
+            // --- FINAL ASSIGNMENT ---
+            if (isEnd) {
+                if (Array.isArray(cursor)) {
+                    const idx = +key;
+                    // Integer Check: !NaN, bitwise integer match, positive
+                    if (idx !== idx || (idx | 0) !== idx || idx < 0) {
+                        throw new TypeError('Invalid path provided');
+                    }
+                    if (define) {
+                        Object.defineProperty(cursor, key, value);
+                    } else {
+                        cursor[idx] = value;
+                    }
+                } else if (define) {
+                    Object.defineProperty(cursor, key, value);
+                } else {
+                    cursor[key] = value;
+                }
+                return true;
+            }
+
+            // --- TRAVERSAL ---
+            let nextCursor: any;
+
+            if (Array.isArray(cursor)) {
+                const idx = +key;
+                if (idx !== idx || (idx | 0) !== idx || idx < 0) {
+                    throw new TypeError('Invalid path provided');
+                }
+                nextCursor = cursor[idx];
+            } else {
+                nextCursor = cursor[key];
+            }
+
+            // Create next level if missing
+            if (nextCursor === undefined || nextCursor === null) {
+                nextCursor = {};
+
+                if (Array.isArray(cursor)) {
+                    cursor[+key] = nextCursor;
+                } else {
+                    cursor[key] = nextCursor;
+                }
+            } else if (typeof nextCursor !== 'object') {
+                // Primitive blocker (e.g. obj.a = 1, path = "a.b")
+                return false;
+            }
+
+            cursor = nextCursor;
         }
     }
 
-    /* Prevent overriding of properties, eg: {d: 'hello'} -> deepSet('d.a.b', 'should not work') */
-    if (!Array.isArray(obj) && Object.prototype.toString.call(obj) !== '[object Object]') return false;
-
-    /* Set the actual value on the cursor */
-    if (define) {
-        Object.defineProperty(obj, parts[last_part_ix], value);
-    } else if (Array.isArray(obj)) {
-        const idx = parseInt(parts[last_part_ix]);
-        if (!Number.isInteger(idx) || idx < 0) throw new TypeError('Invalid path provided');
-        obj[idx] = value;
-    } else {
-        obj[parts[last_part_ix]] = value;
-    }
-
-    return true;
+    return false;
 }
 
 export {deepSet, deepSet as default};

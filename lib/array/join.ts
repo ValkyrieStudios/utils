@@ -3,7 +3,7 @@
 import {round} from '../number/round';
 import {isIntegerAboveOrEqual} from '../number/isIntegerAboveOrEqual';
 
-const SPACE_RGX = /(\s)+/g;
+const SPACE_RGX = /\s+/g;
 
 interface joinOptions {
     /**

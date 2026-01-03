@@ -1,5 +1,6 @@
-/* eslint-disable complexity,max-statements,max-depth */
-
+/* eslint-disable max-depth */
+/* eslint-disable complexity */
+/* eslint-disable max-statements */
 type ObjectType = { [key: string]: any };
 type ArrayType = any[];
 
@@ -62,91 +63,87 @@ function deepGet<
     path: P,
     get_parent: boolean = false
 ): DeepGetResult<T, P> | undefined {
-    if (
-        Object.prototype.toString.call(obj) !== '[object Object]' &&
-        !Array.isArray(obj)
-    ) throw new TypeError('deepGet: Requires object or array');
+    if (Object.prototype.toString.call(obj) !== '[object Object]' && !Array.isArray(obj)) {
+        throw new TypeError('deepGet: Requires object or array');
+    }
+    if (!path || typeof path !== 'string') {
+        throw new TypeError('deepGet: Invalid path provided');
+    }
 
-    /* If invalid path is provided, do nothing */
-    if (
-        typeof path !== 'string' ||
-        !path.length
-    ) throw new TypeError('deepGet: Invalid path provided');
+    // Traversal State
+    let cursor: any = obj;
+    let parent: any = obj;
 
-    /* Cleanup paths : a.b[2].c --> ['a', 'b', '2', 'c'] (faster processing) */
-    const nodes: any[] = [];
-    let node:any = obj;
-    let key = '';
-    for (let i = 0; i < path.length; i++) {
-        const char = path[i];
-        switch (char) {
-            case '[':
-            case ']':
-            case '.':
-                if (!key) break;
-                if (Array.isArray(node)) {
-                    let ix = Number(key);
-                    if (!isNaN(ix)) {
-                        ix = ix | 0;
-                        if (ix < 0 || ix > node.length - 1) return undefined;
-                        node = node[ix];
-                        nodes.push(node);
-                    } else {
-                        /* Extract from each array element */
-                        const extracted = [];
-                        for (let y = 0; y < node.length; y++) {
-                            const el = deepGet(node[y], key);
-                            if (el !== undefined) {
-                                extracted.push(...Array.isArray(el) ? el : [el]);
+    // Tokenizer State
+    let keyStart = 0;
+    const len = path.length;
+
+    // Scan Loop (We iterate up to len (inclusive) to simulate a final delimiter at the end)
+    for (let i = 0; i <= len; i++) {
+        // 46 == '.', 91 == '[', 93 == ']'
+        const code = i === len ? 46 : path.charCodeAt(i);
+        if (code === 46 || code === 91 || code === 93) {
+            /*
+             * If we found a delimiter but the key is empty (e.g. '..', '[]', or start '[')
+             * we just skip and update the start index.
+             */
+            if (i === keyStart) {
+                keyStart = i + 1;
+                continue;
+            }
+
+            // Extract the key efficiently
+            const key = path.substring(keyStart, i);
+            keyStart = i + 1;
+
+            // --- TRAVERSAL LOGIC ---
+
+            // Save parent state before descending
+            parent = cursor;
+
+            // Specialized Array Handling
+            if (Array.isArray(cursor)) {
+                const idx = +key;
+
+                // (idx === idx) is the fastest isNaN check
+                if (idx === idx) {
+                    cursor = cursor[idx | 0];
+                } else {
+                    // Wildcard Access: "users.name" -> extract 'name' from all users
+                    const mapped: any[] = [];
+                    const cLen = cursor.length;
+
+                    for (let j = 0; j < cLen; j++) {
+                        const item = cursor[j];
+                        // Only drill into objects/arrays
+                        if (item && typeof item === 'object') {
+                            const val = item[key];
+                            if (val !== undefined) {
+                                // Flatten if the result is an array
+                                if (Array.isArray(val)) {
+                                    const vLen = val.length;
+                                    for (let k = 0; k < vLen; k++) mapped.push(val[k]);
+                                } else {
+                                    mapped.push(val);
+                                }
                             }
                         }
-                        node = extracted;
-                        nodes.push(node);
                     }
-                } else if (typeof node === 'object' && node !== null) {
-                    node = node[key];
-                    nodes.push(node);
-                }
-                key = '';
-                break;
-            default:
-                key += char;
-                break;
-        }
-    }
 
-    /* Push any remaining part */
-    if (key) {
-        if (Array.isArray(node)) {
-            let ix = Number(key);
-            if (!isNaN(ix)) {
-                ix = ix | 0;
-                if (ix < 0 || ix > node.length - 1) return undefined;
-                node = node[ix];
-                nodes.push(node);
-            } else {
-                /* Extract from each array element */
-                const extracted = [];
-                for (let i = 0; i < node.length; i++) {
-                    const val = node[i]?.[key];
-                    if (val !== undefined) extracted.push(...Array.isArray(val) ? val : [val]);
+                    // If mapping found nothing, dead end.
+                    if (mapped.length === 0) return undefined;
+                    cursor = mapped;
                 }
-                node = extracted.length ? extracted : undefined;
-                nodes.push(node);
+            } else if (cursor) {
+                cursor = cursor[key];
             }
-        } else if (typeof node === 'object' && node !== null) {
-            node = node[key];
-            nodes.push(node);
-            if (node === undefined) return undefined;
-        } else {
-            return undefined;
+
+            // Dead End Check
+            if (cursor === undefined) return undefined;
         }
     }
 
-    /* Cut last part if get_parent */
-    if (get_parent) nodes.pop();
-
-    return nodes.length ? nodes.pop() : obj as DeepGetResult<T, P>;
+    return get_parent ? parent : cursor;
 }
 
 export {deepGet, deepGet as default};

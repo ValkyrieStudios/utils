@@ -8,6 +8,10 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - **perf**: Improved performance of `date/diff` by ~5% due to working with inverse multiplication instead of division
+- **perf**: Improved performance of `deep/get` by ~3-5% in most scenarios, simplifying internal logic while reducing memory allocation
+- **perf**: Improved performance of `deep/set` by ~25% in most scenarios, simplifying internal logic while reducing memory allocation
+- **perf**: Improved performance of `formdata/toObject` by ~60% due to algorithmic hot-path optimization and memory allocation reduction
+
 ## [12.47.0] - 2025-09-30
 ### Improved
 - **perf**: Improved performance of `date/format` by ~100% due to implementing an approach which prevents unnecessary iteration for token checks at runtime, as well as optimizing regex usage.

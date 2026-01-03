@@ -14,7 +14,8 @@ function djb2 (data: unknown):string {
         hash = ((hash << 5) + hash) ^ normalized.charCodeAt(i);
     }
 
-    return String(hash >>> 0);
+    // Force unsigned 32-bit integer conversion
+    return (hash >>> 0).toString();
 }
 
 export {djb2, djb2 as default};

@@ -11,6 +11,12 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: Improved performance of `deep/get` by ~3-5% in most scenarios, simplifying internal logic while reducing memory allocation
 - **perf**: Improved performance of `deep/set` by ~25% in most scenarios, simplifying internal logic while reducing memory allocation
 - **perf**: Improved performance of `formdata/toObject` by ~60% due to algorithmic hot-path optimization and memory allocation reduction
+- **deps**: Upgrade @types/node to 22.19.3
+- **deps**: Upgrade @vitest/coverage-v8 to 4.0.16
+- **deps**: Upgrade eslint to 9.39.2
+- **deps**: Upgrade typescript to 5.9.3
+- **deps**: Upgrade typescript-eslint to 8.51.0
+- **deps**: Upgrade vitest to 4.0.16
 
 ## [12.47.0] - 2025-09-30
 ### Improved

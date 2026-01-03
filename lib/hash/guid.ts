@@ -1,37 +1,49 @@
-/* Prebuilt hex lookup from 0 to 255 */
-const HEX:string[] = [];
+const CRYPTO = globalThis.crypto;
+
+const HEX: string[] = [];
 for (let i = 0; i < 256; i++) {
-    HEX[i] = (i < 16 ? '0' : '') + i.toString(16);
+    HEX[i] = (i + 256).toString(16).substring(1);
 }
 
-/* Pool of randomness */
-let pool = new Uint8Array(0);
-let poolIdx = 0;
-function refill (size = 16 * 1024) {
-    pool = new Uint8Array(size);
-    crypto.getRandomValues(pool);
-    poolIdx = 0;
-}
+const POOL_SIZE = 16 * 1024; // 16KB
+const pool = new Uint8Array(POOL_SIZE);
+let poolIdx = POOL_SIZE; // Start at end to trigger initial refill
 
 /**
  * Generate a unique identifier (guid) according to RFC4122
  */
 function guid (): string {
-    if (poolIdx + 16 > pool.length) refill();
+    // Refill check
+    if (poolIdx + 16 > POOL_SIZE) {
+        CRYPTO.getRandomValues(pool);
+        poolIdx = 0;
+    }
 
-    const buf = pool.subarray(poolIdx, poolIdx + 16);
+    // Capture current pointer
+    const p = poolIdx;
     poolIdx += 16;
 
-    // Per RFC4122 section 4.4, set bits for version and `clock_seq_hi_and_reserved`
-    buf[6] = (buf[6] & 0x0f) | 0x40; // version
-    buf[8] = (buf[8] & 0x3f) | 0x80; // variant
-
     return (
-        HEX[buf[0]] + HEX[buf[1]] + HEX[buf[2]] + HEX[buf[3]] + '-' +
-        HEX[buf[4]] + HEX[buf[5]] + '-' +
-        HEX[buf[6]] + HEX[buf[7]] + '-' +
-        HEX[buf[8]] + HEX[buf[9]] + '-' +
-        HEX[buf[10]] + HEX[buf[11]] + HEX[buf[12]] + HEX[buf[13]] + HEX[buf[14]] + HEX[buf[15]]
+        HEX[pool[p]] +
+        HEX[pool[p + 1]] +
+        HEX[pool[p + 2]] +
+        HEX[pool[p + 3]] +
+        '-' +
+        HEX[pool[p + 4]] +
+        HEX[pool[p + 5]] +
+        '-' +
+        HEX[(pool[p + 6] & 0x0f) | 0x40] + // Version 4
+        HEX[pool[p + 7]] +
+        '-' +
+        HEX[(pool[p + 8] & 0x3f) | 0x80] + // Variant 10...
+        HEX[pool[p + 9]] +
+        '-' +
+        HEX[pool[p + 10]] +
+        HEX[pool[p + 11]] +
+        HEX[pool[p + 12]] +
+        HEX[pool[p + 13]] +
+        HEX[pool[p + 14]] +
+        HEX[pool[p + 15]]
     );
 }
 

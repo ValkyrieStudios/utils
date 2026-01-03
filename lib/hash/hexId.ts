@@ -1,5 +1,3 @@
-/* eslint-disable no-var */
-
 const CRYPTO = globalThis.crypto;
 
 const HEX: string[] = [];

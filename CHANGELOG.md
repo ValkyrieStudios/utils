@@ -18,8 +18,8 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 - **perf**: Improved performance of `date/startOfUTC` by ~30%
 - **deps**: Upgrade @types/node to 22.19.11
 - **deps**: Upgrade @vitest/coverage-v8 to 4.0.18
-- **deps**: Upgrade eslint to 9.39.3
-- **deps**: Upgrade typescript-eslint to 8.56.0
+- **deps**: Upgrade eslint to 9.39.2
+- **deps**: Upgrade typescript-eslint to 8.51.0
 - **deps**: Upgrade vitest to 4.0.18
 
 ## [12.48.0] - 2026-01-03

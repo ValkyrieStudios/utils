@@ -612,9 +612,9 @@
         "@types/node": "^22.19.11",
         "@vitest/coverage-v8": "^4.0.18",
         "esbuild-register": "^3.6.0",
-        "eslint": "^10.0.1",
+        "eslint": "^9.39.2",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.36.0",
+        "typescript-eslint": "^8.51.0",
         "vitest": "^4.0.18"
     }
 }

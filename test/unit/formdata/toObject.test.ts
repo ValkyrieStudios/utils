@@ -598,6 +598,25 @@ describe('FormData - toObject', () => {
         });
     });
 
+    it('Should handle multiple values for the same nested key', () => {
+        const formData = new FormData();
+        formData.append('config.tags', 'javascript');
+        formData.append('config.tags', 'typescript');
+        formData.append('config.tags', 'rust');
+
+        formData.append('user[0].roles', 'admin');
+        formData.append('user[0].roles', 'editor');
+
+        expect(toObject(formData)).toEqual({
+            config: {
+                tags: ['javascript', 'typescript', 'rust'],
+            },
+            user: [
+                {roles: ['admin', 'editor']},
+            ],
+        });
+    });
+
     describe('single option', () => {
         it('Should ensure the "single" option keeps a single value even with multiple form entries', () => {
             const formData = new FormData();

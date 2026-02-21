@@ -1,7 +1,6 @@
 /* eslint-disable no-confusing-arrow */
 
 import {convertToDate} from './convertToDate';
-import {MONTHS, MONTHS_LEAP} from './isFormat';
 import LRU from '../caching/LRU';
 
 const WEEK_STARTS = {
@@ -15,23 +14,17 @@ export type WEEK_START = keyof typeof WEEK_STARTS;
 type Formatter  = (d:Date, loc:string, sow:WEEK_START) => string;
 type RawTuple = [string, Formatter];
 type TokenTuple = [string, Formatter, number];
-type Part = {literal: string} | {token: TokenTuple};
+type Part = string | Formatter;
 
 let DEFAULT_LOCALE          = 'en-US';
 let DEFAULT_TZ              = Intl?.DateTimeFormat?.().resolvedOptions?.().timeZone || 'UTC';
 let DEFAULT_SOW:WEEK_START  = 'mon';
 
-/* Memoized escape regex, used to find escaped portions of the passed spec eg: '[today is] ...' */
-const ESCAPE_RGX = /\[([^\]]*)]/g;
-
 /* Map storing Intl.DateTimeFormat instances for specific locale-token hashes */
 const intl_formatters = new LRU<Intl.DateTimeFormat>({max_size: 100});
 
 /* Memoize specs passed and their function chain */
-type SpecCacheEntry = {
-  parts: Part[];
-  repl: [string, string][];
-} | null;
+type SpecCacheEntry = Part[] | null;
 const spec_cache = new LRU<SpecCacheEntry>({max_size: 100});
 
 /* Memoize TZ offsets */
@@ -102,20 +95,10 @@ function WeekNr (d: Date, sow: WEEK_START): number {
  * @param {string} zone - Time Zone to convert to
  */
 function toZone (d:Date, zone:string):Date {
-    const year = d.getUTCFullYear();
-    const month = d.getUTCMonth();
-    const day = d.getUTCDate();
     const time = d.getTime();
 
-    /* Precomputed days in each month for a non-leap year */
-    const daysInMonths = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0) ? MONTHS_LEAP : MONTHS;
-
-    /* Calculate day of the year (DOY) */
-    let doy = day;
-    for (let i = 0; i <= month; i++) doy += daysInMonths[i];
-
-    /* We make use of a cache key including year/doy as offsets might differ between months due to daylight saving time */
-    const ckey = zone + ':' + year + ':' + doy;
+    /* We chunk time into 15-minute epochs (900,000 ms) for the cache key. perfectly respects mid-day DST shifts */
+    const ckey = zone + ':' + Math.floor(time / 900000);
     const cached = zone_offset_cache.get(ckey);
     if (cached !== undefined) return new Date(time + cached);
 
@@ -170,13 +153,12 @@ function runIntl (
  * Token Tuple array, this is a sorted array of tuples containing a RegEx and a formatting function.
  *
  * Take Note: They are sorted by length initially to ensure shorter tokens don't replace what could have been a longer token (eg: DD vs D)
- * Take Note: RegExp memoization is done ahead of time to ensure no regex compilation needs to happen during formatting
  */
 const Tokens:TokenTuple[] = ([
     /* Full Year: eg (2021) */
-    ['YYYY', d => d.getFullYear()],
+    ['YYYY', d => d.getFullYear().toString()],
     /* Quarters of the year: eg (1 2 3 4) */
-    ['Q', d => ((d.getMonth() + 3) / 3) | 0],
+    ['Q', d => (((d.getMonth() + 3) / 3) | 0).toString()],
     /* Month in full: eg (January February ... November December) */
     ['MMMM', (d, loc) => runIntl(loc, 'MMMM', {month: 'long'}, d)],
     /* Month as 3 char: eg (Jan Feb ... Nov Dec) */
@@ -187,21 +169,21 @@ const Tokens:TokenTuple[] = ([
         return (val < 10 ? '0' : '') + val;
     }],
     /* Month as pure digit: eg (1 2 .. 11 12) */
-    ['M', d => d.getMonth() + 1],
+    ['M', d => (d.getMonth() + 1).toString()],
     /* ISO Week Number: eg (01 02 .. 52 53) */
     ['WW', (d, loc, sow) => {
         const val = WeekNr(d, sow);
         return (val < 10 ? '0' : '') + val;
     }],
     /* ISO Week Number without leading zero: eg (1 2 .. 52 53) */
-    ['W', (d, loc, sow) => WeekNr(d, sow)],
+    ['W', (d, loc, sow) => WeekNr(d, sow).toString()],
     /* Day of month as 2 char: eg (01 02 .. 30 31) */
     ['DD', d => {
         const val = d.getDate();
         return (val < 10 ? '0' : '') + val;
     }],
     /* Day of month as 1 char: eg (1 2 .. 30 31) */
-    ['D', d => d.getDate()],
+    ['D', d => d.getDate().toString()],
     /* Day of week as 3 char: eg (Sun Mon ... Fri Sat) */
     ['dddd', (d, loc) => runIntl(loc, 'dddd', {weekday: 'long'}, d)],
     /* Day of week in full: eg (Sunday Monday ... Saturday) */
@@ -212,28 +194,28 @@ const Tokens:TokenTuple[] = ([
         return (val < 10 ? '0' : '') + val;
     }],
     /* Hours as pure digit: eg (0 1 .. 22 23) */
-    ['H', d => d.getHours()],
+    ['H', d => d.getHours().toString()],
     /* Hours in 12 hour time as 2 char: eg (01 02 ... 11 12) */
     ['hh', d => {
         const val = ((d.getHours()+11)%12)+1;
         return (val < 10 ? '0' : '') + val;
     }],
     /* Hours in 12 hour time as pure digit: eg (1 2 ... 11 12) */
-    ['h', d => ((d.getHours()+11)%12)+1],
+    ['h', d => (((d.getHours()+11)%12)+1).toString()],
     /* Minutes as 2-char: eg (00 01 .. 58 59) */
     ['mm', d => {
         const val = d.getMinutes();
         return (val < 10 ? '0' : '') + val;
     }],
     /* Minutes as pure digit: eg (0 1 .. 58 59) */
-    ['m', d => d.getMinutes()],
+    ['m', d => d.getMinutes().toString()],
     /* Seconds as 2-char: eg (00 01 .. 58 59) */
     ['ss', d => {
         const val = d.getSeconds();
         return (val < 10 ? '0' : '') + val;
     }],
     /* Seconds as pure digit: eg (0 1 .. 58 59) */
-    ['s', d => d.getSeconds()],
+    ['s', d => d.getSeconds().toString()],
     /* Milliseconds as 3-digit: eg (000 001 ... 998 999) */
     ['SSS', d => {
         const val = d.getMilliseconds();
@@ -241,7 +223,7 @@ const Tokens:TokenTuple[] = ([
             ? '00' + val
             : val < 100
                 ? '0' + val
-                : val;
+                : val.toString();
     }],
     /* Uppercase AM/PM */
     ['A', d => d.getHours() < 12 ? 'AM' : 'PM'],
@@ -262,7 +244,8 @@ const Tokens:TokenTuple[] = ([
 const token_map: Record<string, TokenTuple> = {};
 for (const t of Tokens) token_map[t[0]] = t;
 
-const TOKENS_RGX = new RegExp(Tokens.map(([tok]) => tok).join('|'), 'g');
+/* Memoized parser regex, used to find escaped portions of the passed spec eg: '[today is]' and valid tokens */
+const PARSE_RGX = new RegExp('\\[[^\\]]*\\]|' + Tokens.map(([tok]) => tok).join('|'), 'g');
 
 /**
  * Create and return spec chain if spec does not exist in spec cache, otherwise return cached spec plan
@@ -276,44 +259,38 @@ function getSpecChain (spec:string):SpecCacheEntry {
     const cached = spec_cache.get(spec);
     if (cached !== undefined) return cached;
 
-    let base = spec;
-
-    /**
-     * Replacement of escaped characters
-     * eg w/ 7 February 2021: '[year]YYYY [Q]Q [M]M [D]D' -> '$0$YYYY $1$Q $2$M $3$D' -> 2021 Q1 M2 D7
-     */
-    const repl:[string, string][] = [];
-    let repl_len = 0;
-    if (base.indexOf('[') >= 0) {
-        base = base.replace(ESCAPE_RGX, (_, inner) => {
-            const escape_token = '$' + repl_len++ + '$';
-            repl.push([escape_token, inner]);
-            return escape_token;
-        });
-    }
-
-    TOKENS_RGX.lastIndex = 0;
     const parts: Part[] = [];
+    PARSE_RGX.lastIndex = 0;
+
     let last_idx = 0;
     let has_token = false;
     let m: RegExpExecArray | null;
 
     // eslint-disable-next-line no-cond-assign
-    while (m = TOKENS_RGX.exec(base)) {
-        if (m.index > last_idx) {
-            // push literal before token
-            parts.push({literal: base.slice(last_idx, m.index)});
+    while (m = PARSE_RGX.exec(spec)) {
+        const match = m[0];
+        const match_start = m.index;
+
+        if (match_start > last_idx) {
+            parts.push(spec.slice(last_idx, match_start));
         }
-        parts.push({token: token_map[m[0]]});
-        has_token = true;
-        last_idx = m.index + m[0].length;
+
+        /* Ascii 91 is '[' */
+        if (match.charCodeAt(0) === 91) {
+            parts.push(match.slice(1, -1));
+        } else {
+            parts.push(token_map[match][1]);
+            has_token = true;
+        }
+
+        last_idx = match_start + match.length;
     }
 
-    if (last_idx < base.length) {
-        parts.push({literal: base.slice(last_idx)});
+    if (last_idx < spec.length) {
+        parts.push(spec.slice(last_idx));
     }
 
-    const result = has_token ? {parts, repl} : null;
+    const result = has_token ? parts : null;
     spec_cache.set(spec, result);
     return result;
 }
@@ -354,31 +331,20 @@ function format (
     if (typeof zone !== 'string') throw new TypeError('format: zone must be a string');
 
     /* Get spec chain, this is the chain of token tuples that need to be executed for the spec */
-    const n_spec = getSpecChain(SPEC_ALIASES[spec] || spec);
-    if (!n_spec) return n_val.toISOString();
+    const parts = getSpecChain(SPEC_ALIASES[spec] || spec);
+    if (!parts) return n_val.toISOString();
 
     /* Convert date to zone if necessary */
     const d = toZone(n_val, zone);
-    const {parts, repl} = n_spec;
 
     /* Run spec chain */
     let out = '';
     for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
-        if ('literal' in part) {
-            out += part.literal;
-        } else {
-            out += part.token[1](d, locale, sow);
-        }
+        out += typeof part === 'string' ? part : part(d, locale, sow);
     }
 
-    /* Re-insert escaped tokens */
-    let result = out;
-    for (let i = 0; i < repl.length; i++) {
-        result = result.replace(repl[i][0], repl[i][1]);
-    }
-
-    return result;
+    return out;
 }
 
 /**

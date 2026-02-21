@@ -1,5 +1,4 @@
 import {describe, it, expect} from 'vitest';
-import CONSTANTS from '../../constants';
 import isLeap from '../../../lib/date/isLeap';
 
 describe('Date - isLeap', () => {
@@ -12,8 +11,8 @@ describe('Date - isLeap', () => {
     });
 
     it('Should return false when passed a non-date value', () => {
-        for (const el of CONSTANTS.NOT_DATE) {
-            expect(isLeap(el)).toBe(false);
+        for (const el of [false, true, null, {hello: 'world'}]) {
+            expect(isLeap(el as unknown as Date)).toBe(false);
         }
     });
 

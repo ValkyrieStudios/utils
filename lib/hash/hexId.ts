@@ -15,7 +15,7 @@ let poolIdx = POOL_SIZE; // Start at end to force initial refill
  * @param size number of random bytes (id length = size * 2 chars)
  */
 function hexId (size: number): string {
-    if (typeof size !== 'number' || size <= 0) return '';
+    if (typeof size !== 'number' || size <= 0 || (size | 0) !== size) return '';
 
     // If request is larger than the entire pool, skip the pool logic to avoid thrashing/multiple refills.
     if (size > POOL_SIZE) {

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic
 Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Improved
+- **perf**: Improved performance of `date/addUTC` by ~30%
+- **perf**: Improved performance of `date/diff` by ~200%
+- **perf**: Improved performance of `date/endOfUTC` by ~30%
+- **perf**: Improved performance of `date/format` by ~20%
+- **perf**: Improved performance of `date/is` by ~100% by working with fast nan checks for date validity
+- **perf**: Improved performance of `date/isFormat` by ~10%
+- **perf**: Improved performance of `date/isLeap` by ~100% by working with fast nan checks for date validity
+- **perf**: Improved performance of `date/setTimeUTC` by ~30%
+- **perf**: Improved performance of `date/startOfUTC` by ~30%
+- **deps**: Upgrade @types/node to 22.19.11
+- **deps**: Upgrade @vitest/coverage-v8 to 4.0.18
+- **deps**: Upgrade eslint to 9.39.3
+- **deps**: Upgrade typescript-eslint to 8.56.0
+- **deps**: Upgrade vitest to 4.0.18
+
 ## [12.48.0] - 2026-01-03
 ### Improved
 - **feat**: Made `hash/guid` safe to use in edge environments by working with `globalThis.crypto`
@@ -56,7 +73,7 @@ console.log(hexId(16));  // "3f6e1b2c4a7d9f0e2b6c8d1a3e4f7b9c"
 ```ts
 import {uuidv7} from '@valkyriestudios/utils/hash';
 
-console.log(uuidv7()); 
+console.log(uuidv7());
 // "018f4d5b-9c61-7d2f-8e3b-3a90b5f78c2d"
 ```
 

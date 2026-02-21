@@ -1,19 +1,24 @@
-import {isDate} from './is';
-
 /**
  * Convert a value to a Date object if possible, handles Date objects and strings
  *
  * @param {Date|string} val - Value to convert
  */
 function convertToDate (val: Date | string | number): Date | null {
-    if (isDate(val)) {
-        return val;
-    } else if (typeof val === 'string') {
-        const date = new Date(val);
-        return Number.isNaN(date.getTime()) ? null : date;
+    switch (typeof val) {
+        case 'number': {
+            if (val !== val) return null;
+            const d = new Date(val);
+            return d.getTime() === d.getTime() ? d : null;
+        }
+        case 'object':
+            return val instanceof Date && val.getTime() === val.getTime() ? val : null;
+        case 'string': {
+            const d = new Date(val);
+            return d.getTime() === d.getTime() ? d : null;
+        }
+        default:
+            return null;
     }
-
-    return null;
 }
 
 export {convertToDate, convertToDate as default};

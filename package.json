@@ -609,12 +609,12 @@
         }
     },
     "devDependencies": {
-        "@types/node": "^22.19.3",
-        "@vitest/coverage-v8": "^4.0.16",
+        "@types/node": "^22.19.11",
+        "@vitest/coverage-v8": "^4.0.18",
         "esbuild-register": "^3.6.0",
-        "eslint": "^9.39.2",
+        "eslint": "^10.0.1",
         "typescript": "^5.9.3",
-        "typescript-eslint": "^8.51.0",
-        "vitest": "^4.0.16"
+        "typescript-eslint": "^8.36.0",
+        "vitest": "^4.0.18"
     }
 }

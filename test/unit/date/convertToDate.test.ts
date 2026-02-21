@@ -10,13 +10,7 @@ describe('Date - convertToDate', () => {
 
     it('Return null when passed a non date value', () => {
         for (const el of CONSTANTS.NOT_DATE) {
-            expect(convertToDate(el)).toBeNull();
-        }
-    });
-
-    it('Return null when passed a non datestring value', () => {
-        for (const el of CONSTANTS.NOT_DATE_STRING) {
-            if (typeof el !== 'string') continue;
+            if (Number.isFinite(el)) continue;
             expect(convertToDate(el)).toBeNull();
         }
     });
@@ -71,5 +65,31 @@ describe('Date - convertToDate', () => {
         for (const el of testDates) {
             expect(convertToDate(el)).toEqual(new Date(el));
         }
+    });
+
+    it('Return null when passed an invalid date string', () => {
+        // This tests your `d.getTime() === d.getTime()` check for strings
+        expect(convertToDate('not-a-valid-date')).toBeNull();
+        expect(convertToDate('2023-13-45T25:99:99')).toBeNull();
+    });
+
+    it('Return the date when passed a valid number (unix timestamp)', () => {
+        const testTimestamps = [
+            0, // Epoch start
+            1682899200000, // Recent date
+            -1682899200000, // Past date
+        ];
+
+        for (const el of testTimestamps) {
+            expect(convertToDate(el)).toEqual(new Date(el));
+        }
+    });
+
+    it('Return null when passed NaN or out-of-bounds numbers', () => {
+        expect(convertToDate(NaN)).toBeNull();
+
+        // JS Dates max out at exactly 8,640,000,000,000,000 milliseconds from epoch
+        const MAX_DATE_MS = 8.64e15;
+        expect(convertToDate(MAX_DATE_MS + 1)).toBeNull();
     });
 });

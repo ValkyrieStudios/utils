@@ -27,6 +27,15 @@ describe('Hash - hexId', () => {
         expect(set.size).toBe(cursor);
     });
 
+    it('Bypass pool for sizes larger than POOL_SIZE', () => {
+        // POOL_SIZE is 16 * 1024 = 16384. We request 16385.
+        const LARGE_SIZE = 16385;
+        const result = hexId(LARGE_SIZE);
+
+        expect(typeof result).toBe('string');
+        expect(result.length).toBe(LARGE_SIZE * 2);
+    });
+
     it('Be unique (100,000 benchmark)', () => {
         const set = new Set();
         let cursor = 0;

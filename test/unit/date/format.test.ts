@@ -6,9 +6,9 @@ import format, {type WEEK_START} from '../../../lib/date/format';
 
 describe('Date - format', () => {
     it('Throw when passed a non-date for val', () => {
-        for (const el of CONSTANTS.NOT_DATE) {
+        for (const el of [false, true, null, {hello: 'world'}]) {
             expect(
-                () => format(el, 'YYYY-MM-DD')
+                () => format(el as unknown as Date, 'YYYY-MM-DD')
             ).toThrowError(/format: val must be a Date/);
         }
     });

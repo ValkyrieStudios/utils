@@ -4,9 +4,9 @@ import startOfUTC from '../../../lib/date/startOfUTC';
 
 describe('Date - startOfUTC', () => {
     it('Throw when passed a non-date for var', () => {
-        for (const el of CONSTANTS.NOT_DATE) {
+        for (const el of [false, true, null, {hello: 'world'}]) {
             expect(
-                () => startOfUTC(el, 'day')
+                () => startOfUTC(el as unknown as Date, 'day')
             ).toThrowError(/startOfUTC requires a date object/);
         }
     });
@@ -38,7 +38,7 @@ describe('Date - startOfUTC', () => {
                 const qmap = {1: 1, 2: 1, 3: 1, 4: 4, 5: 4, 6: 4, 7: 7, 8: 7, 9: 7, 10: 10, 11: 10, 12: 10};
                 for (let i = 1; i <= 12; i++) {
                     const date = `2023-${i < 10 ? '0' : ''}${i}-04T12:04:27+02:00`;
-                    const date_q = `2023-${qmap[i] < 10 ? '0' : ''}${qmap[i]}-01T00:00:00.000Z`;
+                    const date_q = `2023-${qmap[i as keyof typeof qmap] < 10 ? '0' : ''}${qmap[i as keyof typeof qmap]}-01T00:00:00.000Z`;
                     expect(startOfUTC(new Date(date), 'quarter')).toEqual(new Date(date_q));
                 }
             });
@@ -274,7 +274,7 @@ describe('Date - startOfUTC', () => {
                 const qmap = {1: 1, 2: 1, 3: 1, 4: 4, 5: 4, 6: 4, 7: 7, 8: 7, 9: 7, 10: 10, 11: 10, 12: 10};
                 for (let i = 1; i <= 12; i++) {
                     const date = `2023-${i < 10 ? '0' : ''}${i}-04T12:04:27+02:00`;
-                    const date_q = `2023-${qmap[i] < 10 ? '0' : ''}${qmap[i]}-01T00:00:00.000Z`;
+                    const date_q = `2023-${qmap[i as keyof typeof qmap] < 10 ? '0' : ''}${qmap[i as keyof typeof qmap]}-01T00:00:00.000Z`;
                     expect(startOfUTC(date, 'quarter')).toEqual(new Date(date_q));
                 }
             });

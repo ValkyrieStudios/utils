@@ -6,17 +6,17 @@ import diff from '../../../lib/date/diff';
 
 describe('Date - diff', () => {
     it('Throw when passed a non-date for var_a', () => {
-        for (const el of CONSTANTS.NOT_DATE) {
+        for (const el of [false, true, null, {hello: 'world'}]) {
             expect(
-                () => diff(el, new Date())
+                () => diff(el as unknown as Date, new Date())
             ).toThrowError(/Diff requires date objects for both values/);
         }
     });
 
     it('Throw when passed a non-date for var_b', () => {
-        for (const el of CONSTANTS.NOT_DATE) {
+        for (const el of [false, true, null, {hello: 'world'}]) {
             expect(
-                () => diff(new Date(), el)
+                () => diff(new Date(), el as unknown as Date)
             ).toThrowError(/Diff requires date objects for both values/);
         }
     });

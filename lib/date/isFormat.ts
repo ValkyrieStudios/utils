@@ -1,50 +1,55 @@
+/* eslint-disable max-statements */
 import LRU from '../caching/LRU';
 
-type Token = [string, string, (val: string, context: Record<string, number>) => boolean];
+type Token = [string, string, (val: string) => boolean];
 
 const SPECIAL_CHARS = /[.*+?^${}()|[\]\\]/g;
+const CTX = {year: 0, month: 0, day: 0, hour: -1, is12: 0};
 
 const TOKENS: Token[] = [
-    ['YYYY', /\d{4}/.source, (raw, context) => {
-        context.year = (raw as unknown as number) | 0;
-        return context.year > 0;
+    ['YYYY', /\d{4}/.source, raw => {
+        CTX.year = +raw;
+        return CTX.year > 0;
     }],
-    ['MM', /(?:0[1-9]|1[0-2])/.source, (raw, context) => {
-        context.month = (raw as unknown as number) | 0;
-        return context.month >= 1 && context.month <= 12;
+    ['MM', /(?:0[1-9]|1[0-2])/.source, raw => {
+        CTX.month = +raw;
+        return CTX.month >= 1 && CTX.month <= 12;
     }],
-    ['DD', /(?:0[1-9]|[12][0-9]|3[01])/.source, (raw, context) => {
-        context.day = (raw as unknown as number) | 0;
-        return context.day >= 1 && context.day <= 31;
+    ['DD', /(?:0[1-9]|[12][0-9]|3[01])/.source, raw => {
+        CTX.day = +raw;
+        return CTX.day >= 1 && CTX.day <= 31;
     }],
-    ['HH', /(?:[01][0-9]|2[0-3])/.source, (raw,context) => {
-        context.hour = (raw as unknown as number) | 0;
-        return context.hour >= 0 && context.hour <= 23;
+    ['HH', /(?:[01][0-9]|2[0-3])/.source, raw => {
+        CTX.hour = +raw;
+        return CTX.hour >= 0 && CTX.hour <= 23;
     }],
     ['mm', /[0-5][0-9]/.source, () => true],
     ['ss', /[0-5][0-9]/.source, () => true],
     ['SSS', /\d{3}/.source, () => true],
     ['Q', /[1-4]/.source, () => true],
-    ['A', /(?:AM|PM)/.source, (raw, context) => {
-        context.is12 = 1;
+    ['A', /(?:AM|PM)/.source, raw => {
+        CTX.is12 = 1;
         return raw === 'AM' || raw === 'PM';
     }],
-    ['a', /(?:am|pm)/.source, (raw, context) => {
-        context.is12 = 1;
+    ['a', /(?:am|pm)/.source, raw => {
+        CTX.is12 = 1;
         return raw === 'am' || raw === 'pm';
     }],
     ['Z', /Z|[+-](?:0[0-9]|1[0-4]):[0-5][0-9]/.source, raw => {
         if (raw === 'Z') return true;
 
-        let hour = ((raw[1] + raw[2]) as unknown as number) | 0;
-        if (raw[0] === '-') hour = -hour;
+        let hour = +(raw[1] + raw[2]);
+        if (raw.charCodeAt(0) === 45) hour = -hour; // charCode 45 is '-'
 
-        const minutes = ((raw[4] + raw[5]) as unknown as number) | 0;
+        const minutes = +(raw[4] + raw[5]);
 
         if (hour === 14 || hour === -12) return minutes === 0;
-        return hour >= -11 && hour < 14 && [0, 15, 30, 45].indexOf(minutes) >= 0;
+        return hour >= -11 && hour < 14 && (minutes === 0 || minutes === 15 || minutes === 30 || minutes === 45);
     }],
 ];
+
+// Pre-sort tokens by length descending so longer tokens match first (e.g. YYYY before YY)
+TOKENS.sort((a, b) => b[0].length - a[0].length);
 
 const SPEC_ALIASES:Record<string, string> = {
     ISO: 'YYYY-MM-DDTHH:mm:ss{.SSS}Z',
@@ -99,13 +104,18 @@ function compileSpec (spec:string, is_chunk:boolean = false) {
 
             cursor = end_idx + 1;
         } else {
-            const token_idx = TOKENS.findIndex(([token_key]) => spec.startsWith(token_key, cursor));
-            if (token_idx >= 0) {
-                const [token_key, token_rgx] = TOKENS[token_idx];
-                pat += '(' + token_rgx + ')';
-                tokens.push(token_idx);
-                cursor += token_key.length;
-            } else {
+            let matched = false;
+            for (let i = 0; i < TOKENS.length; i++) {
+                const [token_key, token_rgx] = TOKENS[i];
+                if (spec.startsWith(token_key, cursor)) {
+                    pat += '(' + token_rgx + ')';
+                    tokens.push(i);
+                    cursor += token_key.length;
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
                 pat += spec[cursor].replace(SPECIAL_CHARS, '\\$&');
                 cursor++;
             }
@@ -128,23 +138,25 @@ function compileSpec (spec:string, is_chunk:boolean = false) {
  */
 function isDateFormat (input: unknown, spec: string): input is string {
     if (typeof input !== 'string') return false;
-
     if (typeof spec !== 'string') throw new TypeError('isDateFormat: spec must be a string');
 
-    /* Check for alias specs */
-    const {tokens,rgx} = compileSpec(SPEC_ALIASES[spec] || spec);
-    if (!tokens.length) return false;
+    const compiled = compileSpec(SPEC_ALIASES[spec] || spec);
+    if (!compiled.tokens.length) return false;
 
-    /* Create pattern and check if it matches */
-    const patMatch = rgx.exec(input);
+    const patMatch = compiled.rgx.exec(input);
     if (!patMatch) return false;
 
-    /* Get matches and check for each match with their token if they're valid, this will append to context */
-    const matches = patMatch.slice(1);
-    const context: Record<string, number> = {};
-    for (let i = 0; i < matches.length; i++) {
-        const match = matches[i];
-        if (match !== undefined && !TOKENS[tokens[i]][2](match, context)) return false;
+    // Reset our module-level flat context object instead of allocating memory
+    CTX.year = 0;
+    CTX.month = 0;
+    CTX.day = 0;
+    CTX.hour = -1;
+    CTX.is12 = 0;
+
+    const {tokens} = compiled;
+    for (let i = 0; i < tokens.length; i++) {
+        const match = patMatch[i + 1];
+        if (match !== undefined && !TOKENS[tokens[i]][2](match)) return false;
     }
 
     /**
@@ -152,11 +164,10 @@ function isDateFormat (input: unknown, spec: string): input is string {
      * eg: '2023-02-29' is not valid as 2023 is not a leap year
      * eg: '2024-04-31' is not valid as there is no 31st day in april
      */
-    const {is12,day,month,year} = context;
-    if (day && month && !isValidDay(year || 2024, month, day)) return false;
+    if (CTX.day > 0 && CTX.month > 0 && !isValidDay(CTX.year || 2024, CTX.month, CTX.day)) return false;
 
     /* Hour check in AM/PM */
-    if (is12 && 'hour' in context && context.hour > 11) return false;
+    if (CTX.is12 === 1 && CTX.hour > 11) return false;
 
     return true;
 }

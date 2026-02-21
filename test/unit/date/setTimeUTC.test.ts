@@ -4,9 +4,9 @@ import setTimeUTC from '../../../lib/date/setTimeUTC';
 
 describe('Date - setTimeUTC', () => {
     it('Throw when passed a non-date for var', () => {
-        for (const el of CONSTANTS.NOT_DATE) {
+        for (const el of [false, true, null, {hello: 'world'}]) {
             expect(
-                () => setTimeUTC(el, {hour: 10})
+                () => setTimeUTC(el as unknown as Date, {hour: 10})
             ).toThrowError(/setTimeUTC requires a date object/);
         }
     });

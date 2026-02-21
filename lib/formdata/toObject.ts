@@ -191,7 +191,7 @@ function toObject<T extends Record<string, unknown>> (form: FormData, config?: T
             // Number Normalization
             if (nNumber && value.charCodeAt(0) !== 48) { // 48 is '0'
                 const nVal = +value;
-                if (!isNaN(nVal)) {
+                if (nVal === nVal) { /// nVal === nVal is the fastest isNaN check
                     assign(acc, key, nVal, single);
                     continue;
                 }

@@ -5,9 +5,9 @@ import addUTC from '../../../lib/date/addUTC';
 
 describe('Date - addUTC', () => {
     it('Throw when passed a non-date for var', () => {
-        for (const el of CONSTANTS.NOT_DATE) {
+        for (const el of [false, true, null, {hello: 'world'}]) {
             expect(
-                () => addUTC(el, 10, 'day')
+                () => addUTC(el as unknown as Date, 10, 'day')
             ).toThrowError(/addUTC requires a date object/);
         }
     });

@@ -71,10 +71,12 @@ describe('Caching - memoize', () => {
         }
 
         for (let i = 0; i < cases.length; i++) {
+            const key = String(i);
+
             /* @ts-ignore */
-            expect(memoized_fn.cache.has(i)).toBe(true);
+            expect(memoized_fn.cache.has(key)).toBe(true);
             /* @ts-ignore */
-            expect(memoized_fn.cache.get(i).r).toBe(fnv1A(cases[i]));
+            expect(memoized_fn.cache.get(key).r).toBe(fnv1A(cases[i]));
         }
     });
 
@@ -180,10 +182,11 @@ describe('Caching - memoize', () => {
             }
 
             for (let i = 0; i < cases.length; i++) {
+                const key = String(i);
                 /* @ts-ignore */
-                expect(memoized_fn.cache.has(i)).toBe(true);
+                expect(memoized_fn.cache.has(key)).toBe(true);
                 /* @ts-ignore */
-                expect(memoized_fn.cache.get(i).r).toBe(fnv1A(cases[i]));
+                expect(memoized_fn.cache.get(key).r).toBe(fnv1A(cases[i]));
             }
         });
 

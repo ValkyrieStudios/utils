@@ -8,6 +8,11 @@ Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Improved
 - **perf**: Improved performance of `LRU` by up to 40-50% by preventing internal operations from triggering garbage collection and swapping out object keys for map behavior.
+- **deps**: Upgrade @types/node to 22.19.15
+- **deps**: Upgrade @vitest/coverage-v8 to 4.1.2
+- **deps**: Upgrade eslint to 9.39.4
+- **deps**: Upgrade vitest to 4.1.2
+- **deps**: Upgrade typescript-eslint to 8.57.2
 
 ## [12.49.0] - 2026-02-21
 ### Improved
